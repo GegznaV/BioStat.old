@@ -1,0 +1,18 @@
+Package: BioStat
+Type: Package
+Title: 
+Version: 0.0.1
+Author: c(
+    person("Vilmantas", "Gegna", role = c("aut"),
+    email = "GegznaV@gmail.com")Vilmantas Gegzna
+Description: Supplementaly functions for Biostatistics and Biometry lectures.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Depends:
+    R (>= 3.3),
+    mosaic,
+    stats
+Imports:
+    nortest,
+    lazyeval
