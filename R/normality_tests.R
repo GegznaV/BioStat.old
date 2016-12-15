@@ -13,11 +13,24 @@ test_ <- function (x, ..., data = NULL,
 
         formula <- mosaic_formula_q(x, groups = groups, max.slots = 3)
 
-        return(maggregate(formula,
-                          data = data,
-                          FUN = FUN,
-                          ...,
-                          .multiple = TRUE))
+        rez <- maggregate(formula,
+                           data = data,
+                           FUN = FUN,
+                           ...,
+                           .multiple = TRUE
+                          )
+        # remove strange format produced by `maggregate`
+        ReduceC <- function(x) Reduce(c, x)
+        rez <- mapply(ReduceC, rez) %>% data.frame
+
+        SIGNIF <- function(x, digits = 3)
+            x %>% as.character() %>% as.numeric() %>% signif(digits = digits)
+
+        rez$statistic %<>% SIGNIF(3)
+        rez$p.value   %<>% SIGNIF(3)
+        rez$data.name <- NULL # remove variable 'rez$data.name'
+        class(rez) <- c("ntest", "data.frame")
+        return(rez)
     }
 
     FUN(x, ...)
@@ -26,13 +39,14 @@ test_ <- function (x, ..., data = NULL,
 # =============================================================================
 #' Normality tests with formula interface
 #'
-#' @param x
-#' @param ...
+#' Performs the Shapiro-Wilk test of normality.
+#'
+#' @inheritParams stats::shapiro.test
 #' @inheritParams mosaic::maggregate
 #'
-#' @return
+#' @return  ...
 #' @export
-#' @importFrom nortest pearson.test, sf.test, ad.test, lillie.test, cvm.test
+#' @importFrom stats shapiro.test
 #' @examples
 #' library(BioStat)
 #' data(CO2)
@@ -44,35 +58,112 @@ shapiro.test <- function(x, ..., data = NULL, groups = NULL) {
 
 # =============================================================================
 
-#' @rdname shapiro.test
+#' Lilliefors (Kolmogorov-Smirnov) test for normality with formula interface
+#'
+#'
+#'Performs the Lilliefors (Kolmogorov-Smirnov) test for the
+#' composite hypothesis of normality, see e.g. Thode
+#'  (2002, Sec. 5.1.1).
+#'
+#' @inheritParams nortest::lillie.test
+#' @inheritParams mosaic::maggregate
+#'
+#' @return  ...
 #' @export
+#' @importFrom nortest lillie.test
+#' @examples
+#' library(BioStat)
+#' data(CO2)
+#' lillie.test(uptake ~ Type + Treatment, data = CO2)
+#'
 lillie.test <- function(x, ..., data = NULL, groups = NULL) {
     test_(x, ..., data = data, groups = groups, FUN = nortest::lillie.test)
 }
 
 # =============================================================================
-#' @rdname shapiro.test
+#' Anderson-Darling test for normality with formula interface
+#'
+#'Performs the Anderson-Darling test for the composite
+#' hypothesis of normality, see e.g. Thode (2002, Sec. 5.1.4).
+#' More information in: \code{\link[nortest]{ad.test}}.
+#'
+#' @inheritParams nortest::ad.test
+#' @inheritParams mosaic::maggregate
+#'
+#' @return  ...
 #' @export
+#' @importFrom nortest ad.test
+#' @examples
+#' library(BioStat)
+#' data(CO2)
+#' ad.test(uptake ~ Type + Treatment, data = CO2)
+#'
 ad.test <- function(x, ..., data = NULL, groups = NULL) {
     test_(x, ..., data = data, groups = groups, FUN = nortest::ad.test)
 }
 
 # =============================================================================
-#' @rdname shapiro.test
+#' Cramer-von Mises test for normality with formula interface
+#'
+#'Performs the Cramer-von Mises test for the composite
+#'hypothesis of normality, see e.g. Thode (2002, Sec. 5.1.3).
+#' More information in: \code{\link[nortest]{cvm.test}}.
+#'
+#' @inheritParams nortest::cvm.test
+#' @inheritParams mosaic::maggregate
+#'
+#' @return  ...
 #' @export
+#' @importFrom nortest cvm.test
+#' @examples
+#' library(BioStat)
+#' data(CO2)
+#' cvm.test(uptake ~ Type + Treatment, data = CO2)
+#'
 cvm.test <- function(x, ..., data = NULL, groups = NULL) {
     test_(x, ..., data = data, groups = groups, FUN = nortest::cvm.test)
 }
 
 # =============================================================================
-#' @rdname shapiro.test
+#' Shapiro-Francia test for normality with formula interface
+#'
+#' Performs the Shapiro-Francia test for the composite
+#' hypothesis of normality, see e.g. Thode (2002, Sec. 2.3.2).
+#' More information in: \code{\link[nortest]{sf.test}}.
+#'
+#' @inheritParams nortest::sf.test
+#' @inheritParams mosaic::maggregate
+#'
+#' @return  ...
 #' @export
+#' @importFrom nortest sf.test
+#' @examples
+#' library(BioStat)
+#' data(CO2)
+#' sf.test(uptake ~ Type + Treatment, data = CO2)
+#'
 sf.test <- function(x, ..., data = NULL, groups = NULL) {
     test_(x, ..., data = data, groups = groups, FUN = nortest::sf.test)
 }
 # =============================================================================
-#' @rdname shapiro.test
+#' Pearson chi-square test for normality with formula interface
+#'
+#' Performs the Pearson chi-square test for the composite
+#' hypothesis of normality, see e.g. Thode (2002, Sec. 5.2).
+#' More information in: \code{\link[nortest]{pearson.test}}.
+#'
+#' @inheritParams nortest::pearson.test
+#' @inheritParams mosaic::maggregate
+#'
+#' @return  ...
+#'
 #' @export
+#' @importFrom nortest pearson.test
+#' @examples
+#' library(BioStat)
+#' data(CO2)
+#' pearson.test(uptake ~ Type + Treatment, data = CO2)
+#'
 pearson.test <- function(x, n.classes = ceiling(2 * (n^(2/5))),
                          adjust = TRUE,
                          data = NULL,
@@ -85,3 +176,25 @@ pearson.test <- function(x, n.classes = ceiling(2 * (n^(2/5))),
           FUN = nortest::pearson.test)
 }
 # =============================================================================
+
+
+
+#' Print `ntest` object
+#'
+#' @param x - object of class \code{ntest}.
+#' @param ...
+#'
+#' @export
+#' @method print ntest
+#'
+print.ntest <- function(x, ...){
+
+    method_of_test <- levels(x$method)
+    x$method <- NULL
+
+    x$p.value  %<>% as.character()
+
+    cat("\n", method_of_test, "\n\n")
+
+    NextMethod(print, x)
+}

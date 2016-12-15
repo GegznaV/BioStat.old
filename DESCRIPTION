@@ -1,18 +1,22 @@
 Package: BioStat
 Type: Package
-Title: 
-Version: 0.0.1
+Title: Supplementaly functions for Biostatistics and Biometry lectures
+Description: Supplementaly functions for Biostatistics and Biometry lectures.
+Version: 0.0.2
+Date: 2016-12-12
 Author: c(
     person("Vilmantas", "Gegna", role = c("aut"),
-    email = "GegznaV@gmail.com")Vilmantas Gegzna
-Description: Supplementaly functions for Biostatistics and Biometry lectures.
-License: MIT
+            email = "GegznaV@gmail.com")
+    )
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Depends:
     R (>= 3.3),
     mosaic,
-    stats
+    stats,
+    magrittr
 Imports:
     nortest,
     lazyeval
+RoxygenNote: 5.0.1
