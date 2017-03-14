@@ -35,4 +35,3 @@ data(CO2)
 shapiro.test(uptake ~ Type + Treatment, data = CO2)
 
 }
-

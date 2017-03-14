@@ -37,4 +37,3 @@ data(CO2)
 cvm.test(uptake ~ Type + Treatment, data = CO2)
 
 }
-

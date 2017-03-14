@@ -41,4 +41,3 @@ data(CO2)
 pearson.test(uptake ~ Type + Treatment, data = CO2)
 
 }
-
