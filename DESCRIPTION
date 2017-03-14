@@ -1,9 +1,9 @@
 Package: BioStat
 Type: Package
-Title: Supplementaly functions for Biostatistics and Biometry lectures
-Description: Supplementaly functions for Biostatistics and Biometry lectures.
-Version: 0.0.2
-Date: 2016-12-12
+Title: Collection of Functions for Biostatistics and Biometry Lectures
+Description: Collection of functions for Biostatistics and Biometry lectures.
+Version: 0.0.3
+Date: 2016-12-16
 Author: c(
     person("Vilmantas", "Gegna", role = c("aut"),
             email = "GegznaV@gmail.com")
@@ -15,8 +15,13 @@ Depends:
     R (>= 3.3),
     mosaic,
     stats,
-    magrittr
+    magrittr,
+    ggplot2,
+    spMisc
 Imports:
+    purrr,
+    spMisc,
+    MASS,
     nortest,
     lazyeval
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
