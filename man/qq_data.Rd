@@ -26,9 +26,9 @@ qq_data(x, distribution = "norm", ..., envelope = 0.95,
 \method{coef}{qqdata}(obj)
 
 qq_plot(x, distribution = "norm", ..., envelope = 0.95,
-  line = c("quartiles", "robust", "int=0,slope=1"), groups = NULL,
-  data = NULL, method = if (distribution == "norm") "normal" else "any",
-  use_colors = FALSE, scales = "free")
+  line = c("quartiles", "robust", "int=0,slope=1"), labels = NULL,
+  groups = NULL, data = NULL, method = if (distribution == "norm") {    
+  "normal" } else {     "any" }, use_colors = FALSE, scales = "free")
 }
 \arguments{
 \item{x}{vector of numeric values or \code{lm} object.}

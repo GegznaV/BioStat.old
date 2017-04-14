@@ -7,6 +7,7 @@
 #' @param use_colors (logical) TRUE|FALSE use colors for multiple groups
 #'
 #' @export
+#' @import ggplot2 magrittr
 #'
 #' @examples
 #' library(BioStat)
@@ -96,13 +97,14 @@ qq_plot <- function(x,
                     ...,
                     envelope = 0.95,
                     line = c("quartiles", "robust", "int=0,slope=1"),
+                    labels = NULL,
                     groups = NULL,
                     data = NULL,
-                    method = if (distribution == "norm") "normal" else "any",
+                    method = if (distribution == "norm") {"normal"} else {"any"},
                     use_colors = FALSE,
                     scales = "free") {
 
-    qqdata <-  qq_data (x = x,
+    qqdata <-  qq_data(x = x,
                  distribution = distribution,
                  ...,
                  envelope = envelope,

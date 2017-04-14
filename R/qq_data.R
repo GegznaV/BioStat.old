@@ -23,7 +23,7 @@
 #' data(chickwts, package = "datasets")
 #'
 #' # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Input as formula + data:
+#' # Input as formula + data:
 #'
 #' QQdata <- qq_data(~weight, data = chickwts)
 #' head(QQdata)
@@ -39,7 +39,7 @@
 #' qq_plot(weight ~ feed, data = chickwts)
 #'
 #' # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Input as variable name + data:
+#' # Input as variable name + data:
 #'
 #' QQdata <- qq_data("weight", data = chickwts)
 #' head(QQdata)
