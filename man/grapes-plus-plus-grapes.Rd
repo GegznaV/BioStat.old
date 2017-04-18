@@ -25,8 +25,6 @@ Infix versions of \code{paste0} and \code{paste}.
 "a" \%++\% "b"
 #> [1] "ab"
 
-"a" \%.+.\% "b"
-#> [1] "a b"
 
 }
 \seealso{

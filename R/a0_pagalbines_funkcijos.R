@@ -99,8 +99,6 @@ getVarValues <- function(VAR, DATA,
 #' "a" %++% "b"
 #' #> [1] "ab"
 #'
-#' "a" %.+.% "b"
-#' #> [1] "a b"
 #'
 `%++%` <- function(a, b) {paste0(a, b)}
 
