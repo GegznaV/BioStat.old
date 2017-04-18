@@ -29,9 +29,22 @@
 #' @examples
 #' library(BioStat)
 #' data(CO2)
-#' test_normality(uptake ~ Type + Treatment, data = CO2)
 #'
-#' test_normality(uptake ~ Type + Treatment, "chi-sq", data = CO2)
+#' rez <- test_normality(uptake ~ Type + Treatment, data = CO2)
+#' rez
+#'
+#' rez2 <- test_normality(uptake ~ Type + Treatment, "chi-sq", data = CO2)
+#' rez2
+#'
+#' pander::pander(rez)
+#' rez %>% pretty_p_values() %>% pander::pander()
+#'
+#' format_numbers_in_columns(rez, 3)
+#'
+#' rez %>% format_numbers_in_columns(3)
+#'
+#' rez %>% format_numbers_in_columns(3) %>% pander::pander()
+#'
 test_normality <- function(x,
                            test = "Shapiro-Wilk",
                            ...,
@@ -115,16 +128,22 @@ test_ <- function(x,
                           )
         # remove strange format produced by `maggregate`
         ReduceC <- function(x) Reduce(c, x)
-        rez <- mapply(ReduceC, rez) %>% data.frame
+        rez <- mapply(ReduceC, rez) %>% data.frame()
 
         rez$data.name <- NULL # remove variable 'rez$data.name'
-        class(rez) <- c("normality_test", "data.frame")
+        rez$statistic  %<>%  readr::parse_number()
+        rez$p.value    %<>%  readr::parse_number()
+        rez$data.name <- NULL # remove variable 'rez$data.name'
+
+
+        class(rez) <- c("test_n", "data.frame")
         return(rez)
     }
 
     FUN(x, ...)
 }
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 SIGNIF <- function(x, digits = 3) {
     x %>%
         as.character() %>%
@@ -132,23 +151,30 @@ SIGNIF <- function(x, digits = 3) {
         signif(digits = digits)
 }
 
-#' Print `normality_test` object
+#' Print `test_n` object
 #'
-#' @param obj An object of class \code{normality_test}.
+#' @param obj An object of class \code{test_n}.
 #' @param digits (numeric) number of significant digits to display.
 #'                Default is 3.
 #' @param ...
 #'
 #' @export
-#' @method print normality_test
+#' @method print test_n
 #' @rdname test_normality
-print.normality_test <- function(obj, ..., digits = 3){
+print.test_n <- function(obj, ..., digits = 3){
 
     method_of_test <- levels(obj$method)
     obj$method <- NULL
 
-    obj$statistic %<>% SIGNIF(digits)
-    obj$p.value   %<>% SIGNIF(digits) %>% as.character()
+    if (is.numeric(obj$statistic)) {
+        obj$statistic %<>% SIGNIF(digits)
+    }
+
+    if (is.numeric(obj$p.value)) {
+        obj$p.value   %<>% SIGNIF(digits) %>% as.character()
+    }
+
+
 
     cat("\n", method_of_test, "\n\n")
 

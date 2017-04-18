@@ -2,12 +2,12 @@
 % Please edit documentation in R/normality_tests.R
 \name{test_normality}
 \alias{test_normality}
-\alias{print.normality_test}
+\alias{print.test_n}
 \title{Normality tests with formula interface}
 \usage{
 test_normality(x, test = "Shapiro-Wilk", ..., data = NULL, groups = NULL)
 
-\method{print}{normality_test}(obj, ..., digits = 3)
+\method{print}{test_n}(obj, ..., digits = 3)
 }
 \arguments{
 \item{x}{a numeric vector of data values. Missing values are allowed,
@@ -36,7 +36,7 @@ in \code{formula}.}
 \item{groups}{grouping variable that will be folded into the formula (if there is room for it).
 This offers some additional flexibility in how formulas can be specified.}
 
-\item{obj}{An object of class \code{normality_test}.}
+\item{obj}{An object of class \code{test_n}.}
 
 \item{digits}{(numeric) number of significant digits to display.
 Default is 3.}
@@ -49,12 +49,25 @@ A data frame with results for each group
 \description{
 Performs the Shapiro-Wilk (default), Lilliefors (Kolmogorov-Smirnov) and other test of normality.
 
-Print `normality_test` object
+Print `test_n` object
 }
 \examples{
 library(BioStat)
 data(CO2)
-test_normality(uptake ~ Type + Treatment, data = CO2)
 
-test_normality(uptake ~ Type + Treatment, "chi-sq", data = CO2)
+rez <- test_normality(uptake ~ Type + Treatment, data = CO2)
+rez
+
+rez2 <- test_normality(uptake ~ Type + Treatment, "chi-sq", data = CO2)
+rez2
+
+pander::pander(rez)
+rez \%>\% pretty_p_values() \%>\% pander::pander()
+
+format_numbers_in_columns(rez, 3)
+
+rez \%>\% format_numbers_in_columns(3)
+
+rez \%>\% format_numbers_in_columns(3) \%>\% pander::pander()
+
 }

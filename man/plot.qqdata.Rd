@@ -11,9 +11,9 @@
 
 \item{...}{other parameters}
 
-\item{use_colors}{(logical) TRUE|FALSE use colors for multiple groups}
+\item{use_colors}{(logical) use colors for multiple groups}
 
-\item{scales}{(string) "fixed"|"free"|"free_x"|"free_y"}
+\item{scales}{("free"|"free_x"|"free_y"|"fixed") a parmeter to be passed to \code{\link[ggplot2]{facet_wrap}}.}
 }
 \description{
 Plot qqdata object as qqplot
@@ -23,7 +23,7 @@ library(BioStat)
 data(chickwts, package = "datasets")
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Input as formula + data:
+# Input as formula + data:
 
 QQ_groups <- qq_data(weight ~ feed, data = chickwts, method = "normal")
 plot(QQ_groups)

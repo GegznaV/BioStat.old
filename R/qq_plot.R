@@ -3,8 +3,8 @@
 #'
 #' @param x qqdata object
 #' @param ... other parameters
-#' @param scales (string) "fixed"|"free"|"free_x"|"free_y"
-#' @param use_colors (logical) TRUE|FALSE use colors for multiple groups
+#' @param scales ("free"|"free_x"|"free_y"|"fixed") a parmeter to be passed to \code{\link[ggplot2]{facet_wrap}}.
+#' @param use_colors (logical) use colors for multiple groups
 #'
 #' @export
 #' @import ggplot2 magrittr
@@ -14,7 +14,7 @@
 #' data(chickwts, package = "datasets")
 #'
 #' # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Input as formula + data:
+#' # Input as formula + data:
 #'
 #' QQ_groups <- qq_data(weight ~ feed, data = chickwts, method = "normal")
 #' plot(QQ_groups)
@@ -41,8 +41,9 @@
 #'  QQ_CO2_B <- qq_data(uptake ~ Type + Treatment, data = CO2, line = "robust")
 #'  plot(QQ_CO2_B)
 #'
-
-
+#' @importFrom graphics plot
+#' @importFrom stats model.frame ppoints qnorm quantile sd
+#'
 plot.qqdata <- function(x, ..., use_colors = FALSE, scales = "free") {
 
     if (".group" %in%  colnames(x)) {
@@ -90,8 +91,34 @@ plot.qqdata <- function(x, ..., use_colors = FALSE, scales = "free") {
 }
 # =============================================================================
 
+#' A qqplot for multiple groups with ggplot2
+#'
+#' @param x a numeric vector, a name of a vector in \code{data} or formula.
+#' @inheritParams qq_data
+#' @inheritParams car::qqPlot
+#' @inheritParams plot.qqdata
 #' @export
-#' @rdname qq_data
+#'
+#' @examples
+#' library(BioStat)
+#' data(iris)
+#'
+#' # Formula (several groups):
+#' qq_plot(Sepal.Length ~ Species, data = iris)
+#'
+#' # Formula (several groups in colors):
+#' qq_plot(Sepal.Length ~ Species, data = iris, use_colors = TRUE)
+#'
+#' # Vectors (several groups):
+#' qq_plot(iris$Sepal.Length, groups = iris$Species)
+#'
+#' # For one group:
+#' qq_plot("Sepal.Length", data = iris)
+#'
+#' qq_plot(~Sepal.Length, data = iris)
+#'
+#' qq_plot(iris$Sepal.Length)
+#'
 qq_plot <- function(x,
                     distribution = "norm",
                     ...,

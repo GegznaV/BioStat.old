@@ -69,9 +69,10 @@
 #' @seealso \code{\link[car]{qqPlot}} in \pkg{car} package,
 #'  \code{\link[stats]{qqplot}} in \pkg{stats} package
 #'
-#' @import spMisc
 
-qq_data <- function (x,
+# @import spMisc
+
+qq_data <- function(x,
                      distribution = "norm",
                      ...,
                      envelope = 0.95,
@@ -91,7 +92,7 @@ qq_data <- function (x,
 #' @export
 #' @rdname qq_data
 #' @importFrom purrr "%||%"
-qq_data.default <- function (x,
+qq_data.default <- function(x,
                      distribution = "norm",
                      ...,
                      envelope = 0.95,

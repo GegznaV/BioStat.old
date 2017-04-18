@@ -2,8 +2,8 @@ Package: BioStat
 Type: Package
 Title: Collection of Functions for Biostatistics and Biometry Lectures
 Description: Collection of functions for Biostatistics and Biometry lectures.
-Version: 0.0.4
-Date: 2017-04-14
+Version: 0.0.5
+Date: 2017-04-18
 Authors@R: c(
     person("Vilmantas", "Gegna", role = c("aut","cre","cph"),
             email = "GegznaV@gmail.com")
@@ -19,7 +19,6 @@ Depends:
     ggplot2
 Imports:
     purrr,
-    spMisc,
     MASS,
     nortest,
     lazyeval
