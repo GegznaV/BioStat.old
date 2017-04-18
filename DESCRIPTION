@@ -21,5 +21,6 @@ Imports:
     purrr,
     MASS,
     nortest,
-    lazyeval
+    lazyeval,
+    readr
 RoxygenNote: 6.0.1
