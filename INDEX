@@ -1,0 +1,7 @@
+all_chr_to_factor   Convert all character variables to factors
+format_numbers      Format numbers in columns of a data frame
+prettify_p_value    Format p-values
+qq_data             Calculate data for a qqplot
+qq_line_coeffs      Get slope and intercept of qqline
+qq_plot             A qqplot for multiple groups with ggplot2
+test_normality      Normality tests with formula interface

@@ -1,12 +1,44 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' eval text as a command
+#' @keywords internal
+#' @export
+eval_ <-
+    function(x, envir = parent.frame(), ...) {
+        eval(parse(text = x), envir = envir, ...)
+    }
+
+
+#' Check and adjust length of vector according to the number of columns in a data frame
+#' (Function for value recycling)
+#'
+#' @param x a vector to check and recycle
+#' @param data a data frame
+#'
+#' @keywords internal
+#' @export
+adjust_vector_length <- function(x, data) {
+    n_col <- length(data)
+    len_x <- length(x)
+    if (len_x == 1) {
+        x <- rep_len(x, n_col)
+    } else if (len_x != n_col) {
+        stop("Length of `", substitute(x),
+             "` must be either 1 or ", n_col,".")
+    }
+    return(x)
+}
+
+
 
 # =============================================================================
 
 
-getVarValues <- function(VAR, DATA,
+getVarValues <- function(VAR,
+                         DATA,
                          CALL = match.call(definition = sys.function(sys.parent()),
                                            call = sys.call(sys.parent())),
-                         env = parent.frame(2L)
-) {
+                         env = parent.frame(2L)) {
+
 
     `%if_null%` <- function(a, b) {if (!is.null(a)) a else b}
     # Prepare data, if needed -------------------------------------------------
@@ -77,7 +109,7 @@ getVarValues <- function(VAR, DATA,
 
 #  %++% ------------------------------------------------------
 
-#' @title Infix versions of \code{paste0} and \code{paste}
+#' @title Infix version of \code{paste0}
 #'
 #' @description
 #'  Infix versions of \code{paste0} and \code{paste}.
@@ -94,7 +126,7 @@ getVarValues <- function(VAR, DATA,
 #' \href{http://adv-r.had.co.nz/Functions.html#function-arguments}{Advanced R}
 #' by Hadley Wickham.
 #' @seealso \code{\link[base]{paste}}, \code{\link[spAddins]{insertPaste0_Addin}}
-#'
+#' @keywords internal
 #' @examples
 #' "a" %++% "b"
 #' #> [1] "ab"

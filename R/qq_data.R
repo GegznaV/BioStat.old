@@ -1,19 +1,21 @@
-#' Calculate data for a qqplot
+#' Calculate data for a qq-plot
 #'
+#' @inheritParams test_normality
 #' @inheritParams car::qqPlot
 #' @param obj qqdata object.
+#' @param ... Parameters to be passed to function, selected in \code{distribution}
 #'
 #' @return An object, which inherits from classes \code{qqdata} and
 #'         \code{data.frame}. The object contains information, needed
 #'         to plot a qqplot with reference line and its confidence intervals.
 #'         These variables are contained: \itemize{
-#'         \item\strong{x} x axis values;
-#'         \item\strong{y} y axis values for points of qq plot;
-#'         \item\strong{labels} labels for each point;
-#'         \item\strong{ref_y} y axis values for reference line
-#'         \item\strong{ref_ci_upper} and \strong{ref_ci_lower} y axis values
-#'          for upper and lower pointwise confidence interval of reference line.
-#'         \item
+#'         \item\strong{x} – x axis values;
+#'         \item\strong{y} – y axis values for points of qq plot;
+#'         \item\strong{labels} – labels for each point;
+#'         \item\strong{ref_y} – y axis values for reference line
+#'         \item\strong{ref_ci_upper} and \strong{ref_ci_lower}
+#'           – y axis values for upper and lower pointwise
+#'            confidence interval of a reference line.
 #'         }
 #' @export
 #'
@@ -67,7 +69,7 @@
 #'
 #'
 #' @seealso \code{\link[car]{qqPlot}} in \pkg{car} package,
-#'  \code{\link[stats]{qqplot}} in \pkg{stats} package
+#'  \code{\link[stats]{qqplot}} in \pkg{stats} package.
 #'
 
 # @import spMisc
@@ -90,7 +92,6 @@ qq_data <- function(x,
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @export
-#' @rdname qq_data
 #' @importFrom purrr "%||%"
 qq_data.default <- function(x,
                      distribution = "norm",
@@ -166,7 +167,7 @@ qq_data.default <- function(x,
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @export
-#' @rdname qq_data
+# @rdname qq_data
 qq_data.formula <- function(
     x,
     distribution = "norm",
@@ -208,7 +209,7 @@ qq_data.formula <- function(
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-qq_data_ <- function (x,
+qq_data_ <- function(x,
                      distribution = "norm",
                      ...,
                      envelope = 0.95,
@@ -231,6 +232,7 @@ qq_data_ <- function (x,
     z <- q_function(P, ...)
 
     switch(line,
+
            "quartiles" = {
                quantiles <- c(0.25, 0.75)
 
@@ -240,11 +242,13 @@ qq_data_ <- function (x,
                b <- (Q_x[2] - Q_x[1]) / (Q_z[2] - Q_z[1])
                a <- Q_x[1] - b * Q_z[1]
            },
+
            "robust" = {
                coef <- coef(MASS::rlm(ord_x ~ z))
                a <- coef[1]
                b <- coef[2]
            },
+
            "int=0,slope=1" = {
                a <- 0
                b <- 1
@@ -282,23 +286,113 @@ qq_data_ <- function (x,
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 trim <- function(x, trim = 0.1){
-    p <- quantile(x, probs = c(trim/2, 1-trim/2))
+    p <- quantile(x, probs = c(trim/2, 1 - trim/2))
     x[x > p[1] & x < p[2]]
 }
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-eval_ <-
-    function(x, envir = parent.frame(), ...) {
-        eval(parse(text = x), envir = envir, ...)
-    }
 # =============================================================================
 #' @export
+#' @method coef qqdata
 #' @rdname qq_data
 coef.qqdata <- function(obj) {
     attributes(obj)$refline
 }
 
+# =======================================================
+#' A method to plot a `qqdata` object as a qq-plot
+#'
+#' @param x A \code{qqdata} object
+#' @param ... other parameters
+#' @param scales ("free"|"free_x"|"free_y"|"fixed")
+#'               a parmeter to be passed to
+#'                \code{\link[ggplot2]{facet_wrap}}.
+#' @param use_colors (logical) use colors for multiple groups
+#'
+#' @import ggplot2 magrittr
+#'
+#' @examples
+#' library(BioStat)
+#' data(chickwts, package = "datasets")
+#'
+#' # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' # Input as formula + data:
+#'
+#' QQ_groups <- qq_data(weight ~ feed, data = chickwts, method = "normal")
+#' plot(QQ_groups)
+#'
+#' QQ_groups <- qq_data(weight ~ feed, data = chickwts, method = "any")
+#' plot(QQ_groups)
+#'
+#' plot(QQ_groups, scales = "fixed")
+#' plot(QQ_groups, use_colors = TRUE)
+#'
+#'
+#' QQ_single <- qq_data( ~ weight, data = chickwts)
+#' plot(QQ_single)
+#'
+#' class(QQ_single)
+#'
+#'# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#'
+#' data(CO2, package = "datasets")
+#'
+#'  QQ_CO2 <- qq_data(uptake ~ Type + Treatment, data = CO2)
+#'  plot(QQ_CO2)
+#'
+#'  QQ_CO2_B <- qq_data(uptake ~ Type + Treatment, data = CO2, line = "robust")
+#'  plot(QQ_CO2_B)
+#'
+#' @importFrom graphics plot
+#' @importFrom stats model.frame ppoints qnorm quantile sd
+#' @export
+plot.qqdata <- function(x,
+                        ...,
+                        use_colors = FALSE,
+                        scales = "free")
 
+{
+    if (".group" %in%  colnames(x)) {
+        if (use_colors) {
+            p <- ggplot(x,
+                        aes(
+                            x,
+                            y,
+                            ymin = ref_ci_lower,
+                            ymax = ref_ci_upper,
+                            col  = .group,
+                            fill = .group
+                        ))
+        } else {
+            p <- ggplot(x,
+                        aes(x, y,
+                            ymin = ref_ci_lower,
+                            ymax = ref_ci_upper))
+        }
+
+        p <- p + facet_wrap( ~ .group, scales = scales)
+
+    } else {
+        p <- ggplot(x,
+                    aes(x, y,
+                        ymin = ref_ci_lower,
+                        ymax = ref_ci_upper))
+    }
+
+    p +
+        geom_line(aes(y = ref_y), lty = 2) +
+        geom_point() +
+
+        geom_ribbon(alpha = 0.2, col = NA) +
+        geom_line(aes(y = ref_ci_lower), lty = 2) +
+        geom_line(aes(y = ref_ci_upper), lty = 2) +
+
+        labs(x = "Theoretical quantiles",
+             y = "Empirical quantiles",
+             color = "",
+             fill = "") +
+        ggtitle("QQ plot")
+}
+# =============================================================================
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## inputs:
 #

@@ -2,20 +2,27 @@
 % Please edit documentation in R/qq_plot.R
 \name{qq_plot}
 \alias{qq_plot}
-\title{A qqplot for multiple groups with ggplot2}
+\title{A qq-plot for multiple groups (with ggplot2)}
 \usage{
-qq_plot(x, distribution = "norm", ..., envelope = 0.95,
+qq_plot(x, data = NULL, distribution = "norm", ..., envelope = 0.95,
   line = c("quartiles", "robust", "int=0,slope=1"), labels = NULL,
-  groups = NULL, data = NULL, method = if (distribution == "norm") {    
-  "normal" } else {     "any" }, use_colors = FALSE, scales = "free")
+  groups = NULL, method = if (distribution == "norm") {     "normal" } else
+  {     "any" }, use_colors = FALSE, scales = "free")
 }
 \arguments{
-\item{x}{a numeric vector, a name of a vector in \code{data} or formula.}
+\item{x}{Either a formula or a numeric vector or a name of a vector
+in \code{data}.\cr
+If \code{x} is a formula (e.g. \code{variable ~ factor}), left
+side provides variable to be summarized. Right side and condition
+describe subsets. If the left side is empty, right side and
+condition are shifted over as a convenience.}
+
+\item{data}{A data frame that contains the variables mentioned in \code{x}.}
 
 \item{distribution}{root name of comparison distribution -- e.g., \code{"norm"} for the
     normal distribution; \code{t} for the t-distribution.}
 
-\item{...}{arguments such as \code{df} to be passed to the appropriate quantile function.}
+\item{...}{Parameters to be passed to function, selected in \code{distribution}}
 
 \item{envelope}{confidence level for point-wise confidence envelope, or 
     \code{FALSE} for no envelope.}
@@ -29,10 +36,12 @@ qq_plot(x, distribution = "norm", ..., envelope = 0.95,
 
 \item{use_colors}{(logical) use colors for multiple groups}
 
-\item{scales}{("free"|"free_x"|"free_y"|"fixed") a parmeter to be passed to \code{\link[ggplot2]{facet_wrap}}.}
+\item{scales}{("free"|"free_x"|"free_y"|"fixed")
+a parmeter to be passed to
+ \code{\link[ggplot2]{facet_wrap}}.}
 }
 \description{
-A qqplot for multiple groups with ggplot2
+A qq-plot for multiple groups (with ggplot2)
 }
 \examples{
 library(BioStat)

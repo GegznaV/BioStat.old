@@ -2,22 +2,10 @@
 % Please edit documentation in R/qq_data.R
 \name{qq_data}
 \alias{qq_data}
-\alias{qq_data.default}
-\alias{qq_data.formula}
 \alias{coef.qqdata}
-\title{Calculate data for a qqplot}
+\title{Calculate data for a qq-plot}
 \usage{
 qq_data(x, distribution = "norm", ..., envelope = 0.95,
-  line = c("quartiles", "robust", "int=0,slope=1"), labels = NULL,
-  groups = NULL, data = NULL, method = if (distribution == "norm")
-  "normal" else "any")
-
-\method{qq_data}{default}(x, distribution = "norm", ..., envelope = 0.95,
-  line = c("quartiles", "robust", "int=0,slope=1"), labels = NULL,
-  groups = NULL, data = NULL, method = if (distribution == "norm")
-  "normal" else "any")
-
-\method{qq_data}{formula}(x, distribution = "norm", ..., envelope = 0.95,
   line = c("quartiles", "robust", "int=0,slope=1"), labels = NULL,
   groups = NULL, data = NULL, method = if (distribution == "norm")
   "normal" else "any")
@@ -25,12 +13,17 @@ qq_data(x, distribution = "norm", ..., envelope = 0.95,
 \method{coef}{qqdata}(obj)
 }
 \arguments{
-\item{x}{vector of numeric values or \code{lm} object.}
+\item{x}{Either a formula or a numeric vector or a name of a vector
+in \code{data}.\cr
+If \code{x} is a formula (e.g. \code{variable ~ factor}), left
+side provides variable to be summarized. Right side and condition
+describe subsets. If the left side is empty, right side and
+condition are shifted over as a convenience.}
 
 \item{distribution}{root name of comparison distribution -- e.g., \code{"norm"} for the
     normal distribution; \code{t} for the t-distribution.}
 
-\item{...}{arguments such as \code{df} to be passed to the appropriate quantile function.}
+\item{...}{Parameters to be passed to function, selected in \code{distribution}}
 
 \item{envelope}{confidence level for point-wise confidence envelope, or 
     \code{FALSE} for no envelope.}
@@ -42,6 +35,8 @@ qq_data(x, distribution = "norm", ..., envelope = 0.95,
 \item{labels}{vector of text strings to be used to identify points, defaults to
     \code{names(x)} or observation numbers if \code{names(x)} is \code{NULL}.}
 
+\item{data}{A data frame that contains the variables mentioned in \code{x}.}
+
 \item{obj}{qqdata object.}
 }
 \value{
@@ -49,17 +44,17 @@ An object, which inherits from classes \code{qqdata} and
         \code{data.frame}. The object contains information, needed
         to plot a qqplot with reference line and its confidence intervals.
         These variables are contained: \itemize{
-        \item\strong{x} x axis values;
-        \item\strong{y} y axis values for points of qq plot;
-        \item\strong{labels} labels for each point;
-        \item\strong{ref_y} y axis values for reference line
-        \item\strong{ref_ci_upper} and \strong{ref_ci_lower} y axis values
-         for upper and lower pointwise confidence interval of reference line.
-        \item
+        \item\strong{x} – x axis values;
+        \item\strong{y} – y axis values for points of qq plot;
+        \item\strong{labels} – labels for each point;
+        \item\strong{ref_y} – y axis values for reference line
+        \item\strong{ref_ci_upper} and \strong{ref_ci_lower}
+          – y axis values for upper and lower pointwise
+           confidence interval of a reference line.
         }
 }
 \description{
-Calculate data for a qqplot
+Calculate data for a qq-plot
 }
 \examples{
 
@@ -113,5 +108,5 @@ coef(QQdata)
 }
 \seealso{
 \code{\link[car]{qqPlot}} in \pkg{car} package,
- \code{\link[stats]{qqplot}} in \pkg{stats} package
+ \code{\link[stats]{qqplot}} in \pkg{stats} package.
 }

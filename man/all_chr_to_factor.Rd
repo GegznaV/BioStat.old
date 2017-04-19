@@ -16,13 +16,30 @@ A data frame
 Convert all character variables to factors
 }
 \examples{
+library(BioStat)
+
+# Basic syntax
+all_chr_to_factor(PlantGrowth)
+
+# Update the same object using operator from `magrittr` package
+PlantGrowth \%<>\% all_chr_to_factor()
+
+
+# Let's create a data frame
 df <- data.frame(letters  = letters[1:5],
                  letters2 = LETTERS[1:5],
                  stringsAsFactors = FALSE)
 
 mapply(class, df) # show classes of columns
 
+# Let's convert all character variables to strings
 df2 <- all_chr_to_factor(df)
+
+# Let's check the classes in each column
 mapply(class, df2)
 
+# Works with tibbles too
+tbl  <- as.tibble(df)
+tbl2 <- all_chr_to_factor(tbl)
+mapply(class, tbl2)
 }

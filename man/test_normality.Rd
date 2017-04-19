@@ -2,72 +2,74 @@
 % Please edit documentation in R/normality_tests.R
 \name{test_normality}
 \alias{test_normality}
-\alias{print.test_n}
+\alias{print.test_normality}
 \title{Normality tests with formula interface}
 \usage{
-test_normality(x, test = "Shapiro-Wilk", ..., data = NULL, groups = NULL)
+test_normality(x, data = NULL, test = "Shapiro-Wilk", ...)
 
-\method{print}{test_n}(obj, ..., digits = 3)
+\method{print}{test_normality}(x, ..., digits = 3)
 }
 \arguments{
-\item{x}{a numeric vector of data values. Missing values are allowed,
-    but the number of non-missing values must be between 3 and 5000.}
+\item{x}{Either a formula or a numeric vector or a name of a vector
+in \code{data}.\cr
+If \code{x} is a formula (e.g. \code{variable ~ factor}), left
+side provides variable to be summarized. Right side and condition
+describe subsets. If the left side is empty, right side and
+condition are shifted over as a convenience.}
 
-\item{test}{(string | function) Either one of the following string (case insensitive, may be unambiguously abbreviated) which describes a desired test of normality:\cr
-"SW", "Shapiro-Wilk",\cr
-"Lilliefors",\cr
-"AD", "Anderson-Darling",\cr
-"CVM", "CM", "Cramer-von Mises",\cr
-"SF", "Shapiro-Francia",\cr
-"Chi-square","Pearson"  \cr
+\item{data}{A data frame that contains the variables mentioned in \code{x}.}
 
-or a function, which carries out the test.}
+\item{test}{(string | function) Either a string  (case insensitive, may be
+            unambiguously abbreviated) with a name of nomality test or a
+            function, which carries out the test.\cr
+Possible names of tests:\itemize{
+\item{"SW", "Shapiro-Wilk" — for Shapiro-Wilk test;}
+\item{"Lilliefors" — for Kolmogorov-Smirnov test wtih Lilliefor's correction;}
+\item{"AD", "Anderson-Darling" — for Anderson-Darling test;}
+\item{"CVM", "CM", "Cramer-von Mises" — for Cramer-von Mises test;}
+\item{"SF", "Shapiro-Francia" — for Shapiro-Francia test;}
+\item{"Chi-squared","Pearsons" — for Pearson's chi-squared test of normality.}
+}}
 
-\item{...}{}
-
-\item{data}{a data frame.
-Note that the default is \code{data=parent.frame()}.  This makes it convenient to
-use this function interactively by treating the working envionment as if it were 
-a data frame.  But this may not be appropriate for programming uses.  
-When programming, it is best to use an explicit \code{data} argument
--- ideally supplying a data frame that contains the variables mentioned
-in \code{formula}.}
-
-\item{groups}{grouping variable that will be folded into the formula (if there is room for it).
-This offers some additional flexibility in how formulas can be specified.}
-
-\item{obj}{An object of class \code{test_n}.}
-
-\item{digits}{(numeric) number of significant digits to display.
-Default is 3.}
+\item{...}{Parameters to be passed to the main function
+(defined/selected in \code{fun}) that carries out a normality test.}
 }
 \value{
-A data frame with results for each group
-
-                 /NOT DESCRIBED YET/
+A data frame with normality test
+         results for each group.
 }
 \description{
-Performs the Shapiro-Wilk (default), Lilliefors (Kolmogorov-Smirnov) and other test of normality.
-
-Print `test_n` object
+Perform Shapiro-Wilk (default),
+Lilliefors (Kolmogorov-Smirnov), Anderson_darling and other tests of normality.
 }
 \examples{
 library(BioStat)
+library(pander)
 data(CO2)
 
-rez <- test_normality(uptake ~ Type + Treatment, data = CO2)
+rez <- test_normality(uptake ~ Type + Treatment,
+                      data = CO2)
 rez
 
-rez2 <- test_normality(uptake ~ Type + Treatment, "chi-sq", data = CO2)
+rez2 <- test_normality(uptake ~ Type + Treatment,
+                       data = CO2,
+                       test = "chi-sq")
 rez2
 
-pander::pander(rez)
-rez \%>\% pretty_p_values() \%>\% pander::pander()
+pander(rez)
 
-format_numbers_in_columns(rez, 3)
+rez \%>\%
+    prettify_p_column() \%>\%
+    pander()
 
-rez \%>\% format_numbers_in_columns(3)
+format_numbers(rez, 3)
 
-rez \%>\% format_numbers_in_columns(3) \%>\% pander::pander()
+rez \%>\% format_numbers(3)
 
+rez \%>\%
+   format_numbers(3) \%>\%
+   pander()
+}
+\seealso{
+Package \pkg{nortest}\cr
 }

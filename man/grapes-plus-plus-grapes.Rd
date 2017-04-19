@@ -2,7 +2,7 @@
 % Please edit documentation in R/a0_pagalbines_funkcijos.R
 \name{\%++\%}
 \alias{\%++\%}
-\title{Infix versions of \code{paste0} and \code{paste}}
+\title{Infix version of \code{paste0}}
 \source{
 Inspired by "Inxix functions" in
 \href{http://adv-r.had.co.nz/Functions.html#function-arguments}{Advanced R}
@@ -30,3 +30,4 @@ Infix versions of \code{paste0} and \code{paste}.
 \seealso{
 \code{\link[base]{paste}}, \code{\link[spAddins]{insertPaste0_Addin}}
 }
+\keyword{internal}

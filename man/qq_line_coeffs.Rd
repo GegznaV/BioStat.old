@@ -2,7 +2,7 @@
 % Please edit documentation in R/qq_line_coeffs.R
 \name{qq_line_coeffs}
 \alias{qq_line_coeffs}
-\title{Get slope and intercept of qqline}
+\title{Get a slope and an intercept of a qqline}
 \usage{
 qq_line_coeffs(y, datax = FALSE, distribution = qnorm, probs = c(0.25,
   0.75), qtype = 7)
@@ -20,8 +20,9 @@ qq_line_coeffs(y, datax = FALSE, distribution = qnorm, probs = c(0.25,
 \item{qtype}{the \code{type} of quantile computation used in \code{\link{quantile}}.}
 }
 \value{
-list with $slope and $intercept for qqline
+list with a \code{$slope} and an \code{$intercept} for qqline
 }
 \description{
-Get slope and intercept of qqline
+Get a slope and an intercept of a qqline
 }
+\keyword{internal}

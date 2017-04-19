@@ -1,12 +1,12 @@
-#' Get slope and intercept of qqline
+#' Get a slope and an intercept of a qqline
 #'
 #' @inheritParams stats::qqline
 #'
-#' @return list with $slope and $intercept for qqline
+#' @return list with a \code{$slope} and an \code{$intercept} for qqline
 #' @export
-#'
+#' @keywords internal
 # @examples
-qq_line_coeffs <-   function (y,
+qq_line_coeffs <-   function(y,
                               datax = FALSE,
                               distribution = qnorm,
                               probs = c(0.25, 0.75),
