@@ -1,9 +1,44 @@
 #' Calculate data for a qq-plot
 #'
+#' @param envelope (numeric) confidence level for point-wise confidence envelope.
+#' @param line (string) A parameter, that controls how reference line is drawn.
+#'            Options:\itemize{
+#'            \item{\code{"0,1"} or \code{"int=0,slope=1"} to plot a line
+#'             with intercept = 0 and slope = 1;}
+#'            \item{ \code{"quartiles"} to pass a line through the quartile-pairs;}
+#'            \item{ \code{"robust"} for a robust-regression line;
+#'             the latter uses the \code{rlm} function in the \pkg{MASS} package};
+#'            \item{option \code{"none"} is not implemented yet.}
+#' }
+#' @param method (string: \code{"trimmed-normal"}, \code{"normal"},
+#'              \code{"any"}). A method, that controls how parameters for
+#'              \code{distribution} are computed.
+#'      Options:\itemize{
+#'
+#'            \item{\code{"mle-normal"} (default) all data values are used to
+#'            calculate parameters of theoretical normal distribution using
+#'            method of maximum likelihood;}
+#'
+#'            \item{\code{"trimmed-normal"} 10\% of the most extreme
+#'            data values are trimmed before parameters of theoretical normal
+#'            distribution are calculated using method of moments;}
+#'
+#'            \item{\code{"moment-normal"} all data values are used to calculate
+#'            parameters of theoretical normal distribution using method of moments;}
+#'
+#'            \item{\code{"any"} parameters ate provided manually by user.}
+#'      }
+#'           Options \code{"mle-normal"}, \code{"trimmed-normal"} and
+#'           \code{"moment-normal"} are applicable only if
+#'           \code{distribution = "norm"}.
+#'           Otherwise \code{"any"} is selected automatically.
+#'
+#'
+#' @param ... Parameters to be passed to function, selected in \code{distribution}
+#'
 #' @inheritParams test_normality
 #' @inheritParams car::qqPlot
-#' @param obj qqdata object.
-#' @param ... Parameters to be passed to function, selected in \code{distribution}
+#' @inheritParams mosaic::maggregate
 #'
 #' @return An object, which inherits from classes \code{qqdata} and
 #'         \code{data.frame}. The object contains information, needed
@@ -30,7 +65,6 @@
 #' QQdata <- qq_data(~weight, data = chickwts)
 #' head(QQdata)
 #' coef(QQdata)
-#'
 #'
 #' # Column ".group" is added if applied by group:
 #'
@@ -75,33 +109,33 @@
 # @import spMisc
 
 qq_data <- function(x,
-                     distribution = "norm",
-                     ...,
-                     envelope = 0.95,
-                     line = c("quartiles", "robust", "int=0,slope=1"),
-                     labels = NULL,
-                     groups = NULL,
-                     data = NULL,
-                     method = if (distribution == "norm") "normal" else "any")
+                    data = NULL,
+                    distribution = "norm",
+                    ...,
+                    envelope = 0.95,
+                    line = c("quartiles", "robust", "int=0,slope=1", "0,1", "none"),
+                    labels = NULL,
+                    groups = NULL,
+                        method = c("mle-normal","trimmed-normal","moment-normal", "any")
+                    )
 
 {
     UseMethod("qq_data")
 }
 
-
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @export
 #' @importFrom purrr "%||%"
 qq_data.default <- function(x,
+                     data = NULL,
                      distribution = "norm",
                      ...,
                      envelope = 0.95,
-                     line = c("quartiles", "robust", "int=0,slope=1"),
+                     line = c("quartiles", "robust", "int=0,slope=1", "0,1", "none"),
                      labels = NULL,
                      groups = NULL,
-                     data = NULL,
-                     method = if (distribution == "norm") "normal" else "any")
+                         method = c("mle-normal","trimmed-normal","moment-normal", "any")
+)
 
 {
     x      <- getVarValues(x, data)
@@ -114,7 +148,10 @@ qq_data.default <- function(x,
             labels
         }
 
-    if (method == "normal" & distribution == "norm"){
+    method <- method[1]
+    method <- match.arg(method)
+
+    if (method == "trimmed-normal" & distribution == "norm") {
         qq_fun <- function(x){
             labels <- names(x)
             qq_data_(
@@ -127,7 +164,34 @@ qq_data.default <- function(x,
                 labels = labels
             )
         }
-    } else {
+    } else if (method == "moment-normal" & distribution == "norm") {
+        qq_fun <- function(x){
+            labels <- names(x)
+            qq_data_(
+                x = x,
+                distribution = distribution,
+                mean = mean(x),
+                sd   = sd(x),
+                envelope = envelope,
+                line   = line,
+                labels = labels
+            )
+        }
+    } else if (method == "mle-normal" & distribution == "norm") {
+        qq_fun <- function(x){
+            labels <- names(x)
+            params <- fitdistrplus::fitdist(x, "norm") %>% coef()
+            qq_data_(
+                x = x,
+                distribution = distribution,
+                mean = params["mean"],
+                sd   = params["sd"],
+                envelope = envelope,
+                line   = line,
+                labels = labels
+            )
+        }
+    } else{
         qq_fun <- function(x){
             labels <- names(x)
             qq_data_(
@@ -142,9 +206,8 @@ qq_data.default <- function(x,
     }
 
 
-
     # If no groups exist
-    if (is.null(groups)){
+    if (is.null(groups)) {
         DF <- qq_fun(x)
 
     # Applied by group
@@ -156,7 +219,6 @@ qq_data.default <- function(x,
             rbind_df_in_list()
 
         DF %<>% rbind_df_in_list()
-
         attr(DF, "refline") <- DF_attr
     }
 
@@ -170,14 +232,14 @@ qq_data.default <- function(x,
 # @rdname qq_data
 qq_data.formula <- function(
     x,
+    data = NULL,
     distribution = "norm",
     ...,
     envelope = 0.95,
-    line = c("quartiles", "robust", "int=0,slope=1"),
+    line = c("quartiles", "robust", "int=0,slope=1", "0,1", "none"),
     labels = NULL,
     groups = NULL,
-    data = NULL,
-    method = if (distribution == "norm") "normal" else "any"
+    method = c("mle-normal","trimmed-normal","moment-normal", "any")
 )
 {
     DF <- model.frame(x, data = data)
@@ -213,12 +275,12 @@ qq_data_ <- function(x,
                      distribution = "norm",
                      ...,
                      envelope = 0.95,
-                     line = c("quartiles", "robust", "int=0,slope=1"),
+                     line = c("quartiles", "robust", "int=0,slope=1", "0,1", "none"),
                      labels = if (!is.null(names(x))) names(x) else seq(along = x))
 
 {
-    line <- match.arg(line)
     line <- line[1]
+    line <- match.arg(line)
 
     good <- !is.na(x)
     ord  <- order(x[good])
@@ -231,13 +293,14 @@ qq_data_ <- function(x,
     P <- ppoints(n)
     z <- q_function(P, ...)
 
+    # Define a reference line
     switch(line,
 
            "quartiles" = {
-               quantiles <- c(0.25, 0.75)
+               probs <- c(0.25, 0.75)
 
-               Q_x <- quantile(ord_x, quantiles)
-               Q_z <- q_function(quantiles, ...)
+               Q_x <- quantile(ord_x, probs)
+               Q_z <- q_function(probs, ...)
 
                b <- (Q_x[2] - Q_x[1]) / (Q_z[2] - Q_z[1])
                a <- Q_x[1] - b * Q_z[1]
@@ -249,18 +312,26 @@ qq_data_ <- function(x,
                b <- coef[2]
            },
 
+           "0,1" = ,
            "int=0,slope=1" = {
                a <- 0
                b <- 1
-           })
+           },
 
-    conf <- if (envelope == FALSE) 0.95    else envelope
+           "none" = {
+               stop('`line = "none"` is not implemented yet.')
+           }
+    )
 
+    ## !!! may be a mistake in `if (envelope == FALSE) 0.95`. Is `TRUE` correct?
+    conf <- if (envelope == FALSE) 0.95 else envelope
+
+    # Pointwise confidence interval
     zz <- qnorm(1 - (1 - conf) / 2)
     SE <- (b / d_function(z, ...)) * sqrt(P * (1 - P) / n)
-    fit_value <- a + b*z
-    upper <- fit_value + zz*SE
-    lower <- fit_value - zz*SE
+    fit_value <- a + b * z
+    upper <- fit_value + zz * SE
+    lower <- fit_value - zz * SE
 
     # Output -------------------------------------------------------------
     data_points <-
@@ -285,17 +356,15 @@ qq_data_ <- function(x,
     return(data_points)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-trim <- function(x, trim = 0.1){
-    p <- quantile(x, probs = c(trim/2, 1 - trim/2))
-    x[x > p[1] & x < p[2]]
-}
+
 
 # =============================================================================
+#' @param object A \code{qqdata} object.
 #' @export
 #' @method coef qqdata
 #' @rdname qq_data
-coef.qqdata <- function(obj) {
-    attributes(obj)$refline
+coef.qqdata <- function(object, ...) {
+    attributes(object)$refline
 }
 
 # =======================================================
@@ -307,15 +376,16 @@ coef.qqdata <- function(obj) {
 #'               a parmeter to be passed to
 #'                \code{\link[ggplot2]{facet_wrap}}.
 #' @param use_colors (logical) use colors for multiple groups
-#'
-#' @import ggplot2 magrittr
-#'
+#' @import ggplot2
 #' @examples
 #' library(BioStat)
 #' data(chickwts, package = "datasets")
 #'
 #' # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' # Input as formula + data:
+#'
+#' QQ_groups <- qq_data(weight ~ feed, data = chickwts, method = "trimmed-normal")
+#' plot(QQ_groups)
 #'
 #' QQ_groups <- qq_data(weight ~ feed, data = chickwts, method = "normal")
 #' plot(QQ_groups)
@@ -343,7 +413,6 @@ coef.qqdata <- function(obj) {
 #'  plot(QQ_CO2_B)
 #'
 #' @importFrom graphics plot
-#' @importFrom stats model.frame ppoints qnorm quantile sd
 #' @export
 plot.qqdata <- function(x,
                         ...,

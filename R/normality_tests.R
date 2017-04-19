@@ -57,6 +57,7 @@
 #'                        test = "chi-sq")
 #' rez2
 #'
+#' # Prettify the output
 #' pander(rez)
 #'
 #' rez %>%
@@ -174,6 +175,7 @@ SIGNIF <- function(x, digits = 3) {
 
 #' @export
 #' @rdname test_normality
+#' @param digits A number of significant digits to be displayed. Default is 3.
 print.test_normality <- function(x, ..., digits = 3){
 
     method_of_test <- levels(x$method)

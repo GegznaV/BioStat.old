@@ -1,8 +1,8 @@
 Package: BioStat
 Type: Package
-Title: Collection of Functions for Biostatistics and Biometry Lectures
+Title: A Collection of Functions for Biostatistics and Biometry Lectures
 Description: Collection of functions for Biostatistics and Biometry lectures.
-Version: 0.0.5.2000
+Version: 0.0.6
 Date: 2017-04-19
 Authors@R: c(
     person("Vilmantas", "Gegna", role = c("aut","cre","cph"),
@@ -23,5 +23,8 @@ Imports:
     nortest,
     lazyeval,
     pander,
-    readr
+    readr,
+    dplyr,
+    tidyr,
+    fitdistrplus
 RoxygenNote: 6.0.1

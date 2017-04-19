@@ -33,6 +33,8 @@ Possible names of tests:\itemize{
 
 \item{...}{Parameters to be passed to the main function
 (defined/selected in \code{fun}) that carries out a normality test.}
+
+\item{digits}{A number of significant digits to be displayed. Default is 3.}
 }
 \value{
 A data frame with normality test
@@ -56,6 +58,7 @@ rez2 <- test_normality(uptake ~ Type + Treatment,
                        test = "chi-sq")
 rez2
 
+# Prettify the output
 pander(rez)
 
 rez \%>\%

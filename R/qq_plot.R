@@ -1,12 +1,11 @@
-
 #' A qq-plot for multiple groups (with ggplot2)
 #'
-#' @param ...
 #' @inheritParams qq_data
 #' @inheritParams car::qqPlot
 #' @inheritParams plot.qqdata
 #' @export
-#'
+#' @seealso \code{\link[car]{qqPlot}} from \pkg{car} package,
+#'          \code{\link[stats]{qqplot}} from \pkg{stats} package.
 #' @examples
 #' library(BioStat)
 #' data(iris)
@@ -27,15 +26,22 @@
 #'
 #' qq_plot(iris$Sepal.Length)
 #'
+#'
+#' # Other examples
+#'
+#' qq_plot(uptake ~ Type + Treatment, data = CO2)
+#'
+#' qq_plot(weight ~ feed, data = chickwts)
+#'
 qq_plot <- function(x,
                     data = NULL,
                     distribution = "norm",
                     ...,
                     envelope = 0.95,
-                    line = c("quartiles", "robust", "int=0,slope=1"),
+                    line = c("quartiles", "robust", "int=0,slope=1", "0,1", "none"),
                     labels = NULL,
                     groups = NULL,
-                    method = if (distribution == "norm") {"normal"} else {"any"},
+                    method = c("mle-normal","trimmed-normal","moment-normal", "any"),
                     use_colors = FALSE,
                     scales = "free")
 {

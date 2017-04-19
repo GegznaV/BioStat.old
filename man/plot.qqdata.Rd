@@ -27,6 +27,9 @@ data(chickwts, package = "datasets")
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Input as formula + data:
 
+QQ_groups <- qq_data(weight ~ feed, data = chickwts, method = "trimmed-normal")
+plot(QQ_groups)
+
 QQ_groups <- qq_data(weight ~ feed, data = chickwts, method = "normal")
 plot(QQ_groups)
 
