@@ -5,7 +5,7 @@
 \alias{print.test_normality}
 \title{Normality tests with formula interface}
 \usage{
-test_normality(x, data = NULL, test = "Shapiro-Wilk", ...)
+test_normality(x, data = NULL, test = "Shapiro-Wilk", ..., groups = NULL)
 
 \method{print}{test_normality}(x, ..., digits = 3)
 }
@@ -33,6 +33,9 @@ Possible names of tests:\itemize{
 
 \item{...}{Parameters to be passed to the main function
 (defined/selected in \code{fun}) that carries out a normality test.}
+
+\item{groups}{grouping variable that will be folded into the formula (if there is room for it).
+This offers some additional flexibility in how formulas can be specified.}
 
 \item{digits}{A number of significant digits to be displayed. Default is 3.}
 }

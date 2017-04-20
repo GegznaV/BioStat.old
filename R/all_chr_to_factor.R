@@ -43,10 +43,10 @@ all_chr_to_factor <- function(data)
     #
 
     # Does not Change the class:
-    col_classes <- purrr::map_chr(data, class)
+    col_is_character <- purrr::map_chr(data, ~ inherits(., "character"))
 
-    for (i in seq_along(col_classes)) {
-        if (is.character(col_classes[i])) {
+    for (i in seq_along(col_is_character)) {
+        if (col_is_character[i]) {
             data[[i]] %<>% factor()
         }
     }

@@ -77,7 +77,7 @@ test_normality <- function(x,
                            test = "Shapiro-Wilk",
                            ...
 
-                           # , groups = NULL
+                           , groups = NULL
                            # , sep = "|"
                            ) {
     if (is.function(test)) {
