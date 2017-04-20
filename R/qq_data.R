@@ -384,10 +384,10 @@ coef.qqdata <- function(object, ...) {
 #' # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' # Input as formula + data:
 #'
-#' QQ_groups <- qq_data(weight ~ feed, data = chickwts, method = "trimmed-normal")
+#' QQ_groups <- qq_data(weight ~ feed, data = chickwts)
 #' plot(QQ_groups)
 #'
-#' QQ_groups <- qq_data(weight ~ feed, data = chickwts, method = "normal")
+#' QQ_groups <- qq_data(weight ~ feed, data = chickwts, method = "moment-normal")
 #' plot(QQ_groups)
 #'
 #' QQ_groups <- qq_data(weight ~ feed, data = chickwts, method = "any")

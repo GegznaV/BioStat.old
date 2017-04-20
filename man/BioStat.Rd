@@ -4,7 +4,8 @@
 \name{BioStat}
 \alias{BioStat}
 \alias{BioStat-package}
-\title{A Collection of Functions for Biostatistics and Biometry Lectures
-
+\title{A Collection of Functions for Biostatistics and Biometry Lectures}
+\description{
 The package contains convenience functions for common statistical analyses
-and data wrangling procedures.}
+and data wrangling procedures.
+}
