@@ -7,7 +7,7 @@
 qq_plot(x, data = NULL, distribution = "norm", ..., envelope = 0.95,
   line = c("quartiles", "robust", "int=0,slope=1", "0,1", "none"),
   labels = NULL, groups = NULL, method = c("mle-normal", "trimmed-normal",
-  "moment-normal", "any"), use_colors = FALSE, scales = "free")
+  "moment-normal", "any"), use_colors = FALSE, scales = "free", sep = "|")
 }
 \arguments{
 \item{x}{Either a formula, a numeric vector or a name of a vector
@@ -22,25 +22,55 @@ condition are shifted over as a convenience.}
 \item{distribution}{root name of comparison distribution -- e.g., \code{"norm"} for the
     normal distribution; \code{t} for the t-distribution.}
 
-\item{...}{other parameters}
+\item{...}{Parameters to be passed to function, selected in \code{distribution}.}
 
-\item{envelope}{confidence level for point-wise confidence envelope, or 
-    \code{FALSE} for no envelope.}
+\item{envelope}{(numeric) confidence level for point-wise confidence envelope.}
 
-\item{line}{\code{"quartiles"} to pass a line through the quartile-pairs, or
-    \code{"robust"} for a robust-regression line; the latter uses the \code{rlm}
-    function in the \code{MASS} package. Specifying \code{line = "none"} suppresses the line.}
+\item{line}{(string) A parameter, that controls how reference line is drawn.
+           Options:\itemize{
+           \item{\code{"0,1"} or \code{"int=0,slope=1"} to plot a line
+            with intercept = 0 and slope = 1;}
+           \item{ \code{"quartiles"} to pass a line through the quartile-pairs;}
+           \item{ \code{"robust"} for a robust-regression line;
+            the latter uses the \code{rlm} function in the \pkg{MASS} package};
+           \item{option \code{"none"} is not implemented yet.}
+}}
 
 \item{labels}{(not used yet).}
 
 \item{groups}{grouping variable that will be folded into the formula (if there is room for it).
 This offers some additional flexibility in how formulas can be specified.}
 
+\item{method}{(string: \code{"trimmed-normal"}, \code{"normal"},
+             \code{"any"}). A method, that controls how parameters for
+             \code{distribution} are computed.
+     Options:\itemize{
+
+           \item{\code{"mle-normal"} (default) all data values are used to
+           calculate parameters of theoretical normal distribution using
+           method of maximum likelihood;}
+
+           \item{\code{"trimmed-normal"} 10\% of the most extreme
+           data values are trimmed before parameters of theoretical normal
+           distribution are calculated using method of moments;}
+
+           \item{\code{"moment-normal"} all data values are used to calculate
+           parameters of theoretical normal distribution using method of moments;}
+
+           \item{\code{"any"} parameters ate provided manually by user.}
+     }
+          Options \code{"mle-normal"}, \code{"trimmed-normal"} and
+          \code{"moment-normal"} are applicable only if
+          \code{distribution = "norm"}.
+          Otherwise \code{"any"} is selected automatically.}
+
 \item{use_colors}{(logical) use colors for multiple groups}
 
 \item{scales}{("free"|"free_x"|"free_y"|"fixed")
 a parmeter to be passed to
  \code{\link[ggplot2]{facet_wrap}}.}
+
+\item{sep}{(not used yet).}
 }
 \description{
 A qq-plot for multiple groups (with ggplot2)

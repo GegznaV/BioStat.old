@@ -5,10 +5,10 @@
 \title{Get a slope and an intercept of a qqline}
 \usage{
 qq_line_coeffs(y, datax = FALSE, distribution = qnorm, probs = c(0.25,
-  0.75), qtype = 7)
+  0.75), qtype = 7, na.rm = TRUE)
 }
 \arguments{
-\item{y}{The second or only data sample.}
+\item{y}{(numeric) A numeric vector.}
 
 \item{datax}{logical. Should data values be on the x-axis?}
 
@@ -18,11 +18,22 @@ qq_line_coeffs(y, datax = FALSE, distribution = qnorm, probs = c(0.25,
     Corresponding quantile pairs define the line drawn.}
 
 \item{qtype}{the \code{type} of quantile computation used in \code{\link{quantile}}.}
+
+\item{na.rm}{logical; if true, any \code{\link{NA}} and \code{NaN}'s
+    are removed from \code{x} before the quantiles are computed.}
 }
 \value{
-list with a \code{$slope} and an \code{$intercept} for qqline
+A vector with a \code{$slope} and an \code{$intercept} for qqline
 }
 \description{
 Get a slope and an intercept of a qqline
+}
+\examples{
+
+set.seed(254)
+x <- rnorm(50)
+
+qq_line_coeffs(x)
+
 }
 \keyword{internal}

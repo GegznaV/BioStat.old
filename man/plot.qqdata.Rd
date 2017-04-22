@@ -24,29 +24,32 @@ A method to plot a `qqdata` object as a qq-plot
 library(BioStat)
 data(chickwts, package = "datasets")
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Input as formula + data:
 
 QQ_groups <- qq_data(weight ~ feed, data = chickwts)
 plot(QQ_groups)
 
-QQ_groups <- qq_data(weight ~ feed, data = chickwts, method = "moment-normal")
-plot(QQ_groups)
+QQ_groups2 <- qq_data(weight ~ feed, data = chickwts, method = "moment-normal")
+plot(QQ_groups2)
 
-QQ_groups <- qq_data(weight ~ feed, data = chickwts, method = "any")
-plot(QQ_groups)
+QQ_groups3 <- qq_data(weight ~ feed, data = chickwts, method = "any")
+plot(QQ_groups3)
 
+
+# The same x and y scale limits for all plots
 plot(QQ_groups, scales = "fixed")
+
+# Plot in color
 plot(QQ_groups, use_colors = TRUE)
 
-
+# Plot a qq-pot of one group
 QQ_single <- qq_data( ~ weight, data = chickwts)
 plot(QQ_single)
 
 class(QQ_single)
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+# More than one grouping variable
 data(CO2, package = "datasets")
 
  QQ_CO2 <- qq_data(uptake ~ Type + Treatment, data = CO2)

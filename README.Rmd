@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 
 ***
 
-[![CRAN version](http://www.r-pkg.org/badges/version/BioStat)](http://cran.rstudio.com/web/packages/BioStat/index.html)
+[![CRAN version](http://www.r-pkg.org/badges/version/BioStat)](https://cran.rstudio.com/web/packages/BioStat/index.html)
 [![GitHub version](https://img.shields.io/badge/GitHub-v`r packageVersion("BioStat")`-brightgreen.svg)](https://github.com/GegznaV/BioStat)
 [![Travis-CI Build Status](https://travis-ci.org/GegznaV/BioStat.png?branch=master)](https://travis-ci.org/GegznaV/BioStat)
 [![codecov.io](https://codecov.io/github/GegznaV/BioStat/coverage.svg?branch=master)](https://codecov.io/github/GegznaV/BioStat?branch=master)

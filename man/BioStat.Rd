@@ -7,5 +7,7 @@
 \title{A Collection of Functions for Biostatistics and Biometry Lectures}
 \description{
 The package contains convenience functions for common statistical analyses
-and data wrangling procedures.
+and data wrangling procedures without writting to much code.
+Package is stil under its development and usage of some functions might
+change in the future.
 }

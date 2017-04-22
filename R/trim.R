@@ -24,7 +24,7 @@
 trim <- function(x, trim = 0.1, na.rm = FALSE, ...){
    if (!is.vector(x))  stop("`x` must be a vector.")
    if (!is.numeric(x)) stop("`x` must be a numeric vector.")
-    p <- quantile(x, probs = c(trim/2, 1 - trim/2), na.rm = na.rm, ...)
+    p <- stats::quantile(x, probs = c(trim/2, 1 - trim/2), na.rm = na.rm, ...)
     # x[x > p[1] & x < p[2]]
     x[dplyr::between(x, p[1], p[2])]
 }

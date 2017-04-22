@@ -26,7 +26,9 @@
 #'}
 #' @param ... Parameters to be passed to the main function
 #'            (defined/selected in \code{fun}) that carries out a normality test.
-#' @param data A data frame that contains the variables mentioned in \code{x}.
+#'
+#' @param sep (not used yet)
+#'
 #'
 #' @inheritParams mosaic::maggregate
 #' @inheritParams stats::shapiro.test
@@ -90,7 +92,7 @@ test_normality <- function(x,
                            ...
 
                            , groups = NULL
-                           # , sep = "|"
+                           , sep = " | "
                            ) {
     if (is.function(test)) {
         FUN = test
@@ -138,13 +140,13 @@ test_normality <- function(x,
 
 }
 
-
+# =============================================================================
 test_ <- function(x,
                   data = NULL,
                   ...,
                   groups = NULL,
                   FUN = stats::shapiro.test,
-                  sep = "|")
+                  sep = " | ")
     # na.rm = getOption("na.rm", FALSE)
 {
     if (lazyeval::is_formula(x)) {
@@ -167,8 +169,8 @@ test_ <- function(x,
         rez <- mapply(ReduceC, rez) %>% data.frame()
 
         rez$data.name <- NULL # remove variable 'rez$data.name'
-        rez$statistic  %<>%  readr::parse_number()
-        rez$p.value    %<>%  readr::parse_number()
+        rez$statistic  %<>%  as_number()
+        rez$p.value    %<>%  as_number()
 
         class(rez) <- c("test_normality", "data.frame")
         return(rez)

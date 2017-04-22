@@ -62,3 +62,42 @@ test_that("`test_normality()` produces correct p-values for each group", {
                  shapiro.test(filter(CO2, Type == "Mississippi")$uptake)$p.value)
 
 })
+
+
+
+test_that("`print()` method for 'test_normality' object works", {
+    data(CO2, package = "datasets")
+
+    rez <- test_normality(uptake ~ Type, data = CO2)
+
+    expect_output(pander(rez), "normality test")
+    expect_output(pander(rez), "statistic")
+    expect_output(pander(rez), "p.value")
+})
+
+
+test_that("`pander()` method for 'test_normality' object works", {
+    data(CO2, package = "datasets")
+
+    rez <- test_normality(uptake ~ Type, data = CO2)
+
+
+
+    # Expect specific structure
+    expect_output(pander(rez), "statistic")
+    expect_output(pander(rez), "p.value")
+    expect_output(pander(rez), "-------------")
+    expect_output(pander(rez), "Table: ")
+    expect_output(pander(rez), "The results of")
+    expect_output(pander(rez), "normality test")
+
+    # Expect specific caption
+    expect_output(pander(rez, caption = "LA LA LA"), "Table: LA LA LA")
+
+    # Output must not contain "Table: ", when `caption = NULL`
+    output <- capture.output(pander(rez, caption = NULL))
+    expect_true(all(!(grepl("Table: ", output))))
+
+
+
+})

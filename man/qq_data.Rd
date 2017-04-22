@@ -8,7 +8,7 @@
 qq_data(x, data = NULL, distribution = "norm", ..., envelope = 0.95,
   line = c("quartiles", "robust", "int=0,slope=1", "0,1", "none"),
   labels = NULL, groups = NULL, method = c("mle-normal", "trimmed-normal",
-  "moment-normal", "any"))
+  "moment-normal", "any"), sep = " | ")
 
 \method{coef}{qqdata}(object, ...)
 }
@@ -25,7 +25,7 @@ condition are shifted over as a convenience.}
 \item{distribution}{root name of comparison distribution -- e.g., \code{"norm"} for the
     normal distribution; \code{t} for the t-distribution.}
 
-\item{...}{Parameters to be passed to function, selected in \code{distribution}}
+\item{...}{Parameters to be passed to function, selected in \code{distribution}.}
 
 \item{envelope}{(numeric) confidence level for point-wise confidence envelope.}
 
@@ -67,6 +67,8 @@ This offers some additional flexibility in how formulas can be specified.}
           \code{"moment-normal"} are applicable only if
           \code{distribution = "norm"}.
           Otherwise \code{"any"} is selected automatically.}
+
+\item{sep}{(not used yet).}
 
 \item{object}{A \code{qqdata} object.}
 }

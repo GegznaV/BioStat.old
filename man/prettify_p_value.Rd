@@ -41,18 +41,18 @@ rez
 
 # Shapiro-Wilk normality test
 #
-#          Type  statistic  p.value
-# 1      Quebec     0.860   0.000111
-# 2 Mississippi     0.936   0.0213
+#          Type statistic      p.value
+# 1      Quebec 0.8598812 0.0001111111
+# 2 Mississippi 0.9363277 0.0213016282
 
 # Do prettification:
 prettify_p_column(rez)
 
 # Shapiro-Wilk normality test
 #
-#           Type statistic p.value
-# 1      Quebec     0.860  <0.001
-# 2 Mississippi     0.936   0.02
+#          Type statistic p.value
+# 1      Quebec 0.8598812  <0.001
+# 2 Mississippi 0.9363277   0.02
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Prettify single p-values

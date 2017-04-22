@@ -10,6 +10,7 @@
 #'             the latter uses the \code{rlm} function in the \pkg{MASS} package};
 #'            \item{option \code{"none"} is not implemented yet.}
 #' }
+#'
 #' @param method (string: \code{"trimmed-normal"}, \code{"normal"},
 #'              \code{"any"}). A method, that controls how parameters for
 #'              \code{distribution} are computed.
@@ -33,8 +34,9 @@
 #'           \code{distribution = "norm"}.
 #'           Otherwise \code{"any"} is selected automatically.
 #'
+#' @param sep (not used yet).
 #'
-#' @param ... Parameters to be passed to function, selected in \code{distribution}
+#' @param ... Parameters to be passed to function, selected in \code{distribution}.
 #'
 #' @inheritParams test_normality
 #' @inheritParams car::qqPlot
@@ -116,7 +118,8 @@ qq_data <- function(x,
                     line = c("quartiles", "robust", "int=0,slope=1", "0,1", "none"),
                     labels = NULL,
                     groups = NULL,
-                    method = c("mle-normal","trimmed-normal","moment-normal", "any")
+                    method = c("mle-normal","trimmed-normal","moment-normal", "any"),
+                    sep = " | "
                     )
 
 {
@@ -134,7 +137,8 @@ qq_data.default <- function(x,
                      line = c("quartiles", "robust", "int=0,slope=1", "0,1", "none"),
                      labels = NULL,
                      groups = NULL,
-                     method = c("mle-normal","trimmed-normal","moment-normal", "any")
+                     method = c("mle-normal","trimmed-normal","moment-normal", "any"),
+                     sep = " | "
 )
 
 {
@@ -157,8 +161,8 @@ qq_data.default <- function(x,
             qq_data_(
                 x = x,
                 distribution = distribution,
-                mean = mean(x,    trim = 0.1),
-                sd   = sd(trim(x, trim = 0.1)),
+                mean =        mean(   x, trim = 0.1),
+                sd   = stats::sd(trim(x, trim = 0.1)),
                 envelope = envelope,
                 line   = line,
                 labels = labels
@@ -171,7 +175,7 @@ qq_data.default <- function(x,
                 x = x,
                 distribution = distribution,
                 mean = mean(x),
-                sd   = sd(x),
+                sd   = stats::sd(x),
                 envelope = envelope,
                 line   = line,
                 labels = labels
@@ -180,7 +184,7 @@ qq_data.default <- function(x,
     } else if (method == "mle-normal" & distribution == "norm") {
         qq_fun <- function(x){
             labels <- names(x)
-            params <- fitdistrplus::fitdist(x, "norm") %>% coef()
+            params <- fitdistrplus::fitdist(x, "norm") %>% stats::coef()
             qq_data_(
                 x = x,
                 distribution = distribution,
@@ -239,7 +243,8 @@ qq_data.formula <- function(
     line = c("quartiles", "robust", "int=0,slope=1", "0,1", "none"),
     labels = NULL,
     groups = NULL,
-    method = c("mle-normal","trimmed-normal","moment-normal", "any")
+    method = c("mle-normal","trimmed-normal","moment-normal", "any"),
+    sep = " | "
 )
 {
     DF <- model.frame(x, data = data)
@@ -260,7 +265,7 @@ qq_data.formula <- function(
         rez <- qq_main(DF[[1]])
 
     } else if (length(x) > 2) {
-        rez <- qq_main(DF[[1]], groups = interaction(DF[-1], sep = " | "))
+        rez <- qq_main(DF[[1]], groups = interaction(DF[-1], sep = sep))
 
     } else {
         stop(
@@ -268,6 +273,7 @@ qq_data.formula <- function(
             "\nIt must contain at least 1 variable name."
         )
     }
+    rez
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -381,29 +387,32 @@ coef.qqdata <- function(object, ...) {
 #' library(BioStat)
 #' data(chickwts, package = "datasets")
 #'
-#' # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' # Input as formula + data:
 #'
 #' QQ_groups <- qq_data(weight ~ feed, data = chickwts)
 #' plot(QQ_groups)
 #'
-#' QQ_groups <- qq_data(weight ~ feed, data = chickwts, method = "moment-normal")
-#' plot(QQ_groups)
+#' QQ_groups2 <- qq_data(weight ~ feed, data = chickwts, method = "moment-normal")
+#' plot(QQ_groups2)
 #'
-#' QQ_groups <- qq_data(weight ~ feed, data = chickwts, method = "any")
-#' plot(QQ_groups)
+#' QQ_groups3 <- qq_data(weight ~ feed, data = chickwts, method = "any")
+#' plot(QQ_groups3)
 #'
+#'
+#' # The same x and y scale limits for all plots
 #' plot(QQ_groups, scales = "fixed")
+#'
+#' # Plot in color
 #' plot(QQ_groups, use_colors = TRUE)
 #'
-#'
+#' # Plot a qq-pot of one group
 #' QQ_single <- qq_data( ~ weight, data = chickwts)
 #' plot(QQ_single)
 #'
 #' class(QQ_single)
 #'
-#'# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #'
+#' # More than one grouping variable
 #' data(CO2, package = "datasets")
 #'
 #'  QQ_CO2 <- qq_data(uptake ~ Type + Treatment, data = CO2)
@@ -423,37 +432,36 @@ plot.qqdata <- function(x,
     if (".group" %in%  colnames(x)) {
         if (use_colors) {
             p <- ggplot(x,
-                        aes(
-                            x,
-                            y,
-                            ymin = ref_ci_lower,
-                            ymax = ref_ci_upper,
-                            col  = .group,
-                            fill = .group
+                        aes_string(
+                            "x", "y",
+                            ymin = "ref_ci_lower",
+                            ymax = "ref_ci_upper",
+                            col  = ".group",
+                            fill = ".group"
                         ))
         } else {
             p <- ggplot(x,
-                        aes(x, y,
-                            ymin = ref_ci_lower,
-                            ymax = ref_ci_upper))
+                        aes_string("x", "y",
+                            ymin = "ref_ci_lower",
+                            ymax = "ref_ci_upper"))
         }
 
-        p <- p + facet_wrap( ~ .group, scales = scales)
+        p <- p + facet_wrap(".group", scales = scales)
 
     } else {
         p <- ggplot(x,
-                    aes(x, y,
-                        ymin = ref_ci_lower,
-                        ymax = ref_ci_upper))
+                    aes_string("x", "y",
+                        ymin = "ref_ci_lower",
+                        ymax = "ref_ci_upper"))
     }
 
     p +
-        geom_line(aes(y = ref_y), lty = 2) +
+        geom_line(aes_string(y = "ref_y"), lty = 2) +
         geom_point() +
 
         geom_ribbon(alpha = 0.2, col = NA) +
-        geom_line(aes(y = ref_ci_lower), lty = 2) +
-        geom_line(aes(y = ref_ci_upper), lty = 2) +
+        geom_line(aes_string(y = "ref_ci_lower"), lty = 2) +
+        geom_line(aes_string(y = "ref_ci_upper"), lty = 2) +
 
         labs(x = "Theoretical quantiles",
              y = "Empirical quantiles",

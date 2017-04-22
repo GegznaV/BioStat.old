@@ -10,7 +10,9 @@
 #' @param data A data frame that contains the variables mentioned in \code{x}.
 #'
 #' @param labels (not used yet).
+#' @param sep (not used yet).
 #'
+#' @inheritParams qq_data
 #' @inheritParams plot.qqdata
 #' @inheritParams car::qqPlot
 #' @inheritParams mosaic::maggregate
@@ -57,7 +59,8 @@ qq_plot <- function(x,
                     groups = NULL,
                     method = c("mle-normal","trimmed-normal","moment-normal", "any"),
                     use_colors = FALSE,
-                    scales = "free")
+                    scales = "free",
+                    sep = "|")
 {
 
     qqdata <-  qq_data(x = x,
@@ -68,7 +71,8 @@ qq_plot <- function(x,
                  line = line,
                  labels = labels,
                  groups = groups,
-                 method = method)
+                 method = method,
+                 sep = "|")
 
     plot(qqdata, use_colors = use_colors, scales = scales)
 

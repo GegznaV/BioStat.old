@@ -1,3 +1,10 @@
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+as_number <- function(x) {
+    x  %>% as.character() %>% as.numeric()
+
+}
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' eval text as a command
 #' @param x (string) A text with command to evaluate.
@@ -23,7 +30,8 @@ eval_ <-
 # @examples
 SIGNIF <- function(x, digits = 3) {
     x %>%
-        readr::parse_number() %>%
+        # readr::parse_number() %>%
+        as_number() %>%
         signif(digits = digits)
 }
 
@@ -158,13 +166,14 @@ getVarValues <- function(VAR,
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 rbind_df_in_list <- function(x){
-    if(!is.list(x)) stop("`x` must be a list.")
+    if (!is.list(x)) stop("`x` must be a list.")
 
     DF <- x  %>%
         do.call(rbind, .)     %>%
-        dplyr::mutate(.group = rownames(.))  %>%
+        # dplyr::mutate(.group = rownames(.))  %>%
+        tibble::rownames_to_column(var = ".group")  %>%
         # Remove numbers, added in `do.call(rbind, .)`
-        tidyr::separate(col   = .group,
+        tidyr::separate_(col = ".group",
                         into = ".group",
                         sep = "\\.\\d*$",
                         extra = "drop") %>%

@@ -6,7 +6,8 @@
 \alias{pander.test_normality}
 \title{Normality tests with formula interface}
 \usage{
-test_normality(x, data = NULL, test = "Shapiro-Wilk", ..., groups = NULL)
+test_normality(x, data = NULL, test = "Shapiro-Wilk", ..., groups = NULL,
+  sep = " | ")
 
 \method{print}{test_normality}(x, ..., rm_col_method = TRUE)
 
@@ -40,11 +41,11 @@ Possible names of tests:\itemize{
 \item{groups}{grouping variable that will be folded into the formula (if there is room for it).
 This offers some additional flexibility in how formulas can be specified.}
 
+\item{sep}{(not used yet)}
+
 \item{rm_col_method}{(logical) If \code{TRUE} column "method" is not printed.}
 
 \item{caption}{(string|\code{NULL}|\code{NA}) A caption for the table with results of a normality test. If \code{NA} — a default caption is printed (default). If \code{NULL} – no caption is printed.}
-
-\item{data}{A data frame that contains the variables mentioned in \code{x}.}
 }
 \value{
 A data frame with normality test
