@@ -1,0 +1,52 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+ 
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = FALSE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+***
+
+[![CRAN version](http://www.r-pkg.org/badges/version/BioStat)](http://cran.rstudio.com/web/packages/BioStat/index.html)
+[![GitHub version](https://img.shields.io/badge/GitHub-v`r packageVersion("BioStat")`-brightgreen.svg)](https://github.com/GegznaV/BioStat)
+[![Travis-CI Build Status](https://travis-ci.org/GegznaV/BioStat.png?branch=master)](https://travis-ci.org/GegznaV/BioStat)
+[![codecov.io](https://codecov.io/github/GegznaV/BioStat/coverage.svg?branch=master)](https://codecov.io/github/GegznaV/BioStat?branch=master)
+[![Last-update](https://img.shields.io/badge/last%20update-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master)
+
+***
+
+
+Development version of package `BioStat` 
+==========================================
+
+A Collection of Functions for Biostatistics and Biometry Lectures.
+
+
+
+
+## Install package
+
+To install a developement version of the package from `GitHub`:
+
+```{r Install package, eval=FALSE}
+if (!"devtools"  %in% installed.packages()) install.packages("devtools")
+
+library(devtools)
+install_github("GegznaV/BioStat")
+```
+
+
+* * *
+
+ <p align="right"> </p>    
+
+
+ 
+

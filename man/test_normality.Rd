@@ -3,18 +3,21 @@
 \name{test_normality}
 \alias{test_normality}
 \alias{print.test_normality}
+\alias{pander.test_normality}
 \title{Normality tests with formula interface}
 \usage{
 test_normality(x, data = NULL, test = "Shapiro-Wilk", ..., groups = NULL)
 
-\method{print}{test_normality}(x, ..., digits = 3)
+\method{print}{test_normality}(x, ..., rm_col_method = TRUE)
+
+\method{pander}{test_normality}(x, ..., caption = NA, rm_col_method = TRUE)
 }
 \arguments{
 \item{x}{Either a formula or a numeric vector or a name of a vector
 in \code{data}.\cr
-If \code{x} is a formula (e.g. \code{variable ~ factor}), left
-side provides variable to be summarized. Right side and condition
-describe subsets. If the left side is empty, right side and
+If \code{x} is a formula (e.g. \code{variable ~ factor}), left-hand
+side provides variable to be summarized. Right-hand side and condition
+describe subsets. If the left-hand side is empty, right-hand side and
 condition are shifted over as a convenience.}
 
 \item{data}{A data frame that contains the variables mentioned in \code{x}.}
@@ -37,7 +40,11 @@ Possible names of tests:\itemize{
 \item{groups}{grouping variable that will be folded into the formula (if there is room for it).
 This offers some additional flexibility in how formulas can be specified.}
 
-\item{digits}{A number of significant digits to be displayed. Default is 3.}
+\item{rm_col_method}{(logical) If \code{TRUE} column "method" is not printed.}
+
+\item{caption}{(string|\code{NULL}|\code{NA}) A caption for the table with results of a normality test. If \code{NA} — a default caption is printed (default). If \code{NULL} – no caption is printed.}
+
+\item{data}{A data frame that contains the variables mentioned in \code{x}.}
 }
 \value{
 A data frame with normality test
@@ -46,6 +53,10 @@ A data frame with normality test
 \description{
 Perform Shapiro-Wilk (default),
 Lilliefors (Kolmogorov-Smirnov), Anderson_darling and other tests of normality.
+}
+\details{
+By default, methods \code{print.test_normality} and
+         \code{pander.test_normality} do not print column called "method".
 }
 \examples{
 library(BioStat)
@@ -61,20 +72,29 @@ rez2 <- test_normality(uptake ~ Type + Treatment,
                        test = "chi-sq")
 rez2
 
-# Prettify the output
-pander(rez)
-
-rez \%>\%
-    prettify_p_column() \%>\%
-    pander()
-
+# Round to 3 decimal digits (all columns):
 format_numbers(rez, 3)
 
+# Round to 3 significant digits (all columns):
+format_numbers(rez, 3, format = "g")
+
+# Prettify the column with p-values
+prettify_p_column(rez)
+
+# Print as a 'pandoc' table
+pander(rez)
+
+# Other output possibilities
 rez \%>\% format_numbers(3)
 
 rez \%>\%
    format_numbers(3) \%>\%
    pander()
+
+rez \%>\%
+    format_numbers(3, "g") \%>\%
+    prettify_p_column() \%>\%
+    pander()
 }
 \seealso{
 Package \pkg{nortest}\cr

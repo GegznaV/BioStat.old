@@ -50,6 +50,7 @@ all_chr_to_factor <- function(data)
             data[[i]] %<>% factor()
         }
     }
+    attr(data, "converted_fo_factor") <- col_is_character
     # Output:
     data
 }

@@ -116,7 +116,7 @@ qq_data <- function(x,
                     line = c("quartiles", "robust", "int=0,slope=1", "0,1", "none"),
                     labels = NULL,
                     groups = NULL,
-                        method = c("mle-normal","trimmed-normal","moment-normal", "any")
+                    method = c("mle-normal","trimmed-normal","moment-normal", "any")
                     )
 
 {
@@ -134,7 +134,7 @@ qq_data.default <- function(x,
                      line = c("quartiles", "robust", "int=0,slope=1", "0,1", "none"),
                      labels = NULL,
                      groups = NULL,
-                         method = c("mle-normal","trimmed-normal","moment-normal", "any")
+                     method = c("mle-normal","trimmed-normal","moment-normal", "any")
 )
 
 {
@@ -299,7 +299,7 @@ qq_data_ <- function(x,
            "quartiles" = {
                probs <- c(0.25, 0.75)
 
-               Q_x <- quantile(ord_x, probs)
+               Q_x <- stats::quantile(ord_x, probs)
                Q_z <- q_function(probs, ...)
 
                b <- (Q_x[2] - Q_x[1]) / (Q_z[2] - Q_z[1])
@@ -307,7 +307,7 @@ qq_data_ <- function(x,
            },
 
            "robust" = {
-               coef <- coef(MASS::rlm(ord_x ~ z))
+               coef <- stats::coef(MASS::rlm(ord_x ~ z))
                a <- coef[1]
                b <- coef[2]
            },

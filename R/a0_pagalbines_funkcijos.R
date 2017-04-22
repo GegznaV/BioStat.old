@@ -1,11 +1,31 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' eval text as a command
+#' @param x (string) A text with command to evaluate.
+#'
+#' @param envir An environment to evaluate in.
+#' @param ... further parameters to \code{\link[base]{eval}}.
+#'
 #' @keywords internal
 #' @export
 eval_ <-
     function(x, envir = parent.frame(), ...) {
         eval(parse(text = x), envir = envir, ...)
     }
+
+
+# Convert to numertic and round to several significant digits
+#
+# @param x A value
+# @param digits Number of signoficant digits
+#
+# @export
+#
+# @examples
+SIGNIF <- function(x, digits = 3) {
+    x %>%
+        readr::parse_number() %>%
+        signif(digits = digits)
+}
 
 
 #' Check and adjust length of vector according to the number of columns in a data frame
@@ -149,7 +169,7 @@ rbind_df_in_list <- function(x){
                         sep = "\\.\\d*$",
                         extra = "drop") %>%
         # .group as 1-st column
-        select_(.dots = c(".group", colnames(.)[1:(ncol(.)-1)]))
+        dplyr::select_(.dots = c(".group", colnames(.)[1:(ncol(.) - 1)]))
 
     rownames(DF) <- NULL
 

@@ -6,6 +6,7 @@
 #' and data wrangling procedures.
 #'
 #' @importFrom stats model.frame ppoints qnorm
-#' @import mosaic magrittr
+#' @importFrom pander pander
+#' @import magrittr
 
 NULL

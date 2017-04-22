@@ -12,9 +12,9 @@ qq_plot(x, data = NULL, distribution = "norm", ..., envelope = 0.95,
 \arguments{
 \item{x}{Either a formula or a numeric vector or a name of a vector
 in \code{data}.\cr
-If \code{x} is a formula (e.g. \code{variable ~ factor}), left
-side provides variable to be summarized. Right side and condition
-describe subsets. If the left side is empty, right side and
+If \code{x} is a formula (e.g. \code{variable ~ factor}), left-hand
+side provides variable to be summarized. Right-hand side and condition
+describe subsets. If the left-hand side is empty, right-hand side and
 condition are shifted over as a convenience.}
 
 \item{data}{A data frame that contains the variables mentioned in \code{x}.}
@@ -22,48 +22,19 @@ condition are shifted over as a convenience.}
 \item{distribution}{root name of comparison distribution -- e.g., \code{"norm"} for the
     normal distribution; \code{t} for the t-distribution.}
 
-\item{...}{Parameters to be passed to function, selected in \code{distribution}}
+\item{...}{other parameters}
 
-\item{envelope}{(numeric) confidence level for point-wise confidence envelope.}
+\item{envelope}{confidence level for point-wise confidence envelope, or 
+    \code{FALSE} for no envelope.}
 
-\item{line}{(string) A parameter, that controls how reference line is drawn.
-           Options:\itemize{
-           \item{\code{"0,1"} or \code{"int=0,slope=1"} to plot a line
-            with intercept = 0 and slope = 1;}
-           \item{ \code{"quartiles"} to pass a line through the quartile-pairs;}
-           \item{ \code{"robust"} for a robust-regression line;
-            the latter uses the \code{rlm} function in the \pkg{MASS} package};
-           \item{option \code{"none"} is not implemented yet.}
-}}
+\item{line}{\code{"quartiles"} to pass a line through the quartile-pairs, or
+    \code{"robust"} for a robust-regression line; the latter uses the \code{rlm}
+    function in the \code{MASS} package. Specifying \code{line = "none"} suppresses the line.}
 
-\item{labels}{vector of text strings to be used to identify points, defaults to
-    \code{names(x)} or observation numbers if \code{names(x)} is \code{NULL}.}
+\item{labels}{(not used yet).}
 
 \item{groups}{grouping variable that will be folded into the formula (if there is room for it).
 This offers some additional flexibility in how formulas can be specified.}
-
-\item{method}{(string: \code{"trimmed-normal"}, \code{"normal"},
-             \code{"any"}). A method, that controls how parameters for
-             \code{distribution} are computed.
-     Options:\itemize{
-
-           \item{\code{"mle-normal"} (default) all data values are used to
-           calculate parameters of theoretical normal distribution using
-           method of maximum likelihood;}
-
-           \item{\code{"trimmed-normal"} 10\% of the most extreme
-           data values are trimmed before parameters of theoretical normal
-           distribution are calculated using method of moments;}
-
-           \item{\code{"moment-normal"} all data values are used to calculate
-           parameters of theoretical normal distribution using method of moments;}
-
-           \item{\code{"any"} parameters ate provided manually by user.}
-     }
-          Options \code{"mle-normal"}, \code{"trimmed-normal"} and
-          \code{"moment-normal"} are applicable only if
-          \code{distribution = "norm"}.
-          Otherwise \code{"any"} is selected automatically.}
 
 \item{use_colors}{(logical) use colors for multiple groups}
 
@@ -79,7 +50,9 @@ library(BioStat)
 data(iris)
 
 # Formula (several groups):
-qq_plot(Sepal.Length ~ Species, data = iris, envelope = 0.95)
+qq_plot(Sepal.Length ~ Species, data = iris)
+
+qq_plot(Sepal.Length ~ Species, data = iris, envelope = 0.90)
 
 # Formula (several groups in colors):
 qq_plot(Sepal.Length ~ Species, data = iris, use_colors = TRUE)

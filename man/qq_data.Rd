@@ -15,9 +15,9 @@ qq_data(x, data = NULL, distribution = "norm", ..., envelope = 0.95,
 \arguments{
 \item{x}{Either a formula or a numeric vector or a name of a vector
 in \code{data}.\cr
-If \code{x} is a formula (e.g. \code{variable ~ factor}), left
-side provides variable to be summarized. Right side and condition
-describe subsets. If the left side is empty, right side and
+If \code{x} is a formula (e.g. \code{variable ~ factor}), left-hand
+side provides variable to be summarized. Right-hand side and condition
+describe subsets. If the left-hand side is empty, right-hand side and
 condition are shifted over as a convenience.}
 
 \item{data}{A data frame that contains the variables mentioned in \code{x}.}

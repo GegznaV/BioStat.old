@@ -1,8 +1,20 @@
 #' A qq-plot for multiple groups (with ggplot2)
 #'
-#' @inheritParams qq_data
-#' @inheritParams car::qqPlot
+#' @param x Either a formula or a numeric vector or a name of a vector
+#'          in \code{data}.\cr
+#'          If \code{x} is a formula (e.g. \code{variable ~ factor}), left-hand
+#'          side provides variable to be summarized. Right-hand side and condition
+#'          describe subsets. If the left-hand side is empty, right-hand side and
+#'          condition are shifted over as a convenience.
+#'
+#' @param data A data frame that contains the variables mentioned in \code{x}.
+#'
+#' @param labels (not used yet).
+#'
 #' @inheritParams plot.qqdata
+#' @inheritParams car::qqPlot
+#' @inheritParams mosaic::maggregate
+#' @inheritParams test_normality
 #' @export
 #' @seealso \code{\link[car]{qqPlot}} from \pkg{car} package,
 #'          \code{\link[stats]{qqplot}} from \pkg{stats} package.
@@ -11,7 +23,9 @@
 #' data(iris)
 #'
 #' # Formula (several groups):
-#' qq_plot(Sepal.Length ~ Species, data = iris, envelope = 0.95)
+#' qq_plot(Sepal.Length ~ Species, data = iris)
+#'
+#' qq_plot(Sepal.Length ~ Species, data = iris, envelope = 0.90)
 #'
 #' # Formula (several groups in colors):
 #' qq_plot(Sepal.Length ~ Species, data = iris, use_colors = TRUE)
