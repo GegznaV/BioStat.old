@@ -18,7 +18,7 @@ Install package
 To install a developement version of the package from `GitHub`:
 
 ``` r
-if (!"devtools"  %in% installed.packages()) install.packages("devtools")
+if (!"devtools" %in% installed.packages()) install.packages("devtools")
 
 library(devtools)
 install_github("GegznaV/BioStat")

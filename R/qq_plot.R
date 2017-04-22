@@ -1,7 +1,7 @@
 #' A qq-plot for multiple groups (with ggplot2)
 #'
-#' @param x Either a formula or a numeric vector or a name of a vector
-#'          in \code{data}.\cr
+#' @param x Either a formula, a numeric vector or a name of a vector
+#'          in \code{data}.
 #'          If \code{x} is a formula (e.g. \code{variable ~ factor}), left-hand
 #'          side provides variable to be summarized. Right-hand side and condition
 #'          describe subsets. If the left-hand side is empty, right-hand side and

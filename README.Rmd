@@ -36,7 +36,7 @@ A Collection of Functions for Biostatistics and Biometry Lectures.
 To install a developement version of the package from `GitHub`:
 
 ```{r Install package, eval=FALSE}
-if (!"devtools"  %in% installed.packages()) install.packages("devtools")
+if (!"devtools" %in% installed.packages()) install.packages("devtools")
 
 library(devtools)
 install_github("GegznaV/BioStat")

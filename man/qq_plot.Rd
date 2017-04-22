@@ -10,8 +10,8 @@ qq_plot(x, data = NULL, distribution = "norm", ..., envelope = 0.95,
   "moment-normal", "any"), use_colors = FALSE, scales = "free")
 }
 \arguments{
-\item{x}{Either a formula or a numeric vector or a name of a vector
-in \code{data}.\cr
+\item{x}{Either a formula, a numeric vector or a name of a vector
+in \code{data}.
 If \code{x} is a formula (e.g. \code{variable ~ factor}), left-hand
 side provides variable to be summarized. Right-hand side and condition
 describe subsets. If the left-hand side is empty, right-hand side and
