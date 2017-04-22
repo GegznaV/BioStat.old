@@ -22,7 +22,6 @@ knitr::opts_chunk$set(
 
 ***
 
-
 Development version of package `BioStat` 
 ==========================================
 
