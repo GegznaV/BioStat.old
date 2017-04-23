@@ -70,9 +70,9 @@ test_that("`print()` method for 'test_normality' object works", {
 
     rez <- test_normality(uptake ~ Type, data = CO2)
 
-    expect_output(pander(rez), "normality test")
-    expect_output(pander(rez), "statistic")
-    expect_output(pander(rez), "p.value")
+    expect_output(print(rez), "normality test")
+    expect_output(print(rez), "statistic")
+    expect_output(print(rez), "p.value")
 })
 
 

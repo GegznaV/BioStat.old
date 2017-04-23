@@ -36,6 +36,15 @@ test_that("`prettify_p_value()` works with factors", {
     expect_equal(prettify_p_value(factor("0.0005")),   "<0.001")
     expect_equal(prettify_p_value(factor("0.052147")), " 0.05 ")
 })
+test_that("input range of `prettify_p_value()`", {
+    # Input range is between 0 and 1
+    expect_error(prettify_p_value(-2))
+    expect_error(prettify_p_value(2))
+
+    # No more than one input value is accepted
+    expect_error(prettify_p_value(c(0.5,0.6)))
+
+})
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 context("Function `prettify_p_value`")
@@ -76,4 +85,38 @@ test_that("`adjust_vector_length()` works", {
     expect_length(adjust_vector_length(1:5, CO2),    length(CO2))
     expect_error(adjust_vector_length(2:3, CO2))
 
+})
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+context("Function `format_numbers()`")
+
+test_that("`format_numbers()` works", {
+    DATA <- head(iris)
+
+
+    # The same rounding for each column
+
+    df1 <- format_numbers(DATA, 1)
+
+    expect_equal(df1[[1]][1], "5.1")
+    expect_equal(df1[[2]][1], "3.5")
+    expect_equal(df1[[3]][1], "1.4")
+    expect_equal(df1[[4]][1], "0.2")
+
+
+    df2 <- format_numbers(DATA, 2)
+
+    expect_equal(df2[[1]][1], "5.10")
+    expect_equal(df2[[2]][1], "3.50")
+    expect_equal(df2[[3]][1], "1.40")
+    expect_equal(df2[[4]][1], "0.20")
+    # Different rounding for different columns
+
+    df3 <- format_numbers(DATA, c(1,2,3,3,NA))
+
+    expect_equal(df3[[1]][1], "5.1")
+    expect_equal(df3[[2]][1], "3.50")
+    expect_equal(df3[[3]][1], "1.400")
+    expect_equal(df3[[4]][1], "0.200")
 })
