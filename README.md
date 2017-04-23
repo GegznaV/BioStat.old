@@ -3,14 +3,14 @@
 
 ------------------------------------------------------------------------
 
-[![CRAN version](http://www.r-pkg.org/badges/version/BioStat)](https://cran.rstudio.com/web/packages/BioStat/index.html) [![GitHub version](https://img.shields.io/badge/GitHub-v0.0.6.6000-brightgreen.svg)](https://github.com/GegznaV/BioStat) [![Travis-CI Build Status](https://travis-ci.org/GegznaV/BioStat.png?branch=master)](https://travis-ci.org/GegznaV/BioStat) [![codecov.io](https://codecov.io/github/GegznaV/BioStat/coverage.svg?branch=master)](https://codecov.io/github/GegznaV/BioStat?branch=master) [![Last-update](https://img.shields.io/badge/last%20update-2017--04--23-yellowgreen.svg)](/commits/master)
+[![CRAN version](http://www.r-pkg.org/badges/version/BioStat)](https://cran.rstudio.com/web/packages/BioStat/index.html) [![GitHub version](https://img.shields.io/badge/GitHub-v0.0.6.6001-brightgreen.svg)](https://github.com/GegznaV/BioStat) [![Travis-CI Build Status](https://travis-ci.org/GegznaV/BioStat.png?branch=master)](https://travis-ci.org/GegznaV/BioStat) [![codecov.io](https://codecov.io/github/GegznaV/BioStat/coverage.svg?branch=master)](https://codecov.io/github/GegznaV/BioStat?branch=master) [![Last-update](https://img.shields.io/badge/last%20update-2017--04--23-yellowgreen.svg)](/commits/master)
 
 ------------------------------------------------------------------------
 
-Development version of package `BioStat`
-========================================
+`BioStat` – Convenience Functions for Statistical Analysis
+==========================================================
 
-A Collection of Functions for Biostatistics and Biometry Lectures.
+`BioStat` is an `R` package that contais a collection of supplementary functions for biostatistics and biometry lectures.
 
 Install package
 ---------------
