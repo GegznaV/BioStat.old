@@ -5,7 +5,7 @@ Description: A Collection of functions for biostatistics and biometry lectures
              that do some common tasks without writting to much code. 
              Package is stil under its development and usage of some functions 
              might change in the future.
-Version: 0.0.6.5000
+Version: 0.0.6.6000
 Date: 2017-04-22
 Authors@R: c(
     person("Vilmantas", "Gegna", role = c("aut","cre","cph"),

@@ -165,6 +165,35 @@ getVarValues <- function(VAR,
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+#' Row-bind data frames which are inside a list and keep the names of the list fields
+#'
+#' @param x A named list of data frames (all data frames must have the same structure.)
+#'
+#' @return A data frame with field names of input list as a first column (called '.group').
+#' @export
+#' @keywords internal
+#' @examples
+#' # Data:
+#'
+#' data <- list(
+#'     A = read.table(text =
+#' "           intercept    slope      type conf
+#' qq_refline -39.55714 1.123535 quartiles 0.95"),
+#'
+#'     B = read.table(text =
+#' "           intercept     slope      type conf
+#' qq_refline  29.42192 0.7940267 quartiles 0.95")
+#' )
+#'
+#'
+#' rbind_df_in_list(data)
+#'
+#' # .group intercept     slope      type
+#' # 1      A -39.55714 1.1235350 quartiles
+#' # 2      B  29.42192 0.7940267 quartiles
+#'
+
+
 rbind_df_in_list <- function(x){
     if (!is.list(x)) stop("`x` must be a list.")
 
@@ -176,11 +205,17 @@ rbind_df_in_list <- function(x){
         tidyr::separate_(col = ".group",
                         into = ".group",
                         sep = "\\.\\d*$",
-                        extra = "drop") %>%
-        # .group as 1-st column
-        dplyr::select_(.dots = c(".group", colnames(.)[1:(ncol(.) - 1)]))
+                        extra = "drop")
 
-    rownames(DF) <- NULL
+    # .group as 1-st column
+        # dplyr::select_(.dots = c(".group", colnames(.)[1:(ncol(.) - 1)]))
+
+    # Check id the output is correct
+    if (colnames(DF)[1] != ".group")
+        warning("Function `rbind_df_in_list` does not work properly. ",
+                "The name of first variable in the output dataframe must be '.group'.")
+
+    # rownames(DF) <- NULL
 
     DF
 }

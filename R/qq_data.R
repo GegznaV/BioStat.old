@@ -226,6 +226,7 @@ qq_data.default <- function(x,
         attr(DF, "refline") <- DF_attr
     }
 
+
     class(DF) <- c("qqdata", "data.frame")
     DF
 }
