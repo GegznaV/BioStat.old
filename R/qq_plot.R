@@ -53,11 +53,11 @@ qq_plot <- function(x,
                     data = NULL,
                     distribution = "norm",
                     ...,
-                    envelope = 0.95,
                     line = c("quartiles", "robust", "int=0,slope=1", "0,1", "none"),
+                    envelope = 0.95,
+                    method = c("mle-normal","trimmed-normal","moment-normal", "any"),
                     labels = NULL,
                     groups = NULL,
-                    method = c("mle-normal","trimmed-normal","moment-normal", "any"),
                     use_colors = FALSE,
                     scales = "free",
                     sep = "|")
@@ -74,7 +74,12 @@ qq_plot <- function(x,
                  method = method,
                  sep = "|")
 
-    plot(qqdata, use_colors = use_colors, scales = scales)
+    plot(qqdata,
+         use_colors = use_colors,
+         scales = scales,
+         envelope = envelope,
+         line = line,
+         ...)
 
 }
 

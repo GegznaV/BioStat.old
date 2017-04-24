@@ -5,10 +5,10 @@
 \alias{coef.qqdata}
 \title{Calculate data for a qq-plot}
 \usage{
-qq_data(x, data = NULL, distribution = "norm", ..., envelope = 0.95,
-  line = c("quartiles", "robust", "int=0,slope=1", "0,1", "none"),
-  labels = NULL, groups = NULL, method = c("mle-normal", "trimmed-normal",
-  "moment-normal", "any"), sep = " | ")
+qq_data(x, data = NULL, distribution = "norm", ..., line = c("quartiles",
+  "robust", "int=0,slope=1", "0,1", "none"), envelope = 0.95,
+  method = c("mle-normal", "trimmed-normal", "moment-normal", "any"),
+  labels = NULL, groups = NULL, sep = " | ")
 
 \method{coef}{qqdata}(object, ...)
 }
@@ -27,8 +27,6 @@ condition are shifted over as a convenience.}
 
 \item{...}{Parameters to be passed to function, selected in \code{distribution}.}
 
-\item{envelope}{(numeric) confidence level for point-wise confidence envelope.}
-
 \item{line}{(string) A parameter, that controls how reference line is drawn.
            Options:\itemize{
            \item{\code{"0,1"} or \code{"int=0,slope=1"} to plot a line
@@ -39,34 +37,37 @@ condition are shifted over as a convenience.}
            \item{option \code{"none"} is not implemented yet.}
 }}
 
-\item{labels}{vector of text strings to be used to identify points, defaults to
-    \code{names(x)} or observation numbers if \code{names(x)} is \code{NULL}.}
-
-\item{groups}{grouping variable that will be folded into the formula (if there is room for it).
-This offers some additional flexibility in how formulas can be specified.}
+\item{envelope}{(numeric | FALSE) confidence level for point-wise confidence envelope.}
 
 \item{method}{(string: \code{"trimmed-normal"}, \code{"normal"},
-             \code{"any"}). A method, that controls how parameters for
-             \code{distribution} are computed.
+             \code{"any"}). A method, that controls how estimates of
+             parameters for \code{distribution} are computed.
      Options:\itemize{
 
            \item{\code{"mle-normal"} (default) all data values are used to
-           calculate parameters of theoretical normal distribution using
+           estimate parameters of theoretical normal distribution using
            method of maximum likelihood;}
 
            \item{\code{"trimmed-normal"} 10\% of the most extreme
            data values are trimmed before parameters of theoretical normal
-           distribution are calculated using method of moments;}
+           distribution are estimated using method of moments;}
 
-           \item{\code{"moment-normal"} all data values are used to calculate
+           \item{\code{"moment-normal"} all data values are used to estimate
            parameters of theoretical normal distribution using method of moments;}
 
-           \item{\code{"any"} parameters ate provided manually by user.}
+           \item{\code{"any"} either parameters are provided manually by user
+           or default parameters are used (if any).}
      }
           Options \code{"mle-normal"}, \code{"trimmed-normal"} and
           \code{"moment-normal"} are applicable only if
           \code{distribution = "norm"}.
           Otherwise \code{"any"} is selected automatically.}
+
+\item{labels}{vector of text strings to be used to identify points, defaults to
+    \code{names(x)} or observation numbers if \code{names(x)} is \code{NULL}.}
+
+\item{groups}{grouping variable that will be folded into the formula (if there is room for it).
+This offers some additional flexibility in how formulas can be specified.}
 
 \item{sep}{(not used yet).}
 

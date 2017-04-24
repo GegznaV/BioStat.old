@@ -1,6 +1,6 @@
 #' Calculate data for a qq-plot
 #'
-#' @param envelope (numeric) confidence level for point-wise confidence envelope.
+#' @param envelope (numeric | FALSE) confidence level for point-wise confidence envelope.
 #' @param line (string) A parameter, that controls how reference line is drawn.
 #'            Options:\itemize{
 #'            \item{\code{"0,1"} or \code{"int=0,slope=1"} to plot a line
@@ -12,22 +12,23 @@
 #' }
 #'
 #' @param method (string: \code{"trimmed-normal"}, \code{"normal"},
-#'              \code{"any"}). A method, that controls how parameters for
-#'              \code{distribution} are computed.
+#'              \code{"any"}). A method, that controls how estimates of
+#'              parameters for \code{distribution} are computed.
 #'      Options:\itemize{
 #'
 #'            \item{\code{"mle-normal"} (default) all data values are used to
-#'            calculate parameters of theoretical normal distribution using
+#'            estimate parameters of theoretical normal distribution using
 #'            method of maximum likelihood;}
 #'
 #'            \item{\code{"trimmed-normal"} 10\% of the most extreme
 #'            data values are trimmed before parameters of theoretical normal
-#'            distribution are calculated using method of moments;}
+#'            distribution are estimated using method of moments;}
 #'
-#'            \item{\code{"moment-normal"} all data values are used to calculate
+#'            \item{\code{"moment-normal"} all data values are used to estimate
 #'            parameters of theoretical normal distribution using method of moments;}
 #'
-#'            \item{\code{"any"} parameters ate provided manually by user.}
+#'            \item{\code{"any"} either parameters are provided manually by user
+#'            or default parameters are used (if any).}
 #'      }
 #'           Options \code{"mle-normal"}, \code{"trimmed-normal"} and
 #'           \code{"moment-normal"} are applicable only if
@@ -114,11 +115,11 @@ qq_data <- function(x,
                     data = NULL,
                     distribution = "norm",
                     ...,
-                    envelope = 0.95,
                     line = c("quartiles", "robust", "int=0,slope=1", "0,1", "none"),
+                    envelope = 0.95,
+                    method = c("mle-normal","trimmed-normal","moment-normal", "any"),
                     labels = NULL,
                     groups = NULL,
-                    method = c("mle-normal","trimmed-normal","moment-normal", "any"),
                     sep = " | "
                     )
 
@@ -133,11 +134,11 @@ qq_data.default <- function(x,
                      data = NULL,
                      distribution = "norm",
                      ...,
-                     envelope = 0.95,
                      line = c("quartiles", "robust", "int=0,slope=1", "0,1", "none"),
+                     envelope = 0.95,
+                     method = c("mle-normal","trimmed-normal","moment-normal", "any"),
                      labels = NULL,
                      groups = NULL,
-                     method = c("mle-normal","trimmed-normal","moment-normal", "any"),
                      sep = " | "
 )
 
@@ -240,11 +241,11 @@ qq_data.formula <- function(
     data = NULL,
     distribution = "norm",
     ...,
-    envelope = 0.95,
     line = c("quartiles", "robust", "int=0,slope=1", "0,1", "none"),
+    envelope = 0.95,
+    method = c("mle-normal","trimmed-normal","moment-normal", "any"),
     labels = NULL,
     groups = NULL,
-    method = c("mle-normal","trimmed-normal","moment-normal", "any"),
     sep = " | "
 )
 {
@@ -281,12 +282,15 @@ qq_data.formula <- function(
 qq_data_ <- function(x,
                      distribution = "norm",
                      ...,
-                     envelope = 0.95,
                      line = c("quartiles", "robust", "int=0,slope=1", "0,1", "none"),
+                     envelope = 0.95,
                      labels = if (!is.null(names(x))) names(x) else seq(along = x))
 
-{
-    line <- line[1]
+{   line <- line[1]
+    if (is.null(line) | isTRUE(line)) {
+        line <- "none"
+    }
+
     line <- match.arg(line)
 
     good <- !is.na(x)
@@ -311,27 +315,41 @@ qq_data_ <- function(x,
 
                b <- (Q_x[2] - Q_x[1]) / (Q_z[2] - Q_z[1])
                a <- Q_x[1] - b * Q_z[1]
+
            },
 
            "robust" = {
                coef <- stats::coef(MASS::rlm(ord_x ~ z))
                a <- coef[1]
                b <- coef[2]
+
            },
 
            "0,1" = ,
            "int=0,slope=1" = {
                a <- 0
                b <- 1
+               line <- "int=0,slope=1"
            },
 
            "none" = {
-               stop('`line = "none"` is not implemented yet.')
+               # Line will not be plotted
+               a <- 0
+               b <- 1
+               envelope <- FALSE
+               # warning('Line will not be plotted (`line = "none"`)')
            }
     )
 
     ## !!! may be a mistake in `if (envelope == FALSE) 0.95`. Is `TRUE` correct?
-    conf <- if (envelope == FALSE) 0.95 else envelope
+    if (envelope == TRUE) {
+        conf <- 0.95
+    } else if (envelope == FALSE) {
+        conf <- 0.95
+    } else {
+        conf <- envelope
+        envelope <- TRUE
+    }
 
     # Pointwise confidence interval
     zz <- qnorm(1 - (1 - conf) / 2)
@@ -354,7 +372,8 @@ qq_data_ <- function(x,
     qq_attributes <- data.frame(
         intercept = a,
         slope = b,
-        type = line,
+        refline_type  = line,
+        plot_envelope = envelope, # TRUE | FALSE
         conf = conf
     )
     rownames(qq_attributes) <- "qq_refline"
@@ -427,7 +446,8 @@ coef.qqdata <- function(object, ...) {
 plot.qqdata <- function(x,
                         ...,
                         use_colors = FALSE,
-                        scales = "free")
+                        scales = "free"
+                        )
 
 {
     if (".group" %in%  colnames(x)) {
@@ -456,19 +476,36 @@ plot.qqdata <- function(x,
                         ymax = "ref_ci_upper"))
     }
 
-    p +
-        geom_line(aes_string(y = "ref_y"), lty = 2) +
-        geom_point() +
+    # Should reference line be plotted
+    if (coef(x)$refline_type[1] != "none") {
+        p <- p +
+            geom_line(aes_string(y = "ref_y"), lty = 2)
 
-        geom_ribbon(alpha = 0.2, col = NA) +
-        geom_line(aes_string(y = "ref_ci_lower"), lty = 2) +
-        geom_line(aes_string(y = "ref_ci_upper"), lty = 2) +
+    }
+
+    p <- p +
+        geom_point() +
 
         labs(x = "Theoretical quantiles",
              y = "Empirical quantiles",
              color = "",
              fill = "") +
-        ggtitle("QQ plot")
+        ggtitle("QQ plot"  %++%
+                " (ref.line: " %++%  coef(x)$refline_type[1]  %++%
+                ifelse(coef(x)$plot_envelope[1],
+                         yes =  ", envelope: " %++% coef(x)$conf[1]  %++% ")",
+                         no  = ")")
+                )
+
+
+    if (coef(x)$plot_envelope[1] != FALSE) {
+        p <- p +
+            geom_ribbon(alpha = 0.2, col = NA) +
+            geom_line(aes_string(y = "ref_ci_lower"), lty = 2) +
+            geom_line(aes_string(y = "ref_ci_upper"), lty = 2)
+    }
+
+    p
 }
 # =============================================================================
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

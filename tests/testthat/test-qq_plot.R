@@ -1,3 +1,5 @@
+# library(testthat)
+
 context("Function `qq_plot()`")
 
 test_that("`qq_plot()` works", {
