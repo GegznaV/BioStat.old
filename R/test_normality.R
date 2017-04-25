@@ -28,7 +28,8 @@
 #'            (defined/selected in \code{fun}) that carries out a normality test.
 #'
 #' @param sep (not used yet)
-#'
+#' @param prettify (logical) Should functions \code{\link{format_numbers}} and
+#' \code{\link{prettify_p_column}} be applied on the output of the function?
 #'
 #' @inheritParams mosaic::maggregate
 #' @inheritParams stats::shapiro.test
@@ -51,6 +52,8 @@
 #' library(BioStat)
 #' library(pander)
 #' data(CO2)
+#'
+#' test_normality(uptake ~ Treatment, data = CO2, prettify = TRUE)
 #'
 #' rez <- test_normality(uptake ~ Type + Treatment,
 #'                       data = CO2)
@@ -93,6 +96,7 @@ test_normality <- function(x,
 
                            , groups = NULL
                            , sep = " | "
+                           , prettify = FALSE
                            ) {
     if (is.function(test)) {
         FUN = test
@@ -131,13 +135,20 @@ test_normality <- function(x,
         )
     }
 
-    test_(x,
-          data = data,
-          ...,
-          groups = groups,
-          FUN = FUN,
-          sep = sep)
+    rez <- test_(x,
+                 data = data,
+                 ...,
+                 groups = groups,
+                 FUN = FUN,
+                 sep = sep)
 
+    if (prettify == TRUE) {
+        rez  %>%
+            format_numbers(format = "g")  %>%
+            prettify_p_column()
+    } else {
+        rez
+    }
 }
 
 # =============================================================================

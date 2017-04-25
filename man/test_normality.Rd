@@ -7,7 +7,7 @@
 \title{Normality tests with formula interface}
 \usage{
 test_normality(x, data = NULL, test = "Shapiro-Wilk", ..., groups = NULL,
-  sep = " | ")
+  sep = " | ", prettify = FALSE)
 
 \method{print}{test_normality}(x, ..., rm_col_method = TRUE)
 
@@ -43,6 +43,9 @@ This offers some additional flexibility in how formulas can be specified.}
 
 \item{sep}{(not used yet)}
 
+\item{prettify}{(logical) Should functions \code{\link{format_numbers}} and
+\code{\link{prettify_p_column}} be applied on the output of the function?}
+
 \item{rm_col_method}{(logical) If \code{TRUE} column "method" is not printed.}
 
 \item{caption}{(string|\code{NULL}|\code{NA}) A caption for the table with results of a normality test. If \code{NA} — a default caption is printed (default). If \code{NULL} – no caption is printed.}
@@ -63,6 +66,8 @@ By default, methods \code{print.test_normality} and
 library(BioStat)
 library(pander)
 data(CO2)
+
+test_normality(uptake ~ Treatment, data = CO2, prettify = TRUE)
 
 rez <- test_normality(uptake ~ Type + Treatment,
                       data = CO2)
