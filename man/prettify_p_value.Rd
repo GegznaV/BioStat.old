@@ -3,14 +3,18 @@
 \name{prettify_p_value}
 \alias{prettify_p_value}
 \alias{prettify_p_column}
+\alias{add_signif_stars}
 \title{Format p-values}
 \usage{
-prettify_p_value(x)
+prettify_p_value(p)
 
-prettify_p_column(data, colname = "p.value", prettify = TRUE, ...)
+prettify_p_column(data, colname = "p.value", prettify = TRUE,
+  rm_zero = FALSE, ...)
+
+add_signif_stars(p)
 }
 \arguments{
-\item{x}{A p-value (numeric or coercible to numeric).}
+\item{p}{A p-value (numeric or coercible to numeric).}
 
 \item{data}{A data frame.}
 
@@ -20,6 +24,8 @@ prettify_p_column(data, colname = "p.value", prettify = TRUE, ...)
 be applied.}
 
 \item{...}{(not used yet)}
+
+\item{(logical)}{If \code{TRUE}, leading zero of a number is removed.}
 }
 \description{
 Values below 0.001 are printed as \code{"<0.001"},
@@ -54,6 +60,8 @@ prettify_p_column(rez)
 # 1      Quebec 0.8598812  <0.001
 # 2 Mississippi 0.9363277   0.02
 
+prettify_p_column(rez, rm_zero = TRUE)
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Prettify single p-values
 
@@ -62,5 +70,10 @@ prettify_p_value(0.0005)
 prettify_p_value(0.052147)
 prettify_p_value("0.0022")
 prettify_p_value("0.052")
+
+
+add_signif_stars(0.005)
+add_signif_stars(0.0005)
+add_signif_stars(0.052147)
 
 }
