@@ -60,11 +60,12 @@ confidence intervals and posted it on RPubs at
 \examples{
 library(BioStat)
 
-### Compute post-hoc statistics using the tukey method
+### Compute post-hoc statistics using the Games-Howell method
+posthocTGH(y=ChickWeight$weight, x=ChickWeight$Diet)
+
+### Compute post-hoc statistics using the Tukey method
 posthocTGH(y=ChickWeight$weight, x=ChickWeight$Diet, method="tukey");
 
-### Compute post-hoc statistics using the games-howell method
-posthocTGH(y=ChickWeight$weight, x=ChickWeight$Diet);
 }
 \seealso{
 \itemize{

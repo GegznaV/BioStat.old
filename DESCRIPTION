@@ -6,7 +6,7 @@ Description: A collection of convenience functions dedicaded for biostatistics
              routines without writting to much code. 
              Package is stil under its development and usage of some functions 
              might change in the future.
-Version: 0.0.6.7002
+Version: 0.0.6.7003
 Date: 2017-04-25
 Authors@R: c(
     person("Vilmantas", "Gegna", role = c("aut","cre","cph"),
@@ -21,6 +21,8 @@ Depends:
     ggplot2
 Imports:
     mosaic,
+    mosaicData,
+    tibble,
     purrr,
     stats,
     MASS,
@@ -30,8 +32,7 @@ Imports:
     readr,
     dplyr,
     tidyr,
-    fitdistrplus,
-    tibble
+    fitdistrplus
 RoxygenNote: 6.0.1
 Suggests: covr,
     testthat
