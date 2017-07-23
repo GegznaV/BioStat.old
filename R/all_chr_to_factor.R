@@ -32,25 +32,34 @@
 # tbl  <- tibble::as.tibble(df)
 # tbl2 <- all_chr_to_factor(tbl)
 # mapply(class, tbl2)
-
-all_chr_to_factor <- function(data)
-{
-    # Changes the class:
-    #
-    # data %<>%
-    #     purrr::map_if(is.character, factor) %>%
-    #     as.data.frame()
-    #
-
-    # Does not Change the class:
-    col_is_character <- purrr::map_chr(data, ~ inherits(., "character"))
-
-    for (i in seq_along(col_is_character)) {
-        if (col_is_character[i]) {
-            data[[i]] %<>% factor()
-        }
-    }
-    attr(data, "converted_fo_factor") <- col_is_character
-    # Output:
-    data
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# v0.3:
+all_chr_to_factor <- function(data) {
+    dplyr::mutate_if(data, is.character, forcats::as_factor)
 }
+
+# =============================================================================
+# The old versions of this fubction source code:
+#
+# =============================================================================
+# v0.1: Changes the class:
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# data %<>%
+#     purrr::map_if(is.character, factor) %>%
+#     as.data.frame()
+# # Output:
+# data
+
+# =============================================================================
+# v0.2 Does not Change the class:
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# col_is_character <- purrr::map_chr(data, ~ inherits(., "character"))
+#
+# for (i in seq_along(col_is_character)) {
+#     if (col_is_character[i]) {
+#         data[[i]] %<>% factor()
+#     }
+# }
+# attr(data, "converted_fo_factor") <- col_is_character
+# # Output:
+# data

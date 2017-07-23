@@ -113,10 +113,6 @@ qq_plot <- function(x,
 #
 
 
-
-
-
-#
 # # x = weight, group = feed, data = weight
 # # data1 <- with(chickwts, tapply(weight, feed, qq_data))
 #
@@ -136,7 +132,4 @@ qq_plot <- function(x,
 #     }
 #
 # qq_data_by_group("weight", "feed", chickwts)
-#
-#
-#
-#
+
