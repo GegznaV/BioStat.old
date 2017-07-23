@@ -1,8 +1,6 @@
 ---
 output: github_document
 ---
-<!-- Apie normaliuosius ggplot: -->
-<!-- D:\Dokumentai\Destymas GMF\Biostatistika\Paskaitos\_3_ Lab darbai\Lab 5\2017\_kt -->
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
  
@@ -24,14 +22,23 @@ knitr::opts_chunk$set(
 
 ***
 
+```{r logo, fig.align='center', out.height='30%', out.width='30%',echo=FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/GegznaV/BioStat/master/docs/logo.png")
+```
+
+
 `BioStat` – Convenience Functions for Statistical Analysis
 ===========================================================
 
 `BioStat` is an `R` package that contais a collection of supplementary 
 functions for biostatistics and biometry lectures.
 
+***
 
+**Package is under development** and some functions and default seting may 
+change significantly.
 
+***
 
 ## Install package
 
@@ -40,15 +47,18 @@ To install a developement version of the package from `GitHub`:
 ```{r Install package, eval=FALSE}
 if (!"devtools" %in% installed.packages()) install.packages("devtools")
 
-library(devtools)
-install_github("GegznaV/BioStat")
+devtools::install_github("GegznaV/BioStat")
 ```
 
 
-* * *
+<!-- * * * -->
 
- <p align="right"> </p>    
+<!--  <p align="right"> </p>     -->
 
 
- 
 
+***
+
+More information at http://gegznav.github.io/spAddins/
+
+***
