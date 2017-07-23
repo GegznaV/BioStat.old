@@ -36,6 +36,6 @@ devtools::install_github("GegznaV/BioStat")
 
 ------------------------------------------------------------------------
 
-More information at <http://gegznav.github.io/spAddins/>
+More information at <http://gegznav.github.io/BioStat/>
 
 ------------------------------------------------------------------------
