@@ -165,7 +165,7 @@ test_ <- function(x,
             data <- lazyeval::f_env(x)
         }
 
-        formula <- mosaic::mosaic_formula_q(x, groups = groups, max.slots = 3)
+        formula <- mosaicCore::mosaic_formula_q(x, groups = groups, max.slots = 3)
 
         rez <- mosaic::maggregate(formula,
                            data = data,

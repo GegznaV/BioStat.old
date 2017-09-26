@@ -6,8 +6,8 @@ Description: A collection of convenience functions dedicaded for biostatistics
              routines without writting to much code. 
              Package is stil under its development and usage of some functions 
              might change in the future.
-Version: 0.0.6.8000
-Date: 2017-07-16
+Version: 0.0.7.0000
+Date: 2017-09-26
 Authors@R: c(
     person("Vilmantas", "Gegna", role = c("aut","cre","cph"),
             email = "GegznaV@gmail.com")
@@ -21,6 +21,7 @@ Depends:
     ggplot2
 Imports:
     mosaic,
+    mosaicCore,
     mosaicData,
     tibble,
     purrr,
