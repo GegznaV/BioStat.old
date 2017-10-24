@@ -5,4 +5,6 @@ data-raw*
 .travis.yml
 codecov.yml
 README.Rmd
-^D:\Dokumentai\R\BioStat\docs$
+^D:\Dokumentai\R\BioStat\docs
+_pkgdown.yaml
+^docs*
