@@ -1,17 +1,18 @@
-describe <- function(x, ...) UseMethod("describe")
+# ==============================================================================
+describe <- function(x, ...) {UseMethod("describe")}
+# ------------------------------------------------------------------------------
 describe.default <- function(x, descript, ...) {
   if(missing(descript)) {
     descript <- deparse(substitute(x))
   }
-  
+
   if(is.matrix(x)) {
     describe.matrix(x, descript, ...)
   } else {
     describe.vector(x, descript, ...)
   }
 }
-
-
+# ------------------------------------------------------------------------------
 describe.vector <- function(x, descript, exclude.missing=TRUE, digits=4,
                             listunique=0, listnchar=12,
                             weights=NULL, normwt=FALSE, minlength=NULL, ...)
@@ -22,10 +23,10 @@ describe.vector <- function(x, descript, exclude.missing=TRUE, digits=4,
 
   weighted <- length(weights) > 0
   if(! weighted) weights <- rep(1, length(x))
-  
+
   special.codes <- attr(x, "special.miss")$codes
   labx <- attr(x,"label")
-  
+
   if(missing(descript)) descript <- as.character(sys.call())[2]
 
   if(length(labx) && labx != descript) descript <- paste(descript,":",labx)
@@ -35,16 +36,16 @@ describe.vector <- function(x, descript, exclude.missing=TRUE, digits=4,
 
   fmt <- attr(x, 'format')
   if(length(fmt) && (is.function(fmt) || fmt == '')) fmt <- NULL
-  
+
   if(length(fmt) > 1)
     fmt <- paste(as.character(fmt[[1]]), as.character(fmt[[2]]))
-  
+
   present <- if(all(is.na(x))) rep(FALSE, length(x))
   else if(is.character(x)) x != "" & x != " " & ! is.na(x)
   else ! is.na(x)
-  
+
   present <- present & ! is.na(weights)
-  
+
   if(length(weights) != length(x))
     stop('length of weights must equal length of x')
 
@@ -55,13 +56,13 @@ describe.vector <- function(x, descript, exclude.missing=TRUE, digits=4,
 
   if(exclude.missing && n==0)
     return(structure(list(), class="describe"))
-  
+
   missing <- sum(weights[! present], na.rm=TRUE)
   atx <- attributes(x)
-  atx$names <- atx$dimnames <- atx$dim <- atx$special.miss <- NULL  
-  
+  atx$names <- atx$dimnames <- atx$dim <- atx$special.miss <- NULL
+
   atx$class <- atx$class[atx$class != 'special.miss']
-  
+
   isdot <- testDateTime(x,'either') # is date or time var
   isdat <- testDateTime(x,'both')   # is date and time combo var
 
@@ -85,23 +86,23 @@ describe.vector <- function(x, descript, exclude.missing=TRUE, digits=4,
     counts <- c(counts, tabsc)
     lab <- c(lab, names(tabsc))
   }
-  
+
   if(length(atx$imputed)) {
     counts <- c(counts, length(atx$imputed))
     lab <- c(lab, "imputed")
   }
-  
+
   if(length(pd <- atx$partial.date)) {
     if((nn <- length(pd$month))>0) {
       counts <- c(counts, nn)
       lab <- c(lab, "missing month")
     }
-    
+
     if((nn <- length(pd$day)) > 0) {
       counts <- c(counts, nn)
       lab <- c(lab,"missing day")
     }
-    
+
     if((nn <- length(pd$both)) > 0) {
       counts <- c(counts, nn)
       lab <- c(lab,"missing month,day")
@@ -128,20 +129,20 @@ describe.vector <- function(x, descript, exclude.missing=TRUE, digits=4,
     counts <- c(counts, round(reff, 3))
     lab    <- c(lab, 'Info')
   }
-  
+
   x.binary <- n.unique == 2 && isnum && x.unique[1] == 0 && x.unique[2] == 1
   if(x.binary) {
     counts <- c(counts, sum(weights[x == 1]))
     lab <- c(lab, "Sum")
   }
-  
+
   if(isnum) {
     if(isdot) {
       dd <- sum(weights * xnum)  / sum(weights)
       fval <- formatDateTime(dd, atx, ! timeUsed)
       counts <- c(counts, fval)
     } else counts <- c(counts, format(sum(weights * x) / sum(weights), ...))
-    
+
     lab <- c(lab, "Mean")
     if(! weighted) {
       gmd <- GiniMd(xnum)
@@ -167,7 +168,7 @@ describe.vector <- function(x, descript, exclude.missing=TRUE, digits=4,
     fval <-
       if(isdot) formatDateTime(q, atx, ! timeUsed)
       else format(q,...)
-    
+
     counts <- c(counts, fval)
     lab <- c(lab,".05",".10",".25",".50",".75",".90",".95")
   }
@@ -208,7 +209,7 @@ describe.vector <- function(x, descript, exclude.missing=TRUE, digits=4,
         values <- list(value=values$x, frequency=unname(values$sum.of.weights))
       }
     z$values <- values
-    
+
     if(n.unique >= 5) {
       loandhi <- x.unique[c(1 : 5, (n.unique - 4) : n.unique)]
       extremes <-
@@ -222,7 +223,7 @@ describe.vector <- function(x, descript, exclude.missing=TRUE, digits=4,
   structure(z, class="describe")
 }
 
-
+# ------------------------------------------------------------------------------
 describe.matrix <- function(x, descript, exclude.missing=TRUE,
                             digits=4, ...)
 {
@@ -243,7 +244,7 @@ describe.matrix <- function(x, descript, exclude.missing=TRUE,
                          digits=digits,...)  #13Mar99
     Z[[i]] <- z
     if(exclude.missing && length(z)==0)
-      missing.vars <- c(missing.vars,nam[i]) 
+      missing.vars <- c(missing.vars,nam[i])
   }
 
   attr(Z, 'descript') <- descript
@@ -252,7 +253,7 @@ describe.matrix <- function(x, descript, exclude.missing=TRUE,
   structure(Z, class="describe")
 }
 
-
+# ------------------------------------------------------------------------------
 describe.data.frame <- function(x, descript, exclude.missing=TRUE,
                                 digits=4, ...)
 {
@@ -269,13 +270,13 @@ describe.data.frame <- function(x, descript, exclude.missing=TRUE,
     mat <- is.matrix(xx)
     i <- i+1
     z <-
-      if(mat) 
+      if(mat)
         describe.matrix(xx,nam[i],exclude.missing=exclude.missing,
                         digits=digits,...)
-      else	  
+      else
         describe.vector(xx,nam[i],exclude.missing=exclude.missing,
                         digits=digits,...)
-    
+
     all.missing <- length(z)==0
     if(exclude.missing && all.missing)
       missing.vars <- c(missing.vars, nam[i])
@@ -292,8 +293,8 @@ describe.data.frame <- function(x, descript, exclude.missing=TRUE,
   structure(Z, class="describe")
 }
 
-
-describe.formula <- function(x, descript, data, subset, na.action, 
+# ------------------------------------------------------------------------------
+describe.formula <- function(x, descript, data, subset, na.action,
                              digits=4, weights, ...)
 {
   mf <- match.call(expand.dots=FALSE)
@@ -301,11 +302,11 @@ describe.formula <- function(x, descript, data, subset, na.action,
   mf$x <- mf$descript <- mf$file <- mf$append <- mf$... <- mf$digits <- NULL
   if(missing(na.action))
     mf$na.action <- na.retain
-  
+
   mf[[1]] <- as.name("model.frame")
   mf <- eval(mf, sys.parent())
   weights <- model.extract(mf, weights)
-		
+
   if(missing(descript)) {
     ter <- attr(mf,"terms")
     d <- as.character(x)
@@ -317,14 +318,14 @@ describe.formula <- function(x, descript, data, subset, na.action,
 
   Z <- describe.data.frame(mf, descript, digits=digits, weights=weights, ...)
   if(length(z <- attr(mf,"na.action")))
-    attr(Z,'naprint') <- naprint(z) 
+    attr(Z,'naprint') <- naprint(z)
 
   Z
 }
+# ==============================================================================
+na.retain <- function(d) {d}
 
-na.retain <- function(d) d
-
-
+# ==============================================================================
 print.describe <-
   function(x, ...)
 {
@@ -332,7 +333,7 @@ print.describe <-
   if(length(at$dimensions)) {
     cat(at$descript,'\n\n',at$dimensions[2],' Variables     ',at$dimensions[1],
         ' Observations\n')
-    
+
     if(length(at$naprint)) cat('\n',at$naprint,'\n')
     w <- paste(rep('-', .Options$width), collapse='')
     cat(w, '\n', sep='')
@@ -347,10 +348,10 @@ print.describe <-
       print(at$missing.vars, quote=FALSE)
     }
   } else print.describe.single(x, ...)
-  
+
   invisible()
 }
-
+# ==============================================================================
 ## Function to format part of describe.single output after description & counts
 ## verb=1 means verbatim mode open
 formatdescribeSingle <-
@@ -376,14 +377,14 @@ formatdescribeSingle <-
             function(x, omit1b=NULL) capture.output(print(x, quote=FALSE, ...))
 
   R <- character(0)
-  
+
   v <- x$values
-  
+
   is.standard <- length(v) && is.list(v) &&
                  all(names(v) == c('value', 'frequency'))
 
   val.wide    <- length(v$value) && sum(nchar(as.character(v$value))) > 200
-  val.few     <- length(v$value) && (length(v$value) <= 20) && (length(v$value) != 1) 
+  val.few     <- length(v$value) && (length(v$value) <= 20) && (length(v$value) != 1)
   print.freq  <- is.standard && val.few && ! val.wide
   print.ext   <- length(x$extremes) && ! print.freq
 
@@ -442,14 +443,14 @@ formatdescribeSingle <-
       lval  <- nchar(fval[1])
       lfreq <- nchar(ffreq[1])
       lprop <- nchar(fprop[1])
-      
+
       m     <- max(lval, lfreq, lprop)
       ## Right justify entries in each row
       bl    <- '                                         '
       fval  <- paste0(substring(bl, 1, m - lval ), fval)
       ffreq <- paste0(substring(bl, 1, m - lfreq), ffreq)
       fprop <- paste0(substring(bl, 1, m - lprop), fprop)
-      
+
       w <- rbind(Value=fval, Frequency=ffreq, Proportion=fprop)
       colnames(w) <- rep('', ncol(w))
       out <- capture.output(print(w, quote=FALSE))
@@ -472,7 +473,7 @@ formatdescribeSingle <-
     }
   } else if(length(v) && ! is.standard)
     R <- c(R, '', vbtm(v))
-  
+
   if(length(x$mChoice)) {
     R <- c(R, bv()); verb <- 1
     R <- c(R, '', vbtm(x$mChoice, prlabel=FALSE))
@@ -482,21 +483,21 @@ formatdescribeSingle <-
   R
 }
 
-
+# ==============================================================================
 print.describe.single <-
   function(x, ...)
 {
   wide <- .Options$width
   des  <- x$descript
-  
+
   if(length(x$units))
     des <- paste0(des, ' [', x$units, ']')
-  
+
   if(length(x$format))
     des <- paste0(des, '  Format:', x$format)
-  
+
   cat(des,'\n')
-  
+
   print(x$counts, quote=FALSE)
 
   R <- formatdescribeSingle(x, lang='plain', ...)
@@ -504,7 +505,7 @@ print.describe.single <-
   invisible()
 }
 
-
+# ------------------------------------------------------------------------------
 '[.describe' <- function(object, i, ...)
 {
   at <- attributes(object)
@@ -514,7 +515,7 @@ print.describe.single <-
             class='describe')
 }
 
-
+# ==============================================================================
 latex.describe <-
   function(object, title=NULL,
            file=paste('describe',
@@ -539,7 +540,7 @@ latex.describe <-
        '~Observations}\\end{center}\n', file=file, append=TRUE)
     if(length(at$naprint))
       ct(at$naprint,'\\\\\n', file=file, append=TRUE)
-    
+
     ct('\\smallskip\\hrule\\smallskip{\\',size,'\n',
        sep='', file=file, append=TRUE)
     vnames <- at$names
@@ -564,7 +565,7 @@ latex.describe <-
       ct('\\smallskip\\hrule\\smallskip\n', file=file, append=TRUE)
       if(dovbox) cat('}\n', file=file, append=TRUE)
     }
-    
+
     if(length(mv <- at$missing.vars)) {
       ct('\\smallskip\\noindent Variables with all observations missing:\\ \\smallskip\n',
          file=file, append=TRUE)
@@ -592,12 +593,12 @@ latex.describe <-
     spc <- if(spacing == 0) '\n' else '\\end{spacing}\n'
     ct(spc, file=file, append=TRUE)
   }
-  
+
   structure(list(file=file,  style=c('setspace','relsize')),
             class='latex')
 }
 
-
+# ------------------------------------------------------------------------------
 latex.describe.single <-
   function(object, title=NULL, vname,
            file, append=FALSE, size='small',
@@ -608,11 +609,11 @@ latex.describe.single <-
     else cat(..., file=file, append=append)
     invisible()
   }
-  
+
   oldw <- options('width')
   options(width=if(size == 'small') 95 else 85)
   on.exit(options(oldw))
-  
+
   wide <- switch(size,
                  normalsize = 73,  # was 66
                  small      = 95,  # was 73
@@ -635,21 +636,21 @@ latex.describe.single <-
     rem <- paste(sp[-1], collapse=':')
     paste0('\\textbf{', vnm, '}: ', rem)
   }
-  
+
   if(length(object$units))
     des <- paste0(des, '{\\smaller[1] [',
                  latexTranslate(object$units),']}')
-  
+
   if(length(object$format))
     des <- paste0(des, '{\\smaller~~Format:', latexTranslate(object$format),
                  '}')
-  
+
   desbas <- paste(object$descript,
                   if(length(object$units))
                   paste0(' [', object$units, ']'),
                   if(length(object$format))
                   paste0('  Format:', object$format))
-  
+
   ct('\\noindent', des, sep='', file=file, append=append)
   lco <- if(length(Values)) length(Values$frequency) else 0
   if(lco > 2) {
@@ -674,10 +675,10 @@ latex.describe.single <-
          max(1, round(1000 * counts[i] / maxcounts * .1)), '}}\n',
          sep='', file=file, append=TRUE)
     }
-    
+
     ct('\\end{picture}\n', file=file, append=TRUE)
   } else ct('\n', file=file, append=TRUE)
-  
+
   sz <- ''
   if(tabular) {
     ml <- nchar(paste(object$counts, collapse='  '))
@@ -686,7 +687,7 @@ latex.describe.single <-
     else if(ml > 80)
       sz <- '[2]'
   }
-  
+
   ct('\n{\\smaller', sz, '\n', sep='', file=file, append=TRUE)
   if(tabular) {
     if(lspace[1] != 0)
@@ -719,7 +720,7 @@ latex.describe.single <-
   if(file != '') sink()
   invisible()
 }
-
+# ==============================================================================
 html.describe <-
   function(object, size=85,
            tabular=TRUE, greek=TRUE, scroll=FALSE, rows=25, cols=100, color='MidnightBlue', ...)
@@ -738,29 +739,29 @@ html.describe <-
   mnb    <- function(x) m$color(x,  color)
 
   R <- c(m$unicode, m$style())   ## define thinhr (and others not needed here)
-  
+
   if(length(at$dimensions)) {
     R <- c(R,
            mnb(center(bold(paste(htmlTranslate(at$descript), sskip,
                                  at$dimensions[2], ' Variables', lspace,
                                  at$dimensions[1],' Observations')))))
-    
+
     if(length(at$naprint)) R <- c(R, '', at$naprint)
-    
+
     R <- c(R, hrule)
-    
+
     vnames <- at$names
     i <- 0
     for(z in object) {
       i <- i + 1
       if(! length(z))
         next
-      
+
       r <- html.describe.single(z, ## vname=vnames[i],
                                 tabular=tabular, greek=greek, size=size, color=color, ...)
       R <- c(R, r, hrule)
     }
-    
+
     if(length(mv <- at$missing.vars)) {
       R <- c(R, sskip, 'Variables with all observations missing:',
              br, sskip)
@@ -774,10 +775,10 @@ html.describe <-
   else
     R <- c(R, html.describe.single(object, tabular=tabular,
                                    greek=greek, size=size, color = color, ...))
-  
+
   htmltools::HTML(R)
 }
-
+# ------------------------------------------------------------------------------
 html.describe.single <-
   function(object, size=85,
            tabular=TRUE, greek=TRUE, color='MidnightBlue', ...)
@@ -797,7 +798,7 @@ html.describe.single <-
   oldw <- options('width')
   options(width=if(size < 90) 95 else 85)
   on.exit(options(oldw))
-  
+
   wide <- if(size >= 90) 73 else if(size >= 75) 95 else 110
 
   z   <- htmlTranslate(object$descript, greek=greek)
@@ -809,10 +810,10 @@ html.describe.single <-
       rem <- paste(sp[-1], collapse=':')
       paste0(bold(vnm), ': ', rem)
     }
-  
+
   if(length(object$units))
     des <- m$varlabel(des, htmlTranslate(object$units))
-  
+
   if(length(object$format))
     des <- paste0(des, lspace,
                   smaller(paste0('Format:',
@@ -839,7 +840,7 @@ html.describe.single <-
   }
 
   R <- des
-  
+
   sz <- size
   if(tabular) {
     ml <- nchar(paste(object$counts, collapse='  '))
@@ -861,12 +862,12 @@ html.describe.single <-
   else
     R <- c(R, htmlVerbatim(object$counts, size=sz))
 
-  
+
   R <- c(R, formatdescribeSingle(object, lang='html', color = color, ...))
   R
 }
 
-
+# ==============================================================================
 dataDensityString <- function(x, nint=30)
 {
   x <- as.numeric(x)
@@ -882,9 +883,9 @@ dataDensityString <- function(x, nint=30)
 }
 
 
-
-contents <- function(object, ...) UseMethod('contents')
-
+# ==============================================================================
+contents <- function(object, ...) {UseMethod('contents')}
+# ------------------------------------------------------------------------------
 contents.data.frame <- function(object, sortlevels=FALSE,
                                 id=NULL, range=NULL, values=NULL, ...)
 {
@@ -900,14 +901,14 @@ contents.data.frame <- function(object, sortlevels=FALSE,
     at <- attributes(x)
     if(length(at$label))     lab[i]     <- at$label
     if(length(at$longlabel)) longlab[i] <- at$longlabel
-    
+
     if(length(at$units))     un[i] <- at$units
-    
+
     atl <- at$levels
     fl[i] <- length(atl)
     cli <- at$class[at$class %nin% c('labelled', 'factor')]
     if(length(cli)) cl[i] <- cli[1]
-    
+
     sm[i] <- storage.mode(x)
     nas[i] <- sum(is.na(x))
     if(length(atl)) {
@@ -916,22 +917,22 @@ contents.data.frame <- function(object, sortlevels=FALSE,
         w <- Lev[[j]]
         if(! is.name(w) && is.logical(all.equal(w, atl))) {
           atl <- as.name(names(Lev)[j])
-          break   
+          break
         }
       }
       Lev[[nam[i]]] <- atl
     }
   }
-  
+
   w <- list(Labels = if(any(lab != '')) lab,
             Units  = if(any(un != ''))  un,
             Levels = if(any(fl > 0))    fl,
             Class  = if(any(cl != ''))  cl,
             Storage=                    sm,
             NAs    = if(any(nas > 0))   nas )
-  
+
   w <- w[sapply(w, function(x)length(x) > 0)]
-  
+
   ## R does not remove NULL elements from a list
   structure(list(contents=data.frame(w, row.names=nam),
                  dim=d, maxnas=max(nas),
@@ -951,7 +952,7 @@ contents.data.frame <- function(object, sortlevels=FALSE,
             class='contents.data.frame')
 }
 
-
+# ------------------------------------------------------------------------------
 print.contents.data.frame <-
   function(x, sort=c('none','names','labels','NAs'),
            prlevels=TRUE, maxlevels=Inf, number=FALSE, ...)
@@ -974,7 +975,7 @@ print.contents.data.frame <-
            cont <- cont[order(nam),,drop=FALSE]
          },
          labels={
-           if(length(cont$Labels)) 
+           if(length(cont$Labels))
              cont <-  cont[order(cont$Labels, nam),, drop=FALSE]
          },
          NAs={
@@ -1013,7 +1014,7 @@ print.contents.data.frame <-
     print.char.matrix(z, col.txt.align='left', col.name.align='left',
                       row.names=TRUE, col.names=TRUE)
   }
-  
+
   longlab <- x$longLabels
   if(length(longlab)) {
     if(existsFunction('strwrap'))
@@ -1028,11 +1029,11 @@ print.contents.data.frame <-
     print.char.matrix(z, col.names=TRUE, row.names=FALSE,
                       cell.align='left')
   }
-  
+
   invisible()
 }
 
-
+# ------------------------------------------------------------------------------
 html.contents.data.frame <-
   function(object, sort=c('none', 'names', 'labels', 'NAs'), prlevels=TRUE,
            maxlevels=Inf,
@@ -1044,7 +1045,7 @@ html.contents.data.frame <-
   mu <- markupSpecs$html
   lspace <- mu$lspace
   hrule  <- mu$hrule
-  
+
   d      <- object$dim
   maxnas <- object$maxnas
 
@@ -1064,11 +1065,11 @@ html.contents.data.frame <-
       R <- paste0(R, object$valuesvar, ':', object$values,
                   lspace, lspace)
     R <- c(R, hrule)
-    
+
   } else
     R <- paste0(hrule, '<h4>Data frame:', object$dfname,
         '</h4>', ' Variables:', d[2], hrule)
-  
+
   cont <- object$contents
   nam <- row.names(cont)
   if(number) {
@@ -1081,22 +1082,22 @@ html.contents.data.frame <-
   switch(sort,
          names={cont <- cont[order(nam),,drop=FALSE]},
          labels={
-           if(length(cont$Labels)) 
+           if(length(cont$Labels))
              cont <-  cont[order(cont$Labels, nam),,drop=FALSE]
          },
          NAs={
            if(maxnas>0) cont <- cont[order(cont$NAs,nam),,drop=FALSE]
          })
-  
+
   link <- matrix('', nrow=nrow(cont), ncol=1+ncol(cont),
                  dimnames=list(dimnames(cont)[[1]], c('Name', dimnames(cont)[[2]])))
-  
+
   longlab <- object$longLabels
   if(length(longlab)) {
     longlab <- longlab[longlab != '']
     link[names(longlab),'Name'] <- paste('#longlab',names(longlab),sep='.')
   }
-  
+
   L <- object$Levels
   Lnames <- names(L)
   if(length(cont$Levels)) {
@@ -1119,7 +1120,7 @@ html.contents.data.frame <-
               link=link, border=2,
               col.just=adj, ...)
   R <- c(R, as.character(out), hrule)
-    
+
   if(prlevels && length(L) > 0) {
     if(levelType=='list') {
       R <- c(R, '<h5>Category Levels</h5>')
@@ -1136,7 +1137,7 @@ html.contents.data.frame <-
         for(k in l) R <- c(R,  paste0('<li>', k, '</li>\n'))
       }
     }
-    else {  
+    else {
       ## Function to split a character vector x as evenly as
       ## possible into n elements, pasting multiple elements
       ## together when needed
@@ -1158,7 +1159,7 @@ html.contents.data.frame <-
         }
         ## Take evasive action if needed
         if(m == n) indent(y) else if(m < n)
-          c(indent(y), rep('', n - m)) else 
+          c(indent(y), rep('', n - m)) else
         c(paste(x, collapse=', '), rep('', n - 1))
       }
       nam <- names(L)
@@ -1183,7 +1184,7 @@ html.contents.data.frame <-
       R <- c(R, as.character(out), hrule)
     }
   }
-  
+
   i <- longlab != ''
   if(any(i)) {
     nam <- names(longlab)[i]
@@ -1197,14 +1198,14 @@ html.contents.data.frame <-
   htmltools::HTML(paste0(R, '\n'))
 }
 
-
+# ------------------------------------------------------------------------------
 contents.list <- function(object, dslabels=NULL, ...) {
   nam <- names(object)
   if(length(dslabels)) {
     dslabels <- dslabels[nam]
     names(dslabels) <- NULL
   }
-  
+
   g <- function(w) {
     if(length(w)==0 || is.null(w))
       c(Obs=0, Var=if(is.null(w))
@@ -1216,7 +1217,7 @@ contents.list <- function(object, dslabels=NULL, ...) {
       c(Obs=length(w[[1]]), Var=length(w),
         Var.NA=sum(sapply(w, function(x) sum(is.present(x))==0)))
   }
-  
+
   v <- t(sapply(object, g))
   structure(list(contents=if(length(dslabels))
                  data.frame(Label=dslabels,Obs=v[,'Obs'],
@@ -1228,7 +1229,7 @@ contents.list <- function(object, dslabels=NULL, ...) {
             class='contents.list')
 }
 
-
+# ------------------------------------------------------------------------------
 print.contents.list <-
   function(x, sort=c('none','names','labels','NAs','vars'), ...)
 {
@@ -1243,7 +1244,8 @@ print.contents.list <-
                       vars=order(cont$Var),
                       labels=order(cont$Label, nam),
                       NAs=order(cont$Var.NA,nam)),]
-  
+
   print(cont)
   invisible()
 }
+# ==============================================================================
