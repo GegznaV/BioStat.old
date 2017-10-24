@@ -24,6 +24,10 @@
 #'\item{"SF", "Shapiro-Francia" — for Shapiro-Francia test;}
 #'\item{"Chi-squared","Pearsons" — for Pearson's chi-squared test of normality.}
 #'}
+#'
+#' @param method (string) p value adjustment method for multiple comparisons.
+#'        For available methods check \code{\link[base]{p.adjust.methods}}.
+#'
 #' @param ... Parameters to be passed to the main function
 #'            (defined/selected in \code{fun}) that carries out a normality test.
 #'
@@ -92,6 +96,7 @@
 test_normality <- function(x,
                            data = NULL,
                            test = "Shapiro-Wilk",
+                           method = "holm",
                            ...
 
                            , groups = NULL
@@ -137,6 +142,7 @@ test_normality <- function(x,
 
     rez <- test_(x,
                  data = data,
+                 method = method,
                  ...,
                  groups = groups,
                  FUN = FUN,
@@ -154,6 +160,7 @@ test_normality <- function(x,
 # =============================================================================
 test_ <- function(x,
                   data = NULL,
+                  method = "holm",
                   ...,
                   groups = NULL,
                   FUN = stats::shapiro.test,
@@ -182,6 +189,7 @@ test_ <- function(x,
         rez$data.name <- NULL # remove variable 'rez$data.name'
         rez$statistic  %<>%  as_number()
         rez$p.value    %<>%  as_number()
+        rez$p.adjust <- p.adjust(p = rez$p.value, method = method)
 
         class(rez) <- c("test_normality", "data.frame")
         return(rez)

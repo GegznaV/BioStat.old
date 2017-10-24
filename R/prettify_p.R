@@ -77,17 +77,22 @@ prettify_p_value <- function(p) {
 #' @export
 #' @param (logical) If \code{TRUE}, leading zero of a number is removed.
 prettify_p_column <- function(data,
-                              colname  = "p.value",
+                              colname  = c("p.value", "p.adjust"),
                               prettify = TRUE,
                               rm_zero = FALSE,
                               ...)
 {
-    if (prettify == TRUE) {
-        data[[colname]] %<>% purrr::map_chr(prettify_p_value)
-    }
+    data_colnames <- names(data)
+    colname <- data_colnames[data_colnames %in% colname]
 
-    if (rm_zero == TRUE) {
-        data[[colname]] %<>% purrr::map_chr(BioStat::rm_zero)
+    for (colname_i in colname) {
+        if (prettify == TRUE) {
+            data[[colname_i]] %<>% purrr::map_chr(prettify_p_value)
+        }
+
+        if (rm_zero == TRUE) {
+            data[[colname_i]] %<>% purrr::map_chr(BioStat::rm_zero)
+        }
     }
     data
 }

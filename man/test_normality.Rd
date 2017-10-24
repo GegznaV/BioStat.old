@@ -6,8 +6,8 @@
 \alias{pander.test_normality}
 \title{Normality tests with formula interface}
 \usage{
-test_normality(x, data = NULL, test = "Shapiro-Wilk", ..., groups = NULL,
-  sep = " | ", prettify = FALSE)
+test_normality(x, data = NULL, test = "Shapiro-Wilk", method = "holm",
+  ..., groups = NULL, sep = " | ", prettify = FALSE)
 
 \method{print}{test_normality}(x, ..., rm_col_method = TRUE)
 
@@ -34,6 +34,9 @@ Possible names of tests:\itemize{
 \item{"SF", "Shapiro-Francia" — for Shapiro-Francia test;}
 \item{"Chi-squared","Pearsons" — for Pearson's chi-squared test of normality.}
 }}
+
+\item{method}{(string) p value adjustment method for multiple comparisons.
+For available methods check \code{\link[base]{p.adjust.methods}}.}
 
 \item{...}{Parameters to be passed to the main function
 (defined/selected in \code{fun}) that carries out a normality test.}
