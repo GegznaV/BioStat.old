@@ -3,7 +3,8 @@ print.describe <-   function(x, ...) {
     at <- attributes(x)
     if (length(at$dimensions)) {
         cat(at$descript,'\n\n',
-            at$dimensions[2], ' Variables     ', at$dimensions[1], ' Observations\n')
+            at$dimensions[2], ' Variables     ',
+            at$dimensions[1], ' Observations\n')
 
         if (length(at$naprint))
             cat('\n', at$naprint, '\n')
@@ -35,13 +36,16 @@ print.describe.single <- function(x, ...) {
     wide <- .Options$width
     des  <- x$descript
 
-    if (length(x$units))
-        des <- paste0(des, ' [', x$units, ']')
+    # if (length(x$units))
+    #     des <- paste0(des, ' [', x$units, ']')
+    #
+    # if (length(x$format))
+    #     fmt <- paste0(des, '  Format:', x$format)
 
-    if (length(x$format))
-        des <- paste0(des, '  Format:', x$format)
+    units_ <- if (length(x$units))  paste0(' [', x$units, ']')    else NULL
+    fmt_   <- if (length(x$format)) paste0('  Format:', x$format) else NULL
 
-    cat(des, '\n')
+    cat(des, units_, fmt_, '\n')
 
     print(x$counts, quote = FALSE)
 
