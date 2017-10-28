@@ -42,7 +42,9 @@ stat_all_chr_to_factor <- function(data) {
 #' @export
 #' @rdname stat_all_chr_to_factor
 all_chr_to_factor <- function(data) {
-    stat_all_chr_to_factor(all_chr_to_factor)
+    dplyr::mutate_if(data,
+                     is.character,
+                     dplyr::funs(forcats::fct_inorder(.)))
 }
 
 
