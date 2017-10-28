@@ -8,7 +8,7 @@
 \usage{
 prettify_p_value(p)
 
-prettify_p_column(data, colname = "p.value", prettify = TRUE,
+prettify_p_column(data, colname = c("p.value", "p.adjust"), prettify = TRUE,
   rm_zero = FALSE, ...)
 
 add_signif_stars(p)

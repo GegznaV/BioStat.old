@@ -6,7 +6,7 @@ Description: A collection of convenience functions dedicaded for biostatistics
              routines without writting to much code. 
              Package is stil under its development and usage of some functions 
              might change in the future.
-Version: 0.0.7.2000
+Version: 0.0.7.2001
 Date: 2017-09-26
 Authors@R: c(
     person("Vilmantas", "Gegna", role = c("aut","cre","cph"),
@@ -15,11 +15,15 @@ Authors@R: c(
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
+ByteCompile: TRUE
 Depends:
     R (>= 3.3),
     magrittr,
-    ggplot2
+    ggplot2,
+    Hmisc
 Imports:
+    htmltools,
+    methods,
     mosaic,
     mosaicCore,
     mosaicData,

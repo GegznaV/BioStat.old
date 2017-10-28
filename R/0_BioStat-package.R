@@ -9,6 +9,13 @@
 #'
 #' @importFrom stats model.frame ppoints qnorm
 #' @importFrom pander pander
+#' @importFrom methods existsFunction
+#' @importFrom stats coef complete.cases model.extract
+#'                   naprint p.adjust ptukey qtukey quantile
+#'                   symnum var
+#' @importFrom utils capture.output combn
 #' @import magrittr
+#' @import Hmisc
+#' @import Hmisc
 
 NULL
