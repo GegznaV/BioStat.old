@@ -13,6 +13,11 @@
 #'          side is treated as variable name to test.
 #'          }
 #'
+#' @param groups (\code{NULL}|factor|character) An alternative way to show  provide
+#'         groups. If \code{x} is a numeric vector, \code{groups} must be factor
+#'         (or \code{NULL}). If  \code{x} is a sting, \code{groups} must also be
+#'          a string (or \code{NULL}).
+#'
 #' @param data (data rame|\code{NULL}) Either a data frame that contains the
 #'             variables mentioned in \code{x} or \code{NULL} (if the variables
 #'             are in the function's environment).
@@ -30,7 +35,7 @@
 #'}
 #'
 #' @param method (string) p value adjustment method for multiple comparisons.
-#'        For available methods check \code{\link[base]{p.adjust.methods}}.
+#'        For available methods check \code{\link[stats]{p.adjust.methods}}.
 #'
 #' @param ... Parameters to be passed to the main function
 #'            (defined/selected in \code{test}) that carries out a normality test.

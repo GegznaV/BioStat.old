@@ -43,10 +43,15 @@ Possible names of tests:\itemize{
 }}
 
 \item{method}{(string) p value adjustment method for multiple comparisons.
-For available methods check \code{\link[base]{p.adjust.methods}}.}
+For available methods check \code{\link[stats]{p.adjust.methods}}.}
 
 \item{...}{Parameters to be passed to the main function
 (defined/selected in \code{test}) that carries out a normality test.}
+
+\item{groups}{(\code{NULL}|factor|character) An alternative way to show  provide
+groups. If \code{x} is a numeric vector, \code{groups} must be factor
+(or \code{NULL}). If  \code{x} is a sting, \code{groups} must also be
+ a string (or \code{NULL}).}
 
 \item{digits_p}{(numeric) Number of significant digits to round a p value to.
                   No less than 2. \itemize{

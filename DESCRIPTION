@@ -6,8 +6,8 @@ Description: A collection of convenience functions dedicaded for biostatistics
              routines without writting to much code. 
              Package is stil under its development and usage of some functions 
              might change in the future.
-Version: 0.0.8.9001
-Date: 2017-09-28
+Version: 0.0.8.9002
+Date: 2017-09-29
 Authors@R: c(
     person("Vilmantas", "Gegna", role = c("aut","cre","cph"),
             email = "GegznaV@gmail.com")

@@ -63,8 +63,10 @@ condition are shifted over as a convenience.}
 
 \item{labels}{(not used yet).}
 
-\item{groups}{grouping variable that will be folded into the formula (if there is room for it).
-This offers some additional flexibility in how formulas can be specified.}
+\item{groups}{(\code{NULL}|factor|character) An alternative way to show  provide
+groups. If \code{x} is a numeric vector, \code{groups} must be factor
+(or \code{NULL}). If  \code{x} is a sting, \code{groups} must also be
+ a string (or \code{NULL}).}
 
 \item{use_colors}{(logical) use colors for multiple groups}
 
