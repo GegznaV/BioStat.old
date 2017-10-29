@@ -298,8 +298,8 @@ qq_data_ <- function(x,
 
     ord_x   <- x[good][ord]
     ord_lab <- labels[good][ord]
-    q_function <- eval_("q"  %++%  distribution)
-    d_function <- eval_("d"  %++%  distribution)
+    q_function <- eval_glue("q{distribution}")
+    d_function <- eval_glue("d{distribution}")
     n <- length(ord_x)
     P <- ppoints(n)
     z <- q_function(P, ...)
@@ -483,6 +483,11 @@ plot.qqdata <- function(x,
 
     }
 
+    refline_type <- coef(x)$refline_type[1]
+    envelope_ <- ifelse(coef(x)$plot_envelope[1],
+                        yes = paste(", envelope:", coef(x)$conf[1]),
+                        no  = "")
+
     p <- p +
         geom_point() +
 
@@ -490,13 +495,8 @@ plot.qqdata <- function(x,
              y = "Empirical quantiles",
              color = "",
              fill = "") +
-        ggtitle("QQ plot"  %++%
-                " (ref.line: " %++%  coef(x)$refline_type[1]  %++%
-                ifelse(coef(x)$plot_envelope[1],
-                         yes =  ", envelope: " %++% coef(x)$conf[1]  %++% ")",
-                         no  = ")")
-                )
-
+        labs(title = "QQ plot" ,
+             subtitle = glue::glue("(ref.line: {refline_type}{envelope_})"))
 
     if (coef(x)$plot_envelope[1] != FALSE) {
         p <- p +
@@ -505,6 +505,7 @@ plot.qqdata <- function(x,
             geom_line(aes_string(y = "ref_ci_upper"), lty = 2)
     }
 
+    # Output:
     p
 }
 # =============================================================================

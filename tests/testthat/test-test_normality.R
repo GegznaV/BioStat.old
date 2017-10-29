@@ -1,5 +1,6 @@
 context("Function `test_normality()`")
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 test_that("`test_normality()` produces object with correct classes", {
     data(CO2, package = "datasets")
     rez <- test_normality(uptake ~ Type, data = CO2)
@@ -8,6 +9,33 @@ test_that("`test_normality()` produces object with correct classes", {
     expect_is(rez, c("test_normality"))
 })
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+test_that("`test_normality()` produces correct attributes", {
+    data(CO2, package = "datasets")
+    rez <- test_normality(uptake ~ Type, data = CO2, method = "holm")
+
+    expect_equal(attr(rez, "test"), "Shapiro-Wilk normality test")
+    expect_equal(attr(rez, "p_adjust_method"), "holm")
+})
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+test_that("`test_normality()` works with one-sided formula `~var`", {
+    data(CO2, package = "datasets")
+    rez <- test_normality( ~ uptake, data = CO2)
+
+    expect_is(rez, c("data.frame"))
+    expect_is(rez, c("test_normality"))
+    expect_equal(nrow(rez), 1)
+})
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+test_that("`test_normality()` produces object with correct classes", {
+    data(CO2, package = "datasets")
+    rez <- test_normality(uptake ~ Type, data = CO2)
+
+    expect_is(rez, c("data.frame"))
+    expect_is(rez, c("test_normality"))
+})
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 test_that("parameter test = 'chi-squared' for `test_normality()` is recognized correctly", {
     data(CO2, package = "datasets")
 
@@ -22,7 +50,7 @@ test_that("parameter test = 'chi-squared' for `test_normality()` is recognized c
     expect_true(unique(rez4$method) == "Pearson chi-square normality test")
 
 })
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 test_that("parameter test = 'Shapiro-Wilk' for `test_normality()` is recognized correctly", {
     data(CO2, package = "datasets")
 
@@ -37,7 +65,7 @@ test_that("parameter test = 'Shapiro-Wilk' for `test_normality()` is recognized 
     expect_true(unique(rez4$method) == "Shapiro-Wilk normality test")
 
 })
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 test_that("parameter test = 'lilliefors' for `test_normality()` is recognized correctly", {
     data(CO2, package = "datasets")
 
@@ -48,7 +76,7 @@ test_that("parameter test = 'lilliefors' for `test_normality()` is recognized co
     expect_true(unique(rez2$method) == "Lilliefors (Kolmogorov-Smirnov) normality test")
 
 })
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 test_that("`test_normality()` produces correct p-values for each group", {
     data(CO2, package = "datasets")
 
@@ -62,9 +90,7 @@ test_that("`test_normality()` produces correct p-values for each group", {
                  shapiro.test(filter(CO2, Type == "Mississippi")$uptake)$p.value)
 
 })
-
-
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 test_that("`print()` method for 'test_normality' object works", {
     data(CO2, package = "datasets")
 
@@ -75,12 +101,11 @@ test_that("`print()` method for 'test_normality' object works", {
     expect_output(print(rez), "p.value")
 })
 
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 test_that("`pander()` method for 'test_normality' object works", {
     data(CO2, package = "datasets")
 
     rez <- test_normality(uptake ~ Type, data = CO2)
-
 
 
     # Expect specific structure
@@ -97,7 +122,4 @@ test_that("`pander()` method for 'test_normality' object works", {
     # Output must not contain "Table: ", when `caption = NULL`
     output <- capture.output(pander(rez, caption = NULL))
     expect_true(all(!(grepl("Table: ", output))))
-
-
-
 })

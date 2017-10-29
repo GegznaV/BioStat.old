@@ -1,17 +1,21 @@
 # =============================================================================
-#' Normality tests with formula interface
+#' Normality tests by goups
 #'
 #' Perform Shapiro-Wilk (default),
 #' Lilliefors (Kolmogorov-Smirnov), Anderson_darling and other tests of normality.
 #'
-#' @param x Either a formula, a numeric vector or a name of a vector
-#'          in \code{data}.
-#'          If \code{x} is a formula (e.g. \code{variable ~ factor}), left-hand
-#'          side provides variable to be summarized. Right-hand side and condition
-#'          describe subsets. If the left-hand side is empty, right-hand side and
-#'          condition are shifted over as a convenience.
+#' @param x Either a formula, a numeric vector or a name of a column
+#'          in \code{data}. \itemize{
+#'     \item If \code{x} is a formula (e.g. \code{variable ~ factor}), left-hand
+#'          side provides name of variable to be tested. In the right-hand side
+#'          there are names of factor variables to be used to create subsets.
+#'          If the left-hand side is empty ((e.g. \code{~ factor}), right-hand
+#'          side is treated as variable name to test.
+#'          }
 #'
-#' @param data A data frame that contains the variables mentioned in \code{x}.
+#' @param data (data rame|\code{NULL}) Either a data frame that contains the
+#'             variables mentioned in \code{x} or \code{NULL} (if the variables
+#'             are in the function's environment).
 #'
 #' @param test (string | function) Either a string  (case insensitive, may be
 #'             unambiguously abbreviated) with a name of nomality test or a
@@ -29,13 +33,10 @@
 #'        For available methods check \code{\link[base]{p.adjust.methods}}.
 #'
 #' @param ... Parameters to be passed to the main function
-#'            (defined/selected in \code{fun}) that carries out a normality test.
+#'            (defined/selected in \code{test}) that carries out a normality test.
 #'
-#' @param sep (not used yet)
-#' @param prettify (logical) Should functions \code{\link{format_numbers}} and
-#' \code{\link{prettify_p_column}} be applied on the output of the function?
 #'
-#' @inheritParams mosaic::maggregate
+#' @inheritParams format_p_values
 #' @inheritParams stats::shapiro.test
 #' @inheritParams nortest::lillie.test
 #' @inheritParams nortest::pearson.test
@@ -57,7 +58,7 @@
 #' library(pander)
 #' data(CO2)
 #'
-#' test_normality(uptake ~ Treatment, data = CO2, prettify = TRUE)
+#' test_normality(uptake ~ Treatment, data = CO2)
 #'
 #' rez <- test_normality(uptake ~ Type + Treatment,
 #'                       data = CO2)
@@ -68,202 +69,266 @@
 #'                        test = "chi-sq")
 #' rez2
 #'
-#' # Round to 3 decimal digits (all columns):
-#' format_numbers(rez, 3)
 #'
-#' # Round to 3 significant digits (all columns):
-#' format_numbers(rez, 3, format = "g")
+#' class(rez2)
 #'
-#' # Prettify the column with p-values
-#' prettify_p_column(rez)
 #'
 #' # Print as a 'pandoc' table
 #' pander(rez)
 #'
-#' # Other output possibilities
-#' rez %>% format_numbers(3)
 #'
-#' rez %>%
-#'    format_numbers(3) %>%
-#'    pander()
-#'
-#' rez %>%
-#'     format_numbers(3, "g") %>%
-#'     prettify_p_column() %>%
-#'     pander()
-
-
+#' pander(rez, digits = 3)
 test_normality <- function(x,
                            data = NULL,
                            test = "Shapiro-Wilk",
-                           method = "holm",
-                           ...
+                           method = NULL,
+                           ...,
+                           groups = NULL
+) {
 
-                           , groups = NULL
-                           , sep = " | "
-                           , prettify = FALSE
-                           ) {
+    # Choose the test ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (is.function(test)) {
-        FUN = test
-    } else {
+        use_test <- test
+
+    } else if (checkmate::test_character(test, len = 1)) {
         # Possible choices
-        tests = c(
+        available_tests = c(
             "SW", "Shapiro-Wilk",
             "Lilliefors",
             "AD", "Anderson-Darling",
             "CVM", "CM", "Cramer-von Mises",
             "SF", "Shapiro-Francia",
             "Chi-squared", "Pearsons"
-        )  %>% tolower()
+        )
 
-        test <- match.arg(tolower(test), tests)
+        test <- match.arg(tolower(test), tolower(available_tests))
 
-        FUN = switch(test,
-            "sw" = ,
-            "shapiro-wilk"     = stats::shapiro.test,
+        use_test <- switch(test,
+                           "sw" = ,
+                           "shapiro.test" = ,
+                           "shapiro-wilk"     = stats::shapiro.test,
 
-            "lilliefors"       = nortest::lillie.test,
+                           "lillie.test" = ,
+                           "lilliefors"       = nortest::lillie.test,
 
-            "ad" = ,
-            "anderson-darling" = nortest::ad.test,
+                           "ad" = ,
+                           "ad.test" = ,
+                           "anderson-darling" = nortest::ad.test,
 
-            "cvm" = ,
-            "cm"  = ,
-            "cramer-von mises" = nortest::cvm.test,
+                           "cvm" = ,
+                           "cm"  = ,
+                           "cvm.test" = ,
+                           "cramer-von mises" = nortest::cvm.test,
 
-            "sf" = ,
-            "shapiro-francia"  = nortest::sf.test,
+                           "sf" = ,
+                           "sf.test" = ,
+                           "shapiro-francia"  = nortest::sf.test,
 
-            "chi-squared" = ,
-            "pearsons"          = nortest::pearson.test
+                           "chi-squared" = ,
+                           "pearson.test" = ,
+                           "pearsons"         = nortest::pearson.test
 
         )
-    }
 
-    rez <- test_(x,
-                 data = data,
-                 method = method,
-                 ...,
-                 groups = groups,
-                 FUN = FUN,
-                 sep = sep)
-
-    if (prettify == TRUE) {
-        rez  %>%
-            format_numbers(format = "g")  %>%
-            prettify_p_column()
     } else {
-        rez
+        stop("\n`test` must be either a function",
+             "\n or a name of a test (a string of length 1).")
     }
+
+    # Output
+    test_(x,
+          data = data,
+          method = method,
+          ...,
+          groups = groups,
+          test = use_test)
+
 }
 
 # =============================================================================
 test_ <- function(x,
                   data = NULL,
-                  method = "holm",
+                  method = NULL,
                   ...,
                   groups = NULL,
-                  FUN = stats::shapiro.test,
-                  sep = " | ")
+                  test = stats::shapiro.test)
     # na.rm = getOption("na.rm", FALSE)
 {
-    if (lazyeval::is_formula(x)) {
-        if (is.null(data)) {
-            data <- lazyeval::f_env(x)
+    if (is.numeric(x)) {
+        if (!is.null(groups)) {
+            data <- data.frame(x = x, groups = groups)
+            x <- x ~ groups
+        } else {
+            data <- data.frame(x = x)
+            x <- ~ x
         }
-
-        formula <- mosaicCore::mosaic_formula_q(x, groups = groups, max.slots = 3)
-
-        rez <- mosaic::maggregate(formula,
-                           data = data,
-                           FUN = FUN,
-                           # sep = sep,
-                           ...,
-                           groups = groups,
-                           .multiple = TRUE
-                          )
-        # remove strange format produced by `maggregate`
-        ReduceC <- function(x) Reduce(c, x)
-        rez <- mapply(ReduceC, rez) %>% data.frame()
-
-        rez$data.name <- NULL # remove variable 'rez$data.name'
-        rez$statistic  %<>%  as_number()
-        rez$p.value    %<>%  as_number()
-        rez$p.adjust <- p.adjust(p = rez$p.value, method = method)
-
-        class(rez) <- c("test_normality", "data.frame")
-        return(rez)
     }
 
-    FUN(x, ...)
+    if (is.null(data)) {
+        data <- rlang::f_env(x)
+    }
+
+    if (rlang::is_formula(x)) {
+        # Select necessary variables only
+        data <- stats::model.frame(x, data = data)
+
+        # To indicate, that there is no grouping the first column constant
+        # if (ncol(data) == 1)
+        #     data[["Groups"]] <- "<all values>"
+
+        var_names <- names(data)
+        gr_vars <- rlang::syms(var_names[-1])
+
+        if (!is.numeric(data[[1]]))
+            stop_glue("Variable `{var_names[1]}` must be numeric.")
+
+        # The main test
+        rez <-
+            data %>%
+            dplyr::group_by(!!!gr_vars)  %>%
+            dplyr::do(.[[1]] %>%
+                          test(...) %>%
+                          broom::tidy()
+            )  %>%
+            dplyr::ungroup()  %>%
+            dplyr::select(method, dplyr::everything())  %>%
+            as.data.frame()
+
+        # If adjusted p value is needed
+        if (!is.null(method)) {
+            rez$p.adjust <- p.adjust(rez$p.value, method = method)
+        }
+
+        rez <- structure(rez,
+                         class = c("test_normality", "data.frame"),
+                         test = levels(rez$method),
+                         p_adjust_method = method)
+
+        return(rez)
+
+    } else {
+        stop("Incorrect input")
+    }
+
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname test_normality
 #' @details By default, methods \code{print.test_normality} and
 #'          \code{pander.test_normality} do not print column called "method".
 #' @export
-#' @param rm_col_method (logical) If \code{TRUE} column "method" is not printed.
-#' @rdname test_normality
-# @param digits (numeric |\code{NA}) Either a number of significant digits to
-# be displayed (default is 3) for p-value and test statistic or \code{NA} if
-# no rounding sould be made.
+#' @param signif_stars (logical) If \code{TRUE}, significance stars are pronted.
+#' @param digits_stat (integer) number of either decimal places or significant digits to round test statistic to.
+#' @param show_col_method (logical) If \code{FALSE} column "method" is not printed.
 print.test_normality <- function(x,
                                  ...,
-                                 # digits = 3,
-                                 rm_col_method = TRUE){
-    method_of_test <- levels(x$method)
+                                 digits_p = 2,
+                                 signif_stars = TRUE,
+                                 digits_stat = 3,
+                                 rm_zero = FALSE,
+                                 show_col_method = FALSE
+                                 ) {
 
-    # Should column "method" be removed?
-    if (rm_col_method == TRUE) {
-        x$method <- NULL
-    }
+    x <- format_object(x,
+                       digits_p = digits_p,
+                       digits_stat = digits_stat,
+                       signif_stars = signif_stars,
+                       signif_as_separate_column = TRUE,
+                       signif_stars_col_name = " ",
+                       rm_zero = rm_zero,
+                       show_col_method = show_col_method
+    )
 
-    # # Round
-    # if (!is.na(digits)) {
-    #     if (is.numeric(x$statistic)) {
-    #         x$statistic %<>% SIGNIF(digits) %>% as.character()
-    #     }
-    #     if (is.numeric(x$p.value)) {
-    #         x$p.value %<>% SIGNIF(digits) %>% as.character()
-    #     }
-    # }
 
     # Pirnt the name of the method
-    cat("\n", "The results of" , method_of_test, "\n\n")
+    cat("\n", "The results of" , which_test(x), "\n\n")
 
     NextMethod(print, x)
 
+    signif_stars_legend()
 }
-
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @export
 #' @rdname test_normality
 #'
 #' @param caption (string|\code{NULL}|\code{NA}) A caption for the table with results of a normality test. If \code{NA} — a default caption is printed (default). If \code{NULL} – no caption is printed.
 #'
 pander.test_normality <- function(x,
-                                  ...,
                                   caption = NA,
-                                  rm_col_method = TRUE) {
+                                  ...,
+                                  digits_p = 2,
+                                  signif_stars = TRUE,
+                                  digits_stat = 3,
+                                  rm_zero = FALSE,
+                                  show_col_method = FALSE) {
 
-    method_of_test <- levels(x$method)
-
-    # Should column "method" be removed?
-    if (rm_col_method == TRUE) {
-        x$method <- NULL
-    }
+    x <- format_object(x,
+                       digits_p = digits_p,
+                       digits_stat = digits_stat,
+                       signif_stars = signif_stars,
+                       signif_as_separate_column = FALSE,
+                       rm_zero = rm_zero,
+                       show_col_method = show_col_method
+    )
 
     # Add caption
     caption <-
         if (is.null(caption)) {
             NULL
         } else if (is.na(caption)) {
-            paste0("The results of " , method_of_test, ("."))
+            glue::glue('The results of {which_test(x)}.')
         } else {
             caption
         }
 
     NextMethod("pander", x, caption = caption, ...)
 
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+which_test <- function(x) {
+    attr(x, "test")
+}
+# ============================================================================
+format_object <- function(x, ...) {
+    UseMethod("format_object")
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+format_object.test_normality <- function(x,
+                                         digits_p = 3,
+                                         digits_stat = 3,
+                                         signif_stars = TRUE,
+                                         signif_as_separate_column = TRUE,
+                                         signif_stars_col_name = "signif.",
+                                         rm_zero = FALSE,
+                                         show_col_method = FALSE
+) {
+    # Should column "method" be removed?
+    if (show_col_method == FALSE) {
+        x$method <- NULL
+    }
+    # Add column with significance stars
+    if (signif_stars == TRUE & signif_as_separate_column == TRUE) {
+        x[[signif_stars_col_name]] <- sprintf("%-3s", get_signif_stars(x$p.value))
+        # There is no point to show significance stars two times
+        signif_stars = FALSE
+    }
+
+    # Round
+    x <- format_as_p_columns(x,
+                             digits_p = digits_p,
+                             rm_zero = rm_zero,
+                             signif_stars = signif_stars)
+
+    if (is.numeric(x$statistic)) {
+        format <- if (all(x$statistic < 1)) "f" else "g"
+
+        x$statistic %<>%
+            formatC(format = format, digits = digits_stat)
+    }
+
+    if (rm_zero == TRUE) {
+        x$statistic %<>% BioStat::rm_zero()
+    }
+    # Output:
+    x
 }
