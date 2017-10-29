@@ -16,7 +16,7 @@
 
 The package is still in its development and some functions are for demonstration purposes only as they may change in the future.
 
-Documentation and more information available at \*\*<http://gegznav.github.io/BioStat/**>
+Documentation and more information available at <http://gegznav.github.io/BioStat/>
 
 Install package
 ---------------
