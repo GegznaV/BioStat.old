@@ -9,10 +9,10 @@
 #' library(BioStat)
 #'
 #' # Basic syntax
-#' stat_all_chr_to_factor(PlantGrowth)
+#' all_chr_to_factor(PlantGrowth)
 #'
 #' # Update the same object using operator from `magrittr` package
-#' PlantGrowth %<>% stat_all_chr_to_factor()
+#' PlantGrowth %<>% all_chr_to_factor()
 #'
 #'
 #' # Create a data frame
@@ -23,29 +23,29 @@
 #' mapply(class, df) # show classes of columns
 #'
 #' # Convert all character variables to strings
-#' df2 <- stat_all_chr_to_factor(df)
+#' df2 <- all_chr_to_factor(df)
 #'
 #' # Check the classes in each column
 #' mapply(class, df2)
 
 # # Works with tibbles too
 # tbl  <- tibble::as.tibble(df)
-# tbl2 <- stat_all_chr_to_factor(tbl)
+# tbl2 <- all_chr_to_factor(tbl)
 # mapply(class, tbl2)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # v0.3:
-stat_all_chr_to_factor <- function(data) {
-    dplyr::mutate_if(data,
-                     is.character,
-                     dplyr::funs(forcats::fct_inorder(.)))
-}
-#' @export
-#' @rdname stat_all_chr_to_factor
 all_chr_to_factor <- function(data) {
     dplyr::mutate_if(data,
                      is.character,
                      dplyr::funs(forcats::fct_inorder(.)))
 }
+# # @export
+# # @rdname all_chr_to_factor
+# stat_all_chr_to_factor <- function(data) {
+#     dplyr::mutate_if(data,
+#                      is.character,
+#                      dplyr::funs(forcats::fct_inorder(.)))
+# }
 
 
 

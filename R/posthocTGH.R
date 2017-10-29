@@ -254,6 +254,8 @@ posthocTGH <- function(y,
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname posthocTGH
 #' @export
+#' @param ... (Further arguments)
+
 # @param x The object to print.
 # @param digits The number of significant digits to print.
 print.posthocTGH <- function(x,
