@@ -6,8 +6,8 @@ Description: A collection of convenience functions dedicaded for biostatistics
              routines without writting to much code. 
              Package is stil under its development and usage of some functions 
              might change in the future.
-Version: 0.0.8.9000
-Date: 2017-09-26
+Version: 0.0.8.9001
+Date: 2017-09-28
 Authors@R: c(
     person("Vilmantas", "Gegna", role = c("aut","cre","cph"),
             email = "GegznaV@gmail.com")
@@ -22,23 +22,26 @@ Depends:
     ggplot2,
     Hmisc
 Imports:
-    htmltools,
     methods,
-    mosaic,
-    mosaicCore,
-    mosaicData,
-    tibble,
-    purrr,
-    stats,
-    MASS,
-    nortest,
-    lazyeval,
+    glue,
+    rlang,
+    checkmate,
     pander,
     readr,
     forcats,
     dplyr,
     tidyr,
-    fitdistrplus
+    broom,
+    tibble,
+    purrr,
+    stats,
+    nortest,
+    fitdistrplus,
+    MASS,
+    userfriendlyscience,
+    mosaic,
+    mosaicCore,
+    mosaicData
 RoxygenNote: 6.0.1
 Suggests: covr,
     testthat

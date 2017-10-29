@@ -13,14 +13,18 @@ qq_data(x, data = NULL, distribution = "norm", ..., line = c("quartiles",
 \method{coef}{qqdata}(object, ...)
 }
 \arguments{
-\item{x}{Either a formula, a numeric vector or a name of a vector
-in \code{data}.
-If \code{x} is a formula (e.g. \code{variable ~ factor}), left-hand
-side provides variable to be summarized. Right-hand side and condition
-describe subsets. If the left-hand side is empty, right-hand side and
-condition are shifted over as a convenience.}
+\item{x}{Either a formula, a numeric vector or a name of a column
+     in \code{data}. \itemize{
+\item If \code{x} is a formula (e.g. \code{variable ~ factor}), left-hand
+     side provides name of variable to be tested. In the right-hand side
+     there are names of factor variables to be used to create subsets.
+     If the left-hand side is empty ((e.g. \code{~ factor}), right-hand
+     side is treated as variable name to test.
+     }}
 
-\item{data}{A data frame that contains the variables mentioned in \code{x}.}
+\item{data}{(data rame|\code{NULL}) Either a data frame that contains the
+variables mentioned in \code{x} or \code{NULL} (if the variables
+are in the function's environment).}
 
 \item{distribution}{root name of comparison distribution -- e.g., \code{"norm"} for the
     normal distribution; \code{t} for the t-distribution.}

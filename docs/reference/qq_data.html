@@ -101,16 +101,20 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>Either a formula, a numeric vector or a name of a vector
-in <code>data</code>.
-If <code>x</code> is a formula (e.g. <code>variable ~ factor</code>), left-hand
-side provides variable to be summarized. Right-hand side and condition
-describe subsets. If the left-hand side is empty, right-hand side and
-condition are shifted over as a convenience.</p></td>
+      <td><p>Either a formula, a numeric vector or a name of a column
+     in <code>data</code>.</p><ul>
+<li><p>If <code>x</code> is a formula (e.g. <code>variable ~ factor</code>), left-hand
+     side provides name of variable to be tested. In the right-hand side
+     there are names of factor variables to be used to create subsets.
+     If the left-hand side is empty ((e.g. <code>~ factor</code>), right-hand
+     side is treated as variable name to test.</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>data</th>
-      <td><p>A data frame that contains the variables mentioned in <code>x</code>.</p></td>
+      <td><p>(data rame|<code>NULL</code>) Either a data frame that contains the
+variables mentioned in <code>x</code> or <code>NULL</code> (if the variables
+are in the function's environment).</p></td>
     </tr>
     <tr>
       <th>distribution</th>

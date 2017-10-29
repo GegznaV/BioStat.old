@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Normality tests with formula interface � test_normality • BioStat</title>
+<title>Normality tests by goups � test_normality • BioStat</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -81,7 +81,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Normality tests with formula interface</h1>
+    <h1>Normality tests by goups</h1>
     </div>
 
     
@@ -89,30 +89,37 @@
 Lilliefors (Kolmogorov-Smirnov), Anderson_darling and other tests of normality.</p>
     
 
-    <pre class="usage"><span class='fu'>test_normality</span>(<span class='no'>x</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='st'>"Shapiro-Wilk"</span>, <span class='no'>...</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>" | "</span>, <span class='kw'>prettify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>test_normality</span>(<span class='no'>x</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='st'>"Shapiro-Wilk"</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>,
+  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S3 method for test_normality</span>
-<span class='fu'>print</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>rm_col_method</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>print</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>digits_p</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>signif_stars</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>digits_stat</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>rm_zero</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show_col_method</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for test_normality</span>
-<span class='fu'>pander</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>caption</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>rm_col_method</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+<span class='fu'>pander</span>(<span class='no'>x</span>, <span class='kw'>caption</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='no'>...</span>, <span class='kw'>digits_p</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>signif_stars</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>digits_stat</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>rm_zero</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show_col_method</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>Either a formula, a numeric vector or a name of a vector
-in <code>data</code>.
-If <code>x</code> is a formula (e.g. <code>variable ~ factor</code>), left-hand
-side provides variable to be summarized. Right-hand side and condition
-describe subsets. If the left-hand side is empty, right-hand side and
-condition are shifted over as a convenience.</p></td>
+      <td><p>Either a formula, a numeric vector or a name of a column
+     in <code>data</code>.</p><ul>
+<li><p>If <code>x</code> is a formula (e.g. <code>variable ~ factor</code>), left-hand
+     side provides name of variable to be tested. In the right-hand side
+     there are names of factor variables to be used to create subsets.
+     If the left-hand side is empty ((e.g. <code>~ factor</code>), right-hand
+     side is treated as variable name to test.</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>data</th>
-      <td><p>A data frame that contains the variables mentioned in <code>x</code>.</p></td>
+      <td><p>(data rame|<code>NULL</code>) Either a data frame that contains the
+variables mentioned in <code>x</code> or <code>NULL</code> (if the variables
+are in the function's environment).</p></td>
     </tr>
     <tr>
       <th>test</th>
@@ -129,27 +136,43 @@ Possible names of tests:</p><ul>
 </ul></td>
     </tr>
     <tr>
+      <th>method</th>
+      <td><p>(string) p value adjustment method for multiple comparisons.
+For available methods check <code>p.adjust.methods</code>.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>Parameters to be passed to the main function
-(defined/selected in <code>fun</code>) that carries out a normality test.</p></td>
+(defined/selected in <code>test</code>) that carries out a normality test.</p></td>
     </tr>
     <tr>
-      <th>groups</th>
-      <td><p>grouping variable that will be folded into the formula (if there is room for it).
-This offers some additional flexibility in how formulas can be specified.</p></td>
+      <th>digits_p</th>
+      <td><p>(numeric) Number of significant digits to round a p value to.
+                  No less than 2.</p><ul>
+<li><p>if <code>digits_p = 2</code>:</p><ol>
+<li><p>values below 0.001 are printed as <code>"&lt;0.001"</code>;</p></li>
+<li><p>values between 0.001 and 0.01 as <code>"&lt;0.01"</code>;</p></li>
+<li><p>all other values are rounded to two decimal places.</p></li>
+</ol></li>
+<li><p>if <code>digits_p = 3</code>, only formatting <code>"&lt;0.01"</code> is skipped.</p></li>
+</ul></td>
     </tr>
     <tr>
-      <th>sep</th>
-      <td><p>(not used yet)</p></td>
+      <th>signif_stars</th>
+      <td><p>(logical) If <code>TRUE</code>, significance stars are pronted.</p></td>
     </tr>
     <tr>
-      <th>prettify</th>
-      <td><p>(logical) Should functions <code><a href='format_numbers.html'>format_numbers</a></code> and
-<code><a href='prettify_p_value.html'>prettify_p_column</a></code> be applied on the output of the function?</p></td>
+      <th>digits_stat</th>
+      <td><p>(integer) number of either decimal places or significant digits to round test statistic to.</p></td>
     </tr>
     <tr>
-      <th>rm_col_method</th>
-      <td><p>(logical) If <code>TRUE</code> column "method" is not printed.</p></td>
+      <th>rm_zero</th>
+      <td><p>(logical) Flag if leading zero before the point should be
+removed.</p></td>
+    </tr>
+    <tr>
+      <th>show_col_method</th>
+      <td><p>(logical) If <code>FALSE</code> column "method" is not printed.</p></td>
     </tr>
     <tr>
       <th>caption</th>
@@ -177,117 +200,65 @@ This offers some additional flexibility in how formulas can be specified.</p></t
 <span class='fu'>library</span>(<span class='no'>pander</span>)
 <span class='fu'>data</span>(<span class='no'>CO2</span>)
 
-<span class='fu'>test_normality</span>(<span class='no'>uptake</span> ~ <span class='no'>Treatment</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>CO2</span>, <span class='kw'>prettify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
+<span class='fu'>test_normality</span>(<span class='no'>uptake</span> ~ <span class='no'>Treatment</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>CO2</span>)</div><div class='output co'>#&gt; 
 #&gt;  The results of Shapiro-Wilk normality test 
 #&gt; 
-#&gt;    Treatment statistic p.value
-#&gt; 1 nonchilled     0.945   0.04 
-#&gt; 2    chilled     0.898  &lt;0.01 </div><div class='input'>
+#&gt;    Treatment statistic p.value    
+#&gt; 1 nonchilled     0.945    0.04 *  
+#&gt; 2    chilled     0.898   &lt;0.01 ** </div><div class='output co'>#&gt; 0 �***� 0.001 �**� 0.01 �*� 0.05 �.� 0.1 � � 1</div><div class='input'>
 <span class='no'>rez</span> <span class='kw'>&lt;-</span> <span class='fu'>test_normality</span>(<span class='no'>uptake</span> ~ <span class='no'>Type</span> + <span class='no'>Treatment</span>,
                       <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>CO2</span>)
 <span class='no'>rez</span></div><div class='output co'>#&gt; 
 #&gt;  The results of Shapiro-Wilk normality test 
 #&gt; 
-#&gt;           Type.Treatment statistic     p.value
-#&gt; 1      Quebec.nonchilled 0.8252592 0.001639137
-#&gt; 2 Mississippi.nonchilled 0.8551907 0.005225759
-#&gt; 3         Quebec.chilled 0.8529291 0.004773047
-#&gt; 4    Mississippi.chilled 0.9481933 0.314741370</div><div class='input'>
+#&gt;          Type  Treatment statistic p.value    
+#&gt; 1      Quebec nonchilled     0.825   &lt;0.01 ** 
+#&gt; 2      Quebec    chilled     0.853   &lt;0.01 ** 
+#&gt; 3 Mississippi nonchilled     0.855   &lt;0.01 ** 
+#&gt; 4 Mississippi    chilled     0.948    0.31    </div><div class='output co'>#&gt; 0 �***� 0.001 �**� 0.01 �*� 0.05 �.� 0.1 � � 1</div><div class='input'>
 <span class='no'>rez2</span> <span class='kw'>&lt;-</span> <span class='fu'>test_normality</span>(<span class='no'>uptake</span> ~ <span class='no'>Type</span> + <span class='no'>Treatment</span>,
                        <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>CO2</span>,
                        <span class='kw'>test</span> <span class='kw'>=</span> <span class='st'>"chi-sq"</span>)
 <span class='no'>rez2</span></div><div class='output co'>#&gt; 
 #&gt;  The results of Pearson chi-square normality test 
 #&gt; 
-#&gt;           Type.Treatment statistic     p.value n.classes df
-#&gt; 1      Quebec.nonchilled 13.333333 0.009756859         7  4
-#&gt; 2 Mississippi.nonchilled 10.000000 0.040427682         7  4
-#&gt; 3         Quebec.chilled 13.333333 0.009756859         7  4
-#&gt; 4    Mississippi.chilled  5.333333 0.254772654         7  4</div><div class='input'>
-<span class='co'># Round to 3 decimal digits (all columns):</span>
-<span class='fu'><a href='format_numbers.html'>format_numbers</a></span>(<span class='no'>rez</span>, <span class='fl'>3</span>)</div><div class='output co'>#&gt; 
-#&gt;  The results of Shapiro-Wilk normality test 
-#&gt; 
-#&gt;           Type.Treatment statistic p.value
-#&gt; 1      Quebec.nonchilled     0.825   0.002
-#&gt; 2 Mississippi.nonchilled     0.855   0.005
-#&gt; 3         Quebec.chilled     0.853   0.005
-#&gt; 4    Mississippi.chilled     0.948   0.315</div><div class='input'>
-<span class='co'># Round to 3 significant digits (all columns):</span>
-<span class='fu'><a href='format_numbers.html'>format_numbers</a></span>(<span class='no'>rez</span>, <span class='fl'>3</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"g"</span>)</div><div class='output co'>#&gt; 
-#&gt;  The results of Shapiro-Wilk normality test 
-#&gt; 
-#&gt;           Type.Treatment statistic p.value
-#&gt; 1      Quebec.nonchilled     0.825 0.00164
-#&gt; 2 Mississippi.nonchilled     0.855 0.00523
-#&gt; 3         Quebec.chilled     0.853 0.00477
-#&gt; 4    Mississippi.chilled     0.948   0.315</div><div class='input'>
-<span class='co'># Prettify the column with p-values</span>
-<span class='fu'><a href='prettify_p_value.html'>prettify_p_column</a></span>(<span class='no'>rez</span>)</div><div class='output co'>#&gt; 
-#&gt;  The results of Shapiro-Wilk normality test 
-#&gt; 
-#&gt;           Type.Treatment statistic p.value
-#&gt; 1      Quebec.nonchilled 0.8252592  &lt;0.01 
-#&gt; 2 Mississippi.nonchilled 0.8551907  &lt;0.01 
-#&gt; 3         Quebec.chilled 0.8529291  &lt;0.01 
-#&gt; 4    Mississippi.chilled 0.9481933   0.31 </div><div class='input'>
+#&gt;          Type  Treatment statistic p.value    
+#&gt; 1      Quebec nonchilled      13.3   &lt;0.01 ** 
+#&gt; 2      Quebec    chilled      13.3   &lt;0.01 ** 
+#&gt; 3 Mississippi nonchilled        10    0.04 *  
+#&gt; 4 Mississippi    chilled      5.33    0.25    </div><div class='output co'>#&gt; 0 �***� 0.001 �**� 0.01 �*� 0.05 �.� 0.1 � � 1</div><div class='input'>
+
+<span class='fu'>class</span>(<span class='no'>rez2</span>)</div><div class='output co'>#&gt; [1] "test_normality" "data.frame"    </div><div class='input'>
+
 <span class='co'># Print as a 'pandoc' table</span>
 <span class='fu'><a href='http://www.rdocumentation.org/packages/pander/topics/pander'>pander</a></span>(<span class='no'>rez</span>)</div><div class='output co'>#&gt; 
-#&gt; --------------------------------------------
-#&gt;     Type.Treatment      statistic   p.value 
-#&gt; ---------------------- ----------- ---------
-#&gt;   Quebec.nonchilled      0.8253    0.001639 
+#&gt; -------------------------------------------------
+#&gt;     Type       Treatment    statistic   p.value  
+#&gt; ------------- ------------ ----------- ----------
+#&gt;    Quebec      nonchilled     0.825     &lt;0.01 ** 
 #&gt; 
-#&gt; Mississippi.nonchilled   0.8552    0.005226 
+#&gt;    Quebec       chilled       0.853     &lt;0.01 ** 
 #&gt; 
-#&gt;     Quebec.chilled       0.8529    0.004773 
+#&gt;  Mississippi   nonchilled     0.855     &lt;0.01 ** 
 #&gt; 
-#&gt;  Mississippi.chilled     0.9482     0.3147  
-#&gt; --------------------------------------------
-#&gt; 
-#&gt; Table: The results of Shapiro-Wilk normality test.
-#&gt; </div><div class='input'>
-<span class='co'># Other output possibilities</span>
-<span class='no'>rez</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='format_numbers.html'>format_numbers</a></span>(<span class='fl'>3</span>)</div><div class='output co'>#&gt; 
-#&gt;  The results of Shapiro-Wilk normality test 
-#&gt; 
-#&gt;           Type.Treatment statistic p.value
-#&gt; 1      Quebec.nonchilled     0.825   0.002
-#&gt; 2 Mississippi.nonchilled     0.855   0.005
-#&gt; 3         Quebec.chilled     0.853   0.005
-#&gt; 4    Mississippi.chilled     0.948   0.315</div><div class='input'>
-<span class='no'>rez</span> <span class='kw'>%&gt;%</span>
-   <span class='fu'><a href='format_numbers.html'>format_numbers</a></span>(<span class='fl'>3</span>) <span class='kw'>%&gt;%</span>
-   <span class='fu'><a href='http://www.rdocumentation.org/packages/pander/topics/pander'>pander</a></span>()</div><div class='output co'>#&gt; 
-#&gt; --------------------------------------------
-#&gt;     Type.Treatment      statistic   p.value 
-#&gt; ---------------------- ----------- ---------
-#&gt;   Quebec.nonchilled       0.825      0.002  
-#&gt; 
-#&gt; Mississippi.nonchilled    0.855      0.005  
-#&gt; 
-#&gt;     Quebec.chilled        0.853      0.005  
-#&gt; 
-#&gt;  Mississippi.chilled      0.948      0.315  
-#&gt; --------------------------------------------
+#&gt;  Mississippi    chilled       0.948       0.31   
+#&gt; -------------------------------------------------
 #&gt; 
 #&gt; Table: The results of Shapiro-Wilk normality test.
 #&gt; </div><div class='input'>
-<span class='no'>rez</span> <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='format_numbers.html'>format_numbers</a></span>(<span class='fl'>3</span>, <span class='st'>"g"</span>) <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='prettify_p_value.html'>prettify_p_column</a></span>() <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='http://www.rdocumentation.org/packages/pander/topics/pander'>pander</a></span>()</div><div class='output co'>#&gt; 
-#&gt; --------------------------------------------
-#&gt;     Type.Treatment      statistic   p.value 
-#&gt; ---------------------- ----------- ---------
-#&gt;   Quebec.nonchilled       0.825      &lt;0.01  
+
+<span class='fu'><a href='http://www.rdocumentation.org/packages/pander/topics/pander'>pander</a></span>(<span class='no'>rez</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt; 
+#&gt; -------------------------------------------------
+#&gt;     Type       Treatment    statistic   p.value  
+#&gt; ------------- ------------ ----------- ----------
+#&gt;    Quebec      nonchilled     0.825     &lt;0.01 ** 
 #&gt; 
-#&gt; Mississippi.nonchilled    0.855      &lt;0.01  
+#&gt;    Quebec       chilled       0.853     &lt;0.01 ** 
 #&gt; 
-#&gt;     Quebec.chilled        0.853      &lt;0.01  
+#&gt;  Mississippi   nonchilled     0.855     &lt;0.01 ** 
 #&gt; 
-#&gt;  Mississippi.chilled      0.948      0.32   
-#&gt; --------------------------------------------
+#&gt;  Mississippi    chilled       0.948       0.31   
+#&gt; -------------------------------------------------
 #&gt; 
 #&gt; Table: The results of Shapiro-Wilk normality test.
 #&gt; </div></pre>

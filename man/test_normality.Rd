@@ -4,24 +4,31 @@
 \alias{test_normality}
 \alias{print.test_normality}
 \alias{pander.test_normality}
-\title{Normality tests with formula interface}
+\title{Normality tests by goups}
 \usage{
-test_normality(x, data = NULL, test = "Shapiro-Wilk", method = "holm",
-  ..., groups = NULL, sep = " | ", prettify = FALSE)
+test_normality(x, data = NULL, test = "Shapiro-Wilk", method = NULL, ...,
+  groups = NULL)
 
-\method{print}{test_normality}(x, ..., rm_col_method = TRUE)
+\method{print}{test_normality}(x, ..., digits_p = 2, signif_stars = TRUE,
+  digits_stat = 3, rm_zero = FALSE, show_col_method = FALSE)
 
-\method{pander}{test_normality}(x, ..., caption = NA, rm_col_method = TRUE)
+\method{pander}{test_normality}(x, caption = NA, ..., digits_p = 2,
+  signif_stars = TRUE, digits_stat = 3, rm_zero = FALSE,
+  show_col_method = FALSE)
 }
 \arguments{
-\item{x}{Either a formula, a numeric vector or a name of a vector
-in \code{data}.
-If \code{x} is a formula (e.g. \code{variable ~ factor}), left-hand
-side provides variable to be summarized. Right-hand side and condition
-describe subsets. If the left-hand side is empty, right-hand side and
-condition are shifted over as a convenience.}
+\item{x}{Either a formula, a numeric vector or a name of a column
+     in \code{data}. \itemize{
+\item If \code{x} is a formula (e.g. \code{variable ~ factor}), left-hand
+     side provides name of variable to be tested. In the right-hand side
+     there are names of factor variables to be used to create subsets.
+     If the left-hand side is empty ((e.g. \code{~ factor}), right-hand
+     side is treated as variable name to test.
+     }}
 
-\item{data}{A data frame that contains the variables mentioned in \code{x}.}
+\item{data}{(data rame|\code{NULL}) Either a data frame that contains the
+variables mentioned in \code{x} or \code{NULL} (if the variables
+are in the function's environment).}
 
 \item{test}{(string | function) Either a string  (case insensitive, may be
             unambiguously abbreviated) with a name of nomality test or a
@@ -39,17 +46,26 @@ Possible names of tests:\itemize{
 For available methods check \code{\link[base]{p.adjust.methods}}.}
 
 \item{...}{Parameters to be passed to the main function
-(defined/selected in \code{fun}) that carries out a normality test.}
+(defined/selected in \code{test}) that carries out a normality test.}
 
-\item{groups}{grouping variable that will be folded into the formula (if there is room for it).
-This offers some additional flexibility in how formulas can be specified.}
+\item{digits_p}{(numeric) Number of significant digits to round a p value to.
+                  No less than 2. \itemize{
+\item if \code{digits_p = 2}: \enumerate{
+      \item values below 0.001 are printed as \code{"<0.001"};
+      \item values between 0.001 and 0.01 as \code{"<0.01"};
+      \item all other values are rounded to two decimal places.
+      }
+\item if \code{digits_p = 3}, only formatting \code{"<0.01"} is skipped.
+}}
 
-\item{sep}{(not used yet)}
+\item{signif_stars}{(logical) If \code{TRUE}, significance stars are pronted.}
 
-\item{prettify}{(logical) Should functions \code{\link{format_numbers}} and
-\code{\link{prettify_p_column}} be applied on the output of the function?}
+\item{digits_stat}{(integer) number of either decimal places or significant digits to round test statistic to.}
 
-\item{rm_col_method}{(logical) If \code{TRUE} column "method" is not printed.}
+\item{rm_zero}{(logical) Flag if leading zero before the point should be
+removed.}
+
+\item{show_col_method}{(logical) If \code{FALSE} column "method" is not printed.}
 
 \item{caption}{(string|\code{NULL}|\code{NA}) A caption for the table with results of a normality test. If \code{NA} — a default caption is printed (default). If \code{NULL} – no caption is printed.}
 }
@@ -70,7 +86,7 @@ library(BioStat)
 library(pander)
 data(CO2)
 
-test_normality(uptake ~ Treatment, data = CO2, prettify = TRUE)
+test_normality(uptake ~ Treatment, data = CO2)
 
 rez <- test_normality(uptake ~ Type + Treatment,
                       data = CO2)
@@ -81,29 +97,15 @@ rez2 <- test_normality(uptake ~ Type + Treatment,
                        test = "chi-sq")
 rez2
 
-# Round to 3 decimal digits (all columns):
-format_numbers(rez, 3)
 
-# Round to 3 significant digits (all columns):
-format_numbers(rez, 3, format = "g")
+class(rez2)
 
-# Prettify the column with p-values
-prettify_p_column(rez)
 
 # Print as a 'pandoc' table
 pander(rez)
 
-# Other output possibilities
-rez \%>\% format_numbers(3)
 
-rez \%>\%
-   format_numbers(3) \%>\%
-   pander()
-
-rez \%>\%
-    format_numbers(3, "g") \%>\%
-    prettify_p_column() \%>\%
-    pander()
+pander(rez, digits = 3)
 }
 \seealso{
 Package \pkg{nortest}\cr

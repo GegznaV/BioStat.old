@@ -29,6 +29,8 @@ tests to conduct. Valid values are "tukey" and "games-howell".}
 standards (i.e. replace all values lower than .001 with '<.001'). This only
 applies to the printing of the object, not to the way the p values are
 stored in the object.}
+
+\item{...}{(Further arguments)}
 }
 \value{
 A list of three elements:
