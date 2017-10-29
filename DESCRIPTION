@@ -1,12 +1,13 @@
 Package: BioStat
 Type: Package
-Title: Convenience Functions for Statistical Analysis (for Biostatistics and Biometry Lectures)
-Description: A collection of convenience functions dedicaded for biostatistics
-             and biometry lectures (GMF1059) that do some common statistical 
-             routines without writting to much code. 
-             Package is stil under its development and usage of some functions 
-             might change in the future.
-Version: 0.0.8.9003
+Title: A Collection of Functions for Biostatistics and Biometry Lectures
+Description: The package contains a collection of functions dedicated for 
+             biostatistics and biometry lectures (GMF1059) that do some common  
+             statistical routines without writing to much code. 
+             The package is still in its development and usage of some 
+             functions is for demonstration purposes only as they may change
+             in the future.
+Version: 0.0.8.9004
 Date: 2017-09-29
 Authors@R: c(
     person("Vilmantas", "Gegna", role = c("aut","cre","cph"),
@@ -38,7 +39,6 @@ Imports:
     nortest,
     fitdistrplus,
     MASS,
-    userfriendlyscience,
     mosaic,
     mosaicCore,
     mosaicData

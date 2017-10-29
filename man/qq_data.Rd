@@ -14,15 +14,15 @@ qq_data(x, data = NULL, distribution = "norm", ..., line = c("quartiles",
 }
 \arguments{
 \item{x}{Either a formula, a numeric vector or a name of a column
-     in \code{data}. \itemize{
-\item If \code{x} is a formula (e.g. \code{variable ~ factor}), left-hand
-     side provides name of variable to be tested. In the right-hand side
-     there are names of factor variables to be used to create subsets.
-     If the left-hand side is empty ((e.g. \code{~ factor}), right-hand
-     side is treated as variable name to test.
-     }}
+            in \code{data}. \itemize{
+    \item If \code{x} is a formula (e.g. \code{variable ~ factor}), left-hand
+    side provides the name of a variable to be tested. In the right-hand side
+    there are names of factor variables to be used to create subsets.
+    If the left-hand side is empty ((e.g. \code{~ factor}), right-hand
+                                    side is treated as variable name to test.
+}}
 
-\item{data}{(data rame|\code{NULL}) Either a data frame that contains the
+\item{data}{(data frame|\code{NULL}) Either a data frame that contains the
 variables mentioned in \code{x} or \code{NULL} (if the variables
 are in the function's environment).}
 
@@ -70,10 +70,10 @@ are in the function's environment).}
 \item{labels}{vector of text strings to be used to identify points, defaults to
     \code{names(x)} or observation numbers if \code{names(x)} is \code{NULL}.}
 
-\item{groups}{(\code{NULL}|factor|character) An alternative way to show  provide
-groups. If \code{x} is a numeric vector, \code{groups} must be factor
-(or \code{NULL}). If  \code{x} is a sting, \code{groups} must also be
- a string (or \code{NULL}).}
+\item{groups}{(\code{NULL}|factor|character) An alternative way to provide
+groups. If \code{x} is a numeric vector, \code{groups} must be
+a factor (or \code{NULL}). If  \code{x} is a sting,
+\code{groups} must also be a string (or \code{NULL}).}
 
 \item{sep}{(not used yet).}
 

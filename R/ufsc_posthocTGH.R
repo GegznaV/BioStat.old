@@ -3,14 +3,15 @@
 # Games-Howell methods.
 #
 # posthocTGH
+#
+# This function is imported from package \pkg{userfriendlyscience}
+# (\code{\link[userfriendlyscience]{posthocTGH}})
 
 #' Games-Howell and Tukey post-hoc tests
 #'
 #' Either Games-Howell or Tukey post-hoc tests for one-way analysis of
 #' variance (ANOVA).
 #'
-#' This function is omported from package \pkg{userfriendlyscience}
-#' (\code{\link[userfriendlyscience]{posthocTGH}})
 #'
 #'
 #'
