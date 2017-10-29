@@ -1,44 +1,68 @@
-# =============================================================================
+#  test_normality() =========================================================
 #' Normality tests by groups
 #'
-#' Perform Shapiro-Wilk (default),
+#' Perform tests of normality for each subset of groups.
+#' The available tests include Shapiro-Wilk (default),
 #' Lilliefors (Kolmogorov-Smirnov), Anderson_darling and other tests of normality.
 #'
 #' @param x Either a formula, a numeric vector or a name of a column
-#'          in \code{data}. \itemize{
+#'             in \code{data}. \itemize{
 #'     \item If \code{x} is a formula (e.g. \code{variable ~ factor}), left-hand
-#'          side provides name of variable to be tested. In the right-hand side
-#'          there are names of factor variables to be used to create subsets.
-#'          If the left-hand side is empty ((e.g. \code{~ factor}), right-hand
-#'          side is treated as variable name to test.
-#'          }
+#'     side provides the name of a variable to be tested. In the right-hand side
+#'     there are names of factor variables to be used to create subsets.
+#'     If the left-hand side is empty ((e.g. \code{~ factor}), right-hand
+#'                                     side is treated as variable name to test.
+#' }
 #'
-#' @param groups (\code{NULL}|factor|character) An alternative way to show  provide
-#'         groups. If \code{x} is a numeric vector, \code{groups} must be factor
-#'         (or \code{NULL}). If  \code{x} is a sting, \code{groups} must also be
-#'          a string (or \code{NULL}).
+#' @param groups (\code{NULL}|factor|character) An alternative way to provide
+#'                groups. If \code{x} is a numeric vector, \code{groups} must be
+#'                a factor (or \code{NULL}). If  \code{x} is a sting,
+#'                \code{groups} must also be a string (or \code{NULL}).
 #'
-#' @param data (data rame|\code{NULL}) Either a data frame that contains the
+#' @param data (data frame|\code{NULL}) Either a data frame that contains the
 #'             variables mentioned in \code{x} or \code{NULL} (if the variables
 #'             are in the function's environment).
 #'
-#' @param test (string | function) Either a string  (case insensitive, may be
-#'             unambiguously abbreviated) with a name of nomality test or a
-#'             function, which carries out the test.\cr
+#' @param test (string | function) Either a string  (case insensitive, maybe
+#' unambiguously abbreviated) with a name of nomality test or a
+#' function, which carries out the test.\cr
 #' Possible names of tests:\itemize{
-#'\item{"SW", "Shapiro-Wilk" — for Shapiro-Wilk test;}
-#'\item{"Lilliefors" — for Kolmogorov-Smirnov test wtih Lilliefor's correction;}
-#'\item{"AD", "Anderson-Darling" — for Anderson-Darling test;}
-#'\item{"CVM", "CM", "Cramer-von Mises" — for Cramer-von Mises test;}
-#'\item{"SF", "Shapiro-Francia" — for Shapiro-Francia test;}
-#'\item{"Chi-squared","Pearsons" — for Pearson's chi-squared test of normality.}
-#'}
+#'     \item{"SW", "Shapiro-Wilk" — for Shapiro-Wilk test;}
+#'     \item{"Lilliefors" — for Kolmogorov-Smirnov test wtih Lilliefor's correction;}
+#'     \item{"AD", "Anderson-Darling" — for Anderson-Darling test;}
+#'     \item{"CVM", "CM", "Cramer-von Mises" — for Cramer-von Mises test;}
+#'     \item{"SF", "Shapiro-Francia" — for Shapiro-Francia test;}
+#'     \item{"Chi-squared","Pearsons" — for Pearson's chi-squared test of normality.}
+#' }
 #'
-#' @param method (string) p value adjustment method for multiple comparisons.
-#'        For available methods check \code{\link[stats]{p.adjust.methods}}.
+#' @param signif_stars (logical) If \code{TRUE}, significance stars are printed.
 #'
-#' @param ... Parameters to be passed to the main function
-#'            (defined/selected in \code{test}) that carries out a normality test.
+#' @param print_legend (logical) If \code{TRUE}, legend for significance stars
+#'                     is printed.
+#'
+#' @param digits_stat (integer) number of either decimal places or significant
+#'                    digits to round test statistic to.
+#'
+#' @param format_stat (character) Number format "f", "g"  or
+#'                    "auto" (default) for test statistic. More about number
+#'                    formats "f" and "g" you can find in documentation of
+#'                    function \code{\link[base]{formatC}} section \code{format}.
+#'
+#' @param show_col_method (logical) If \code{FALSE} column "method" is not
+#'                   printed. \code{FALSE} is default.
+#'
+#' @param caption (string|\code{NULL}|\code{NA}) A caption for the table with
+#'                results of a normality test. If \code{NA} — a default caption
+#'                is printed (default). If \code{NULL} – no caption is printed.
+#'
+#' @param p_adjust_method (\code{NULL}|string) A name of p value adjustment
+#'               method for multiple comparisons. For available methods check
+#'               \code{\link[stats]{p.adjust.methods}}.
+#'               If \code{NULL}, no adusted p value is calculated (default).
+#'               If string (e.g., \code{"holm"}), an additional column
+#'               \code{p.adjust} is calculated.
+#'
+#' @param ... Parameters to be passed to the further methods.
 #'
 #'
 #' @inheritParams format_p_values
@@ -47,46 +71,78 @@
 #' @inheritParams nortest::pearson.test
 #'
 #'
-#' @return  A data frame with normality test
-#'          results for each group.
+#' @return  \itemize{
+#'       \item Function \code{test_normality} returns a data frame with
+#'             normality test results for each group.
+#'       \item \code{print} and \code{pander} methods format and print the
+#'       results. By default, methods \code{print.test_normality} and
+#'       \code{pander.test_normality} do not print column called "method".
+#' }
+#'
 #'
 #' @export
 #'
 #' @importFrom stats shapiro.test
 #' @import nortest
 #'
-#' @seealso
-#' Package \pkg{nortest}\cr
+#' @seealso \itemize{
+#'   \item \code{\link[stats]{shapiro.test}} in package \pkg{stats};
+#'   \item \code{\link[nortest]{lillie.test}} in package \pkg{nortest};
+#'   \item \code{\link[nortest]{pearson.test}} in package \pkg{nortest};
+#'   \item \code{\link[nortest]{ad.test}} in package \pkg{nortest};
+#'   \item \code{\link[nortest]{cvm.test}} in package \pkg{nortest};
+#'   \item \code{\link[nortest]{sf.test}} in package \pkg{nortest}.
+#' }
 #'
 #' @examples
 #' library(BioStat)
 #' library(pander)
 #' data(CO2)
 #'
+#' # For whole dataset
+#' test_normality( ~ uptake, data = CO2)
+#'
+#' # For each subgroup
 #' test_normality(uptake ~ Treatment, data = CO2)
 #'
+#' # For each subgroup by several factor variables
 #' rez <- test_normality(uptake ~ Type + Treatment,
 #'                       data = CO2)
 #' rez
 #'
+#' # Modify printed output
+#' print(rez, rm_zero = TRUE)
+#'
+#' print(rez, digits_p = 2)
+#'
+#'
+#' # Choose another test of normality
 #' rez2 <- test_normality(uptake ~ Type + Treatment,
-#'                        data = CO2,
-#'                        test = "chi-sq")
+#'                       data = CO2,
+#'                       test = "chi-sq")
 #' rez2
 #'
 #'
-#' class(rez2)
-#'
-#'
-#' # Print as a 'pandoc' table
+#' # Print as a 'pandoc' table (for RMarkdown reports)
 #' pander(rez)
 #'
+#' pander(rez, digits_stat = 2)
 #'
-#' pander(rez, digits = 3)
+#' pander(rez, digits_p = 2)
+#'
+#' pander(rez, digits_p = 4, signif_stars = FALSE)
+#'
+#'
+#' # View unformatted results in a separate window
+#' fix(rez)
+#'
+#' # Show object's class
+#' class(rez)
+#'
 test_normality <- function(x,
                            data = NULL,
                            test = "Shapiro-Wilk",
-                           method = NULL,
+                           p_adjust_method = NULL,
                            ...,
                            groups = NULL
 ) {
@@ -132,7 +188,6 @@ test_normality <- function(x,
                            "chi-squared" = ,
                            "pearson.test" = ,
                            "pearsons"         = nortest::pearson.test
-
         )
 
     } else {
@@ -143,22 +198,22 @@ test_normality <- function(x,
     # Output
     test_(x,
           data = data,
-          method = method,
+          p_adjust_method = p_adjust_method,
           ...,
           groups = groups,
           test = use_test)
-
 }
 
-# =============================================================================
+# test_()===================================================================
 test_ <- function(x,
                   data = NULL,
-                  method = NULL,
+                  p_adjust_method = NULL,
                   ...,
                   groups = NULL,
                   test = stats::shapiro.test)
     # na.rm = getOption("na.rm", FALSE)
 {
+    # Make formula according to input type
     if (is.numeric(x)) {
         if (!is.null(groups)) {
             data <- data.frame(x = x, groups = groups)
@@ -192,7 +247,7 @@ test_ <- function(x,
             data %>%
             dplyr::group_by(!!!gr_vars)  %>%
             dplyr::do(.[[1]] %>%
-                          test(...) %>%
+                          test() %>%
                           broom::tidy()
             )  %>%
             dplyr::ungroup()  %>%
@@ -200,14 +255,14 @@ test_ <- function(x,
             as.data.frame()
 
         # If adjusted p value is needed
-        if (!is.null(method)) {
-            rez$p.adjust <- p.adjust(rez$p.value, method = method)
+        if (!is.null(p_adjust_method)) {
+            rez$p.adjust <- p.adjust(rez$p.value, method = p_adjust_method)
         }
 
         rez <- structure(rez,
                          class = c("test_normality", "data.frame"),
                          test = levels(rez$method),
-                         p_adjust_method = method)
+                         p_adjust_method = p_adjust_method)
 
         return(rez)
 
@@ -217,28 +272,25 @@ test_ <- function(x,
 
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# print()  ----------------------------------------------------------------
 #' @rdname test_normality
-#' @details By default, methods \code{print.test_normality} and
-#'          \code{pander.test_normality} do not print column called "method".
 #' @export
-#' @param signif_stars (logical) If \code{TRUE}, significance stars are printed.
-#' @param signif_stars (logical) If \code{TRUE}, legend for significance stars is printed.
-#' @param digits_stat (integer) number of either decimal places or significant digits to round test statistic to.
-#' @param show_col_method (logical) If \code{FALSE} column "method" is not printed.
 print.test_normality <- function(x,
                                  ...,
-                                 digits_p = 2,
+                                 digits_p = 3,
                                  signif_stars = TRUE,
                                  digits_stat = 3,
+                                 format_stat = c("auto","f", "g"),
                                  rm_zero = FALSE,
                                  print_legend = TRUE,
                                  show_col_method = FALSE
                                  ) {
-
+    format_stat <- match.arg(format_stat)
     x <- format_object(x,
                        digits_p = digits_p,
                        digits_stat = digits_stat,
+                       format_stat = format_stat,
                        signif_stars = signif_stars,
                        signif_as_separate_column = TRUE,
                        signif_stars_col_name = " ",
@@ -246,100 +298,79 @@ print.test_normality <- function(x,
                        show_col_method = show_col_method
     )
 
-
     # Pirnt the name of the method
-    cat("\n", "The results of" , which_test(x), "\n\n")
+    cat("\n", "The results of", which_test(x), "\n\n")
 
+    # Print main results
     NextMethod(print, x)
 
-    if (print_legend == TRUE)
-        cat("\n", signif_stars_legend(), "\n")
+    # Print signif. stars legend
+    if (print_legend == TRUE && signif_stars == TRUE)
+        cat("\nLegend for p-values:\n", signif_stars_legend(), "\n")
+
+    # Print p adjust. method:
+    p_adjust_method <- attr(x, "p_adjust_method")
+    if (!is.null(p_adjust_method) && nrow(x) > 1)
+        cat("The method for p-value adjustment:",
+            first_capital(p_adjust_method), "\n")
+
 }
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# pander()  ----------------------------------------------------------------
 #' @export
 #' @rdname test_normality
-#'
-#' @param caption (string|\code{NULL}|\code{NA}) A caption for the table with results of a normality test. If \code{NA} — a default caption is printed (default). If \code{NULL} – no caption is printed.
-#'
 pander.test_normality <- function(x,
                                   caption = NA,
                                   ...,
-                                  digits_p = 2,
+                                  digits_p = 3,
                                   signif_stars = TRUE,
                                   digits_stat = 3,
+                                  format_stat = c("auto","f", "g"),
                                   rm_zero = FALSE,
                                   print_legend = TRUE,
                                   show_col_method = FALSE) {
 
+    format_stat <- match.arg(format_stat)
+
     x <- format_object(x,
                        digits_p = digits_p,
                        digits_stat = digits_stat,
+                       format_stat = format_stat,
                        signif_stars = signif_stars,
                        signif_as_separate_column = FALSE,
                        rm_zero = rm_zero,
                        show_col_method = show_col_method
     )
 
+    # String for p adjust. method:
+    p_adjust_method <- attr(x, "p_adjust_method")
+    adj_sting <-
+        if (!is.null(p_adjust_method) & nrow(x) > 1) {
+            paste0(" The method for p-value adjustment: ",
+                   first_capital(p_adjust_method), ".")
+        } else {
+            ""
+        }
+
     # Add caption
     caption <-
         if (is.null(caption)) {
             NULL
         } else if (is.na(caption)) {
-            glue::glue('The results of {which_test(x)}.')
+            glue::glue('The results of {which_test(x)}.{adj_sting}')
         } else {
             caption
         }
 
+    # Print table of results
     NextMethod("pander", x, caption = caption, ...)
 
-    if (print_legend == TRUE)
-        cat("\n", signif_stars_legend(), "\n")
+    # Print legend
+    if (print_legend == TRUE && signif_stars == TRUE)
+        cat("Legend for p-values:\n", signif_stars_legend(), "\n")
+
 }
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# helpers --------------------------------------------------------------------
 which_test <- function(x) {
     attr(x, "test")
-}
-# ============================================================================
-format_object <- function(x, ...) {
-    UseMethod("format_object")
-}
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-format_object.test_normality <- function(x,
-                                         digits_p = 3,
-                                         digits_stat = 3,
-                                         signif_stars = TRUE,
-                                         signif_as_separate_column = TRUE,
-                                         signif_stars_col_name = "signif.",
-                                         rm_zero = FALSE,
-                                         show_col_method = FALSE
-) {
-    # Should column "method" be removed?
-    if (show_col_method == FALSE) {
-        x$method <- NULL
-    }
-    # Add column with significance stars
-    if (signif_stars == TRUE & signif_as_separate_column == TRUE) {
-        x[[signif_stars_col_name]] <- sprintf("%-3s", get_signif_stars(x$p.value))
-        # There is no point to show significance stars two times
-        signif_stars = FALSE
-    }
-
-    # Round
-    x <- format_as_p_columns(x,
-                             digits_p = digits_p,
-                             rm_zero = rm_zero,
-                             signif_stars = signif_stars)
-
-    if (is.numeric(x$statistic)) {
-        format <- if (all(x$statistic < 1)) "f" else "g"
-
-        x$statistic %<>%
-            formatC(format = format, digits = digits_stat)
-    }
-
-    if (rm_zero == TRUE) {
-        x$statistic %<>% BioStat::rm_zero()
-    }
-    # Output:
-    x
 }

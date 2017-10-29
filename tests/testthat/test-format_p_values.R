@@ -63,7 +63,7 @@ test_that("`format_as_p_columns()` changes column 'p.value'", {
 test_that("`format_as_p_columns()` changes column 'p.adjust'", {
 
     data("CO2")
-    data <- test_normality(uptake ~ Type, data = CO2, method = "holm")
+    data <- test_normality(uptake ~ Type, data = CO2, p_adjust_method = "holm")
     rez  <- format_as_p_columns(data)
 
     classes_before <- purrr::map_chr(data, ~class(.))

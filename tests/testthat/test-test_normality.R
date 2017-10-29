@@ -12,7 +12,7 @@ test_that("`test_normality()` produces object with correct classes", {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 test_that("`test_normality()` produces correct attributes", {
     data(CO2, package = "datasets")
-    rez <- test_normality(uptake ~ Type, data = CO2, method = "holm")
+    rez <- test_normality(uptake ~ Type, data = CO2, p_adjust_method = "holm")
 
     expect_equal(attr(rez, "test"), "Shapiro-Wilk normality test")
     expect_equal(attr(rez, "p_adjust_method"), "holm")

@@ -1,23 +1,21 @@
-#' @docType package
 #' @name BioStat
+#' @docType package
 #' @title A Collection of Functions for Biostatistics and Biometry Lectures
 #'
-#' @description The package contains convenience functions for common statistical analyses
-#' and data wrangling procedures without writting to much code.
-#' Package is stil under its development and usage of some functions might
-#' change in the future.
+#' @description The package contains a collection of functions dedicated for
+#' biostatistics and biometry lectures (GMF1059) that do some common
+#' statistical routines without writing to much code.
+#' The package is still in its development and usage of some functions is
+#' for demonstration purposes only as they may change in the future.
 #'
-#' @importFrom stats model.frame ppoints qnorm
-#' @importFrom pander pander
-#' @importFrom methods existsFunction
-#' @importFrom stats coef complete.cases model.extract
-#'                   naprint p.adjust ptukey qtukey quantile
-#'                   symnum var
-#' @importFrom utils capture.output combn
 #' @import magrittr
 #' @import Hmisc
-#' @importFrom  pander pander
-#' @importFrom stats sd
+#' @importFrom stats model.frame ppoints qnorm
+#' @importFrom pander pander
+#' @importFrom stats coef complete.cases model.extract
+#'                   naprint p.adjust ptukey qtukey quantile
+#'                   symnum var sd
+#' @importFrom utils capture.output combn
 #' @importFrom utils head tail
 
 NULL
