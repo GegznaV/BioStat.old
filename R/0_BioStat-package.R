@@ -16,6 +16,8 @@
 #' @importFrom utils capture.output combn
 #' @import magrittr
 #' @import Hmisc
-#' @import Hmisc
+#' @importFrom  pander pander
+#' @importFrom stats sd
+#' @importFrom utils head tail
 
 NULL

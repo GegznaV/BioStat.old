@@ -135,34 +135,6 @@ getVarValues <- function(VAR,
 }
 
 
-#  %++% ------------------------------------------------------
-
-#' @title Infix version of \code{paste0}
-#'
-#' @description
-#'  Infix versions of \code{paste0} and \code{paste}.
-#'
-#' @details
-#' \code{`\%++\%`} is an infix version of \code{paste0}. \cr
-#' \code{`\%.+.\%`} is an infix version of \code{paste}.
-#'
-#' @param a,b values to be pasted with either \code{paste0(a,b)} or \code{paste}.
-#'
-#'
-#' @export
-#' @source Inspired by "Inxix functions" in
-#' \href{http://adv-r.had.co.nz/Functions.html#function-arguments}{Advanced R}
-#' by Hadley Wickham.
-#' @seealso \code{\link[base]{paste}}, \code{\link[spAddins]{insertPaste0_Addin}}
-#' @keywords internal
-#' @examples
-#' "a" %++% "b"
-#' #> [1] "ab"
-#'
-#'
-`%++%` <- function(a, b) {paste0(a, b)}
-
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #' Row-bind data frames which are inside a list and keep the names of the list fields
@@ -218,4 +190,72 @@ rbind_df_in_list <- function(x){
     # rownames(DF) <- NULL
 
     DF
+}
+
+# head_tail -------------------------------------------------------------------
+head_tail <- function(x,
+             top = 4,
+             bottom = 4,
+             sep = "...") {
+        x <- dplyr::mutate_all(as.data.frame(x), as.character)
+        h <- head(x, top)
+        t <- tail(x, bottom)
+
+        dots  <- rep(sep, ncol(x))
+        space <- rep(" ", ncol(x))
+        rbind(h, `...` = dots, t, `  ` = space)
+}
+
+
+
+# "glue" family -----------------------------------------------------------
+
+eval_glue <- function(..., envir = parent.frame(),
+         .sep = "", .open = "{", .close = "}") {
+
+    x2 <- glue::glue(..., .envir = envir, .open = .open, .close = .close)
+    eval(parse(text = x2), envir = envir)
+}
+
+stop_glue <- function(..., call. = TRUE, domain = NULL, envir = parent.frame()) {
+    stop(glue::glue(..., .envir = envir), call. = call., domain = domain)
+}
+
+warning_glue <- function(...,
+                         call. = TRUE,
+                         immediate. = FALSE,
+                         noBreaks. = FALSE,
+                         domain = NULL,
+                         envir = parent.frame()) {
+    warning(glue::glue(..., .envir = envir),
+            call. = call.,
+            immediate. = immediate.,
+            noBreaks. = noBreaks.,
+            domain = domain
+    )
+}
+
+message_glue <- function(...,
+                         domain = NULL,
+                         appendLF = TRUE,
+                         envir = parent.frame()) {
+    message(glue::glue(..., .envir = envir),
+            appendLF = appendLF,
+            domain = domain
+    )
+}
+
+sprintf_glue <- function(fmt, ...,
+                         domain = NULL,
+                         appendLF = TRUE,
+                         envir = parent.frame()) {
+    sprintf(glue::glue(fmt, .envir = envir), ...)
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+round_signif <- function(x, digits = 3) {
+    x %>%
+        # readr::parse_number() %>%
+        as_number() %>%
+        sprintf_glue(fmt = "%.{digits}g")
 }

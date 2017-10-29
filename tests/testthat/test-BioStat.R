@@ -1,9 +1,9 @@
 
-context("Operator `%++%`")
-
-test_that("`%++%` works", {
-    expect_equal("a" %++% "b", "ab")
-})
+# context("Operator `%++%`")
+#
+# test_that("`%++%` works", {
+#     expect_equal("a" %++% "b", "ab")
+# })
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 context("Function `qq_line_coeffs`")
@@ -17,71 +17,6 @@ test_that("`qq_line_coeffs()` works", {
     # Approximate rezult
     expect_equal(round(rez, 7),
                  c(intercept = 0.1078016, slope = 0.8185576))
-})
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-context("Function `prettify_p_value`")
-
-test_that("`prettify_p_value()` works with numbers", {
-    expect_equal(prettify_p_value(0.005),    "<0.01 ")
-    expect_equal(prettify_p_value(0.0005),   "<0.001")
-    expect_equal(prettify_p_value(0.052147), " 0.05 ")
-})
-test_that("`prettify_p_value()` works with characters", {
-    expect_equal(prettify_p_value("0.005"),    "<0.01 ")
-    expect_equal(prettify_p_value("0.0005"),   "<0.001")
-    expect_equal(prettify_p_value("0.052147"), " 0.05 ")
-})
-test_that("`prettify_p_value()` works with factors", {
-    expect_equal(prettify_p_value(factor("0.005")),    "<0.01 ")
-    expect_equal(prettify_p_value(factor("0.0005")),   "<0.001")
-    expect_equal(prettify_p_value(factor("0.052147")), " 0.05 ")
-})
-test_that("input range of `prettify_p_value()`", {
-    # Input range is between 0 and 1
-    expect_error(prettify_p_value(-2))
-    expect_error(prettify_p_value(2))
-
-    # No more than one input value is accepted
-    expect_error(prettify_p_value(c(0.5,0.6)))
-
-})
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-context("Function `prettify_p_column`")
-
-test_that("`prettify_p_column()` changes column 'p.value'", {
-
-    data("CO2")
-    data <- test_normality(uptake ~ Type, data = CO2)
-    rez  <- prettify_p_column(data)
-
-    classes_before <- purrr::map_chr(data, ~class(.))
-    classes_after  <- purrr::map_chr(rez,  ~class(.))
-
-    # Classes of other columns than "p.value" must not change
-    expect_true(all(classes_before[-c(3, 5)] ==  classes_after[-c(3, 5)]))
-
-    # Class of colmn "p.value" changes to "character"
-    expect_match(classes_before["p.value"], "numeric")
-    expect_match(classes_after["p.value"], "character")
-
-})
-
-test_that("`prettify_p_column()` changes column 'p.adjust'", {
-
-    data("CO2")
-    data <- test_normality(uptake ~ Type, data = CO2)
-    rez  <- prettify_p_column(data)
-
-    classes_before <- purrr::map_chr(data, ~class(.))
-    classes_after  <- purrr::map_chr(rez,  ~class(.))
-
-    # Classes of other columns than "p.value" must not change
-    expect_true(all(classes_before[-c(3, 5)] ==  classes_after[-c(3, 5)]))
-
-    # Class of colmn ""p.adjust" changes to "character"
-    expect_match(classes_before["p.adjust"], "numeric")
-    expect_match(classes_after["p.adjust"], "character")
 })
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
