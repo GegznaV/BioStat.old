@@ -17,11 +17,15 @@ Convert all character variables to factors
 }
 \examples{
 library(BioStat)
+data(PlantGrowth)
+
 
 # Basic syntax
-all_chr_to_factor(PlantGrowth)
+PlantGrowth <- all_chr_to_factor(PlantGrowth)
+
 
 # Update the same object using operator from `magrittr` package
+library(magrittr)
 PlantGrowth \%<>\% all_chr_to_factor()
 
 

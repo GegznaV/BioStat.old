@@ -106,40 +106,15 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>BioStat</span>)
+<span class='fu'>data</span>(<span class='no'>PlantGrowth</span>)
+
 
 <span class='co'># Basic syntax</span>
-<span class='fu'>all_chr_to_factor</span>(<span class='no'>PlantGrowth</span>)</div><div class='output co'>#&gt;    weight group
-#&gt; 1    4.17  ctrl
-#&gt; 2    5.58  ctrl
-#&gt; 3    5.18  ctrl
-#&gt; 4    6.11  ctrl
-#&gt; 5    4.50  ctrl
-#&gt; 6    4.61  ctrl
-#&gt; 7    5.17  ctrl
-#&gt; 8    4.53  ctrl
-#&gt; 9    5.33  ctrl
-#&gt; 10   5.14  ctrl
-#&gt; 11   4.81  trt1
-#&gt; 12   4.17  trt1
-#&gt; 13   4.41  trt1
-#&gt; 14   3.59  trt1
-#&gt; 15   5.87  trt1
-#&gt; 16   3.83  trt1
-#&gt; 17   6.03  trt1
-#&gt; 18   4.89  trt1
-#&gt; 19   4.32  trt1
-#&gt; 20   4.69  trt1
-#&gt; 21   6.31  trt2
-#&gt; 22   5.12  trt2
-#&gt; 23   5.54  trt2
-#&gt; 24   5.50  trt2
-#&gt; 25   5.37  trt2
-#&gt; 26   5.29  trt2
-#&gt; 27   4.92  trt2
-#&gt; 28   6.15  trt2
-#&gt; 29   5.80  trt2
-#&gt; 30   5.26  trt2</div><div class='input'>
+<span class='no'>PlantGrowth</span> <span class='kw'>&lt;-</span> <span class='fu'>all_chr_to_factor</span>(<span class='no'>PlantGrowth</span>)
+
+
 <span class='co'># Update the same object using operator from `magrittr` package</span>
+<span class='fu'>library</span>(<span class='no'>magrittr</span>)
 <span class='no'>PlantGrowth</span> <span class='kw'>%&lt;&gt;%</span> <span class='fu'>all_chr_to_factor</span>()
 
 

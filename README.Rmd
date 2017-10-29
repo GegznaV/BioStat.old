@@ -27,38 +27,52 @@ knitr::include_graphics("https://raw.githubusercontent.com/GegznaV/BioStat/maste
 ```
 
 
-`BioStat` – Convenience Functions for Statistical Analysis
-===========================================================
+`BioStat` – A Collection of Functions for Biostatistics and Biometry Lectures
+==============================================================================
 
-`BioStat` is an `R` package that contais a collection of supplementary 
-functions for biostatistics and biometry lectures.
+`BioStat` is an `R` package that contains a collection of functions dedicated for biostatistics and biometry lectures (GMF1059) that do some common statistical routines without writing to much code. 
+ 
+The package is still in its development and some functions are for 
+ demonstration purposes only as they may change in the future.
 
-***
-
-**Package is under development** and some functions and default seting may 
-change significantly.
-
-***
+Documentation and more information available at **http://gegznav.github.io/BioStat/**
 
 ## Install package
 
 To install a developement version of the package from `GitHub`:
 
 ```{r Install package, eval=FALSE}
-if (!"devtools" %in% installed.packages()) install.packages("devtools")
+if (!"devtools" %in% installed.packages()) 
+    install.packages("devtools")
 
 devtools::install_github("GegznaV/BioStat")
 ```
 
-
-<!-- * * * -->
-
-<!--  <p align="right"> </p>     -->
-
-
-
 ***
 
-More information at http://gegznav.github.io/BioStat/
+# Other related packages
+
+Other related packages are *R Commander* (*Rcmdr*) plugins:
+
+a. **RcmdrPlugin.BioStat** -- an *R Commander* plugin for `BioStat` package ([homepage](https://gegznav.github.io/RcmdrPlugin.BioStat/));
+b. **RcmdrPlugin.EZR.2** -- an *R Commander* plugin for the most common statistical analyses (the same as *RcmdrPlugin.EZR*, except that *RcmdrPlugin.EZR.2* does not modify original *Rcmdr* menu so dramatically);
+c. **RcmdrPlugin.KMggplot2** -- an *R Commander* plugin for *ggplot2* graphics.
+
+
+To install these packages, use the following code:
+
+
+```{r Install other packages, eval=FALSE}
+# RcmdrPlugin.BioStat
+devtools::install_github("GegznaV/RcmdrPlugin.BioStat")
+
+# RcmdrPlugin.EZR.2
+devtools::install_github("GegznaV/RcmdrPlugin.EZR@unmodified_Rcmdr_menu")
+
+# RcmdrPlugin.KMggplot2
+install.packages("RcmdrPlugin.KMggplot2")
+```
+
+<!--  <p align="right"> </p>     -->
 
 ***

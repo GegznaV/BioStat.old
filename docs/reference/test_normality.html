@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Normality tests by goups � test_normality • BioStat</title>
+<title>Normality tests by groups � test_normality • BioStat</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -81,25 +81,27 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Normality tests by goups</h1>
+    <h1>Normality tests by groups</h1>
     </div>
 
     
-    <p>Perform Shapiro-Wilk (default),
+    <p>Perform tests of normality for each subset of groups.
+The available tests include Shapiro-Wilk (default),
 Lilliefors (Kolmogorov-Smirnov), Anderson_darling and other tests of normality.</p>
     
 
-    <pre class="usage"><span class='fu'>test_normality</span>(<span class='no'>x</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='st'>"Shapiro-Wilk"</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>,
-  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>test_normality</span>(<span class='no'>x</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='st'>"Shapiro-Wilk"</span>,
+  <span class='kw'>p_adjust_method</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S3 method for test_normality</span>
-<span class='fu'>print</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>digits_p</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>signif_stars</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>digits_stat</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>rm_zero</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show_col_method</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>print</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>digits_p</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>signif_stars</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>digits_stat</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>format_stat</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"auto"</span>, <span class='st'>"f"</span>, <span class='st'>"g"</span>), <span class='kw'>rm_zero</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>print_legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show_col_method</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for test_normality</span>
-<span class='fu'>pander</span>(<span class='no'>x</span>, <span class='kw'>caption</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='no'>...</span>, <span class='kw'>digits_p</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>signif_stars</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>digits_stat</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>rm_zero</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show_col_method</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>pander</span>(<span class='no'>x</span>, <span class='kw'>caption</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='no'>...</span>, <span class='kw'>digits_p</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>signif_stars</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>digits_stat</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>format_stat</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"auto"</span>, <span class='st'>"f"</span>, <span class='st'>"g"</span>),
+  <span class='kw'>rm_zero</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>print_legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show_col_method</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -107,25 +109,25 @@ Lilliefors (Kolmogorov-Smirnov), Anderson_darling and other tests of normality.<
     <tr>
       <th>x</th>
       <td><p>Either a formula, a numeric vector or a name of a column
-     in <code>data</code>.</p><ul>
+            in <code>data</code>.</p><ul>
 <li><p>If <code>x</code> is a formula (e.g. <code>variable ~ factor</code>), left-hand
-     side provides name of variable to be tested. In the right-hand side
-     there are names of factor variables to be used to create subsets.
-     If the left-hand side is empty ((e.g. <code>~ factor</code>), right-hand
-     side is treated as variable name to test.</p></li>
+    side provides the name of a variable to be tested. In the right-hand side
+    there are names of factor variables to be used to create subsets.
+    If the left-hand side is empty ((e.g. <code>~ factor</code>), right-hand
+                                    side is treated as variable name to test.</p></li>
 </ul></td>
     </tr>
     <tr>
       <th>data</th>
-      <td><p>(data rame|<code>NULL</code>) Either a data frame that contains the
+      <td><p>(data frame|<code>NULL</code>) Either a data frame that contains the
 variables mentioned in <code>x</code> or <code>NULL</code> (if the variables
 are in the function's environment).</p></td>
     </tr>
     <tr>
       <th>test</th>
-      <td><p>(string | function) Either a string  (case insensitive, may be
-            unambiguously abbreviated) with a name of nomality test or a
-            function, which carries out the test.
+      <td><p>(string | function) Either a string  (case insensitive, maybe
+unambiguously abbreviated) with a name of nomality test or a
+function, which carries out the test.
 Possible names of tests:</p><ul>
 <li><p>"SW", "Shapiro-Wilk" � for Shapiro-Wilk test;</p></li>
 <li><p>"Lilliefors" � for Kolmogorov-Smirnov test wtih Lilliefor's correction;</p></li>
@@ -136,14 +138,24 @@ Possible names of tests:</p><ul>
 </ul></td>
     </tr>
     <tr>
-      <th>method</th>
-      <td><p>(string) p value adjustment method for multiple comparisons.
-For available methods check <code>p.adjust.methods</code>.</p></td>
+      <th>p_adjust_method</th>
+      <td><p>(<code>NULL</code>|string) A name of p value adjustment
+method for multiple comparisons. For available methods check
+<code><a href='http://www.rdocumentation.org/packages/stats/topics/p.adjust'>p.adjust.methods</a></code>.
+If <code>NULL</code>, no adusted p value is calculated (default).
+If string (e.g., <code>"holm"</code>), an additional column
+<code>p.adjust</code> is calculated.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Parameters to be passed to the main function
-(defined/selected in <code>test</code>) that carries out a normality test.</p></td>
+      <td><p>Parameters to be passed to the further methods.</p></td>
+    </tr>
+    <tr>
+      <th>groups</th>
+      <td><p>(<code>NULL</code>|factor|character) An alternative way to provide
+groups. If <code>x</code> is a numeric vector, <code>groups</code> must be
+a factor (or <code>NULL</code>). If  <code>x</code> is a sting,
+<code>groups</code> must also be a string (or <code>NULL</code>).</p></td>
     </tr>
     <tr>
       <th>digits_p</th>
@@ -159,11 +171,19 @@ For available methods check <code>p.adjust.methods</code>.</p></td>
     </tr>
     <tr>
       <th>signif_stars</th>
-      <td><p>(logical) If <code>TRUE</code>, significance stars are pronted.</p></td>
+      <td><p>(logical) If <code>TRUE</code>, significance stars are printed.</p></td>
     </tr>
     <tr>
       <th>digits_stat</th>
-      <td><p>(integer) number of either decimal places or significant digits to round test statistic to.</p></td>
+      <td><p>(integer) number of either decimal places or significant
+digits to round test statistic to.</p></td>
+    </tr>
+    <tr>
+      <th>format_stat</th>
+      <td><p>(character) Number format "f", "g"  or
+"auto" (default) for test statistic. More about number
+formats "f" and "g" you can find in documentation of
+function <code><a href='http://www.rdocumentation.org/packages/base/topics/formatc'>formatC</a></code> section <code>format</code>.</p></td>
     </tr>
     <tr>
       <th>rm_zero</th>
@@ -171,28 +191,45 @@ For available methods check <code>p.adjust.methods</code>.</p></td>
 removed.</p></td>
     </tr>
     <tr>
+      <th>print_legend</th>
+      <td><p>(logical) If <code>TRUE</code>, legend for significance stars
+is printed.</p></td>
+    </tr>
+    <tr>
       <th>show_col_method</th>
-      <td><p>(logical) If <code>FALSE</code> column "method" is not printed.</p></td>
+      <td><p>(logical) If <code>FALSE</code> column "method" is not
+printed. <code>FALSE</code> is default.</p></td>
     </tr>
     <tr>
       <th>caption</th>
-      <td><p>(string|<code>NULL</code>|<code>NA</code>) A caption for the table with results of a normality test. If <code>NA</code> � a default caption is printed (default). If <code>NULL</code> � no caption is printed.</p></td>
+      <td><p>(string|<code>NULL</code>|<code>NA</code>) A caption for the table with
+results of a normality test. If <code>NA</code> � a default caption
+is printed (default). If <code>NULL</code> � no caption is printed.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame with normality test
-         results for each group.</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+<ul>
+<li><p>Function <code>test_normality</code> returns a data frame with
+            normality test results for each group.</p></li>
+<li><p><code>print</code> and <code>pander</code> methods format and print the
+      results. By default, methods <code>print.test_normality</code> and
+      <code>pander.test_normality</code> do not print column called "method".</p></li>
+</ul>
 
-    <p>By default, methods <code>print.test_normality</code> and
-         <code>pander.test_normality</code> do not print column called "method".</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Package <span class="pkg">nortest</span></p>
+    <ul>
+<li><p><code><a href='http://www.rdocumentation.org/packages/stats/topics/shapiro.test'>shapiro.test</a></code> in package <span class="pkg">stats</span>;</p></li>
+<li><p><code><a href='http://www.rdocumentation.org/packages/nortest/topics/lillie.test'>lillie.test</a></code> in package <span class="pkg">nortest</span>;</p></li>
+<li><p><code><a href='http://www.rdocumentation.org/packages/nortest/topics/pearson.test'>pearson.test</a></code> in package <span class="pkg">nortest</span>;</p></li>
+<li><p><code><a href='http://www.rdocumentation.org/packages/nortest/topics/ad.test'>ad.test</a></code> in package <span class="pkg">nortest</span>;</p></li>
+<li><p><code><a href='http://www.rdocumentation.org/packages/nortest/topics/cvm.test'>cvm.test</a></code> in package <span class="pkg">nortest</span>;</p></li>
+<li><p><code><a href='http://www.rdocumentation.org/packages/nortest/topics/sf.test'>sf.test</a></code> in package <span class="pkg">nortest</span>.</p></li>
+</ul>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -200,54 +237,115 @@ removed.</p></td>
 <span class='fu'>library</span>(<span class='no'>pander</span>)
 <span class='fu'>data</span>(<span class='no'>CO2</span>)
 
+<span class='co'># For whole dataset</span>
+<span class='fu'>test_normality</span>( ~ <span class='no'>uptake</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>CO2</span>)</div><div class='output co'>#&gt; 
+#&gt;  The results of Shapiro-Wilk normality test 
+#&gt; 
+#&gt;   statistic p.value    
+#&gt; 1     0.941  &lt;0.001 ***
+#&gt; 
+#&gt; Legend for p-values:
+#&gt;  0 <U+0091>***<U+0092> 0.001 <U+0091>**<U+0092> 0.01 <U+0091>*<U+0092> 0.05 <U+0091>.<U+0092> 0.1 <U+0091> <U+0092> 1 </div><div class='input'>
+<span class='co'># For each subgroup</span>
 <span class='fu'>test_normality</span>(<span class='no'>uptake</span> ~ <span class='no'>Treatment</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>CO2</span>)</div><div class='output co'>#&gt; 
 #&gt;  The results of Shapiro-Wilk normality test 
 #&gt; 
 #&gt;    Treatment statistic p.value    
-#&gt; 1 nonchilled     0.945    0.04 *  
-#&gt; 2    chilled     0.898   &lt;0.01 ** </div><div class='output co'>#&gt; 0 �***� 0.001 �**� 0.01 �*� 0.05 �.� 0.1 � � 1</div><div class='input'>
+#&gt; 1 nonchilled     0.945   0.043 *  
+#&gt; 2    chilled     0.898   0.001 ** 
+#&gt; 
+#&gt; Legend for p-values:
+#&gt;  0 <U+0091>***<U+0092> 0.001 <U+0091>**<U+0092> 0.01 <U+0091>*<U+0092> 0.05 <U+0091>.<U+0092> 0.1 <U+0091> <U+0092> 1 </div><div class='input'>
+<span class='co'># For each subgroup by several factor variables</span>
 <span class='no'>rez</span> <span class='kw'>&lt;-</span> <span class='fu'>test_normality</span>(<span class='no'>uptake</span> ~ <span class='no'>Type</span> + <span class='no'>Treatment</span>,
                       <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>CO2</span>)
 <span class='no'>rez</span></div><div class='output co'>#&gt; 
 #&gt;  The results of Shapiro-Wilk normality test 
 #&gt; 
 #&gt;          Type  Treatment statistic p.value    
+#&gt; 1      Quebec nonchilled     0.825   0.002 ** 
+#&gt; 2      Quebec    chilled     0.853   0.005 ** 
+#&gt; 3 Mississippi nonchilled     0.855   0.005 ** 
+#&gt; 4 Mississippi    chilled     0.948   0.315    
+#&gt; 
+#&gt; Legend for p-values:
+#&gt;  0 <U+0091>***<U+0092> 0.001 <U+0091>**<U+0092> 0.01 <U+0091>*<U+0092> 0.05 <U+0091>.<U+0092> 0.1 <U+0091> <U+0092> 1 </div><div class='input'>
+<span class='co'># Modify printed output</span>
+<span class='fu'>print</span>(<span class='no'>rez</span>, <span class='kw'>rm_zero</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
+#&gt;  The results of Shapiro-Wilk normality test 
+#&gt; 
+#&gt;          Type  Treatment statistic p.value    
+#&gt; 1      Quebec nonchilled      .825    .002 ** 
+#&gt; 2      Quebec    chilled      .853    .005 ** 
+#&gt; 3 Mississippi nonchilled      .855    .005 ** 
+#&gt; 4 Mississippi    chilled      .948    .315    
+#&gt; 
+#&gt; Legend for p-values:
+#&gt;  0 <U+0091>***<U+0092> 0.001 <U+0091>**<U+0092> 0.01 <U+0091>*<U+0092> 0.05 <U+0091>.<U+0092> 0.1 <U+0091> <U+0092> 1 </div><div class='input'>
+<span class='fu'>print</span>(<span class='no'>rez</span>, <span class='kw'>digits_p</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; 
+#&gt;  The results of Shapiro-Wilk normality test 
+#&gt; 
+#&gt;          Type  Treatment statistic p.value    
 #&gt; 1      Quebec nonchilled     0.825   &lt;0.01 ** 
 #&gt; 2      Quebec    chilled     0.853   &lt;0.01 ** 
 #&gt; 3 Mississippi nonchilled     0.855   &lt;0.01 ** 
-#&gt; 4 Mississippi    chilled     0.948    0.31    </div><div class='output co'>#&gt; 0 �***� 0.001 �**� 0.01 �*� 0.05 �.� 0.1 � � 1</div><div class='input'>
+#&gt; 4 Mississippi    chilled     0.948    0.31    
+#&gt; 
+#&gt; Legend for p-values:
+#&gt;  0 <U+0091>***<U+0092> 0.001 <U+0091>**<U+0092> 0.01 <U+0091>*<U+0092> 0.05 <U+0091>.<U+0092> 0.1 <U+0091> <U+0092> 1 </div><div class='input'>
+
+<span class='co'># Choose another test of normality</span>
 <span class='no'>rez2</span> <span class='kw'>&lt;-</span> <span class='fu'>test_normality</span>(<span class='no'>uptake</span> ~ <span class='no'>Type</span> + <span class='no'>Treatment</span>,
-                       <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>CO2</span>,
-                       <span class='kw'>test</span> <span class='kw'>=</span> <span class='st'>"chi-sq"</span>)
+                      <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>CO2</span>,
+                      <span class='kw'>test</span> <span class='kw'>=</span> <span class='st'>"chi-sq"</span>)
 <span class='no'>rez2</span></div><div class='output co'>#&gt; 
 #&gt;  The results of Pearson chi-square normality test 
 #&gt; 
 #&gt;          Type  Treatment statistic p.value    
-#&gt; 1      Quebec nonchilled      13.3   &lt;0.01 ** 
-#&gt; 2      Quebec    chilled      13.3   &lt;0.01 ** 
-#&gt; 3 Mississippi nonchilled        10    0.04 *  
-#&gt; 4 Mississippi    chilled      5.33    0.25    </div><div class='output co'>#&gt; 0 �***� 0.001 �**� 0.01 �*� 0.05 �.� 0.1 � � 1</div><div class='input'>
+#&gt; 1      Quebec nonchilled      13.3   0.010 ** 
+#&gt; 2      Quebec    chilled      13.3   0.010 ** 
+#&gt; 3 Mississippi nonchilled      10.0   0.040 *  
+#&gt; 4 Mississippi    chilled       5.3   0.255    
+#&gt; 
+#&gt; Legend for p-values:
+#&gt;  0 <U+0091>***<U+0092> 0.001 <U+0091>**<U+0092> 0.01 <U+0091>*<U+0092> 0.05 <U+0091>.<U+0092> 0.1 <U+0091> <U+0092> 1 </div><div class='input'>
 
-<span class='fu'>class</span>(<span class='no'>rez2</span>)</div><div class='output co'>#&gt; [1] "test_normality" "data.frame"    </div><div class='input'>
-
-<span class='co'># Print as a 'pandoc' table</span>
+<span class='co'># Print as a 'pandoc' table (for RMarkdown reports)</span>
 <span class='fu'><a href='http://www.rdocumentation.org/packages/pander/topics/pander'>pander</a></span>(<span class='no'>rez</span>)</div><div class='output co'>#&gt; 
 #&gt; -------------------------------------------------
 #&gt;     Type       Treatment    statistic   p.value  
 #&gt; ------------- ------------ ----------- ----------
-#&gt;    Quebec      nonchilled     0.825     &lt;0.01 ** 
+#&gt;    Quebec      nonchilled     0.825     0.002 ** 
 #&gt; 
-#&gt;    Quebec       chilled       0.853     &lt;0.01 ** 
+#&gt;    Quebec       chilled       0.853     0.005 ** 
 #&gt; 
-#&gt;  Mississippi   nonchilled     0.855     &lt;0.01 ** 
+#&gt;  Mississippi   nonchilled     0.855     0.005 ** 
 #&gt; 
-#&gt;  Mississippi    chilled       0.948       0.31   
+#&gt;  Mississippi    chilled       0.948      0.315   
 #&gt; -------------------------------------------------
 #&gt; 
 #&gt; Table: The results of Shapiro-Wilk normality test.
-#&gt; </div><div class='input'>
-
-<span class='fu'><a href='http://www.rdocumentation.org/packages/pander/topics/pander'>pander</a></span>(<span class='no'>rez</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt; 
+#&gt; 
+#&gt; Legend for p-values:
+#&gt;  0 <U+0091>***<U+0092> 0.001 <U+0091>**<U+0092> 0.01 <U+0091>*<U+0092> 0.05 <U+0091>.<U+0092> 0.1 <U+0091> <U+0092> 1 </div><div class='input'>
+<span class='fu'><a href='http://www.rdocumentation.org/packages/pander/topics/pander'>pander</a></span>(<span class='no'>rez</span>, <span class='kw'>digits_stat</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; 
+#&gt; -------------------------------------------------
+#&gt;     Type       Treatment    statistic   p.value  
+#&gt; ------------- ------------ ----------- ----------
+#&gt;    Quebec      nonchilled     0.83      0.002 ** 
+#&gt; 
+#&gt;    Quebec       chilled       0.85      0.005 ** 
+#&gt; 
+#&gt;  Mississippi   nonchilled     0.86      0.005 ** 
+#&gt; 
+#&gt;  Mississippi    chilled       0.95       0.315   
+#&gt; -------------------------------------------------
+#&gt; 
+#&gt; Table: The results of Shapiro-Wilk normality test.
+#&gt; 
+#&gt; Legend for p-values:
+#&gt;  0 <U+0091>***<U+0092> 0.001 <U+0091>**<U+0092> 0.01 <U+0091>*<U+0092> 0.05 <U+0091>.<U+0092> 0.1 <U+0091> <U+0092> 1 </div><div class='input'>
+<span class='fu'><a href='http://www.rdocumentation.org/packages/pander/topics/pander'>pander</a></span>(<span class='no'>rez</span>, <span class='kw'>digits_p</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; 
 #&gt; -------------------------------------------------
 #&gt;     Type       Treatment    statistic   p.value  
 #&gt; ------------- ------------ ----------- ----------
@@ -261,7 +359,30 @@ removed.</p></td>
 #&gt; -------------------------------------------------
 #&gt; 
 #&gt; Table: The results of Shapiro-Wilk normality test.
-#&gt; </div></pre>
+#&gt; 
+#&gt; Legend for p-values:
+#&gt;  0 <U+0091>***<U+0092> 0.001 <U+0091>**<U+0092> 0.01 <U+0091>*<U+0092> 0.05 <U+0091>.<U+0092> 0.1 <U+0091> <U+0092> 1 </div><div class='input'>
+<span class='fu'><a href='http://www.rdocumentation.org/packages/pander/topics/pander'>pander</a></span>(<span class='no'>rez</span>, <span class='kw'>digits_p</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>signif_stars</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; 
+#&gt; ------------------------------------------------
+#&gt;     Type       Treatment    statistic   p.value 
+#&gt; ------------- ------------ ----------- ---------
+#&gt;    Quebec      nonchilled     0.825     0.0016  
+#&gt; 
+#&gt;    Quebec       chilled       0.853     0.0048  
+#&gt; 
+#&gt;  Mississippi   nonchilled     0.855     0.0052  
+#&gt; 
+#&gt;  Mississippi    chilled       0.948     0.3147  
+#&gt; ------------------------------------------------
+#&gt; 
+#&gt; Table: The results of Shapiro-Wilk normality test.
+#&gt; </div><div class='input'>
+
+</div><div class='input'><span class='co'># View unformatted results in a separate window</span>
+<span class='fu'>View</span>(<span class='no'>rez</span>)</div><div class='input'>
+<span class='co'># Show object's class</span>
+<span class='fu'>class</span>(<span class='no'>rez</span>)</div><div class='output co'>#&gt; [1] "test_normality" "data.frame"    </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -269,8 +390,6 @@ removed.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

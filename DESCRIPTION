@@ -15,6 +15,7 @@ Authors@R: c(
     )
 License: GPL (>= 3)
 Encoding: UTF-8
+URL: https://gegznav.github.io/BioStat/
 LazyData: true
 ByteCompile: TRUE
 Depends:

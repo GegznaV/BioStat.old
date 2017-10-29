@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Convenience Functions for Statistical Analysis (for Biostatistics and Biometry Lectures) • BioStat</title>
+<title>A Collection of Functions for Biostatistics and Biometry Lectures • BioStat</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
@@ -66,26 +66,46 @@
 <hr>
 <hr>
 <p><img src="https://raw.githubusercontent.com/GegznaV/BioStat/master/docs/logo.png" width="30%" height="30%" style="display: block; margin: auto;"></p>
-<div id="biostat-convenience-functions-for-statistical-analysis" class="section level1">
+<div id="biostat-a-collection-of-functions-for-biostatistics-and-biometry-lectures" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#biostat-convenience-functions-for-statistical-analysis" class="anchor"></a><code>BioStat</code> – Convenience Functions for Statistical Analysis</h1></div>
-<p><code>BioStat</code> is an <code>R</code> package that contais a collection of supplementary functions for biostatistics and biometry lectures.</p>
-<hr>
-<p><strong>Package is under development</strong> and some functions and default seting may change significantly.</p>
-<hr>
+<a href="#biostat-a-collection-of-functions-for-biostatistics-and-biometry-lectures" class="anchor"></a><code>BioStat</code> – A Collection of Functions for Biostatistics and Biometry Lectures</h1></div>
+<p><code>BioStat</code> is an <code>R</code> package that contains a collection of functions dedicated for biostatistics and biometry lectures (GMF1059) that do some common statistical routines without writing to much code.</p>
+<p>The package is still in its development and some functions are for demonstration purposes only as they may change in the future.</p>
+<p>Documentation and more information available at **<a href="http://gegznav.github.io/BioStat/**" class="uri">http://gegznav.github.io/BioStat/**</a></p>
 <div id="install-package" class="section level2">
 <h2 class="hasAnchor">
 <a href="#install-package" class="anchor"></a>Install package</h2>
 <p>To install a developement version of the package from <code>GitHub</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (<span class="op">!</span><span class="st">"devtools"</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">installed.packages</span>()) <span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (<span class="op">!</span><span class="st">"devtools"</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">installed.packages</span>()) 
+    <span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
 
 devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"GegznaV/BioStat"</span>)</code></pre></div>
-<!-- * * * -->
-<!--  <p align="right"> </p>     -->
-<hr>
-<p>More information at <a href="http://gegznav.github.io/BioStat/" class="uri">http://gegznav.github.io/BioStat/</a></p>
 <hr>
 </div>
+</div>
+<div id="other-related-packages" class="section level1">
+<h1 class="hasAnchor">
+<a href="#other-related-packages" class="anchor"></a>Other related packages</h1>
+<p>Other related packages are <em>R Commander</em> (<em>Rcmdr</em>) plugins:</p>
+<ol style="list-style-type: lower-alpha">
+<li>
+<strong>RcmdrPlugin.BioStat</strong> – an <em>R Commander</em> plugin for <code>BioStat</code> package (<a href="https://gegznav.github.io/RcmdrPlugin.BioStat/">homepage</a>);</li>
+<li>
+<strong>RcmdrPlugin.EZR.2</strong> – an <em>R Commander</em> plugin for the most common statistical analyses (the same as <em>RcmdrPlugin.EZR</em>, except that <em>RcmdrPlugin.EZR.2</em> does not modify original <em>Rcmdr</em> menu so dramatically);</li>
+<li>
+<strong>RcmdrPlugin.KMggplot2</strong> – an <em>R Commander</em> plugin for <em>ggplot2</em> graphics.</li>
+</ol>
+<p>To install these packages, use the following code:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># RcmdrPlugin.BioStat</span>
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"GegznaV/RcmdrPlugin.BioStat"</span>)
+
+<span class="co"># RcmdrPlugin.EZR.2</span>
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"GegznaV/RcmdrPlugin.EZR@unmodified_Rcmdr_menu"</span>)
+
+<span class="co"># RcmdrPlugin.KMggplot2</span>
+<span class="kw">install.packages</span>(<span class="st">"RcmdrPlugin.KMggplot2"</span>)</code></pre></div>
+<!--  <p align="right"> </p>     -->
+<hr>
 </div>
 </div>
   </div>
@@ -101,7 +121,7 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://cran.rstudio.com/web/packages/BioStat/index.html"><img src="http://www.r-pkg.org/badges/version/BioStat" alt="CRAN version"></a></li>
-<li><a href="https://github.com/GegznaV/BioStat"><img src="https://img.shields.io/badge/GitHub-v0.0.8.9001-brightgreen.svg" alt="GitHub version"></a></li>
+<li><a href="https://github.com/GegznaV/BioStat"><img src="https://img.shields.io/badge/GitHub-v0.0.8.9004-brightgreen.svg" alt="GitHub version"></a></li>
 <li><a href="https://travis-ci.org/GegznaV/BioStat"><img src="https://travis-ci.org/GegznaV/BioStat.png?branch=master" alt="Travis-CI Build Status"></a></li>
 <li><a href="https://codecov.io/github/GegznaV/BioStat?branch=master"><img src="https://codecov.io/github/GegznaV/BioStat/coverage.svg?branch=master" alt="codecov.io"></a></li>
 <li><a href="/commits/master"><img src="https://img.shields.io/badge/last%20update-2017--10--29-yellowgreen.svg" alt="Last-update"></a></li>
