@@ -1,3 +1,5 @@
+# Internal functions
+
 # ============================================================================
 format_object <- function(x, ...) {
     UseMethod("format_object")

@@ -83,6 +83,10 @@ A qq-plot for multiple groups (with ggplot2)
 library(BioStat)
 data(iris)
 
+# Formula (no groups):
+qq_plot(~ Sepal.Length, data = iris)
+qq_plot("Sepal.Length", data = iris)
+
 # Formula (several groups):
 qq_plot(Sepal.Length ~ Species, data = iris)
 
@@ -104,9 +108,11 @@ qq_plot(iris$Sepal.Length)
 
 # Other examples
 
-qq_plot(uptake ~ Type + Treatment, data = CO2)
+qq_plot(~ weight, data = chickwts)
 
 qq_plot(weight ~ feed, data = chickwts)
+
+qq_plot(uptake ~ Type + Treatment, data = CO2)
 
 }
 \seealso{

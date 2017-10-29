@@ -39,7 +39,7 @@
 #' @note This function is based on a file that was once hosted at
 #' http://www.psych.yorku.ca/cribbie/6130/games_howell.R, but has been removed
 #' since. It was then adjusted for implementation in the
-#' \code{\link{userfriendlyscience}} package. Jeffrey Baggett needed the
+#' \pkg{userfriendlyscience} package. Jeffrey Baggett needed the
 #' confidence intervals, and so emailed them, after which his updated functions
 #' was used. In the meantime, it appears Aaron Schlegel
 #' (\url{https://rpubs.com/aaronsc32}) independently developed a version with

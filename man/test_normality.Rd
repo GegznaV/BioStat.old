@@ -143,8 +143,10 @@ pander(rez, digits_p = 2)
 pander(rez, digits_p = 4, signif_stars = FALSE)
 
 
+\donttest{\dontrun{
 # View unformatted results in a separate window
-fix(rez)
+View(rez)
+}}
 
 # Show object's class
 class(rez)

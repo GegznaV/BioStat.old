@@ -485,7 +485,7 @@ plot.qqdata <- function(x,
 
     refline_type <- coef(x)$refline_type[1]
     envelope_ <- ifelse(coef(x)$plot_envelope[1],
-                        yes = paste(", envelope:", coef(x)$conf[1]),
+                        yes = paste("; conf.int.:", coef(x)$conf[1]),
                         no  = "")
 
     p <- p +
@@ -496,7 +496,7 @@ plot.qqdata <- function(x,
              color = "",
              fill = "") +
         labs(title = "QQ plot" ,
-             subtitle = glue::glue("(ref.line: {refline_type}{envelope_})"))
+             subtitle = glue::glue("Ref.line: {refline_type}{envelope_}"))
 
     if (coef(x)$plot_envelope[1] != FALSE) {
         p <- p +
