@@ -1,5 +1,5 @@
 # =============================================================================
-#' Normality tests by goups
+#' Normality tests by groups
 #'
 #' Perform Shapiro-Wilk (default),
 #' Lilliefors (Kolmogorov-Smirnov), Anderson_darling and other tests of normality.
@@ -222,7 +222,8 @@ test_ <- function(x,
 #' @details By default, methods \code{print.test_normality} and
 #'          \code{pander.test_normality} do not print column called "method".
 #' @export
-#' @param signif_stars (logical) If \code{TRUE}, significance stars are pronted.
+#' @param signif_stars (logical) If \code{TRUE}, significance stars are printed.
+#' @param signif_stars (logical) If \code{TRUE}, legend for significance stars is printed.
 #' @param digits_stat (integer) number of either decimal places or significant digits to round test statistic to.
 #' @param show_col_method (logical) If \code{FALSE} column "method" is not printed.
 print.test_normality <- function(x,
@@ -231,6 +232,7 @@ print.test_normality <- function(x,
                                  signif_stars = TRUE,
                                  digits_stat = 3,
                                  rm_zero = FALSE,
+                                 print_legend = TRUE,
                                  show_col_method = FALSE
                                  ) {
 
@@ -250,7 +252,8 @@ print.test_normality <- function(x,
 
     NextMethod(print, x)
 
-    signif_stars_legend()
+    if (print_legend == TRUE)
+        cat("\n", signif_stars_legend(), "\n")
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @export
@@ -265,6 +268,7 @@ pander.test_normality <- function(x,
                                   signif_stars = TRUE,
                                   digits_stat = 3,
                                   rm_zero = FALSE,
+                                  print_legend = TRUE,
                                   show_col_method = FALSE) {
 
     x <- format_object(x,
@@ -288,6 +292,8 @@ pander.test_normality <- function(x,
 
     NextMethod("pander", x, caption = caption, ...)
 
+    if (print_legend == TRUE)
+        cat("\n", signif_stars_legend(), "\n")
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 which_test <- function(x) {

@@ -4,17 +4,18 @@
 \alias{test_normality}
 \alias{print.test_normality}
 \alias{pander.test_normality}
-\title{Normality tests by goups}
+\title{Normality tests by groups}
 \usage{
 test_normality(x, data = NULL, test = "Shapiro-Wilk", method = NULL, ...,
   groups = NULL)
 
 \method{print}{test_normality}(x, ..., digits_p = 2, signif_stars = TRUE,
-  digits_stat = 3, rm_zero = FALSE, show_col_method = FALSE)
+  digits_stat = 3, rm_zero = FALSE, print_legend = TRUE,
+  show_col_method = FALSE)
 
 \method{pander}{test_normality}(x, caption = NA, ..., digits_p = 2,
   signif_stars = TRUE, digits_stat = 3, rm_zero = FALSE,
-  show_col_method = FALSE)
+  print_legend = TRUE, show_col_method = FALSE)
 }
 \arguments{
 \item{x}{Either a formula, a numeric vector or a name of a column
@@ -63,7 +64,7 @@ groups. If \code{x} is a numeric vector, \code{groups} must be factor
 \item if \code{digits_p = 3}, only formatting \code{"<0.01"} is skipped.
 }}
 
-\item{signif_stars}{(logical) If \code{TRUE}, significance stars are pronted.}
+\item{signif_stars}{(logical) If \code{TRUE}, significance stars are printed.}
 
 \item{digits_stat}{(integer) number of either decimal places or significant digits to round test statistic to.}
 
@@ -73,6 +74,8 @@ removed.}
 \item{show_col_method}{(logical) If \code{FALSE} column "method" is not printed.}
 
 \item{caption}{(string|\code{NULL}|\code{NA}) A caption for the table with results of a normality test. If \code{NA} — a default caption is printed (default). If \code{NULL} – no caption is printed.}
+
+\item{signif_stars}{(logical) If \code{TRUE}, legend for significance stars is printed.}
 }
 \value{
 A data frame with normality test
