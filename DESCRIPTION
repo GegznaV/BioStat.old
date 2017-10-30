@@ -7,7 +7,7 @@ Description: The package contains a collection of functions dedicated for
              The package is still in its development and some 
              functions are for demonstration purposes only as they may change
              in the future.
-Version: 0.0.8.9004
+Version: 0.0.8.9005
 Date: 2017-09-29
 Authors@R: c(
     person("Vilmantas", "Gegna", role = c("aut","cre","cph"),
@@ -22,12 +22,12 @@ Depends:
     R (>= 3.3),
     magrittr,
     ggplot2,
+    checkmate,
     Hmisc
 Imports:
     methods,
     glue,
     rlang,
-    checkmate,
     pander,
     readr,
     forcats,
@@ -44,5 +44,6 @@ Imports:
     mosaicCore,
     mosaicData
 RoxygenNote: 6.0.1
-Suggests: covr,
+Suggests:
+    covr,
     testthat
