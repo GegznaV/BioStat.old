@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Infix version of <code>paste0</code> � %++% • BioStat</title>
+<title>Compute Standardized Regression Coefficients � standardized_coef • BioStat</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -81,44 +81,71 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Infix version of <code>paste0</code></h1>
+    <h1>Compute Standardized Regression Coefficients</h1>
     </div>
 
     
-    <p>Infix versions of <code>paste0</code> and <code>paste</code>.</p>
+    <p>Compute the standardized regression coefficients (beta) from an object of class <code>lm</code>).</p>
     
 
-    <pre class="usage"><span class='no'>a</span> <span class='kw'>%++%</span> <span class='no'>b</span></pre>
+    <pre class="usage"><span class='fu'>standardized_coef</span>(<span class='no'>obj</span>)
+
+<span class='co'># S3 method for lm_beta</span>
+<span class='fu'>print</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>3</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>a, b</th>
-      <td><p>values to be pasted with either <code>paste0(a,b)</code> or <code>paste</code>.</p></td>
+      <th>obj</th>
+      <td><p>(<code>lm</code> object) A result of function <code>lm()</code>.</p></td>
+    </tr>
+    <tr>
+      <th>x</th>
+      <td><p><code>lm_beta</code> object.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>further parameters to <code>print</code> method.</p></td>
+    </tr>
+    <tr>
+      <th>digits</th>
+      <td><p>(integer) number of decimal places to round the answer to.
+Default is 3.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Inspired by "Inxix functions" in
-<a href='http://adv-r.had.co.nz/Functions.html#function-arguments'>Advanced R</a>
-by Hadley Wickham.</p>
+    <p>Object of class <code>lm_beta</code> which is a named numeric vector  that represents each standardized coefficient from <code>lm()</code> model.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>`%++%`</code> is an infix version of <code>paste0</code>. 
-<code>`%.+.%`</code> is an infix version of <code>paste</code>.</p>
+    <p>This function is inspired by function  <code><span class="pkg">QuantPsyc</span>::lm.beta()</code> written by Thomas D. Fletcher. 
+<code>standardized_coef()</code> provides standardized coefficients even when interaction members are present. This is achieved by computing whole model matrix (with all right-hand side members of formula used in call of <code>lm()</code>) and calculating standard deviations of each regressor (including interaction members) based on these columns. The remaining calculations are the same as in <code><span class="pkg">QuantPsyc</span>::lm.beta()</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='http://www.rdocumentation.org/packages/base/topics/paste'>paste</a></code>, <code><a href='http://www.rdocumentation.org/packages/spAddins/topics/insertPaste0_Addin'>insertPaste0_Addin</a></code></p>
+    <ul>
+<li><p><code><a href='http://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></code> in package <span class="pkg">stats</span>.</p></li>
+<li><p><code><a href='http://www.rdocumentation.org/packages/QuantPsyc/topics/lm.beta'>lm.beta</a></code> in package <span class="pkg">QuantPsyc</span>.</p></li>
+</ul>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='st'>"a"</span> <span class='kw'>%++%</span> <span class='st'>"b"</span></div><div class='output co'>#&gt; [1] "ab"</div><div class='input'>#> [1] "ab"
-
-
+    <pre class="examples"><div class='input'>
+<span class='fu'>data</span>(<span class='no'>USJudgeRatings</span>)
+<span class='no'>us</span> <span class='kw'>&lt;-</span> <span class='no'>USJudgeRatings</span>
+<span class='fu'>names</span>(<span class='no'>us</span>)</div><div class='output co'>#&gt;  [1] "CONT" "INTG" "DMNR" "DILG" "CFMG" "DECI" "PREP" "FAMI" "ORAL" "WRIT"
+#&gt; [11] "PHYS" "RTEN"</div><div class='input'>
+<span class='no'>lm1</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>CONT</span> ~ <span class='no'>INTG</span> + <span class='no'>DMNR</span> + <span class='fu'>log</span>(<span class='no'>DILG</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>us</span>)
+<span class='fu'>standardized_coef</span>(<span class='no'>lm1</span>)</div><div class='output co'>#&gt; Standardized Regression Coefficients:
+#&gt;      INTG      DMNR log(DILG) 
+#&gt;    -0.293    -0.316     0.533 </div><div class='input'>
+<span class='no'>lm2</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>CONT</span> ~ <span class='no'>INTG</span> + <span class='no'>DMNR</span>*<span class='no'>DILG</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>us</span>)
+<span class='fu'>standardized_coef</span>(<span class='no'>lm2</span>)</div><div class='output co'>#&gt; Standardized Regression Coefficients:
+#&gt;      INTG      DMNR      DILG DMNR:DILG 
+#&gt;    -0.266    -0.626     0.301     0.495 </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -126,7 +153,7 @@ by Hadley Wickham.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#source">Source</a></li>
+      <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
 
@@ -134,6 +161,10 @@ by Hadley Wickham.</p>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
+
+    <h2>Author</h2>
+    
+Vilmantas Gegzna (modified function written by Thomas D. Fletcher).
 
   </div>
 </div>
