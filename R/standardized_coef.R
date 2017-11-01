@@ -39,11 +39,12 @@ standardized_coef <- function(obj) {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     checkmate::assert_class(obj, "lm")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        b <- summary(obj)$coef[-1, 1]
+          b <- summary(obj)$coef[-1, 1]
+    b_names <- rownames(summary(obj)$coef)[-1]
     # Extracts all members of right-hand side of formulae:
     data_ <- model.matrix(as.formula(obj$call$formula), data = obj$model)
     # Make correct order of columns:
-    data_ <- as.data.frame(data_)[, names(b)]
+    data_ <- as.data.frame(data_)[, b_names, drop = FALSE]
     # Do the standardization:
       sx_ <- sapply(data_, sd)
       sy_ <- sapply(obj$model[1], sd)
