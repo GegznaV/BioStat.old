@@ -1,7 +1,7 @@
 #  test_normality() =========================================================
-#' Normality tests by groups
+#' Normality Tests by Groups
 #'
-#' Perform tests of normality for each subset of groups.
+#' Perform tests of normality for each subset of groups separately.
 #' The available tests include Shapiro-Wilk (default),
 #' Lilliefors (Kolmogorov-Smirnov), Anderson_darling and other tests of normality.
 #'

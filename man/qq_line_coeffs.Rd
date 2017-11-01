@@ -2,7 +2,7 @@
 % Please edit documentation in R/qq_line_coeffs.R
 \name{qq_line_coeffs}
 \alias{qq_line_coeffs}
-\title{Get a slope and an intercept of a qqline}
+\title{Get a Slope and an Intercept of a QQ-line}
 \usage{
 qq_line_coeffs(y, datax = FALSE, distribution = qnorm, probs = c(0.25,
   0.75), qtype = 7, na.rm = TRUE)
@@ -26,7 +26,7 @@ qq_line_coeffs(y, datax = FALSE, distribution = qnorm, probs = c(0.25,
 A vector with a \code{$slope} and an \code{$intercept} for qqline
 }
 \description{
-Get a slope and an intercept of a qqline
+Get a Slope and an Intercept of a QQ-line
 }
 \examples{
 

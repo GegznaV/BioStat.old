@@ -1,5 +1,5 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Format numbers in each column of a dataframe
+# Format Numbers in Each Column of a Dataframe
 #
 # data - data frame
 # digits -
@@ -14,7 +14,7 @@
 
 
 
-#' Format numbers in columns of a data frame
+#' Format Numbers in Columns of a Dataframe
 #'
 #' Function formats numeric columns only.
 #' Other classes are left intact.

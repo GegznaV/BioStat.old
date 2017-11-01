@@ -2,7 +2,7 @@
 % Please edit documentation in R/all_chr_to_factor.R
 \name{all_chr_to_factor}
 \alias{all_chr_to_factor}
-\title{Convert all character variables to factors}
+\title{Convert All Character Variables to Factors}
 \usage{
 all_chr_to_factor(data)
 }
@@ -10,10 +10,10 @@ all_chr_to_factor(data)
 \item{data}{A data frame}
 }
 \value{
-A data frame
+A data frame with character variables converted to factors.
 }
 \description{
-Convert all character variables to factors
+Convert All Character Variables to Factors
 }
 \examples{
 library(BioStat)

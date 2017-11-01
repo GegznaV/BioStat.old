@@ -2,7 +2,7 @@
 % Please edit documentation in R/qq_plot.R
 \name{qq_plot}
 \alias{qq_plot}
-\title{A qq-plot for multiple groups (with ggplot2)}
+\title{A QQ-plot for Multiple Groups}
 \usage{
 qq_plot(x, data = NULL, distribution = "norm", ..., line = c("quartiles",
   "robust", "int=0,slope=1", "0,1", "none"), envelope = 0.95,
@@ -76,8 +76,11 @@ a parmeter to be passed to
 
 \item{sep}{(not used yet).}
 }
+\value{
+A \code{ggplot2} object
+}
 \description{
-A qq-plot for multiple groups (with ggplot2)
+Make a qq-plot for each subset of groups separately using \pkg{ggplot2} graphics.
 }
 \examples{
 library(BioStat)

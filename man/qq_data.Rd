@@ -3,7 +3,7 @@
 \name{qq_data}
 \alias{qq_data}
 \alias{coef.qqdata}
-\title{Calculate data for a qq-plot}
+\title{Calculate Data for a QQ-plot}
 \usage{
 qq_data(x, data = NULL, distribution = "norm", ..., line = c("quartiles",
   "robust", "int=0,slope=1", "0,1", "none"), envelope = 0.95,
@@ -94,7 +94,7 @@ An object, which inherits from classes \code{qqdata} and
         }
 }
 \description{
-Calculate data for a qq-plot
+Calculate Data for a QQ-plot
 }
 \examples{
 

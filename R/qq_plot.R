@@ -1,4 +1,6 @@
-#' A qq-plot for multiple groups (with ggplot2)
+#' A QQ-plot for Multiple Groups
+#'
+#' Make a qq-plot for each subset of groups separately using \pkg{ggplot2} graphics.
 #'
 #' @param x Either a formula, a numeric vector or a name of a vector
 #'          in \code{data}.
@@ -18,6 +20,8 @@
 #' @inheritParams mosaic::maggregate
 #' @inheritParams test_normality
 #' @export
+#' @return A \code{ggplot2} object
+#'
 #' @seealso \code{\link[car]{qqPlot}} from \pkg{car} package,
 #'          \code{\link[stats]{qqplot}} from \pkg{stats} package.
 #' @examples

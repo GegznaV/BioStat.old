@@ -2,7 +2,7 @@
 % Please edit documentation in R/format_numbers.R
 \name{format_numbers}
 \alias{format_numbers}
-\title{Format numbers in columns of a data frame}
+\title{Format Numbers in Columns of a Dataframe}
 \usage{
 format_numbers(data, digits = 3, format = "f", fun = formatC, ...)
 }

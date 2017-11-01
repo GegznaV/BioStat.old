@@ -1,4 +1,4 @@
-#' Scale a vector
+#' Scale a Vector
 #'
 #' From every element in avector, subtract \code{center} and
 #' divide by \code{scale}.

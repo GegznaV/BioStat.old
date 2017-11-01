@@ -1,4 +1,4 @@
-#' Calculate data for a qq-plot
+#' Calculate Data for a QQ-plot
 #'
 #' @param envelope (numeric | FALSE) confidence level for point-wise confidence envelope.
 #' @param line (string) A parameter, that controls how reference line is drawn.

@@ -1,4 +1,4 @@
-#' Get a slope and an intercept of a qqline
+#' Get a Slope and an Intercept of a QQ-line
 #'
 #' @param y (numeric) A numeric vector.
 #'

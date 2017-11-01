@@ -4,7 +4,7 @@
 \alias{test_normality}
 \alias{print.test_normality}
 \alias{pander.test_normality}
-\title{Normality tests by groups}
+\title{Normality Tests by Groups}
 \usage{
 test_normality(x, data = NULL, test = "Shapiro-Wilk",
   p_adjust_method = NULL, ..., groups = NULL)
@@ -100,7 +100,7 @@ is printed (default). If \code{NULL} – no caption is printed.}
 }
 }
 \description{
-Perform tests of normality for each subset of groups.
+Perform tests of normality for each subset of groups separately.
 The available tests include Shapiro-Wilk (default),
 Lilliefors (Kolmogorov-Smirnov), Anderson_darling and other tests of normality.
 }

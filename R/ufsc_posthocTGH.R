@@ -15,8 +15,8 @@
 #'
 #'
 #'
-#' @param y y (numeric) a numeric vector.
-#' @param x x (factor) a vector that either is a factor or can be converted into
+#' @param y (numeric) a numeric vector.
+#' @param x (factor) a vector that either is a factor or can be converted into
 #' one.
 #' @param method (\code{"games-howell"}|\code{"tukey"}) Which post-hoc
 #'                tests to conduct. Valid values are "tukey" and "games-howell".

@@ -11,9 +11,9 @@ posthocTGH(y, x, method = c("games-howell", "tukey"), conf.level = 0.95,
 \method{print}{posthocTGH}(x, digits = x$input$digits, ...)
 }
 \arguments{
-\item{y}{y (numeric) a numeric vector.}
+\item{y}{(numeric) a numeric vector.}
 
-\item{x}{x (factor) a vector that either is a factor or can be converted into
+\item{x}{(factor) a vector that either is a factor or can be converted into
 one.}
 
 \item{method}{(\code{"games-howell"}|\code{"tukey"}) Which post-hoc

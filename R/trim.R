@@ -1,4 +1,4 @@
-#' Trim certain percentage of the most extreme values
+#' Trim Certain Percentage of The Most Extreme Values
 #'
 #' Trim certain percentage of the most extreme values in a numeric vector.
 #'

@@ -2,7 +2,7 @@
 % Please edit documentation in R/trim.R
 \name{trim}
 \alias{trim}
-\title{Trim certain percentage of the most extreme values}
+\title{Trim Certain Percentage of The Most Extreme Values}
 \usage{
 trim(x, trim = 0.1, na.rm = FALSE, ...)
 }

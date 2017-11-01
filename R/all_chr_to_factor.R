@@ -1,8 +1,8 @@
-#' Convert all character variables to factors
+#' Convert All Character Variables to Factors
 #'
 #' @param data A data frame
 #'
-#' @return A data frame
+#' @return A data frame with character variables converted to factors.
 #' @export
 #'
 #' @examples
@@ -37,24 +37,15 @@
 # tbl2 <- all_chr_to_factor(tbl)
 # mapply(class, tbl2)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# v0.3:
+# v0.3.1:
 all_chr_to_factor <- function(data) {
     dplyr::mutate_if(data,
                      is.character,
                      dplyr::funs(forcats::fct_inorder(.)))
 }
-# # @export
-# # @rdname all_chr_to_factor
-# stat_all_chr_to_factor <- function(data) {
-#     dplyr::mutate_if(data,
-#                      is.character,
-#                      dplyr::funs(forcats::fct_inorder(.)))
-# }
-
-
 
 # =============================================================================
-# The old versions of this fubction source code:
+# The old versions of this function source code:
 #
 # =============================================================================
 # v0.1: Changes the class:
@@ -78,3 +69,14 @@ all_chr_to_factor <- function(data) {
 # attr(data, "converted_fo_factor") <- col_is_character
 # # Output:
 # data
+
+# =============================================================================
+# v0.3.0:
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# # @export
+# # @rdname all_chr_to_factor
+# stat_all_chr_to_factor <- function(data) {
+#     dplyr::mutate_if(data,
+#                      is.character,
+#                      dplyr::funs(forcats::fct_inorder(.)))
+# }

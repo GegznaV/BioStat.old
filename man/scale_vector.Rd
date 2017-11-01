@@ -2,7 +2,7 @@
 % Please edit documentation in R/scale_vector.R
 \name{scale_vector}
 \alias{scale_vector}
-\title{Scale a vector}
+\title{Scale a Vector}
 \usage{
 scale_vector(x, center = mean, scale = sd)
 }
