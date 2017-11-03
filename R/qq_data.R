@@ -219,17 +219,28 @@ qq_data.default <- function(x,
     } else {
         DF <- tapply(x, groups, qq_fun)
 
-        DF_attr <-
+        # Make dateframes to match a output in single group
+        # DF_attr <-
+        #     purrr::map(DF, ~ attributes(.x)$refline)  %>%
+        #     rbind_df_in_list()
+        DF_attr_refline <-
             purrr::map(DF, ~ attributes(.x)$refline)  %>%
-            rbind_df_in_list()
+            dplyr::bind_rows(.id = ".group")
+
+        DF_attr_params <-
+            purrr::map(DF, ~ attributes(.x)$params)  %>%
+            dplyr::bind_rows(.id = ".group")
 
         DF %<>% rbind_df_in_list()
-        attr(DF, "refline") <- DF_attr
+        DF %<>% structure(
+                  refline = DF_attr_refline,
+                  params = DF_attr_params)
     }
 
-
-    class(DF) <- c("qqdata", "data.frame")
-    DF
+    # Return
+    structure(DF,
+              class = c("qqdata", "data.frame"),
+              distribution = distribution)
 }
 
 
@@ -378,8 +389,14 @@ qq_data_ <- function(x,
     )
     rownames(qq_attributes) <- "qq_refline"
 
-    attr(data_points, "refline") <- qq_attributes
-    return(data_points)
+    # return
+    structure(data_points,
+              refline = qq_attributes,
+              distribution = distribution,
+              params = data.frame(..., row.names = NULL))
+
+    # attr(data_points, "refline") <- qq_attributes
+    # return(data_points)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -488,10 +505,18 @@ plot.qqdata <- function(x,
                         yes = paste("; conf.int.:", coef(x)$conf[1]),
                         no  = "")
 
+    distrib_text <-
+        switch(attr(x, "distribution"),
+               norm = "normal",
+               t = "t",
+               f = "F",
+               attr(x, "distribution")
+        )
+
     p <- p +
         geom_point() +
 
-        labs(x = "Theoretical quantiles",
+        labs(x = glue::glue("Theoretical {distrib_text} quantiles"),
              y = "Empirical quantiles",
              color = "",
              fill = "") +
@@ -508,6 +533,8 @@ plot.qqdata <- function(x,
     # Output:
     p
 }
+
+#
 # =============================================================================
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## inputs:
