@@ -7,8 +7,8 @@ Description: The package contains a collection of functions dedicated for
              The package is still in its development and some 
              functions are for demonstration purposes only as they may change
              in the future.
-Version: 0.0.8.9009
-Date: 2017-11-03
+Version: 0.0.8.9010
+Date: 2017-11-10
 Authors@R: c(
     person("Vilmantas", "Gegna", role = c("aut","cre"),
             email = "GegznaV@gmail.com")
@@ -39,6 +39,7 @@ Imports:
     stats,
     nortest,
     fitdistrplus,
+    rcompanion,
     MASS,
     mosaic,
     mosaicCore,
