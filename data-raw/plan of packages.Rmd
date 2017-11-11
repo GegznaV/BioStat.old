@@ -21,9 +21,9 @@ BioStat & RcmdrPlugin.BioStat
     - rename;
     - group_by; ?
     
-3. Normality test by group;
+3. Normality test by group;  OK
 
-4. Normality plots by group;
+4. Normality plots by group; OK
 
 
     
