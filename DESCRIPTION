@@ -49,5 +49,4 @@ Suggests:
     covr,
     testthat,
     QuantPsyc,
-    PMCMR,
-    userfriendlyscience
+    PMCMR
