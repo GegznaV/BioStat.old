@@ -16,6 +16,8 @@ make_cld(obj, ..., alpha = 0.05)
 \item{obj}{Object with pair-wise comparisoms (e.g., post-hoc test results).}
 
 \item{...}{Further arguments to methods.}
+
+\item{alpha}{(numeric from 0 to 1) Significance level.}
 }
 \value{
 (A dataframe with) compact letter display.
