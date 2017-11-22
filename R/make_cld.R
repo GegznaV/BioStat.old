@@ -6,6 +6,10 @@
 #'
 #'
 #' @param obj Object with pair-wise comparisoms (e.g., post-hoc test results).
+#'   Currently supported objects: \itemize{
+#'   \item \emph{posthocTGH} from package \pkg(userfriendlyscience);
+#'   \item \emph{PMCMR} from package \pkg(PMCMR).
+#'   }
 #' @param ... Further arguments to methods.
 #' @param alpha (numeric from 0 to 1) Significance level.
 #'
@@ -13,6 +17,7 @@
 #' @export
 #'
 make_cld <- function(obj, ..., alpha = 0.05) {
+    checkmate::assert_number(alpha, lower = 0, upper = 1)
     UseMethod("make_cld")
 }
 
@@ -29,11 +34,10 @@ make_cld.posthocTGH <- function(obj, ..., alpha = obj$intermediate$alpha) {
                stop("Incorrect method selected: ", obj$input$method)
         )
 
-    res <- rcompanion::cldList(
-        comparison = obj$intermediate$pairNames,
-        p.value    = obj$output[[which_posthoc]]$p.adjusted,
-        threshold  = obj$intermediate$alpha,
-        ...)
+    res <- rcompanion::cldList(comparison = obj$intermediate$pairNames,
+                               p.value    = obj$output[[which_posthoc]]$p.adjusted,
+                               threshold  = obj$intermediate$alpha,
+                               ...)
 
     res$Letter2 <- gsub(" ", "_", res$MonoLetter)
 
@@ -57,9 +61,9 @@ make_cld.PMCMR <- function(obj, ..., alpha = 0.05) {
 
 
     res <- rcompanion::cldList(comparison = paste0(df$gr1, " - ", df$gr2),
-                        p.value    = df$p_values,
-                        threshold  = alpha,
-                        ...)
+                               p.value    = df$p_values,
+                               threshold  = alpha,
+                               ...)
 
 
     res$Letter2 <- gsub(" ", "_", res$MonoLetter)
