@@ -5,12 +5,16 @@
 #' @param obj (\code{lm} object) A result of function \code{lm()}.
 #'
 #' @return
-#' Object of class \code{lm_beta} which is a named numeric vector  that represents each standardized coefficient from \code{lm()} model.
+#' Object of class \code{lm_beta} which is a list with 2 named fields:
+#' \itemize{
+#' \item \code{b} named numeric vector with regression coefficients (not standardized);
+#' \item \code{beta} named numeric vector  with standardized coefficients from \code{lm()} model.
+#' }
 #'
 #'
 #' @details
 #' This function is inspired by function  \code{\pkg{QuantPsyc}::lm.beta()} written by Thomas D. Fletcher. \cr
-#' \code{standardized_coef()} provides standardized coefficients even when interaction members are present. This is achieved by computing whole model matrix (with all right-hand side members of formula used in call of \code{lm()}) and calculating standard deviations of each regressor (including interaction members) based on these columns. The remaining calculations are the same as in \code{\pkg{QuantPsyc}::lm.beta()}.
+#' \code{coef_standardized()} provides standardized coefficients even when interaction members are present. This is achieved by computing whole model matrix (with all right-hand side members of formula used in call of \code{lm()}) and calculating standard deviations of each regressor (including interaction members) based on these columns. The remaining calculations are the same as in \code{\pkg{QuantPsyc}::lm.beta()}.
 #'
 #' @author
 #' Vilmantas Gegzna (modified function written by Thomas D. Fletcher).
@@ -29,16 +33,17 @@
 #' names(us)
 #'
 #' lm1 <- lm(CONT ~ INTG + DMNR + log(DILG), data = us)
-#' standardized_coef(lm1)
+#' coef_standardized(lm1)
 #'
 #' lm2 <- lm(CONT ~ INTG + DMNR*DILG, data = us)
-#' standardized_coef(lm2)
+#' coef_standardized(lm2)
 #'
 
-standardized_coef <- function(obj) {
+coef_standardized <- function(obj) {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     checkmate::assert_class(obj, "lm")
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          a <- summary(obj)$coef[ 1, 1]
           b <- summary(obj)$coef[-1, 1]
     b_names <- rownames(summary(obj)$coef)[-1]
     # Extracts all members of right-hand side of formulae:
@@ -50,14 +55,22 @@ standardized_coef <- function(obj) {
       sy_ <- sapply(obj$model[1], sd)
     beta  <- b * sx_ / sy_
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    structure(beta,
-              class = c("lm_beta","numeric"))
+    structure(list(a = a, b = b, beta = beta),
+              class = c("lm_beta","list"))
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
-#' @rdname standardized_coef
+#' @rdname coef_standardized
+#' @export
+standardized_coef <- function(obj) {
+    .Deprecated("coef_standardized")
+    coef_standardized(obj)
+}
+
+#' @rdname coef_standardized
 #'
 #' @param x \code{lm_beta} object.
+#' @param object \code{lm_beta} object.
 #' @param digits (integer) number of decimal places to round the answer to.
 #'               Default is 3.
 #' @param ... further parameters to \code{print} method.
@@ -66,8 +79,42 @@ standardized_coef <- function(obj) {
 
 print.lm_beta <- function(x, ..., digits = 3) {
     cat("Standardized Regression Coefficients:\n")
-    print(unclass(round(x,  digits = digits)), ...)
+
+    print(unclass(round(x$beta,  digits = digits)), ...)
 }
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname coef_standardized
+#' @export
+summary.lm_beta <- function(object, ..., digits = 3) {
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    b    <- rm_names(object$b)
+    beta <- rm_names(object$beta)
+
+    rez <- data.frame(
+        regressor = c("(Intercept)", names(object$beta)),
+            coeff = c(object$a, b),
+        standardized_coeff = c(NA, beta),
+        influence_rank = c(NA, rank(-abs(beta)))
+    )
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    structure(rez,
+              class = c("lm_beta_summary","data.frame"))
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname coef_standardized
+#' @export
+print.lm_beta_summary <- function(x, ..., digits = 3) {
+    cat("Summary of Standardized Regression Coefficients:\n")
+    x$standardized_coeff <- round(x$standardized_coeff,  digits = digits)
+    print(data.frame(x))
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # # # This part is the same as QuantPsyc::lm.beta() ~~~~~~~~~~~~~~~~~~~~~~
