@@ -3,14 +3,17 @@
 \name{make_cld}
 \alias{make_cld}
 \alias{make_cld.posthocTGH}
+\alias{make_cld.PMCMR}
 \title{Make a compact letter display}
 \usage{
-make_cld(obj, ...)
+make_cld(obj, ..., alpha = 0.05)
 
-\method{make_cld}{posthocTGH}(obj, ...)
+\method{make_cld}{posthocTGH}(obj, ..., alpha = obj$intermediate$alpha)
+
+\method{make_cld}{PMCMR}(obj, ..., alpha = 0.05)
 }
 \arguments{
-\item{obj}{Object with post-hoc results}
+\item{obj}{Object with pair-wise comparisoms (e.g., post-hoc test results).}
 
 \item{...}{Further arguments to methods.}
 }
@@ -18,5 +21,8 @@ make_cld(obj, ...)
 (A dataframe with) compact letter display.
 }
 \description{
-Make a compact letter display for results of ANOVA post-hoc test.
+Make a compact letter display for results of pair-wise comparisons (e.g., ANOVA post-hoc tests, Kruskal-Walis post-hoc tests and other).
+}
+\details{
+This function is based on function \code{\link[rcompanion]{cldList}()} from package \pkg{rcompanion}.
 }
