@@ -2,11 +2,14 @@
 % Please edit documentation in R/make_cld.R
 \name{make_cld}
 \alias{make_cld}
+\alias{make_cld.pairwise.htest}
 \alias{make_cld.posthocTGH}
 \alias{make_cld.PMCMR}
 \title{Make a compact letter display}
 \usage{
 make_cld(obj, ..., alpha = 0.05)
+
+\method{make_cld}{pairwise.htest}(obj, ..., alpha = 0.05)
 
 \method{make_cld}{posthocTGH}(obj, ..., alpha = obj$intermediate$alpha)
 
@@ -31,4 +34,41 @@ Make a compact letter display for results of pair-wise comparisons (e.g., ANOVA 
 }
 \details{
 This function is based on function \code{\link[rcompanion]{cldList}()} from package \pkg{rcompanion}.
+}
+\examples{
+# Example 1: class `pairwise.htest`
+
+obj1 <- pairwise.wilcox.test(chickwts$weight, chickwts$feed, exact = FALSE)
+make_cld(obj1)
+
+
+# Example 2: class `pairwise.htest`
+
+obj2 <- pairwise.t.test(OrchardSprays$decrease, OrchardSprays$treatment)
+make_cld(obj2)
+
+
+# Example 3: class `PMCMR`
+
+\donttest{
+obj3 <- PMCMR::posthoc.kruskal.conover.test(count ~ spray,
+                                            data = InsectSprays)
+make_cld(obj3)
+}
+
+# Example 4: class `posthocTGH`
+
+obj4 <- posthocTGH(ChickWeight$weight,
+                   ChickWeight$Diet,
+                   method = "tukey")
+make_cld(obj4)
+
+
+# Example 5: class `posthocTGH`
+
+obj5 <- posthocTGH(ChickWeight$weight,
+                   ChickWeight$Diet,
+                   method = "games-howell")
+make_cld(obj5)
+
 }

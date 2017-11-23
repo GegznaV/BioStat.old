@@ -16,13 +16,80 @@
 #' @return (A dataframe with) compact letter display.
 #' @export
 #'
+#' @examples
+#' # Example 1: class `pairwise.htest`
+#'
+#' obj1 <- pairwise.wilcox.test(chickwts$weight, chickwts$feed, exact = FALSE)
+#' make_cld(obj1)
+#'
+#'
+#' # Example 2: class `pairwise.htest`
+#'
+#' obj2 <- pairwise.t.test(OrchardSprays$decrease, OrchardSprays$treatment)
+#' make_cld(obj2)
+#'
+#'
+#' # Example 3: class `PMCMR`
+#'
+#' \donttest{
+#' obj3 <- PMCMR::posthoc.kruskal.conover.test(count ~ spray,
+#'                                             data = InsectSprays)
+#' make_cld(obj3)
+#' }
+#'
+#' # Example 4: class `posthocTGH`
+#'
+#' obj4 <- posthocTGH(ChickWeight$weight,
+#'                    ChickWeight$Diet,
+#'                    method = "tukey")
+#' make_cld(obj4)
+#'
+#'
+#' # Example 5: class `posthocTGH`
+#'
+#' obj5 <- posthocTGH(ChickWeight$weight,
+#'                    ChickWeight$Diet,
+#'                    method = "games-howell")
+#' make_cld(obj5)
+#'
+
+# smokers  <- c(83, 90, 129, 70)
+# patients <- c(86, 93, 136, 82)
+# obj <- pairwise.prop.test(smokers, patients)
+# make_cld(obj)
+
 make_cld <- function(obj, ..., alpha = 0.05) {
     checkmate::assert_number(alpha, lower = 0, upper = 1)
     UseMethod("make_cld")
 }
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+update_cld <- function(res) {
+    res$MonoLetter <- gsub(" ", "_", res$MonoLetter)
+    names(res) <- c("Group", "cld", "mono_cld")
+    structure(res, class = c("cld_object", class(res)))
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname make_cld
+#' @export
+make_cld.pairwise.htest <- function(obj, ..., alpha = 0.05) {
 
+    m1 <- obj$p.value
 
+    df <- data.frame(
+        gr1 = colnames(m1)[col(m1)],
+        gr2 = rownames(m1)[row(m1)],
+        p_values = c(m1))
+
+    df <- df[complete.cases(df), ]
+
+    res <- rcompanion::cldList(comparison = paste0(df$gr1, " - ", df$gr2),
+                               p.value    = df$p_values,
+                               threshold  = alpha)
+    update_cld(res)
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname make_cld
 #' @export
 make_cld.posthocTGH <- function(obj, ..., alpha = obj$intermediate$alpha) {
@@ -38,10 +105,7 @@ make_cld.posthocTGH <- function(obj, ..., alpha = obj$intermediate$alpha) {
                                p.value    = obj$output[[which_posthoc]]$p.adjusted,
                                threshold  = obj$intermediate$alpha,
                                ...)
-
-    res$Letter2 <- gsub(" ", "_", res$MonoLetter)
-
-    res
+    update_cld(res)
 }
 
 
@@ -49,26 +113,5 @@ make_cld.posthocTGH <- function(obj, ..., alpha = obj$intermediate$alpha) {
 #' @rdname make_cld
 #' @export
 make_cld.PMCMR <- function(obj, ..., alpha = 0.05) {
-
-    m1 <- obj$p.value
-
-    df <- data.frame(
-        gr1 = colnames(m1)[col(m1)],
-        gr2 = rownames(m1)[row(m1)],
-        p_values = c(m1))
-
-    df <- df[complete.cases(df), ]
-
-
-    res <- rcompanion::cldList(comparison = paste0(df$gr1, " - ", df$gr2),
-                               p.value    = df$p_values,
-                               threshold  = alpha,
-                               ...)
-
-
-    res$Letter2 <- gsub(" ", "_", res$MonoLetter)
-
-    res
-
-
+   make_cld.pairwise.htest(obj, ..., alpha = alpha)
 }
