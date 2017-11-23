@@ -28,6 +28,7 @@
 #' standards (i.e. replace all values lower than .001 with '<.001'). This only
 #' applies to the printing of the object, not to the way the p values are
 #' stored in the object.
+#' @param ... Further arguments to methods
 #'
 #' @return A list of three elements:
 #' \item{input}{List with input arguments}
@@ -71,16 +72,33 @@
 #' posthoc_tgh(y=ChickWeight$weight, x=ChickWeight$Diet, method="tukey");
 #'
 #' @export
-
-posthoc_tgh <- function(y,
-                        x,
-                        method = c("games-howell", "tukey"),
-                        conf_level = 0.95,
-                        digits = 2,
-                        p.adjust = "holm",
-                        format_pvalue = TRUE,
-                        ...
+#'
+#'
+posthoc_tgh.default <- function(y,
+                                x,
+                                method = c("games-howell", "tukey"),
+                                conf_level = 0.95,
+                                digits = 2,
+                                p.adjust = "holm",
+                                format_pvalue = TRUE,
+                                ...
 ) {
+    UseMethod("posthoc_tgh")
+}
+
+
+#' @rdname posthoc_tgh
+#' @export
+posthoc_tgh.default <-
+    function(y,
+             x,
+             method = c("games-howell", "tukey"),
+             conf_level = 0.95,
+             digits = 2,
+             p.adjust = "holm",
+             format_pvalue = TRUE,
+             ...
+    ) {
     ### Based on http://www.psych.yorku.ca/cribbie/6130/games_howell.R
     method <- tolower(method)
 
