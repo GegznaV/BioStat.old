@@ -17,7 +17,6 @@
 #' @inheritParams qq_data
 #' @inheritParams plot.qqdata
 #' @inheritParams car::qqPlot
-#' @inheritParams mosaic::maggregate
 #' @inheritParams test_normality
 #' @export
 #' @return A \code{ggplot2} object

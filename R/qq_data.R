@@ -41,7 +41,6 @@
 #'
 #' @inheritParams test_normality
 #' @inheritParams car::qqPlot
-#' @inheritParams mosaic::maggregate
 #'
 #' @return An object, which inherits from classes \code{qqdata} and
 #'         \code{data.frame}. The object contains information, needed
