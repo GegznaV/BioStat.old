@@ -15,8 +15,8 @@ make_cld(obj, ..., alpha = 0.05)
 \arguments{
 \item{obj}{Object with pair-wise comparisoms (e.g., post-hoc test results).
 Currently supported objects: \itemize{
-\item \emph{posthocTGH} from package \pkg(userfriendlyscience);
-\item \emph{PMCMR} from package \pkg(PMCMR).
+\item \emph{posthocTGH} from package \pkg{userfriendlyscience};
+\item \emph{PMCMR} from package \pkg{PMCMR}.
 }}
 
 \item{...}{Further arguments to methods.}

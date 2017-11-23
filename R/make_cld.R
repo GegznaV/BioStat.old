@@ -7,8 +7,8 @@
 #'
 #' @param obj Object with pair-wise comparisoms (e.g., post-hoc test results).
 #'   Currently supported objects: \itemize{
-#'   \item \emph{posthocTGH} from package \pkg(userfriendlyscience);
-#'   \item \emph{PMCMR} from package \pkg(PMCMR).
+#'   \item \emph{posthocTGH} from package \pkg{userfriendlyscience};
+#'   \item \emph{PMCMR} from package \pkg{PMCMR}.
 #'   }
 #' @param ... Further arguments to methods.
 #' @param alpha (numeric from 0 to 1) Significance level.

@@ -8,6 +8,10 @@
 #' @export
 #'
 #' @examples
+#' set.seed(999555)
+#' x <- rnorm(35, 10, 5)
+#' ci_mean_t(x)
+#
 ci_mean_t <- function(x,
                       conf_level = 0.95,
                       na.rm = TRUE,

@@ -18,7 +18,12 @@
 #'
 #' @export
 #' @examples
+#' set.seed(111555)
 #' ci_mean_boot(1:60)
+#'
+#' set.seed(999555)
+#' x <- rnorm(35, 10, 5)
+#' ci_mean_boot(x)
 #'
 ci_mean_boot <- function(x,
                          conf_level = 0.95,
