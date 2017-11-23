@@ -19,7 +19,7 @@ test_that("`make_cld.PMCMR` works", {
 })
 
 test_that("`make_cld.posthocTGH` works", {
-    obj3 <- posthocTGH(chickwts$weight, chickwts$feed)
+    obj3 <- posthoc_tgh(chickwts$weight, chickwts$feed)
     expect_equivalent(as.character(make_cld(obj3)$cld),
                       c("a", "ab", "bcd", "bc", "d", "cd"))
 })

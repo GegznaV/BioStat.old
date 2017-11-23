@@ -10,7 +10,8 @@
 #' Games-Howell and Tukey post-hoc tests
 #'
 #' Either Games-Howell or Tukey post-hoc tests for one-way analysis of
-#' variance (ANOVA).
+#' variance (ANOVA). The main part of the function code and descriptions were
+#' imported from \code{posthocTGH()} in package \pkg{userfriendlyscience}.
 #'
 #'
 #'
@@ -20,10 +21,10 @@
 #' one.
 #' @param method (\code{"games-howell"}|\code{"tukey"}) Which post-hoc
 #'                tests to conduct. Valid values are "tukey" and "games-howell".
-#' @param conf.level Confidence level of the confidence intervals.
+#' @param conf_level Confidence level of the confidence intervals.
 #' @param digits The number of digits to show in the output.
-#' @param p.adjust Any valid \code{\link{p.adjust}} method.
-#' @param formatPvalue Whether to format the p values according to APA
+#' @param p_adjust Any valid \code{\link{p_adjust}} method.
+#' @param format_pvalue Whether to format the p values according to APA
 #' standards (i.e. replace all values lower than .001 with '<.001'). This only
 #' applies to the printing of the object, not to the way the p values are
 #' stored in the object.
@@ -37,7 +38,7 @@
 #'
 #'
 #' @note This function is based on a file that was once hosted at
-#' http://www.psych.yorku.ca/cribbie/6130/games_howell.R, but has been removed
+#' \url{http://www.psych.yorku.ca/cribbie/6130/games_howell.R}, but has been removed
 #' since. It was then adjusted for implementation in the
 #' \pkg{userfriendlyscience} package. Jeffrey Baggett needed the
 #' confidence intervals, and so emailed them, after which his updated functions
@@ -64,20 +65,21 @@
 #' library(BioStat)
 #'
 #' ### Compute post-hoc statistics using the Games-Howell method
-#' posthocTGH(y=ChickWeight$weight, x=ChickWeight$Diet)
+#' posthoc_tgh(y=ChickWeight$weight, x=ChickWeight$Diet)
 #'
 #' ### Compute post-hoc statistics using the Tukey method
-#' posthocTGH(y=ChickWeight$weight, x=ChickWeight$Diet, method="tukey");
+#' posthoc_tgh(y=ChickWeight$weight, x=ChickWeight$Diet, method="tukey");
 #'
 #' @export
 
-posthocTGH <- function(y,
-                       x,
-                       method = c("games-howell", "tukey"),
-                       conf.level = 0.95,
-                       digits = 2,
-                       p.adjust = "holm",
-                       formatPvalue = TRUE
+posthoc_tgh <- function(y,
+                        x,
+                        method = c("games-howell", "tukey"),
+                        conf_level = 0.95,
+                        digits = 2,
+                        p_adjust = "holm",
+                        format_pvalue = TRUE,
+                        ...
 ) {
     ### Based on http://www.psych.yorku.ca/cribbie/6130/games_howell.R
     method <- tolower(method)
@@ -149,7 +151,7 @@ posthocTGH <- function(y,
         lower.tail = FALSE
     )
 
-    res$intermediate$alpha <- (1 - conf.level)
+    res$intermediate$alpha <- (1 - conf_level)
 
     res$intermediate$qcrit <- qtukey(res$intermediate$alpha,
                                      res$intermediate$groups,
@@ -173,14 +175,14 @@ posthocTGH <- function(y,
         res$intermediate$p.tukey
     )
     res$output$tukey$p.tukey.adjusted <-
-        p.adjust(res$intermediate$p.tukey,
-                 method = p.adjust)
+        p_adjust(res$intermediate$p.tukey,
+                 method = p_adjust)
 
 
     rownames(res$output$tukey) <- res$intermediate$pairNames
 
     colnames(res$output$tukey) <-
-        c('diff', 'ci.lo', 'ci.hi', 't', 'df', 'p', 'p.adjusted')
+        c('diff', 'ci.lo', 'ci.hi', 't', 'df', 'p', 'p_adjusted')
 
 
     ### Start on Games-Howell
@@ -233,13 +235,13 @@ posthocTGH <- function(y,
     )
 
     res$output$games.howell$p.gameshowell.adjusted <-
-        p.adjust(res$intermediate$p.gameshowell,
-                 method = p.adjust)
+        p_adjust(res$intermediate$p.gameshowell,
+                 method = p_adjust)
 
     rownames(res$output$games.howell) <- res$intermediate$pairNames
 
     colnames(res$output$games.howell) <-
-        c('diff', 'ci.lo', 'ci.hi', 't', 'df', 'p', 'p.adjusted')
+        c('diff', 'ci.lo', 'ci.hi', 't', 'df', 'p', 'p_adjusted')
 
 
     ### Set class and return object
@@ -253,9 +255,9 @@ posthocTGH <- function(y,
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname posthocTGH
+#' @rdname posthoc_tgh
 #' @export
-#' @param ... (Further arguments)
+#' @param ... (further arguments to methods)
 
 # @param x The object to print.
 # @param digits The number of significant digits to print.
@@ -276,7 +278,7 @@ print.posthocTGH <- function(x,
 
     }
     dat[, c(6, 7)] <- lapply(dat[, c(6, 7)],
-                             formatPvalue,
+                             format_pvalue,
                              digits = digits,
                              includeP = FALSE)
 

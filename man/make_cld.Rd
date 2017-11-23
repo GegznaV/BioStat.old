@@ -58,17 +58,17 @@ make_cld(obj3)
 
 # Example 4: class `posthocTGH`
 
-obj4 <- posthocTGH(ChickWeight$weight,
-                   ChickWeight$Diet,
-                   method = "tukey")
+obj4 <- posthoc_tgh(ChickWeight$weight,
+                    ChickWeight$Diet,
+                    method = "tukey")
 make_cld(obj4)
 
 
 # Example 5: class `posthocTGH`
 
-obj5 <- posthocTGH(ChickWeight$weight,
-                   ChickWeight$Diet,
-                   method = "games-howell")
+obj5 <- posthoc_tgh(ChickWeight$weight,
+                    ChickWeight$Diet,
+                    method = "games-howell")
 make_cld(obj5)
 
 }
