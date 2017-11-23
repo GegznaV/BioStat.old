@@ -45,7 +45,7 @@
 #' make_cld(obj4)
 #'
 #'
-#' # Example 5: class `posthocTGH`
+#' # Example 5: class `posthoc_tgh`
 #'
 #' obj5 <- posthoc_tgh(ChickWeight$weight,
 #'                     ChickWeight$Diet,
@@ -93,6 +93,25 @@ make_cld.pairwise.htest <- function(obj, ..., alpha = 0.05) {
 #' @rdname make_cld
 #' @export
 make_cld.posthocTGH <- function(obj, ..., alpha = obj$intermediate$alpha) {
+
+    which_posthoc <-
+        switch(tolower(obj$input$method),
+               "games-howell" = "games.howell",
+               "tukey"        = "tukey",
+               stop("Incorrect method selected: ", obj$input$method)
+        )
+
+    res <- rcompanion::cldList(comparison = obj$intermediate$pairNames,
+                               p.value    = obj$output[[which_posthoc]]$p.adjusted,
+                               threshold  = obj$intermediate$alpha,
+                               ...)
+    update_cld(res)
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname make_cld
+#' @export
+make_cld.posthoc_tgh <- function(obj, ..., alpha = obj$intermediate$alpha) {
 
     which_posthoc <-
         switch(tolower(obj$input$method),

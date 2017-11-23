@@ -1,7 +1,7 @@
 # Function to format p values nicely
 # from package `userfriendlyscience`
 
-formatPvalue <-    function(values,
+format_pvalue <-    function(values,
                             digits = 3,
                             spaces = TRUE,
                             includeP = TRUE) {

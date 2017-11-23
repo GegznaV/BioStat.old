@@ -6,7 +6,7 @@
 \title{Games-Howell and Tukey post-hoc tests}
 \usage{
 posthoc_tgh(y, x, method = c("games-howell", "tukey"), conf_level = 0.95,
-  digits = 2, p_adjust = "holm", format_pvalue = TRUE, ...)
+  digits = 2, p.adjust = "holm", format_pvalue = TRUE, ...)
 
 \method{print}{posthocTGH}(x, digits = x$input$digits, ...)
 }
@@ -23,7 +23,7 @@ tests to conduct. Valid values are "tukey" and "games-howell".}
 
 \item{digits}{The number of digits to show in the output.}
 
-\item{p_adjust}{Any valid \code{\link{p_adjust}} method.}
+\item{p.adjust}{Any valid \code{\link{p.adjust}} method.}
 
 \item{format_pvalue}{Whether to format the p values according to APA
 standards (i.e. replace all values lower than .001 with '<.001'). This only

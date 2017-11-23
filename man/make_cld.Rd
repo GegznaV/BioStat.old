@@ -4,6 +4,7 @@
 \alias{make_cld}
 \alias{make_cld.pairwise.htest}
 \alias{make_cld.posthocTGH}
+\alias{make_cld.posthoc_tgh}
 \alias{make_cld.PMCMR}
 \title{Make a compact letter display}
 \usage{
@@ -12,6 +13,8 @@ make_cld(obj, ..., alpha = 0.05)
 \method{make_cld}{pairwise.htest}(obj, ..., alpha = 0.05)
 
 \method{make_cld}{posthocTGH}(obj, ..., alpha = obj$intermediate$alpha)
+
+\method{make_cld}{posthoc_tgh}(obj, ..., alpha = obj$intermediate$alpha)
 
 \method{make_cld}{PMCMR}(obj, ..., alpha = 0.05)
 }
@@ -64,7 +67,7 @@ obj4 <- posthoc_tgh(ChickWeight$weight,
 make_cld(obj4)
 
 
-# Example 5: class `posthocTGH`
+# Example 5: class `posthoc_tgh`
 
 obj5 <- posthoc_tgh(ChickWeight$weight,
                     ChickWeight$Diet,

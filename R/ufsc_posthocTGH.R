@@ -23,7 +23,7 @@
 #'                tests to conduct. Valid values are "tukey" and "games-howell".
 #' @param conf_level Confidence level of the confidence intervals.
 #' @param digits The number of digits to show in the output.
-#' @param p_adjust Any valid \code{\link{p_adjust}} method.
+#' @param p.adjust Any valid \code{\link{p.adjust}} method.
 #' @param format_pvalue Whether to format the p values according to APA
 #' standards (i.e. replace all values lower than .001 with '<.001'). This only
 #' applies to the printing of the object, not to the way the p values are
@@ -77,7 +77,7 @@ posthoc_tgh <- function(y,
                         method = c("games-howell", "tukey"),
                         conf_level = 0.95,
                         digits = 2,
-                        p_adjust = "holm",
+                        p.adjust = "holm",
                         format_pvalue = TRUE,
                         ...
 ) {
@@ -175,14 +175,14 @@ posthoc_tgh <- function(y,
         res$intermediate$p.tukey
     )
     res$output$tukey$p.tukey.adjusted <-
-        p_adjust(res$intermediate$p.tukey,
-                 method = p_adjust)
+        p.adjust(res$intermediate$p.tukey,
+                 method = p.adjust)
 
 
     rownames(res$output$tukey) <- res$intermediate$pairNames
 
     colnames(res$output$tukey) <-
-        c('diff', 'ci.lo', 'ci.hi', 't', 'df', 'p', 'p_adjusted')
+        c('diff', 'ci.lo', 'ci.hi', 't', 'df', 'p', 'p.adjusted')
 
 
     ### Start on Games-Howell
@@ -235,13 +235,13 @@ posthoc_tgh <- function(y,
     )
 
     res$output$games.howell$p.gameshowell.adjusted <-
-        p_adjust(res$intermediate$p.gameshowell,
-                 method = p_adjust)
+        p.adjust(res$intermediate$p.gameshowell,
+                 method = p.adjust)
 
     rownames(res$output$games.howell) <- res$intermediate$pairNames
 
     colnames(res$output$games.howell) <-
-        c('diff', 'ci.lo', 'ci.hi', 't', 'df', 'p', 'p_adjusted')
+        c('diff', 'ci.lo', 'ci.hi', 't', 'df', 'p', 'p.adjusted')
 
 
     ### Set class and return object
