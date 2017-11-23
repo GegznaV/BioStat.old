@@ -13,8 +13,8 @@
 #'
 #'
 #' @details
-#' This function is inspired by function  \code{\pkg{QuantPsyc}::lm.beta()} written by Thomas D. Fletcher. \cr
-#' \code{coef_standardized()} provides standardized coefficients even when interaction members are present. This is achieved by computing whole model matrix (with all right-hand side members of formula used in call of \code{lm()}) and calculating standard deviations of each regressor (including interaction members) based on these columns. The remaining calculations are the same as in \code{\pkg{QuantPsyc}::lm.beta()}.
+#' This function is inspired by function  \pkg{QuantPsyc}\code{::lm.beta()} written by Thomas D. Fletcher. \cr
+#' \code{coef_standardized()} provides standardized coefficients even when interaction members are present. This is achieved by computing whole model matrix (with all right-hand side members of formula used in call of \code{lm()}) and calculating standard deviations of each regressor (including interaction members) based on these columns. The remaining calculations are the same as in \pkg{QuantPsyc}\code{::lm.beta()}.
 #'
 #' @author
 #' Vilmantas Gegzna (modified function written by Thomas D. Fletcher).

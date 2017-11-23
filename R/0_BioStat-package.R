@@ -14,8 +14,8 @@
 #' @importFrom pander pander
 #' @importFrom stats coef complete.cases model.extract
 #'                   naprint p.adjust ptukey qtukey quantile
-#'                   symnum var sd
-#' @importFrom utils capture.output combn
-#' @importFrom utils head tail
+#'                   symnum var sd as.formula model.matrix qt
+#' @importFrom utils capture.output combn head tail
+
 
 NULL
