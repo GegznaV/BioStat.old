@@ -6,7 +6,7 @@
 \alias{make_cld.posthocTGH}
 \alias{make_cld.posthoc_tgh}
 \alias{make_cld.PMCMR}
-\title{Make a compact letter display}
+\title{Make a compact letter display for pair-wise comparison}
 \usage{
 make_cld(obj, ..., alpha = 0.05)
 
@@ -19,7 +19,7 @@ make_cld(obj, ..., alpha = 0.05)
 \method{make_cld}{PMCMR}(obj, ..., alpha = 0.05)
 }
 \arguments{
-\item{obj}{Object with pair-wise comparisoms (e.g., post-hoc test results).
+\item{obj}{Object with pair-wise comparisons (e.g., post-hoc test results).
 Currently supported objects: \itemize{
 \item \emph{posthocTGH} from package \pkg{userfriendlyscience};
 \item \emph{PMCMR} from package \pkg{PMCMR}.
@@ -30,10 +30,10 @@ Currently supported objects: \itemize{
 \item{alpha}{(numeric from 0 to 1) Significance level.}
 }
 \value{
-(A dataframe with) compact letter display.
+(A data frame with) compact letter display.
 }
 \description{
-Make a compact letter display for results of pair-wise comparisons (e.g., ANOVA post-hoc tests, Kruskal-Walis post-hoc tests and other).
+Make a compact letter display for results of pair-wise comparisons (e.g., ANOVA post-hoc tests, Kruskal-Wallis post-hoc tests and other).
 }
 \details{
 This function is based on function \code{\link[rcompanion]{cldList}()} from package \pkg{rcompanion}.

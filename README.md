@@ -3,7 +3,7 @@
 
 ------------------------------------------------------------------------
 
-[![CRAN version](http://www.r-pkg.org/badges/version/BioStat)](https://cran.rstudio.com/web/packages/BioStat/index.html) [![GitHub version](https://img.shields.io/badge/GitHub-v0.0.8.9013-brightgreen.svg)](https://github.com/GegznaV/BioStat) [![Travis-CI Build Status](https://travis-ci.org/GegznaV/BioStat.png?branch=master)](https://travis-ci.org/GegznaV/BioStat) [![codecov.io](https://codecov.io/github/GegznaV/BioStat/coverage.svg?branch=master)](https://codecov.io/github/GegznaV/BioStat?branch=master) [![Last-update](https://img.shields.io/badge/last%20update-2017--11--23-yellowgreen.svg)](/commits/master)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/BioStat)](https://cran.r-project.org/package=BioStat) [![GitHub version](https://img.shields.io/badge/GitHub-v0.0.8.9015-brightgreen.svg)](https://github.com/GegznaV/BioStat) [![Travis-CI Build Status](https://travis-ci.org/GegznaV/BioStat.png?branch=master)](https://travis-ci.org/GegznaV/BioStat) [![codecov.io](https://codecov.io/github/GegznaV/BioStat/coverage.svg?branch=master)](https://codecov.io/github/GegznaV/BioStat?branch=master) [![Update-on](https://img.shields.io/badge/Updated%20on-2017--11--24-yellowgreen.svg)](/commits/master)
 
 ------------------------------------------------------------------------
 
@@ -12,7 +12,7 @@
 `BioStat` – A Collection of Functions for Biostatistics and Biometry Lectures
 =============================================================================
 
-`BioStat` is an `R` package that contains a collection of functions dedicated for biostatistics and biometry lectures (GMF1059) that do some common statistical routines without writing to much code.
+`BioStat` is an `R` package that contains a collection of functions that either are intended to be used with R Commander plugin *RcmdrPlugin.BioStat* or to do several common statistical routines without writing to much code. The functions are created to complement other R Commander plugins that can be used to teach basic statistics in biostatistics and biometry lectures.
 
 The package is still in its development and some functions are for demonstration purposes only as they may change in the future.
 
@@ -21,7 +21,13 @@ Documentation and more information available at <http://gegznav.github.io/BioSta
 Install package
 ---------------
 
-To install a developement version of the package from `GitHub`:
+To install a released version of the package from *CRAN*:
+
+``` r
+install.packages("BioStat")
+```
+
+To install a developement version of the package from *GitHub*:
 
 ``` r
 if (!"devtools" %in% installed.packages()) 

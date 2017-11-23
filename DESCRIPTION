@@ -1,13 +1,13 @@
 Package: BioStat
 Type: Package
 Title: A Collection of Functions for Biostatistics and Biometry Lectures
-Description: The package contains a collection of functions dedicated for 
-             biostatistics and biometry lectures (GMF1059) that do some common  
+Description: A collection of functions that either are intended to be used with 
+             R Commander plugin `RcmdrPlugin.BioStat` or to do several common 
              statistical routines without writing to much code. 
-             The package is still in its development and some 
-             functions are for demonstration purposes only as they may change
-             in the future.
-Version: 0.0.8.9014
+             The functions are created to complement other R Commander plugins 
+             that can be used to teach basic statistics in biostatistics and 
+             biometry lectures (GMF1059).
+Version: 0.0.8.9015
 Date: 2017-11-23
 Authors@R: c(
     person("Vilmantas", "Gegna", role = c("aut","cre"),
@@ -16,13 +16,13 @@ Authors@R: c(
 License: GPL (>= 3)
 Encoding: UTF-8
 URL: https://gegznav.github.io/BioStat/
+BugReports: https://github.com/GegznaV/BioStat/issues
 LazyData: true
 ByteCompile: TRUE
 Depends:
     R (>= 3.3),
     magrittr,
-    ggplot2,
-    Hmisc
+    ggplot2
 Imports:
     methods,
     checkmate,
@@ -40,13 +40,11 @@ Imports:
     nortest,
     fitdistrplus,
     rcompanion,
-    MASS,
-    mosaic,
-    mosaicCore,
-    mosaicData
+    MASS
 RoxygenNote: 6.0.1
 Suggests:
     covr,
     testthat,
     QuantPsyc,
-    PMCMR
+    PMCMR,
+    Hmisc

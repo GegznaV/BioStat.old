@@ -14,11 +14,12 @@ knitr::opts_chunk$set(
 
 ***
 
-[![CRAN version](http://www.r-pkg.org/badges/version/BioStat)](https://cran.rstudio.com/web/packages/BioStat/index.html)
+
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/BioStat)](https://cran.r-project.org/package=BioStat)
 [![GitHub version](https://img.shields.io/badge/GitHub-v`r packageVersion("BioStat")`-brightgreen.svg)](https://github.com/GegznaV/BioStat)
 [![Travis-CI Build Status](https://travis-ci.org/GegznaV/BioStat.png?branch=master)](https://travis-ci.org/GegznaV/BioStat)
 [![codecov.io](https://codecov.io/github/GegznaV/BioStat/coverage.svg?branch=master)](https://codecov.io/github/GegznaV/BioStat?branch=master)
-[![Last-update](https://img.shields.io/badge/last%20update-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master)
+[![Update-on](https://img.shields.io/badge/Updated%20on-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master)
 
 ***
 
@@ -30,7 +31,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/GegznaV/BioStat/maste
 `BioStat` – A Collection of Functions for Biostatistics and Biometry Lectures
 ==============================================================================
 
-`BioStat` is an `R` package that contains a collection of functions dedicated for biostatistics and biometry lectures (GMF1059) that do some common statistical routines without writing to much code. 
+`BioStat` is an `R` package that contains a collection of functions that either are intended to be used with R Commander plugin *RcmdrPlugin.BioStat* or to do several common statistical routines without writing to much code. The functions are created to complement other R Commander plugins that can be used to teach basic statistics in biostatistics and biometry lectures. 
  
 The package is still in its development and some functions are for 
  demonstration purposes only as they may change in the future.
@@ -39,7 +40,12 @@ Documentation and more information available at http://gegznav.github.io/BioStat
 
 ## Install package
 
-To install a developement version of the package from `GitHub`:
+To install a released version of the package from *CRAN*:
+```{r, eval=FALSE}
+install.packages("BioStat")
+```
+
+To install a developement version of the package from *GitHub*:
 
 ```{r Install package, eval=FALSE}
 if (!"devtools" %in% installed.packages()) 

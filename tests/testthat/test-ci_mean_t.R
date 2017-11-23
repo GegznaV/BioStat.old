@@ -1,6 +1,6 @@
 context("ci_mean_t")
 
-test_that("multiplication works", {
+test_that("ci_mean_t works", {
     set.seed(999555)
     x <- rnorm(35, 10, 5)
     rez <- ci_mean_t(x)
