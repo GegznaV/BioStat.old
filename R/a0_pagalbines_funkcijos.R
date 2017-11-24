@@ -1,4 +1,11 @@
 
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+is_named <- function(x) {
+    checkmate::assert_vector(x)
+    !is.null(names(x))
+}
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 rm_names <- function(obj) {
     names(obj) <- NULL
@@ -51,10 +58,12 @@ SIGNIF <- function(x, digits = 3) {
 #'
 #' @param x a vector to check and recycle
 #' @param data a data frame
+#' @param make_named (logical) If \code{TRUE}, vector elements will be given names
+#' of data frame columns.
 #'
 #' @keywords internal
 #' @export
-adjust_vector_length <- function(x, data) {
+adjust_vector_length <- function(x, data, make_named = FALSE) {
     n_col <- length(data)
     len_x <- length(x)
     if (len_x == 1) {
@@ -63,10 +72,33 @@ adjust_vector_length <- function(x, data) {
         stop("Length of `", substitute(x),
              "` must be either 1 or ", n_col,".")
     }
-    return(x)
+    if (make_named == TRUE) {
+        names(x) <- colnames(data)
+    }
+    x
 }
 
 
+#' Match positions of a vector and dataset colum names.
+#'
+#' Match positions of a vector and dataset colum names. Missing positions in
+#' vecor will be filled with NA. Positions of matching names will be filled
+#' with values in vector x.
+#'
+#' @param x a vector to check and recycle
+#' @param data a data frame
+#'
+#' @keywords internal
+#' @export
+adjust_named_vector <- function(x, data) {
+    rez <- rep(NA, length(data))
+    var_names <- colnames(data)
+    names(rez) <- var_names
+    common <- intersect(var_names, names(x))
+
+    rez[common] <- x[common]
+    rez
+}
 
 # =============================================================================
 

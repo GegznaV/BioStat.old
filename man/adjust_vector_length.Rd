@@ -5,12 +5,15 @@
 \title{Check and adjust length of vector according to the number of columns in a data frame
 (Function for value recycling)}
 \usage{
-adjust_vector_length(x, data)
+adjust_vector_length(x, data, make_named = FALSE)
 }
 \arguments{
 \item{x}{a vector to check and recycle}
 
 \item{data}{a data frame}
+
+\item{make_named}{(logical) If \code{TRUE}, vector elements will be given names
+of data frame columns.}
 }
 \description{
 Check and adjust length of vector according to the number of columns in a data frame

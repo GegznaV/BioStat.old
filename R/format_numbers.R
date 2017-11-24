@@ -58,8 +58,18 @@ format_numbers <- function(data,
                            ...)
 {
     # Apply the recycling of values
-    digits <- adjust_vector_length(digits, data)
-    format <- adjust_vector_length(format, data)
+    digits <- if (is_named(digits)) {
+        adjust_named_vector(digits, data)
+    } else {
+        adjust_vector_length(digits, data)
+    }
+
+    format <- if (is_named(format)) {
+        adjust_named_vector(format, data)
+    } else {
+        adjust_vector_length(format, data)
+    }
+
 
     # Apply the formatting
     for (i in seq_along(data)) {
