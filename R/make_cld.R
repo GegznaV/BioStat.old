@@ -39,18 +39,25 @@
 #'
 #' # Example 4: class `posthocTGH`
 #'
-#' obj4 <- posthoc_tgh(ChickWeight$weight,
-#'                     ChickWeight$Diet,
-#'                     method = "tukey")
+#' obj4 <- posthoc_anova_tukey(weight ~ Diet, data = ChickWeight)
 #' make_cld(obj4)
 #'
 #'
 #' # Example 5: class `posthoc_tgh`
 #'
-#' obj5 <- posthoc_tgh(ChickWeight$weight,
-#'                     ChickWeight$Diet,
-#'                     method = "games-howell")
+#' obj5 <- posthoc_anova_games_howell(weight ~ Diet, data = ChickWeight)
 #' make_cld(obj5)
+#'
+#'
+#' # Example 6: class `formula`
+#'
+#' DataFrame <- data.table::fread(
+#'     'Comparison     p.value p.adjust
+#'     "EE - GB = 0"        1 1.000000
+#'     "EE - CY = 0" 0.001093 0.003279
+#'     "GB - CY = 0" 0.005477 0.008216')
+#'
+#' make_cld(p.adjust ~ Comparison, data = DataFrame)
 #'
 
 # smokers  <- c(83, 90, 129, 70)
@@ -133,4 +140,19 @@ make_cld.posthoc_tgh <- function(obj, ..., alpha = obj$intermediate$alpha) {
 #' @export
 make_cld.PMCMR <- function(obj, ..., alpha = 0.05) {
     make_cld.pairwise.htest(obj, ..., alpha = alpha)
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname make_cld
+#' @export
+make_cld.formula <- function(obj, ..., data = NULL, alpha = 0.05) {
+    if (is.null(data)) {
+        data <- rlang::f_env(obj)
+    }
+    res <- rcompanion::cldList(obj,
+                               data = data,
+                               threshold = alpha,
+                               ...)
+
+    update_cld(res)
 }

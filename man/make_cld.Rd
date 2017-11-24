@@ -6,6 +6,7 @@
 \alias{make_cld.posthocTGH}
 \alias{make_cld.posthoc_tgh}
 \alias{make_cld.PMCMR}
+\alias{make_cld.formula}
 \title{Make a compact letter display for pair-wise comparison}
 \usage{
 make_cld(obj, ..., alpha = 0.05)
@@ -17,6 +18,8 @@ make_cld(obj, ..., alpha = 0.05)
 \method{make_cld}{posthoc_tgh}(obj, ..., alpha = obj$intermediate$alpha)
 
 \method{make_cld}{PMCMR}(obj, ..., alpha = 0.05)
+
+\method{make_cld}{formula}(obj, ..., data = NULL, alpha = 0.05)
 }
 \arguments{
 \item{obj}{Object with pair-wise comparisons (e.g., post-hoc test results).
@@ -61,17 +64,24 @@ make_cld(obj3)
 
 # Example 4: class `posthocTGH`
 
-obj4 <- posthoc_tgh(ChickWeight$weight,
-                    ChickWeight$Diet,
-                    method = "tukey")
+obj4 <- posthoc_anova_tukey(weight ~ Diet, data = ChickWeight)
 make_cld(obj4)
 
 
 # Example 5: class `posthoc_tgh`
 
-obj5 <- posthoc_tgh(ChickWeight$weight,
-                    ChickWeight$Diet,
-                    method = "games-howell")
+obj5 <- posthoc_anova_games_howell(weight ~ Diet, data = ChickWeight)
 make_cld(obj5)
+
+
+# Example 6: class `formula`
+
+DataFrame <- data.table::fread(
+    'Comparison     p.value p.adjust
+    "EE - GB = 0"        1 1.000000
+    "EE - CY = 0" 0.001093 0.003279
+    "GB - CY = 0" 0.005477 0.008216')
+
+make_cld(p.adjust ~ Comparison, data = DataFrame)
 
 }
