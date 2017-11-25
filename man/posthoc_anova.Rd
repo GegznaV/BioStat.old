@@ -46,8 +46,6 @@ stored in the object.}
 \item{...}{Further arguments to methods.}
 
 \item{sep}{(character) A string with a symbol to separate group names if several grouping variables are used.}
-
-\item{...}{(further arguments to methods)}
 }
 \value{
 A list of three elements:

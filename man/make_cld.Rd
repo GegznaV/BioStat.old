@@ -37,6 +37,9 @@ Currently supported objects: \itemize{
 \item{...}{Further arguments to methods.}
 
 \item{alpha}{(numeric from 0 to 1) Significance level.}
+
+\item{data}{A dataset with p values and names of comparisons. This argument
+is used if \code{obj} is formula. More details in examples.}
 }
 \value{
 (A data frame with) compact letter display.

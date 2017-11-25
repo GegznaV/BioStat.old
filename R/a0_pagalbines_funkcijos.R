@@ -1,4 +1,14 @@
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+is_square_matrix <- function(x) {
+    # From package `matrixcalc` version 1.0-3
+    nrow(x) == ncol(x)
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+is_symetric_matrix <- function(x) {
+    checkmate::assert_matrix(x, mode = "numeric")
+    if (!is_square_matrix(x)) stop("Matrix is not square")
+    sum(x == t(x)) == length(x)
+}
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 is_named <- function(x) {

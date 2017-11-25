@@ -11,6 +11,8 @@
 #'   \item \emph{PMCMR} from package \pkg{PMCMR}.
 #'   }
 #' @param ... Further arguments to methods.
+#' @param data A dataset with p values and names of comparisons. This argument
+#'            is used if \code{obj} is formula. More details in examples.
 #' @param alpha (numeric from 0 to 1) Significance level.
 #'
 #' @return (A data frame with) compact letter display.
@@ -199,17 +201,6 @@ make_cld.pairwise_pval_df <- function(obj, ..., alpha = 0.05) {
                                p.value    = obj$p_values,
                                threshold  = alpha)
     update_cld(res)
-}
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-is_square_matrix <- function(x) {
-    # From package `matrixcalc` version 1.0-3
-    nrow(x) == ncol(x)
-}
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-is_symetric_matrix <- function(x) {
-    checkmate::assert_matrix(x, mode = "numeric")
-    if (!is_square_matrix(x)) stop("Matrix is not square")
-    sum(x == t(x)) == length(x)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 pval_matrix_to_df <- function(x) {
