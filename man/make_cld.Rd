@@ -7,6 +7,8 @@
 \alias{make_cld.posthoc_tgh}
 \alias{make_cld.PMCMR}
 \alias{make_cld.formula}
+\alias{make_cld.matrix}
+\alias{make_cld.pairwise_pval_df}
 \title{Make a compact letter display for pair-wise comparison}
 \usage{
 make_cld(obj, ..., alpha = 0.05)
@@ -20,6 +22,10 @@ make_cld(obj, ..., alpha = 0.05)
 \method{make_cld}{PMCMR}(obj, ..., alpha = 0.05)
 
 \method{make_cld}{formula}(obj, ..., data = NULL, alpha = 0.05)
+
+\method{make_cld}{matrix}(obj, ..., alpha = 0.05)
+
+\method{make_cld}{pairwise_pval_df}(obj, ..., alpha = 0.05)
 }
 \arguments{
 \item{obj}{Object with pair-wise comparisons (e.g., post-hoc test results).
@@ -50,7 +56,7 @@ make_cld(obj1)
 
 # Example 2: class `pairwise.htest`
 
-obj2 <- pairwise.t.test(OrchardSprays$decrease, OrchardSprays$treatment)
+obj2 <- with(OrchardSprays, pairwise.t.test(decrease, treatment))
 make_cld(obj2)
 
 
@@ -61,6 +67,7 @@ obj3 <- PMCMR::posthoc.kruskal.conover.test(count ~ spray,
                                             data = InsectSprays)
 make_cld(obj3)
 }
+
 
 # Example 4: class `posthocTGH`
 
@@ -84,4 +91,19 @@ DataFrame <- data.table::fread(
 
 make_cld(p.adjust ~ Comparison, data = DataFrame)
 
+
+# Example 7: class `matrix`
+# (for symetric matrices of p values)
+
+# Create matrix
+m <- c(1.00, 0.22, 0.05, 0.00,
+       0.22, 1.00, 0.17, 0.01,
+       0.05, 0.17, 1.00, 0.22,
+       0.00, 0.01, 0.22, 1.00)
+obj7 <- matrix(m, nrow = 4)
+rownames(obj7) <- colnames(obj7) <- c("P", "O", "I", "U")
+obj7
+
+# Make cld
+make_cld(obj7)
 }
