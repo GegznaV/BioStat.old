@@ -1,29 +1,31 @@
 context("posthoc_anova")
 
 # [!!!] A more reliable unit test is needed
-test_that("`posthoc_anova`` works", {
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+test_that("`posthoc_anova`, method = 'Games-Howell' works", {
     data(ChickWeight)
-    rez <- posthoc_anova(y = ChickWeight$weight,
-                       x = ChickWeight$Diet)
-    expect_is(unclass(rez), "list")
-})
-
-test_that("`posthoc_anova_games_howell` works", {
-    data(ChickWeight)
-    rez1 <- posthoc_anova_games_howell(y = ChickWeight$weight,
-                       x = ChickWeight$Diet)
+    rez1 <- posthoc_anova(y = ChickWeight$weight,
+                          x = ChickWeight$Diet,
+                          method = "Games-Howell")
     expect_is(unclass(rez1), "list")
 
-    rez2 <- posthoc_anova_games_howell(weight ~ Diet, data = ChickWeight)
+    rez2 <- posthoc_anova_games_howell(weight ~ Diet,
+                                       data = ChickWeight,
+                                       method = "Games-Howell")
     expect_is(unclass(rez2), "list")
 })
 
-test_that("`posthoc_anova_tukey` works", {
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+test_that("`posthoc_anova`, method = 'Tukey' works", {
     data(ChickWeight)
-    rez1 <- posthoc_anova_tukey(y = ChickWeight$weight,
-                                x = ChickWeight$Diet)
+    rez1 <- posthoc_anova(y = ChickWeight$weight,
+                          x = ChickWeight$Diet,
+                          method = "Tukey")
     expect_is(unclass(rez1), "list")
 
-    rez2 <- posthoc_anova_tukey(weight ~ Diet, data = ChickWeight)
+    rez2 <- posthoc_anova(weight ~ Diet,
+                          data = ChickWeight,
+                          method = "Tukey")
     expect_is(unclass(rez2), "list")
 })
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

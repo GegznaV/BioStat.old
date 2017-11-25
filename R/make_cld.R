@@ -44,7 +44,7 @@
 #' make_cld(obj4)
 #'
 #'
-#' # Example 5: class `posthoc_tgh`
+#' # Example 5: class `posthoc_anova`
 #'
 #' obj5 <- posthoc_anova_games_howell(weight ~ Diet, data = ChickWeight)
 #' make_cld(obj5)
@@ -129,7 +129,7 @@ make_cld.posthocTGH <- function(obj, ..., alpha = obj$intermediate$alpha) {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname make_cld
 #' @export
-make_cld.posthoc_tgh <- function(obj, ..., alpha = obj$intermediate$alpha) {
+make_cld.posthoc_anova <- function(obj, ..., alpha = obj$intermediate$alpha) {
 
     which_posthoc <-
         switch(tolower(obj$input$method),

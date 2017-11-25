@@ -18,13 +18,13 @@ test_that("`make_cld.PMCMR` works", {
                       c("a", "b", "bc", "ac", "c", "a"))
 })
 
-test_that("`make_cld.posthocTGH` works", {
-    # Temporary test
-    obj3 <- posthoc_anova(chickwts$weight, chickwts$feed)
-    class(obj3) <- "posthocTGH"
-    expect_equivalent(as.character(make_cld(obj3)$cld),
-                      c("a", "ab", "bcd", "bc", "d", "cd"))
-})
+## Test for class `posthocTGH` is needed.
+##
+# test_that("`make_cld.posthocTGH` works", {
+#     # Temporary test
+#     obj3 <- (chickwts$weight, chickwts$feed)
+#
+# })
 
 test_that("`make_cld.posthoc_anova` works", {
     obj9 <- posthoc_anova(chickwts$weight, chickwts$feed)
