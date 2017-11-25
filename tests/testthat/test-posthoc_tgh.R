@@ -1,9 +1,9 @@
-context("posthoc_tgh")
+context("posthoc_anova")
 
 # [!!!] A more reliable unit test is needed
-test_that("`posthoc_tgh`` works", {
+test_that("`posthoc_anova`` works", {
     data(ChickWeight)
-    rez <- posthoc_tgh(y = ChickWeight$weight,
+    rez <- posthoc_anova(y = ChickWeight$weight,
                        x = ChickWeight$Diet)
     expect_is(unclass(rez), "list")
 })

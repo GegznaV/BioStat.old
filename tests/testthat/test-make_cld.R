@@ -20,14 +20,14 @@ test_that("`make_cld.PMCMR` works", {
 
 test_that("`make_cld.posthocTGH` works", {
     # Temporary test
-    obj3 <- posthoc_tgh(chickwts$weight, chickwts$feed)
+    obj3 <- posthoc_anova(chickwts$weight, chickwts$feed)
     class(obj3) <- "posthocTGH"
     expect_equivalent(as.character(make_cld(obj3)$cld),
                       c("a", "ab", "bcd", "bc", "d", "cd"))
 })
 
-test_that("`make_cld.posthoc_tgh` works", {
-    obj9 <- posthoc_tgh(chickwts$weight, chickwts$feed)
+test_that("`make_cld.posthoc_anova` works", {
+    obj9 <- posthoc_anova(chickwts$weight, chickwts$feed)
     expect_equivalent(as.character(make_cld(obj9)$cld),
                       c("a", "ab", "bcd", "bc", "d", "cd"))
 })

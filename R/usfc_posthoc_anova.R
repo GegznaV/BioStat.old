@@ -66,23 +66,20 @@
 #' library(BioStat)
 #'
 #' # Compute post-hoc statistics using the Games-Howell method
-#' posthoc_anova_games_howell(weight ~ Diet, data = ChickWeight)
-#'
-#' posthoc_tgh(weight ~ Diet, data = ChickWeight)
+#' posthoc_anova(weight ~ Diet, data = ChickWeight)
+#' posthoc_anova(weight ~ Diet, data = ChickWeight, method = "Games-Howell")
 #'
 #'
 #' # Compute post-hoc statistics using the Tukey method
-#' posthoc_anova_tukey(weight ~ Diet, data = ChickWeight)
-#'
-#' posthoc_tgh(weight ~ Diet, data = ChickWeight, method = "tukey")
+#' posthoc_anova(weight ~ Diet, data = ChickWeight, method = "tukey")
 #'
 #'
 #' @export
 #'
 #'
-posthoc_tgh <- function(y,
+posthoc_anova <- function(y,
                         x = NULL,
-                        method = c("games-howell", "tukey"),
+                        method = c("Games-Howell", "Tukey"),
                         conf_level = 0.95,
                         digits = 2,
                         p.adjust = "holm",
@@ -91,62 +88,14 @@ posthoc_tgh <- function(y,
                         ...
 ) {
     checkmate::assert_number(conf_level, lower = 0, upper = 1)
-    UseMethod("posthoc_tgh")
+    UseMethod("posthoc_anova")
 }
 
-#' @rdname posthoc_tgh
+#' @rdname posthoc_anova
 #' @export
-posthoc_anova_tukey <- function(y,
+posthoc_anova.formula <- function(y,
                                 x = NULL,
-                                conf_level = 0.95,
-                                digits = 2,
-                                p.adjust = "holm",
-                                format_pvalue = TRUE,
-                                data = NULL,
-                                ...,
-                                sep = " | ") {
-    posthoc_tgh(y = y,
-                x = x,
-                method = "tukey",
-                conf_level = conf_level,
-                digits = digits,
-                p.adjust = p.adjust,
-                format_pvalue = format_pvalue,
-                data = data,
-                ...,
-                sep = " | ")
-
-}
-
-#' @rdname posthoc_tgh
-#' @export
-posthoc_anova_games_howell <- function(y,
-                                x = NULL,
-                                conf_level = 0.95,
-                                digits = 2,
-                                p.adjust = "holm",
-                                format_pvalue = TRUE,
-                                data = NULL,
-                                ...,
-                                sep = " | ") {
-    posthoc_tgh(y = y,
-                x = x,
-                method = "games-howell",
-                conf_level = conf_level,
-                digits = digits,
-                p.adjust = p.adjust,
-                format_pvalue = format_pvalue,
-                data = data,
-                ...,
-                sep = " | ")
-
-}
-
-#' @rdname posthoc_tgh
-#' @export
-posthoc_tgh.formula <- function(y,
-                                x = NULL,
-                                method = c("games-howell", "tukey"),
+                                method = c("Games-Howell", "Tukey"),
                                 conf_level = 0.95,
                                 digits = 2,
                                 p.adjust = "holm",
@@ -167,7 +116,7 @@ posthoc_tgh.formula <- function(y,
             "\nIt must contain at least 2 variable names."
         )
     }
-    posthoc_tgh.default(values,
+    posthoc_anova.default(values,
                         groups,
                         method = method,
                         conf_level = conf_level,
@@ -178,12 +127,12 @@ posthoc_tgh.formula <- function(y,
 
 }
 
-#' @rdname posthoc_tgh
+#' @rdname posthoc_anova
 #' @export
-posthoc_tgh.default <-
+posthoc_anova.default <-
     function(y,
              x = NULL,
-             method = c("games-howell", "tukey"),
+             method = c("Games-Howell", "Tukey"),
              conf_level = 0.95,
              digits = 2,
              p.adjust = "holm",
@@ -192,12 +141,12 @@ posthoc_tgh.default <-
              ...
     ) {
         ### Based on http://www.psych.yorku.ca/cribbie/6130/games_howell.R
-        method <- tolower(method)
+        method <- first_capital(tolower(method))
 
         tryCatch(
             method <- match.arg(method),
             error = function(err) {
-                stop("Argument for 'method' not valid!")
+                stop("Argument for 'method' not valid: ", method)
 
             }
         )
@@ -285,14 +234,14 @@ posthoc_tgh.default <-
             res$intermediate$p.tukey
         )
         res$output$tukey$p.tukey.adjusted <-
-            p.adjust(res$intermediate$p.tukey,
-                     method = p.adjust)
+            stats::p.adjust(res$intermediate$p.tukey,
+                            method = tolower(p.adjust))
 
 
         rownames(res$output$tukey) <- res$intermediate$pairNames
 
         colnames(res$output$tukey) <-
-            c('diff', 'ci.lo', 'ci.hi', 't', 'df', 'p', 'p.adjusted')
+            c('difference', 'ci_lower', 'ci_upper', 't', 'df', 'p', 'p.adjusted')
 
 
         ### Start on Games-Howell
@@ -351,11 +300,11 @@ posthoc_tgh.default <-
         rownames(res$output$games.howell) <- res$intermediate$pairNames
 
         colnames(res$output$games.howell) <-
-            c('diff', 'ci.lo', 'ci.hi', 't', 'df', 'p', 'p.adjusted')
+            c('difference', 'ci_lower', 'ci_upper', 't', 'df', 'p', 'p.adjusted')
 
 
         ### Set class and return object
-        class(res) <- 'posthoc_tgh'
+        class(res) <- 'posthoc_anova'
 
         return(res)
 
@@ -365,33 +314,40 @@ posthoc_tgh.default <-
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname posthoc_tgh
+#' @rdname posthoc_anova
 #' @export
 #' @param ... (further arguments to methods)
 
 # @param x The object to print.
 # @param digits The number of significant digits to print.
-print.posthoc_tgh <- function(x,
+print.posthoc_anova <- function(x,
                              digits = x$input$digits,
                              ...) {
 
-    print(x$intermediate$descriptives, digits = digits)
+    Method <- x$input$method
 
-    cat('\n')
+    switch(Method,
+           'Tukey' =  {
+               dat <- x$output$tukey
+               msg <- "Tukey HSD" },
 
-    if (x$input$method == 'tukey') {
-        dat <- x$output$tukey
+           'Games-Howell' =  {
+               dat <- x$output$games.howell
+               msg <- "Games-Howell" }
 
-    }
-    else if (x$input$method == 'games-howell') {
-        dat <- x$output$games.howell
+    )
 
-    }
+    cat("The results of ", Method ," test (ANOVA post-hoc) \n\n", sep = "")
+
     dat[, c(6, 7)] <- lapply(dat[, c(6, 7)],
                              format_pvalue,
                              digits = digits,
                              includeP = FALSE)
 
     print(dat, digits = digits)
+
+    cat('\n')
+
+    print(x$intermediate$descriptives, digits = digits)
 
 }
