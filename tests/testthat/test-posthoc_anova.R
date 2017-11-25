@@ -9,7 +9,7 @@ test_that("`posthoc_anova`, method = 'Games-Howell' works", {
                           method = "Games-Howell")
     expect_is(unclass(rez1), "list")
 
-    rez2 <- posthoc_anova_games_howell(weight ~ Diet,
+    rez2 <- posthoc_anova(weight ~ Diet,
                                        data = ChickWeight,
                                        method = "Games-Howell")
     expect_is(unclass(rez2), "list")

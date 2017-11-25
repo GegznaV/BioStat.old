@@ -40,13 +40,17 @@
 #'
 #' # Example 4: class `posthocTGH`
 #'
-#' obj4 <- posthoc_anova_tukey(weight ~ Diet, data = ChickWeight)
+#' obj4 <- posthoc_anova(weight ~ Diet,
+#'                       data = ChickWeight,
+#'                       method = "Games-Howell")
 #' make_cld(obj4)
 #'
 #'
 #' # Example 5: class `posthoc_anova`
 #'
-#' obj5 <- posthoc_anova_games_howell(weight ~ Diet, data = ChickWeight)
+#' obj5 <- posthoc_anova(weight ~ Diet,
+#'                      data = ChickWeight,
+#'                      method = "Games-Howell")
 #' make_cld(obj5)
 #'
 #'
