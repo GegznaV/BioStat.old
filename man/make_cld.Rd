@@ -4,7 +4,7 @@
 \alias{make_cld}
 \alias{make_cld.pairwise.htest}
 \alias{make_cld.posthocTGH}
-\alias{make_cld.posthoc_tgh}
+\alias{make_cld.posthoc_anova}
 \alias{make_cld.PMCMR}
 \alias{make_cld.formula}
 \alias{make_cld.matrix}
@@ -17,7 +17,7 @@ make_cld(obj, ..., alpha = 0.05)
 
 \method{make_cld}{posthocTGH}(obj, ..., alpha = obj$intermediate$alpha)
 
-\method{make_cld}{posthoc_tgh}(obj, ..., alpha = obj$intermediate$alpha)
+\method{make_cld}{posthoc_anova}(obj, ..., alpha = obj$intermediate$alpha)
 
 \method{make_cld}{PMCMR}(obj, ..., alpha = 0.05)
 
@@ -75,7 +75,7 @@ obj4 <- posthoc_anova_tukey(weight ~ Diet, data = ChickWeight)
 make_cld(obj4)
 
 
-# Example 5: class `posthoc_tgh`
+# Example 5: class `posthoc_anova`
 
 obj5 <- posthoc_anova_games_howell(weight ~ Diet, data = ChickWeight)
 make_cld(obj5)
