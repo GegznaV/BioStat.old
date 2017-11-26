@@ -26,12 +26,13 @@
 #' @param conf_level (number)\cr Confidence level (equals to \code{1 - alpha}, where alpha is significanve level). Number from 0 to 1. Default is 0.95.
 #' @param sep (character)\cr A string with a symbol to separate group names if several grouping variables are used.
 #' @param digits (integer)\cr The number of digits to round data related numbers to.
-#' @param digits_2 (integer)\cr The number of digits to round p values to. Must be 2, 3 or more.
+#' @param digits_p (integer)\cr The number of digits to round p values to. Must be 2, 3 or more.
 #' @param format_pvalue (does not work yet) \cr Whether to format the p values according to APA
 #' standards (i.e. replace all values lower than .001 with '<.001'). This only
 #' applies to the printing of the object, not to the way the p values are
 #' stored in the object.
 #' @param p_adjust Any valid \code{\link[stats]{p.adjust}} method.
+#' @param x object to print.
 #' @param ... Further arguments to methods.
 #'
 #' @return A list of three elements:
@@ -39,7 +40,7 @@
 #' \item{output}{List with post-hoc test results}.
 #'
 #'
-#' @note This function is based on a file that was once hosted at http://www.psych.yorku.ca/cribbie/6130/games_howell.R, but has been removed since. It was then adjusted for implementation in the \code{\link{userfriendlyscience}} package. Jeffrey Baggett needed the confidence intervals, and so emailed them, after which his updated function was used. In the meantime, it appears Aaron Schlegel (\url{https://rpubs.com/aaronsc32}) independently developed a version with confidence intervals and posted it on RPubs at \url{https://rpubs.com/aaronsc32/games-howell-test}.
+#' @note This function is based on a file that was once hosted at http://www.psych.yorku.ca/cribbie/6130/games_howell.R, but has been removed since. It was then adjusted for implementation in the \pkg{userfriendlyscience} package. Jeffrey Baggett needed the confidence intervals, and so emailed them, after which his updated function was used. In the meantime, it appears Aaron Schlegel (\url{https://rpubs.com/aaronsc32}) independently developed a version with confidence intervals and posted it on RPubs at \url{https://rpubs.com/aaronsc32/games-howell-test}.
 #'
 #' Also, for some reason, \code{p.adjust} can be used to specify additional correction of \emph{p} values. I'm not sure why I implemented this, but I'm not entirely sure it was a mistake either. Therefore, in \code{userfriendlyscience} version 0.6-2, the default of this setting changed from \code{"holm"} to \code{"none"} (also see https://stats.stackexchange.com/questions/83941/games-howell-post-hoc-test-in-r).
 

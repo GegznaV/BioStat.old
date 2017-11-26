@@ -48,3 +48,4 @@ comparisons}
 \description{
 Function is based on \pkg{rcompanion}\code{::cldList}.
 }
+\keyword{internal}

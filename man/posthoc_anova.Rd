@@ -36,6 +36,8 @@ tests to conduct. Valid values are "tukey" and "games-howell".}
 
 \item{digits}{(integer)\cr The number of digits to round data related numbers to.}
 
+\item{digits_p}{(integer)\cr The number of digits to round p values to. Must be 2, 3 or more.}
+
 \item{p_adjust}{Any valid \code{\link[stats]{p.adjust}} method.}
 
 \item{format_pvalue}{(does not work yet) \cr Whether to format the p values according to APA
@@ -49,7 +51,7 @@ stored in the object.}
 
 \item{sep}{(character)\cr A string with a symbol to separate group names if several grouping variables are used.}
 
-\item{digits_2}{(integer)\cr The number of digits to round p values to. Must be 2, 3 or more.}
+\item{x}{object to print.}
 }
 \value{
 A list of three elements:
@@ -65,7 +67,7 @@ The main part of the  function code and descriptions were
 imported from \code{posthocTGH()} in package \pkg{userfriendlyscience}.
 }
 \note{
-This function is based on a file that was once hosted at http://www.psych.yorku.ca/cribbie/6130/games_howell.R, but has been removed since. It was then adjusted for implementation in the \code{\link{userfriendlyscience}} package. Jeffrey Baggett needed the confidence intervals, and so emailed them, after which his updated function was used. In the meantime, it appears Aaron Schlegel (\url{https://rpubs.com/aaronsc32}) independently developed a version with confidence intervals and posted it on RPubs at \url{https://rpubs.com/aaronsc32/games-howell-test}.
+This function is based on a file that was once hosted at http://www.psych.yorku.ca/cribbie/6130/games_howell.R, but has been removed since. It was then adjusted for implementation in the \pkg{userfriendlyscience} package. Jeffrey Baggett needed the confidence intervals, and so emailed them, after which his updated function was used. In the meantime, it appears Aaron Schlegel (\url{https://rpubs.com/aaronsc32}) independently developed a version with confidence intervals and posted it on RPubs at \url{https://rpubs.com/aaronsc32/games-howell-test}.
 
 Also, for some reason, \code{p.adjust} can be used to specify additional correction of \emph{p} values. I'm not sure why I implemented this, but I'm not entirely sure it was a mistake either. Therefore, in \code{userfriendlyscience} version 0.6-2, the default of this setting changed from \code{"holm"} to \code{"none"} (also see https://stats.stackexchange.com/questions/83941/games-howell-post-hoc-test-in-r).
 }

@@ -5,9 +5,10 @@ context("posthoc_anova")
 test_that("`posthoc_anova`, method = 'Games-Howell' works", {
     data(ChickWeight)
     rez1 <- posthoc_anova(y = ChickWeight$weight,
-                          x = ChickWeight$Diet,
+                          group = ChickWeight$Diet,
                           method = "Games-Howell")
     expect_is(unclass(rez1), "list")
+
 
     rez2 <- posthoc_anova(weight ~ Diet,
                                        data = ChickWeight,
@@ -18,8 +19,9 @@ test_that("`posthoc_anova`, method = 'Games-Howell' works", {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 test_that("`posthoc_anova`, method = 'Tukey' works", {
     data(ChickWeight)
+
     rez1 <- posthoc_anova(y = ChickWeight$weight,
-                          x = ChickWeight$Diet,
+                          group = ChickWeight$Diet,
                           method = "Tukey")
     expect_is(unclass(rez1), "list")
 

@@ -4,7 +4,7 @@
 #' @inheritParams rcompanion::cldList
 #'
 #' @export
-#' @internal
+#' @keywords internal
 
 # @param comparison_order (character) Character vector with desired order of groups.
 make_cld_df <- function(

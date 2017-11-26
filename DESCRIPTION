@@ -44,6 +44,7 @@ Imports:
 RoxygenNote: 6.0.1
 Suggests:
     covr,
+    userfriendlyscience,
     testthat,
     QuantPsyc,
     PMCMR,

@@ -1,5 +1,6 @@
 context("make_cld")
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 test_that("`make_cld.pairwise.htest` works", {
     obj1 <- pairwise.wilcox.test(chickwts$weight,
                                  chickwts$feed,
@@ -8,6 +9,7 @@ test_that("`make_cld.pairwise.htest` works", {
                       c("a", "b", "bc", "ac", "c", "a"))
 })
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 test_that("`make_cld.PMCMR` works", {
     expect_warning(
     obj2 <- PMCMR::posthoc.kruskal.conover.test(weight ~ feed,
@@ -18,7 +20,7 @@ test_that("`make_cld.PMCMR` works", {
                       c("a", "b", "bc", "ac", "c", "a"))
 })
 
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 test_that("`make_cld.pairwise.htest` works with insignificant results", {
     smokers  <- c(83, 90, 129, 70)
     patients <- c(86, 93, 136, 82)
@@ -26,22 +28,31 @@ test_that("`make_cld.pairwise.htest` works with insignificant results", {
 
     expect_equivalent(as.character(make_cld(obj3)$cld), c("a", "a", "a", "a"))
 })
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ## Test for class `posthocTGH` is needed.
-##
-# test_that("`make_cld.posthocTGH` works", {
-#     # Temporary test
-#     obj3 <- (chickwts$weight, chickwts$feed)
-#
-# })
 
+test_that("`make_cld.posthocTGH` works", {
+    # Temporary test
+    obj10 <- userfriendlyscience::posthocTGH(chickwts$weight, chickwts$feed)
+    expect_equivalent(as.character(make_cld(obj10)$cld),
+                      c("a","ab","bc","b","c","c"))
+
+    expect_equivalent(as.character(make_cld(obj10)$group),
+                      c("horsebean", "linseed", "meatmeal", "soybean", "sunflower", "casein" ))
+})
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 test_that("`make_cld.posthoc_anova` works", {
     obj9 <- posthoc_anova(chickwts$weight, chickwts$feed)
     expect_equivalent(as.character(make_cld(obj9)$cld),
-                      c("a", "ab", "bcd", "bc", "d", "cd"))
+                      c("a","ab","bc","b","c","c"))
+
+    expect_equivalent(as.character(make_cld(obj9)$group),
+                      c("horsebean", "linseed", "meatmeal", "soybean", "sunflower", "casein" ))
 })
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 test_that("`make_cld.matrix` (symetric) works", {
     m <- c(1.00, 0.22, 0.05, 0.00,
            0.22, 1.00, 0.17, 0.01,
@@ -53,3 +64,4 @@ test_that("`make_cld.matrix` (symetric) works", {
     expect_equivalent(as.character(make_cld(obj7)$cld),
                       c("a", "a", "ab", "b"))
 })
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
