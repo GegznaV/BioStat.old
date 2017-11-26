@@ -62,6 +62,7 @@ make_cld(obj1)
 obj2 <- with(OrchardSprays, pairwise.t.test(decrease, treatment))
 make_cld(obj2)
 
+
 # Example 3: class `pairwise.htest`
 
 \donttest{
@@ -71,7 +72,6 @@ obj3 <- pairwise.prop.test(smokers, patients)
 
 make_cld(obj3)
 }
-
 
 # Example 4: class `PMCMR`
 
@@ -119,11 +119,11 @@ m <- c(1.00, 0.22, 0.05, 0.00,
        0.05, 0.17, 1.00, 0.22,
        0.00, 0.01, 0.22, 1.00)
 obj8 <- matrix(m, nrow = 4)
-rownames(obj7) <- colnames(obj7) <- c("P", "O", "I", "U")
+rownames(obj8) <- colnames(obj8) <- c("P", "O", "I", "U")
 obj8
 
 # Make cld
-make_cld(obj7)
+make_cld(obj8)
 
 
 }

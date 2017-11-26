@@ -170,6 +170,7 @@ is used if <code>obj</code> is formula. More details in examples.</p></td>
 #&gt; 6     F   c        __c
 #&gt; 7     G   c        __c
 #&gt; 8     H   c        __c</div><div class='input'>
+
 # Example 3: class `pairwise.htest`
 
 </div><div class='input'><span class='no'>smokers</span>  <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='fl'>83</span>, <span class='fl'>90</span>, <span class='fl'>129</span>, <span class='fl'>70</span>)
@@ -180,7 +181,6 @@ is used if <code>obj</code> is formula. More details in examples.</p></td>
 #&gt; 2     2   a          a
 #&gt; 3     3   a          a
 #&gt; 4     4   a          a</div><div class='input'>
-
 # Example 4: class `PMCMR`
 
 </div><div class='input'><span class='no'>obj4</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>PMCMR</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/PMCMR/topics/posthoc.kruskal.conover'>posthoc.kruskal.conover.test</a></span>(<span class='no'>count</span> ~ <span class='no'>spray</span>,
@@ -205,10 +205,14 @@ is used if <code>obj</code> is formula. More details in examples.</p></td>
 
 <span class='co'># Example 6: class `posthoc_anova`</span>
 
-<span class='no'>obj5</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='posthoc_anova.html'>posthoc_anova</a></span>(<span class='no'>weight</span> ~ <span class='no'>Diet</span>,
+<span class='no'>obj6</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='posthoc_anova.html'>posthoc_anova</a></span>(<span class='no'>weight</span> ~ <span class='no'>Diet</span>,
                      <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ChickWeight</span>,
                      <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Games-Howell"</span>)
-<span class='fu'>make_cld</span>(<span class='no'>obj6</span>)</div><div class='output co'>#&gt; <span class='error'>Error in make_cld(obj6): object 'obj6' not found</span></div><div class='input'>
+<span class='fu'>make_cld</span>(<span class='no'>obj6</span>)</div><div class='output co'>#&gt;   group cld spaced_cld
+#&gt; 1     2   a         a_
+#&gt; 2     3   a         a_
+#&gt; 3     4   a         a_
+#&gt; 4     1   b         _b</div><div class='input'>
 
 <span class='co'># Example 7: class `formula`</span>
 
@@ -224,7 +228,7 @@ is used if <code>obj</code> is formula. More details in examples.</p></td>
 #&gt; 3   GB0  ab         ab
 #&gt; 4   CY0   b         _b</div><div class='input'>
 
-<span class='co'># Example 7: class `matrix`</span>
+<span class='co'># Example 8: class `matrix`</span>
 
 <span class='co'># (for symetric matrices of p values)</span>
 
@@ -233,15 +237,15 @@ is used if <code>obj</code> is formula. More details in examples.</p></td>
        <span class='fl'>0.22</span>, <span class='fl'>1.00</span>, <span class='fl'>0.17</span>, <span class='fl'>0.01</span>,
        <span class='fl'>0.05</span>, <span class='fl'>0.17</span>, <span class='fl'>1.00</span>, <span class='fl'>0.22</span>,
        <span class='fl'>0.00</span>, <span class='fl'>0.01</span>, <span class='fl'>0.22</span>, <span class='fl'>1.00</span>)
-<span class='no'>obj7</span> <span class='kw'>&lt;-</span> <span class='fu'>matrix</span>(<span class='no'>m</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>4</span>)
-<span class='fu'>rownames</span>(<span class='no'>obj7</span>) <span class='kw'>&lt;-</span> <span class='fu'>colnames</span>(<span class='no'>obj7</span>) <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"P"</span>, <span class='st'>"O"</span>, <span class='st'>"I"</span>, <span class='st'>"U"</span>)
-<span class='no'>obj7</span></div><div class='output co'>#&gt;      P    O    I    U
+<span class='no'>obj8</span> <span class='kw'>&lt;-</span> <span class='fu'>matrix</span>(<span class='no'>m</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>4</span>)
+<span class='fu'>rownames</span>(<span class='no'>obj8</span>) <span class='kw'>&lt;-</span> <span class='fu'>colnames</span>(<span class='no'>obj8</span>) <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"P"</span>, <span class='st'>"O"</span>, <span class='st'>"I"</span>, <span class='st'>"U"</span>)
+<span class='no'>obj8</span></div><div class='output co'>#&gt;      P    O    I    U
 #&gt; P 1.00 0.22 0.05 0.00
 #&gt; O 0.22 1.00 0.17 0.01
 #&gt; I 0.05 0.17 1.00 0.22
 #&gt; U 0.00 0.01 0.22 1.00</div><div class='input'>
 <span class='co'># Make cld</span>
-<span class='fu'>make_cld</span>(<span class='no'>obj7</span>)</div><div class='output co'>#&gt;   group cld spaced_cld
+<span class='fu'>make_cld</span>(<span class='no'>obj8</span>)</div><div class='output co'>#&gt;   group cld spaced_cld
 #&gt; 1     P   a         a_
 #&gt; 2     O   a         a_
 #&gt; 3     I  ab         ab

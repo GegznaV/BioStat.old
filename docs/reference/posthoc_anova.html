@@ -134,6 +134,10 @@ tests to conduct. Valid values are "tukey" and "games-howell".</p></td>
       <td><p>(integer) The number of digits to round data related numbers to.</p></td>
     </tr>
     <tr>
+      <th>digits_p</th>
+      <td><p>(integer) The number of digits to round p values to. Must be 2, 3 or more.</p></td>
+    </tr>
+    <tr>
       <th>p_adjust</th>
       <td><p>Any valid <code><a href='http://www.rdocumentation.org/packages/stats/topics/p.adjust'>p.adjust</a></code> method.</p></td>
     </tr>
@@ -157,8 +161,8 @@ stored in the object.</p></td>
       <td><p>(character) A string with a symbol to separate group names if several grouping variables are used.</p></td>
     </tr>
     <tr>
-      <th>digits_2</th>
-      <td><p>(integer) The number of digits to round p values to. Must be 2, 3 or more.</p></td>
+      <th>x</th>
+      <td><p>object to print.</p></td>
     </tr>
     </table>
     
@@ -176,7 +180,7 @@ imported from <code>posthocTGH()</code> in package <span class="pkg">userfriendl
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>This function is based on a file that was once hosted at http://www.psych.yorku.ca/cribbie/6130/games_howell.R, but has been removed since. It was then adjusted for implementation in the <code>userfriendlyscience</code> package. Jeffrey Baggett needed the confidence intervals, and so emailed them, after which his updated function was used. In the meantime, it appears Aaron Schlegel (<a href='https://rpubs.com/aaronsc32'>https://rpubs.com/aaronsc32</a>) independently developed a version with confidence intervals and posted it on RPubs at <a href='https://rpubs.com/aaronsc32/games-howell-test'>https://rpubs.com/aaronsc32/games-howell-test</a>.</p>
+    <p>This function is based on a file that was once hosted at http://www.psych.yorku.ca/cribbie/6130/games_howell.R, but has been removed since. It was then adjusted for implementation in the <span class="pkg">userfriendlyscience</span> package. Jeffrey Baggett needed the confidence intervals, and so emailed them, after which his updated function was used. In the meantime, it appears Aaron Schlegel (<a href='https://rpubs.com/aaronsc32'>https://rpubs.com/aaronsc32</a>) independently developed a version with confidence intervals and posted it on RPubs at <a href='https://rpubs.com/aaronsc32/games-howell-test'>https://rpubs.com/aaronsc32/games-howell-test</a>.</p>
 <p>Also, for some reason, <code>p.adjust</code> can be used to specify additional correction of <em>p</em> values. I'm not sure why I implemented this, but I'm not entirely sure it was a mistake either. Therefore, in <code>userfriendlyscience</code> version 0.6-2, the default of this setting changed from <code>"holm"</code> to <code>"none"</code> (also see https://stats.stackexchange.com/questions/83941/games-howell-post-hoc-test-in-r).</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -207,22 +211,7 @@ imported from <code>posthocTGH()</code> in package <span class="pkg">userfriendl
 #&gt; 1     1 220 102.645 3209.965 56.657   b         _b
 #&gt; 2     2 120 122.617 5127.633 71.607   a         a_
 #&gt; 3     3 120 142.950 7489.476 86.542   a         a_
-#&gt; 4     4 118 135.263 4737.392 68.829   a         a_</div><div class='input'><span class='fu'>posthoc_anova</span>(<span class='no'>weight</span> ~ <span class='no'>Diet</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ChickWeight</span>)</div><div class='output co'>#&gt; Games-Howell test results (ANOVA post-hoc) 
-#&gt; 
-#&gt;   groups difference ci_lower ci_upper    t       df      p
-#&gt; 1    2-1     19.971    0.358   39.585 2.64 201.3839   0.04
-#&gt; 2    3-1     40.305   17.544   63.065 4.59 175.9190 &lt;0.001
-#&gt; 3    4-1     32.617   13.452   51.783 4.41 203.1602 &lt;0.001
-#&gt; 4    3-2     20.333   -6.203   46.870 1.98 229.9425   0.20
-#&gt; 5    4-2     12.646  -10.909   36.201 1.39 235.8785   0.51
-#&gt; 6    4-3     -7.687  -33.899   18.524 0.76 226.1567   0.87
-#&gt; 
-#&gt;   group   n    mean variance     sd cld spaced_cld
-#&gt; 1     1 220 102.645 3209.965 56.657   b         _b
-#&gt; 2     2 120 122.617 5127.633 71.607   a         a_
-#&gt; 3     3 120 142.950 7489.476 86.542   a         a_
 #&gt; 4     4 118 135.263 4737.392 68.829   a         a_</div><div class='input'>
-
 <span class='co'># Compute post-hoc statistics using the Tukey method</span>
 <span class='fu'>posthoc_anova</span>(<span class='no'>weight</span> ~ <span class='no'>Diet</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ChickWeight</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Tukey"</span>)</div><div class='output co'>#&gt; Tukey HSD test results (ANOVA post-hoc) 
 #&gt; 
