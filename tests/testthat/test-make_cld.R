@@ -18,6 +18,16 @@ test_that("`make_cld.PMCMR` works", {
                       c("a", "b", "bc", "ac", "c", "a"))
 })
 
+
+test_that("`make_cld.pairwise.htest` works with insignificant results", {
+    smokers  <- c(83, 90, 129, 70)
+    patients <- c(86, 93, 136, 82)
+    expect_warning(obj3 <- pairwise.prop.test(smokers, patients))
+
+    expect_equivalent(as.character(make_cld(obj3)$cld), c("a", "a", "a", "a"))
+})
+
+
 ## Test for class `posthocTGH` is needed.
 ##
 # test_that("`make_cld.posthocTGH` works", {

@@ -1,3 +1,4 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # This function is used by the 'oneway' function for one-way analysis of
 # variance in case a user requests post-hoc tests using the Tukey or
 # Games-Howell methods.
@@ -6,47 +7,42 @@
 #
 # This function is imported from package \pkg{userfriendlyscience}
 # (\code{\link[userfriendlyscience]{posthocTGH}})
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#' Games-Howell and Tukey post-hoc tests
+#' Games-Howell, Tukeyvand other post-hoc tests for ANOVA and Welch ANOVA
 #'
-#' Either Games-Howell test or Tukey honestly significant difference (HSD) post-hoc
-#' tests for one-way analysis of variance (ANOVA). The main part of the
-#' function code and descriptions were
+#' Either Games-Howell test or Tukey honestly significant difference (HSD)
+#' post-hoc tests for one-way analysis of variance (ANOVA).
+#'
+#' The main part of the  function code and descriptions were
 #' imported from \code{posthocTGH()} in package \pkg{userfriendlyscience}.
 #'
-#' @param y (numeric|formula) Either a numeric vector or formula.
-#' @param x (factor) a vector that either is a factor or can be converted into
-#' one. If \code{y} is a formula, \code{x} is ignored.
-#' @param data (factor) a data frame with data to be used in combination with formula.
-#' @param method (\code{"games-howell"}|\code{"tukey"}) Name of post-hoc
+#' @param y (numeric|formula)\cr Either a numeric vector or formula.
+#' @param group (factor)\cr a vector that either is a factor or can be converted into
+#' one. If \code{y} is a formula, \code{group} is ignored.
+#' @param data (data frame)\cr a data frame with data to be used in combination with formula.
+#' @param method (\code{"games-howell"}|\code{"tukey"})\cr Name of post-hoc
 #'                tests to conduct. Valid values are "tukey" and "games-howell".
-#' @param conf_level (number) Confidence level of the confidence intervals. Number from 0 to 1.
-#' @param sep (character) A string with a symbol to separate group names if several grouping variables are used.
-#' @param digits The number of digits to show in the output.
-#' @param p.adjust Any valid \code{\link{p.adjust}} method.
-#' @param format_pvalue Whether to format the p values according to APA
+#' @param conf_level (number)\cr Confidence level (equals to \code{1 - alpha}, where alpha is significanve level). Number from 0 to 1. Default is 0.95.
+#' @param sep (character)\cr A string with a symbol to separate group names if several grouping variables are used.
+#' @param digits (integer)\cr The number of digits to round data related numbers to.
+#' @param digits_2 (integer)\cr The number of digits to round p values to. Must be 2, 3 or more.
+#' @param format_pvalue (does not work yet) \cr Whether to format the p values according to APA
 #' standards (i.e. replace all values lower than .001 with '<.001'). This only
 #' applies to the printing of the object, not to the way the p values are
 #' stored in the object.
+#' @param p_adjust Any valid \code{\link[stats]{p.adjust}} method.
 #' @param ... Further arguments to methods.
 #'
 #' @return A list of three elements:
 #' \item{input}{List with input arguments}
-#' \item{intermediate}{List of intermediate objects.}
-#' \item{output}{List with
-#' two objects 'tukey' and 'games.howell', containing the outcomes for the
-#' respective post-hoc tests.}
+#' \item{output}{List with post-hoc test results}.
 #'
 #'
-#' @note This function is based on a file that was once hosted at
-#' \url{http://www.psych.yorku.ca/cribbie/6130/games_howell.R}, but has been removed
-#' since. It was then adjusted for implementation in the
-#' \pkg{userfriendlyscience} package. Jeffrey Baggett needed the
-#' confidence intervals, and so emailed them, after which his updated functions
-#' was used. In the meantime, it appears Aaron Schlegel
-#' (\url{https://rpubs.com/aaronsc32}) independently developed a version with
-#' confidence intervals and posted it on RPubs at
-#' \url{https://rpubs.com/aaronsc32/games-howell-test}.
+#' @note This function is based on a file that was once hosted at http://www.psych.yorku.ca/cribbie/6130/games_howell.R, but has been removed since. It was then adjusted for implementation in the \code{\link{userfriendlyscience}} package. Jeffrey Baggett needed the confidence intervals, and so emailed them, after which his updated function was used. In the meantime, it appears Aaron Schlegel (\url{https://rpubs.com/aaronsc32}) independently developed a version with confidence intervals and posted it on RPubs at \url{https://rpubs.com/aaronsc32/games-howell-test}.
+#'
+#' Also, for some reason, \code{p.adjust} can be used to specify additional correction of \emph{p} values. I'm not sure why I implemented this, but I'm not entirely sure it was a mistake either. Therefore, in \code{userfriendlyscience} version 0.6-2, the default of this setting changed from \code{"holm"} to \code{"none"} (also see https://stats.stackexchange.com/questions/83941/games-howell-post-hoc-test-in-r).
+
 #'
 #' @seealso \itemize{
 #' \item{\url{http://www.gcf.dkf.unibe.ch/BCB/files/BCB_10Jan12_Alexander.pdf}}
@@ -66,23 +62,24 @@
 #' library(BioStat)
 #'
 #' # Compute post-hoc statistics using the Games-Howell method
-#' posthoc_anova(weight ~ Diet, data = ChickWeight)
 #' posthoc_anova(weight ~ Diet, data = ChickWeight, method = "Games-Howell")
+#' posthoc_anova(weight ~ Diet, data = ChickWeight)
 #'
 #'
 #' # Compute post-hoc statistics using the Tukey method
-#' posthoc_anova(weight ~ Diet, data = ChickWeight, method = "tukey")
+#' posthoc_anova(weight ~ Diet, data = ChickWeight, method = "Tukey")
 #'
 #'
 #' @export
 #'
 #'
 posthoc_anova <- function(y,
-                        x = NULL,
+                        group = NULL,
                         method = c("Games-Howell", "Tukey"),
                         conf_level = 0.95,
-                        digits = 2,
-                        p.adjust = "holm",
+                        digits = 3,
+                        digits_p = 2,
+                        p_adjust = "none",
                         format_pvalue = TRUE,
                         data = NULL,
                         ...
@@ -94,13 +91,14 @@ posthoc_anova <- function(y,
 #' @rdname posthoc_anova
 #' @export
 posthoc_anova.formula <- function(y,
-                                x = NULL,
-                                method = c("Games-Howell", "Tukey"),
-                                conf_level = 0.95,
-                                digits = 2,
-                                p.adjust = "holm",
-                                format_pvalue = TRUE,
-                                data = NULL,
+                                  group = NULL,
+                                  method = c("Games-Howell", "Tukey"),
+                                  conf_level = 0.95,
+                                  digits = 3,
+                                  digits_p = 2,
+                                  p_adjust = "none",
+                                  format_pvalue = TRUE,
+                                  data = NULL,
                                 ...,
                                 sep = " | "
 ) {
@@ -112,7 +110,7 @@ posthoc_anova.formula <- function(y,
 
     } else {
         stop(
-            "\nThe formula (`", x, "`) is incorrect.",
+            "\nThe formula (`", y, "`) is incorrect.",
             "\nIt must contain at least 2 variable names."
         )
     }
@@ -121,7 +119,7 @@ posthoc_anova.formula <- function(y,
                         method = method,
                         conf_level = conf_level,
                         digits = digits,
-                        p.adjust = p.adjust,
+                        p_adjust = p_adjust,
                         format_pvalue = format_pvalue,
                         ...)
 
@@ -131,11 +129,12 @@ posthoc_anova.formula <- function(y,
 #' @export
 posthoc_anova.default <-
     function(y,
-             x = NULL,
+             group = NULL,
              method = c("Games-Howell", "Tukey"),
              conf_level = 0.95,
-             digits = 2,
-             p.adjust = "holm",
+             digits = 3,
+             digits_p = 2,
+             p_adjust = "none",
              format_pvalue = TRUE,
              data = NULL,
              ...
@@ -146,169 +145,136 @@ posthoc_anova.default <-
         tryCatch(
             method <- match.arg(method),
             error = function(err) {
-                stop("Argument for 'method' not valid: ", method)
-
+                stop("The `method` is not valid: ", method)
             }
         )
 
+        # Input---------------------------------------------------------------
 
         res <- list(input = as.list(environment()))
 
+        # Intermediate -------------------------------------------------------
 
-        res$intermediate <- list(x = factor(x[complete.cases(x, y)]),
-                                 y = y[complete.cases(x, y)])
+        include <- complete.cases(group, y)
 
-        res$intermediate$n <- tapply(y, x, length)
+        group = factor(group[include])
+        y = y[include]
 
-        res$intermediate$groups <- length(res$intermediate$n)
+        gr_sizes <- tapply(y, group, length)
+        n_groups <- length(gr_sizes)
 
-        res$intermediate$df <-
-            sum(res$intermediate$n) - res$intermediate$groups
+        means <- tapply(y, group, mean)
+        variances <- tapply(y, group, var)
+        SD <- tapply(y, group, sd)
 
-        res$intermediate$means <- tapply(y, x, mean)
+        gr_names <- levels(group)
 
-        res$intermediate$variances <- tapply(y, x, var)
+        pair_names <- combn(n_groups, 2, function(ij) {
+            paste0(rev(gr_names[ij]), collapse = "-")
+        })
 
-        res$intermediate$names <- levels(res$intermediate$x)
-        res$intermediate$pairNames <-
-            combn(res$intermediate$groups, 2, function(ij) {
-                paste0(rev(res$intermediate$names[ij]), collapse = "-")
+        alpha <- (1 - conf_level)
+        mean_diffs <- combn(n_groups, 2, function(ij) diff(means[ij]))
 
+        tukey_test <- function(n_groups, gr_sizes, pair_names, variances, mean_diffs, alpha, p_adjust) {
+            df <- sum(gr_sizes) - n_groups
+            error_variance <- sum((gr_sizes - 1) * variances) / df
+            se <- combn(n_groups, 2, function(ij) {
+                sqrt(error_variance * sum(1 / gr_sizes[ij]))
             })
 
-        res$intermediate$descriptives <- cbind(res$intermediate$n,
-                                               res$intermediate$means,
-                                               res$intermediate$variances)
+            t <- abs(mean_diffs) / se
+            p_tukey <- ptukey(t * sqrt(2), n_groups, df, lower.tail = FALSE)
+            qcrit <- qtukey(alpha, n_groups, df, lower.tail = FALSE) / sqrt(2)
 
-        rownames(res$intermediate$descriptives) <-
-            levels(res$intermediate$x)
+            tukey_ci_low  <- mean_diffs - (qcrit * se)
+            tukey_ci_high <- mean_diffs + (qcrit * se)
 
-        colnames(res$intermediate$descriptives) <-
-            c('n', 'means', 'variances')
+            p_adjusted = stats::p.adjust(p_tukey, method = tolower(p_adjust))
+
+            # Output -------------------------------------------------------------
+            output <- data.frame(pair_names,
+                                 mean_diffs,
+                                 tukey_ci_low,
+                                 tukey_ci_high,
+                                 t,
+                                 df,
+                                 p_tukey,
+                                 p_adjusted)
+
+            colnames(output) <-
+                c('groups', 'difference', 'ci_lower', 'ci_upper', 't', 'df', 'p', 'p_adjusted')
+
+            output # Tukey output
+        }
+
+        ### * Start on Games-Howell ------------------------------------------
 
 
-        ### Start on Tukey
-        res$intermediate$errorVariance <-
-            sum((res$intermediate$n - 1) * res$intermediate$variances) /
-            res$intermediate$df
+        games_howell_test <- function(n_groups, gr_sizes, pair_names, variances, mean_diffs, alpha, p_adjust) {
 
-        res$intermediate$se <-
-            combn(res$intermediate$groups, 2, function(ij) {
-                sqrt(res$intermediate$errorVariance * sum(1 / res$intermediate$n[ij]))
-
+            df_corrected <- combn(n_groups, 2, function(ij) {
+                sum(variances[ij] / gr_sizes[ij])^2 / sum((variances[ij] / gr_sizes[ij]) ^ 2 / (gr_sizes[ij] - 1))
             })
-        res$intermediate$dmeans <-
-            combn(res$intermediate$groups, 2, function(ij) {
-                diff(res$intermediate$means[ij])
+
+            se_corrected <- combn(n_groups, 2, function(ij) {
+                sqrt(sum(variances[ij] / gr_sizes[ij]))
             })
-        res$intermediate$t <-
-            abs(res$intermediate$dmeans) / res$intermediate$se
-        res$intermediate$p.tukey <- ptukey(
-            res$intermediate$t * sqrt(2),
-            res$intermediate$groups,
-            res$intermediate$df,
-            lower.tail = FALSE
-        )
 
-        res$intermediate$alpha <- (1 - conf_level)
+            t_corrected <- abs(mean_diffs) / se_corrected
+            qcrit_corrected <- qtukey(alpha, n_groups, df_corrected, lower.tail = FALSE) / sqrt(2)
 
-        res$intermediate$qcrit <- qtukey(res$intermediate$alpha,
-                                         res$intermediate$groups,
-                                         res$intermediate$df,
-                                         lower.tail = FALSE) / sqrt(2)
+            gh_low  <- mean_diffs - qcrit_corrected * se_corrected
+            gh_high <- mean_diffs + qcrit_corrected * se_corrected
 
-        res$intermediate$tukey.low <-
-            res$intermediate$dmeans - (res$intermediate$qcrit * res$intermediate$se)
+            p <- ptukey(t_corrected * sqrt(2), # p_games_howell
+                        n_groups,
+                        df_corrected,
+                        lower.tail = FALSE)
 
-        res$intermediate$tukey.high <-
-            res$intermediate$dmeans + (res$intermediate$qcrit * res$intermediate$se)
+            p_adjusted <- stats::p.adjust(p, method = tolower(p_adjust))
 
-        res$output <- list()
+            # Output: Games-Howell ----------------------------------------------
+            output <- data.frame(pair_names,
+                                 mean_diffs,
+                                 gh_low,
+                                 gh_high,
+                                 t_corrected,
+                                 df_corrected,
+                                 p,
+                                 p_adjusted)
 
-        res$output$tukey <- data.frame(
-            res$intermediate$dmeans,
-            res$intermediate$tukey.low,
-            res$intermediate$tukey.high,
-            res$intermediate$t,
-            res$intermediate$df,
-            res$intermediate$p.tukey
-        )
-        res$output$tukey$p.tukey.adjusted <-
-            stats::p.adjust(res$intermediate$p.tukey,
-                            method = tolower(p.adjust))
+            colnames(output) <-
+                c('groups', 'difference', 'ci_lower', 'ci_upper', 't', 'df', 'p', 'p_adjusted')
 
+            output # Games Howell output
+        }
 
-        rownames(res$output$tukey) <- res$intermediate$pairNames
+        res$output <-
+            switch(method,
+                   "Tukey" =
+                       res$output <- {list(
+                           method = method,
+                           result = tukey_test(n_groups, gr_sizes, pair_names, variances, mean_diffs, alpha, p_adjust))},
 
-        colnames(res$output$tukey) <-
-            c('difference', 'ci_lower', 'ci_upper', 't', 'df', 'p', 'p.adjusted')
-
-
-        ### Start on Games-Howell
-        res$intermediate$df.corrected <-
-            combn(res$intermediate$groups, 2, function(ij) {
-                sum(res$intermediate$variances[ij] /
-                        res$intermediate$n[ij]) ^ 2 /
-                    sum((res$intermediate$variances[ij] /
-                             res$intermediate$n[ij]) ^ 2 /
-                            (res$intermediate$n[ij] - 1)
-                    )
-
-            })
-        res$intermediate$se.corrected <-
-            combn(res$intermediate$groups, 2, function(ij) {
-                sqrt(sum(res$intermediate$variances[ij] / res$intermediate$n[ij]))
-
-            })
-        res$intermediate$t.corrected <-
-            abs(res$intermediate$dmeans) / res$intermediate$se.corrected
-
-        res$intermediate$qcrit.corrected <-
-            qtukey(
-                res$intermediate$alpha,
-                res$intermediate$groups,
-                res$intermediate$df.corrected,
-                lower.tail = FALSE
-            ) / sqrt(2)
-
-        res$intermediate$gh.low <- res$intermediate$dmeans -
-            res$intermediate$qcrit.corrected * res$intermediate$se.corrected
-        res$intermediate$gh.high <- res$intermediate$dmeans +
-            res$intermediate$qcrit.corrected * res$intermediate$se.corrected
-
-
-        res$intermediate$p.gameshowell <-
-            ptukey(
-                res$intermediate$t.corrected * sqrt(2),
-                res$intermediate$groups,
-                res$intermediate$df.corrected,
-                lower.tail = FALSE
+                   "Games-Howell" = {
+                       res$output <- list(
+                           method = method,
+                           result = games_howell_test(n_groups, gr_sizes, pair_names, variances, mean_diffs, alpha, p_adjust))}
             )
-        res$output$games.howell <- data.frame(
-            res$intermediate$dmeans,
-            res$intermediate$gh.low,
-            res$intermediate$gh.high,
-            res$intermediate$t.corrected,
-            res$intermediate$df.corrected,
-            res$intermediate$p.gameshowell
-        )
 
-        res$output$games.howell$p.gameshowell.adjusted <-
-            p.adjust(res$intermediate$p.gameshowell,
-                     method = p.adjust)
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        descriptives <- data.frame(group = gr_names,
+                                   n = gr_sizes,
+                                   mean = means,
+                                   variance = variances,
+                                   sd = SD,
+                                   stringsAsFactors = FALSE)
 
-        rownames(res$output$games.howell) <- res$intermediate$pairNames
+         res$output$descriptives <- descriptives
 
-        colnames(res$output$games.howell) <-
-            c('difference', 'ci_lower', 'ci_upper', 't', 'df', 'p', 'p.adjusted')
-
-
-        ### Set class and return object
-        class(res) <- 'posthoc_anova'
-
-        return(res)
-
-
+        ### Set class and return object --------------------------------------
+        structure(res, class = 'posthoc_anova')
     }
 
 
@@ -316,38 +282,56 @@ posthoc_anova.default <-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname posthoc_anova
 #' @export
-#' @param ... (further arguments to methods)
 
 # @param x The object to print.
 # @param digits The number of significant digits to print.
 print.posthoc_anova <- function(x,
-                             digits = x$input$digits,
+                             digits   = x$input$digits,
+                             digits_p = x$input$digits_p,
                              ...) {
 
-    Method <- x$input$method
+    Method <- x$output$method
+    msg <- switch(Method,
+                  'Tukey' = "Tukey HSD",
+                  'Games-Howell' =  "Games-Howell")
 
-    switch(Method,
-           'Tukey' =  {
-               dat <- x$output$tukey
-               msg <- "Tukey HSD" },
+    dat <- x$output$result
 
-           'Games-Howell' =  {
-               dat <- x$output$games.howell
-               msg <- "Games-Howell" }
+    a_cld <- make_cld(p_adjusted ~ groups, data = dat)
 
-    )
+    if (tolower(x$input$p_adjust) == "none") {
+        dat[, "p_adjusted"] <- NULL
+        p_cols <- c("p")
+    } else {
+        p_cols <- c("p", "p_adjusted")
+    }
 
-    cat("The results of ", Method ," test (ANOVA post-hoc) \n\n", sep = "")
+    dat <- format_numbers(dat, digits = c("difference" = digits,
+                              "ci_lower" = digits,
+                              "ci_upper" = digits,
+                              "t" = 2))
 
-    dat[, c(6, 7)] <- lapply(dat[, c(6, 7)],
-                             format_pvalue,
-                             digits = digits,
-                             includeP = FALSE)
+    dat <- format_as_p_columns(dat,
+                               colnames = p_cols,
+                               digits_p = digits_p)
 
-    print(dat, digits = digits)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    desc_stat <- format_numbers(x$output$descriptives,
+                                digits = c(NA, NA, digits, digits, digits))
 
-    cat('\n')
+    desc_stat <- merge(desc_stat, a_cld, by.x = "group", by.y = "group", all = TRUE)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Print
 
-    print(x$intermediate$descriptives, digits = digits)
+    cat(msg ," test results (ANOVA post-hoc) \n", sep = "")
+
+    if (tolower(x$input$p_adjust) != "none") {
+        cat(paste("\np value adjustment:", x$input$p_adjust, "\n"))
+    }
+    cat("\n")
+    print(dat)
+
+    cat("\n")
+    print(desc_stat)
 
 }

@@ -17,7 +17,7 @@ make_cld(obj, ..., alpha = 0.05)
 
 \method{make_cld}{posthocTGH}(obj, ..., alpha = obj$intermediate$alpha)
 
-\method{make_cld}{posthoc_anova}(obj, ..., alpha = obj$intermediate$alpha)
+\method{make_cld}{posthoc_anova}(obj, ..., alpha = 1 - obj$input$conf_level)
 
 \method{make_cld}{PMCMR}(obj, ..., alpha = 0.05)
 
@@ -62,33 +62,43 @@ make_cld(obj1)
 obj2 <- with(OrchardSprays, pairwise.t.test(decrease, treatment))
 make_cld(obj2)
 
-
-# Example 3: class `PMCMR`
+# Example 3: class `pairwise.htest`
 
 \donttest{
-obj3 <- PMCMR::posthoc.kruskal.conover.test(count ~ spray,
-                                            data = InsectSprays)
+smokers  <- c(83, 90, 129, 70)
+patients <- c(86, 93, 136, 82)
+obj3 <- pairwise.prop.test(smokers, patients)
+
 make_cld(obj3)
 }
 
 
-# Example 4: class `posthocTGH`
+# Example 4: class `PMCMR`
 
-obj4 <- posthoc_anova(weight ~ Diet,
+\donttest{
+obj4 <- PMCMR::posthoc.kruskal.conover.test(count ~ spray,
+                                            data = InsectSprays)
+make_cld(obj4)
+}
+
+
+# Example 5: class `posthocTGH`
+
+obj5 <- posthoc_anova(weight ~ Diet,
                       data = ChickWeight,
                       method = "Games-Howell")
-make_cld(obj4)
+make_cld(obj5)
 
 
-# Example 5: class `posthoc_anova`
+# Example 6: class `posthoc_anova`
 
 obj5 <- posthoc_anova(weight ~ Diet,
                      data = ChickWeight,
                      method = "Games-Howell")
-make_cld(obj5)
+make_cld(obj6)
 
 
-# Example 6: class `formula`
+# Example 7: class `formula`
 
 DataFrame <- data.table::fread(
     'Comparison     p.value p.adjust
@@ -100,6 +110,7 @@ make_cld(p.adjust ~ Comparison, data = DataFrame)
 
 
 # Example 7: class `matrix`
+
 # (for symetric matrices of p values)
 
 # Create matrix
@@ -113,4 +124,6 @@ obj7
 
 # Make cld
 make_cld(obj7)
+
+
 }

@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Check and adjust length of vector according to the number of columns in a data frame
-(Function for value recycling) � adjust_vector_length • BioStat</title>
+<title>Make a data frame with cld � make_cld_df • BioStat</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -82,32 +81,77 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Check and adjust length of vector according to the number of columns in a data frame
-(Function for value recycling)</h1>
+    <h1>Make a data frame with cld</h1>
     </div>
 
     
-    <p>Check and adjust length of vector according to the number of columns in a data frame
-(Function for value recycling)</p>
+    <p>Function is based on <span class="pkg">rcompanion</span><code>::cldList</code>.</p>
     
 
-    <pre class="usage"><span class='fu'>adjust_vector_length</span>(<span class='no'>x</span>, <span class='no'>data</span>, <span class='kw'>make_named</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>make_cld_df</span>(<span class='kw'>formula</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>comparison</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>p.value</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>print.comp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>remove.space</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>remove.equal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>swap.colon</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>swap.vs</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>a vector to check and recycle</p></td>
+      <th>formula</th>
+      <td><p>A formula indicating the variable holding p-values and
+the variable holding the comparisons. 
+e.g. P.adj ~ Comparison.</p></td>
     </tr>
     <tr>
       <th>data</th>
-      <td><p>a data frame</p></td>
+      <td><p>The data frame to use.</p></td>
     </tr>
     <tr>
-      <th>make_named</th>
-      <td><p>(logical) If <code>TRUE</code>, vector elements will be given names
-of data frame columns.</p></td>
+      <th>comparison</th>
+      <td><p>A vector of text describing comparisons, 
+with each element in a form similar to
+"Treat.A - Treat.B = 0".  Spaces and "=" and "0"
+are removed by default</p></td>
+    </tr>
+    <tr>
+      <th>p.value</th>
+      <td><p>A vector of p-values corresponding to the comparisons
+in the <code>comparison</code> argument</p></td>
+    </tr>
+    <tr>
+      <th>threshold</th>
+      <td><p>The alpha value.  That is, the p-value below which the
+comparison will be considered significant</p></td>
+    </tr>
+    <tr>
+      <th>print.comp</th>
+      <td><p>If <code>TRUE</code>, prints out a data frame of the
+modified text of the comparisons.  Useful for debugging</p></td>
+    </tr>
+    <tr>
+      <th>remove.space</th>
+      <td><p>If <code>TRUE</code>, removes spaces from the text of the
+comparisons</p></td>
+    </tr>
+    <tr>
+      <th>remove.equal</th>
+      <td><p>If <code>TRUE</code>, removes "=" from the text of the
+comparisons</p></td>
+    </tr>
+    <tr>
+      <th>swap.colon</th>
+      <td><p>If <code>TRUE</code>, swaps ":" with "-" in the text of the
+comparisons</p></td>
+    </tr>
+    <tr>
+      <th>swap.vs</th>
+      <td><p>If <code>TRUE</code>, swaps "vs" with "-" in the text of the
+comparisons</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional arguments passed to
+<code>multcompLetters</code></p></td>
     </tr>
     </table>
     

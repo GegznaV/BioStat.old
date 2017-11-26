@@ -5,83 +5,80 @@
 \alias{posthoc_anova.formula}
 \alias{posthoc_anova.default}
 \alias{print.posthoc_anova}
-\title{Games-Howell and Tukey post-hoc tests}
+\title{Games-Howell, Tukeyvand other post-hoc tests for ANOVA and Welch ANOVA}
 \usage{
-posthoc_anova(y, x = NULL, method = c("Games-Howell", "Tukey"),
-  conf_level = 0.95, digits = 2, p.adjust = "holm",
+posthoc_anova(y, group = NULL, method = c("Games-Howell", "Tukey"),
+  conf_level = 0.95, digits = 3, digits_p = 2, p_adjust = "none",
   format_pvalue = TRUE, data = NULL, ...)
 
-\method{posthoc_anova}{formula}(y, x = NULL, method = c("Games-Howell",
-  "Tukey"), conf_level = 0.95, digits = 2, p.adjust = "holm",
-  format_pvalue = TRUE, data = NULL, ..., sep = " | ")
+\method{posthoc_anova}{formula}(y, group = NULL, method = c("Games-Howell",
+  "Tukey"), conf_level = 0.95, digits = 3, digits_p = 2,
+  p_adjust = "none", format_pvalue = TRUE, data = NULL, ...,
+  sep = " | ")
 
-\method{posthoc_anova}{default}(y, x = NULL, method = c("Games-Howell",
-  "Tukey"), conf_level = 0.95, digits = 2, p.adjust = "holm",
-  format_pvalue = TRUE, data = NULL, ...)
+\method{posthoc_anova}{default}(y, group = NULL, method = c("Games-Howell",
+  "Tukey"), conf_level = 0.95, digits = 3, digits_p = 2,
+  p_adjust = "none", format_pvalue = TRUE, data = NULL, ...)
 
-\method{print}{posthoc_anova}(x, digits = x$input$digits, ...)
+\method{print}{posthoc_anova}(x, digits = x$input$digits,
+  digits_p = x$input$digits_p, ...)
 }
 \arguments{
-\item{y}{(numeric|formula) Either a numeric vector or formula.}
+\item{y}{(numeric|formula)\cr Either a numeric vector or formula.}
 
-\item{x}{(factor) a vector that either is a factor or can be converted into
-one. If \code{y} is a formula, \code{x} is ignored.}
+\item{group}{(factor)\cr a vector that either is a factor or can be converted into
+one. If \code{y} is a formula, \code{group} is ignored.}
 
-\item{method}{(\code{"games-howell"}|\code{"tukey"}) Name of post-hoc
+\item{method}{(\code{"games-howell"}|\code{"tukey"})\cr Name of post-hoc
 tests to conduct. Valid values are "tukey" and "games-howell".}
 
-\item{conf_level}{(number) Confidence level of the confidence intervals. Number from 0 to 1.}
+\item{conf_level}{(number)\cr Confidence level (equals to \code{1 - alpha}, where alpha is significanve level). Number from 0 to 1. Default is 0.95.}
 
-\item{digits}{The number of digits to show in the output.}
+\item{digits}{(integer)\cr The number of digits to round data related numbers to.}
 
-\item{p.adjust}{Any valid \code{\link{p.adjust}} method.}
+\item{p_adjust}{Any valid \code{\link[stats]{p.adjust}} method.}
 
-\item{format_pvalue}{Whether to format the p values according to APA
+\item{format_pvalue}{(does not work yet) \cr Whether to format the p values according to APA
 standards (i.e. replace all values lower than .001 with '<.001'). This only
 applies to the printing of the object, not to the way the p values are
 stored in the object.}
 
-\item{data}{(factor) a data frame with data to be used in combination with formula.}
+\item{data}{(data frame)\cr a data frame with data to be used in combination with formula.}
 
 \item{...}{Further arguments to methods.}
 
-\item{sep}{(character) A string with a symbol to separate group names if several grouping variables are used.}
+\item{sep}{(character)\cr A string with a symbol to separate group names if several grouping variables are used.}
+
+\item{digits_2}{(integer)\cr The number of digits to round p values to. Must be 2, 3 or more.}
 }
 \value{
 A list of three elements:
 \item{input}{List with input arguments}
-\item{intermediate}{List of intermediate objects.}
-\item{output}{List with
-two objects 'tukey' and 'games.howell', containing the outcomes for the
-respective post-hoc tests.}
+\item{output}{List with post-hoc test results}.
 }
 \description{
-Either Games-Howell test or Tukey honestly significant difference (HSD) post-hoc
-tests for one-way analysis of variance (ANOVA). The main part of the
-function code and descriptions were
+Either Games-Howell test or Tukey honestly significant difference (HSD)
+post-hoc tests for one-way analysis of variance (ANOVA).
+}
+\details{
+The main part of the  function code and descriptions were
 imported from \code{posthocTGH()} in package \pkg{userfriendlyscience}.
 }
 \note{
-This function is based on a file that was once hosted at
-\url{http://www.psych.yorku.ca/cribbie/6130/games_howell.R}, but has been removed
-since. It was then adjusted for implementation in the
-\pkg{userfriendlyscience} package. Jeffrey Baggett needed the
-confidence intervals, and so emailed them, after which his updated functions
-was used. In the meantime, it appears Aaron Schlegel
-(\url{https://rpubs.com/aaronsc32}) independently developed a version with
-confidence intervals and posted it on RPubs at
-\url{https://rpubs.com/aaronsc32/games-howell-test}.
+This function is based on a file that was once hosted at http://www.psych.yorku.ca/cribbie/6130/games_howell.R, but has been removed since. It was then adjusted for implementation in the \code{\link{userfriendlyscience}} package. Jeffrey Baggett needed the confidence intervals, and so emailed them, after which his updated function was used. In the meantime, it appears Aaron Schlegel (\url{https://rpubs.com/aaronsc32}) independently developed a version with confidence intervals and posted it on RPubs at \url{https://rpubs.com/aaronsc32/games-howell-test}.
+
+Also, for some reason, \code{p.adjust} can be used to specify additional correction of \emph{p} values. I'm not sure why I implemented this, but I'm not entirely sure it was a mistake either. Therefore, in \code{userfriendlyscience} version 0.6-2, the default of this setting changed from \code{"holm"} to \code{"none"} (also see https://stats.stackexchange.com/questions/83941/games-howell-post-hoc-test-in-r).
 }
 \examples{
 library(BioStat)
 
 # Compute post-hoc statistics using the Games-Howell method
-posthoc_anova(weight ~ Diet, data = ChickWeight)
 posthoc_anova(weight ~ Diet, data = ChickWeight, method = "Games-Howell")
+posthoc_anova(weight ~ Diet, data = ChickWeight)
 
 
 # Compute post-hoc statistics using the Tukey method
-posthoc_anova(weight ~ Diet, data = ChickWeight, method = "tukey")
+posthoc_anova(weight ~ Diet, data = ChickWeight, method = "Tukey")
 
 
 }

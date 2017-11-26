@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Check and adjust length of vector according to the number of columns in a data frame
-(Function for value recycling) � adjust_vector_length • BioStat</title>
+<title>Match positions of a vector and dataset colum names. � adjust_named_vector • BioStat</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -82,16 +81,16 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Check and adjust length of vector according to the number of columns in a data frame
-(Function for value recycling)</h1>
+    <h1>Match positions of a vector and dataset colum names.</h1>
     </div>
 
     
-    <p>Check and adjust length of vector according to the number of columns in a data frame
-(Function for value recycling)</p>
+    <p>Match positions of a vector and dataset colum names. Missing positions in
+vecor will be filled with NA. Positions of matching names will be filled
+with values in vector x.</p>
     
 
-    <pre class="usage"><span class='fu'>adjust_vector_length</span>(<span class='no'>x</span>, <span class='no'>data</span>, <span class='kw'>make_named</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>adjust_named_vector</span>(<span class='no'>x</span>, <span class='no'>data</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -103,11 +102,6 @@
     <tr>
       <th>data</th>
       <td><p>a data frame</p></td>
-    </tr>
-    <tr>
-      <th>make_named</th>
-      <td><p>(logical) If <code>TRUE</code>, vector elements will be given names
-of data frame columns.</p></td>
     </tr>
     </table>
     

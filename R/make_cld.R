@@ -30,33 +30,43 @@
 #' obj2 <- with(OrchardSprays, pairwise.t.test(decrease, treatment))
 #' make_cld(obj2)
 #'
-#'
-#' # Example 3: class `PMCMR`
+#' # Example 3: class `pairwise.htest`
 #'
 #' \donttest{
-#' obj3 <- PMCMR::posthoc.kruskal.conover.test(count ~ spray,
-#'                                             data = InsectSprays)
+#' smokers  <- c(83, 90, 129, 70)
+#' patients <- c(86, 93, 136, 82)
+#' obj3 <- pairwise.prop.test(smokers, patients)
+#'
 #' make_cld(obj3)
 #' }
 #'
 #'
-#' # Example 4: class `posthocTGH`
+#' # Example 4: class `PMCMR`
 #'
-#' obj4 <- posthoc_anova(weight ~ Diet,
+#' \donttest{
+#' obj4 <- PMCMR::posthoc.kruskal.conover.test(count ~ spray,
+#'                                             data = InsectSprays)
+#' make_cld(obj4)
+#' }
+#'
+#'
+#' # Example 5: class `posthocTGH`
+#'
+#' obj5 <- posthoc_anova(weight ~ Diet,
 #'                       data = ChickWeight,
 #'                       method = "Games-Howell")
-#' make_cld(obj4)
+#' make_cld(obj5)
 #'
 #'
-#' # Example 5: class `posthoc_anova`
+#' # Example 6: class `posthoc_anova`
 #'
 #' obj5 <- posthoc_anova(weight ~ Diet,
 #'                      data = ChickWeight,
 #'                      method = "Games-Howell")
-#' make_cld(obj5)
+#' make_cld(obj6)
 #'
 #'
-#' # Example 6: class `formula`
+#' # Example 7: class `formula`
 #'
 #' DataFrame <- data.table::fread(
 #'     'Comparison     p.value p.adjust
@@ -68,6 +78,7 @@
 #'
 #'
 #' # Example 7: class `matrix`
+#'
 #' # (for symetric matrices of p values)
 #'
 #' # Create matrix
@@ -81,12 +92,8 @@
 #'
 #' # Make cld
 #' make_cld(obj7)
-
-
-# smokers  <- c(83, 90, 129, 70)
-# patients <- c(86, 93, 136, 82)
-# obj <- pairwise.prop.test(smokers, patients)
-# make_cld(obj)
+#'
+#'
 
 make_cld <- function(obj, ..., alpha = 0.05) {
     checkmate::assert_number(alpha, lower = 0, upper = 1)
@@ -94,23 +101,16 @@ make_cld <- function(obj, ..., alpha = 0.05) {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Helper function
-update_cld <- function(res) {
-    res$MonoLetter <- gsub(" ", "_", res$MonoLetter)
-    names(res) <- c("Group", "cld", "mono_cld")
-    structure(res, class = c("cld_object", class(res)))
-}
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname make_cld
 #' @export
 make_cld.pairwise.htest <- function(obj, ..., alpha = 0.05) {
 
     m1 <- obj$p.value
     df <- pval_matrix_to_df(m1)
-    res <- rcompanion::cldList(comparison = paste0(df$gr1, " - ", df$gr2),
-                               p.value    = df$p_values,
-                               threshold  = alpha)
-    update_cld(res)
+    res <- make_cld_df(comparison = paste0(df$gr1, " - ", df$gr2),
+                       p.value    = df$p_values,
+                       threshold  = alpha)
+    res
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -125,17 +125,23 @@ make_cld.posthocTGH <- function(obj, ..., alpha = obj$intermediate$alpha) {
                stop("Incorrect method selected: ", obj$input$method)
         )
 
-    res <- rcompanion::cldList(comparison = obj$intermediate$pairNames,
-                               p.value    = obj$output[[which_posthoc]]$p.adjusted,
-                               threshold  = obj$intermediate$alpha,
-                               ...)
-    update_cld(res)
+    p_val <- obj$output[[which_posthoc]]$p.adjusted
+
+    if (is.null(p_val)) {
+        p_val <- obj$output[[which_posthoc]]$p
+    }
+
+    res <- make_cld_df(comparison = obj$intermediate$pairNames,
+                       p.value    = p_val,
+                       threshold  = obj$intermediate$alpha,
+                       ...)
+    res
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname make_cld
 #' @export
-make_cld.posthoc_anova <- function(obj, ..., alpha = obj$intermediate$alpha) {
+make_cld.posthoc_anova <- function(obj, ..., alpha = 1 - obj$input$conf_level) {
 
     which_posthoc <-
         switch(tolower(obj$input$method),
@@ -144,11 +150,14 @@ make_cld.posthoc_anova <- function(obj, ..., alpha = obj$intermediate$alpha) {
                stop("Incorrect method selected: ", obj$input$method)
         )
 
-    res <- rcompanion::cldList(comparison = obj$intermediate$pairNames,
-                               p.value    = obj$output[[which_posthoc]]$p.adjusted,
-                               threshold  = obj$intermediate$alpha,
-                               ...)
-    update_cld(res)
+    obj2 <- obj$output$result
+
+    res <- make_cld_df(comparison = obj2$groups,
+                       p.value    = obj2$p_adjusted,
+                       threshold  = alpha,
+                        ...
+                       )
+    res
 }
 
 
@@ -166,12 +175,11 @@ make_cld.formula <- function(obj, ..., data = NULL, alpha = 0.05) {
     if (is.null(data)) {
         data <- rlang::f_env(obj)
     }
-    res <- rcompanion::cldList(obj,
-                               data = data,
-                               threshold = alpha,
-                               ...)
-
-    update_cld(res)
+    res <- make_cld_df(obj,
+                       data = data,
+                       threshold = alpha,
+                       ...)
+    res
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -191,16 +199,15 @@ make_cld.matrix <- function(obj, ..., alpha = 0.05) {
     obj[upper.tri(obj, diag = TRUE)] <- NA
     df <- pval_matrix_to_df(obj)
     make_cld.pairwise_pval_df(df)
-
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname make_cld
 #' @export
 make_cld.pairwise_pval_df <- function(obj, ..., alpha = 0.05) {
-    res <- rcompanion::cldList(comparison = paste0(obj$gr1, " - ", obj$gr2),
-                               p.value    = obj$p_values,
-                               threshold  = alpha)
-    update_cld(res)
+    res <- make_cld_df(comparison = paste0(obj$gr1, " - ", obj$gr2),
+                       p.value    = obj$p_values,
+                       threshold  = alpha)
+    res
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 pval_matrix_to_df <- function(x) {
@@ -214,7 +221,6 @@ pval_matrix_to_df <- function(x) {
 
     df <- df[complete.cases(df), ]
 
-    structure(df,
-              class = c("pairwise_pval_df", "data.frame"))
+    structure(df, class = c("pairwise_pval_df", "data.frame"))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
