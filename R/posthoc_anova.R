@@ -64,8 +64,6 @@
 #'
 #' # Compute post-hoc statistics using the Games-Howell method
 #' posthoc_anova(weight ~ Diet, data = ChickWeight, method = "Games-Howell")
-#' posthoc_anova(weight ~ Diet, data = ChickWeight)
-#'
 #'
 #' # Compute post-hoc statistics using the Tukey method
 #' posthoc_anova(weight ~ Diet, data = ChickWeight, method = "Tukey")
