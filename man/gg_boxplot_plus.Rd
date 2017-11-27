@@ -7,7 +7,8 @@
 gg_boxplot_plus(formula, data = NULL, cld = NULL, sort_groups = c("no",
   "yes", "ascending", "descending"), sort_fun = median, add_points = TRUE,
   add_mean_ci = TRUE, add_median_ci = FALSE, ci_boot_reps = 999,
-  cld_y_adj = 1.05, ci_x_adj = -0.3, points_x_adj = 0.3, ...)
+  cld_color = "black", cld_y_adj = 1.05, ci_x_adj = -0.3,
+  points_x_adj = 0.3, ...)
 }
 \arguments{
 \item{formula}{a formula with two variable names to analyze. First one is numeric, second one is a factor, e.g. \code{y ~ group}.}
@@ -29,6 +30,8 @@ gg_boxplot_plus(formula, data = NULL, cld = NULL, sort_groups = c("no",
 \item{add_median_ci}{(\code{TRUE}|\code{FALSE})}
 
 \item{ci_boot_reps}{(numeric) Number of bootstrap repetitions for mean confidence interval calculation.}
+
+\item{cld_color}{(character) Name of color for cld letters.}
 
 \item{cld_y_adj}{(numeric) y position correction factor for cld letters.}
 
@@ -67,5 +70,20 @@ gg_boxplot_plus(weight ~ Diet, data = ChickWeight,
                 cld = cld_result,
                 sort_groups = "descending",
                 sort_fun = mean)
+
+# Example 4
+
+res2 <- posthoc_anova(decrease ~ treatment, data = OrchardSprays)
+cld_result2 <- make_cld(res2)
+
+gg_boxplot_plus(decrease ~ treatment, data = OrchardSprays,
+                cld = cld_result2,
+                sort_groups = "descending",
+                sort_fun = mean)
+
+gg_boxplot_plus(decrease ~ treatment, data = OrchardSprays,
+                cld = cld_result2,
+                sort_groups = "ascending",
+                sort_fun = IQR)
 
 }

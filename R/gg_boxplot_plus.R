@@ -52,6 +52,8 @@
 #' @param add_median_ci (\code{TRUE}|\code{FALSE})
 #' @param ci_boot_reps (numeric) Number of bootstrap repetitions for mean confidence interval calculation.
 #' @param cld_y_adj (numeric) y position correction factor for cld letters.
+#' @param cld_color (character) Name of color for cld letters.
+#'
 #' @param ci_x_adj (numeric)  x position correction factor for mean confidence interval.
 #' @param points_x_adj (numeric) x position correction factor for jittered points.
 #' @param ... arguments to \code{sort_fun}.
@@ -83,15 +85,20 @@
 #'                 sort_groups = "descending",
 #'                 sort_fun = mean)
 #'
-#' # Example 3
+#' # Example 4
 #'
 #' res2 <- posthoc_anova(decrease ~ treatment, data = OrchardSprays)
 #' cld_result2 <- make_cld(res2)
 #'
 #' gg_boxplot_plus(decrease ~ treatment, data = OrchardSprays,
-#'                 cld = cld_result,
+#'                 cld = cld_result2,
 #'                 sort_groups = "descending",
 #'                 sort_fun = mean)
+#'
+#' gg_boxplot_plus(decrease ~ treatment, data = OrchardSprays,
+#'                 cld = cld_result2,
+#'                 sort_groups = "ascending",
+#'                 sort_fun = IQR)
 #'
 gg_boxplot_plus <- function(
     formula,
@@ -107,6 +114,7 @@ gg_boxplot_plus <- function(
 
     ci_boot_reps = 999,
 
+    cld_color = "black",
     cld_y_adj = 1.05,
     ci_x_adj = -0.3,
     points_x_adj =  0.3,
@@ -172,6 +180,7 @@ gg_boxplot_plus <- function(
                 shape = 21)
     }
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (add_mean_ci) {
         mean_ci <- dplyr::do(dplyr::group_by(DATA, group),
                              ci_mean_boot( .$y, repetitions = ci_boot_reps))
@@ -191,11 +200,16 @@ gg_boxplot_plus <- function(
 
     }
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (!is.null(cld)) {
-        cld_y <- max(DATA[["y"]] * cld_y_adj)
+        cld_y <- max(DATA[["y"]] * cld_y_adj, na.rm = TRUE)
+
+        cld <- dplyr::mutate(cld,
+                             group = factor(group, levels = levels(DATA$group)))
+
         p <- p +
             geom_text(data = cld,
-                      # color = "red",
+                      color = cld_color,
                       aes(x = group, label = cld, y = cld_y),
                       fontface = "bold",
                       inherit.aes = FALSE)
@@ -214,8 +228,9 @@ vertical_cld <- function(iii) {
     iii <- as.character(iii)
     # iii <- gsub("_", " ", iii)
     sapply(iii, function(x) paste(strsplit(x,"")[[1]], "\n", collapse = ""))
-
 }
+
+
 # geom_text(data = cld_result,
 #           aes(x = group, label = vertical_cld(spaced_cld), y = cld_y_),
 #           fontface = "bold",
