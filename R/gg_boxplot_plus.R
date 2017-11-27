@@ -83,6 +83,16 @@
 #'                 sort_groups = "descending",
 #'                 sort_fun = mean)
 #'
+#' # Example 3
+#'
+#' res2 <- posthoc_anova(decrease ~ treatment, data = OrchardSprays)
+#' cld_result2 <- make_cld(res2)
+#'
+#' gg_boxplot_plus(decrease ~ treatment, data = OrchardSprays,
+#'                 cld = cld_result,
+#'                 sort_groups = "descending",
+#'                 sort_fun = mean)
+#'
 gg_boxplot_plus <- function(
     formula,
     data = NULL,
@@ -124,6 +134,8 @@ gg_boxplot_plus <- function(
     DATA <- dplyr::select(data,
                           y = !!rlang::sym(y_name),
                           group = !! rlang::sym(fctr_name))
+
+    DATA <- dplyr::mutate(DATA, group = factor(group))
 
     switch(sort_groups,
            "yes" = ,
