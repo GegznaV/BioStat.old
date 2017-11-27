@@ -32,15 +32,15 @@ test_that("`make_cld.pairwise.htest` works with insignificant results", {
 
 ## Test for class `posthocTGH` is needed.
 
-test_that("`make_cld.posthocTGH` works", {
-    # Temporary test
-    obj10 <- userfriendlyscience::posthocTGH(chickwts$weight, chickwts$feed)
-    expect_equivalent(as.character(make_cld(obj10)$cld),
-                      c("a","ab","bc","b","c","c"))
-
-    expect_equivalent(as.character(make_cld(obj10)$group),
-                      c("horsebean", "linseed", "meatmeal", "soybean", "sunflower", "casein" ))
-})
+# test_that("`make_cld.posthocTGH` works", {
+#     # Temporary test
+#     obj10 <- userfriendlyscience::posthocTGH(chickwts$weight, chickwts$feed)
+#     expect_equivalent(as.character(make_cld(obj10)$cld),
+#                       c("a","ab","bc","b","c","c"))
+#
+#     expect_equivalent(as.character(make_cld(obj10)$group),
+#                       c("horsebean", "linseed", "meatmeal", "soybean", "sunflower", "casein" ))
+# })
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 test_that("`make_cld.posthoc_anova` works", {

@@ -38,12 +38,13 @@ The package is still in its development and some functions are for
 
 Documentation and more information available at http://gegznav.github.io/BioStat/
 
-## Install package
 
-To install a released version of the package from *CRAN*:
-```{r, eval=FALSE}
-install.packages("BioStat")
-```
+<!-- ## Install package -->
+
+<!-- To install a released version of the package from *CRAN*: -->
+<!-- ```{r, eval=FALSE} -->
+<!-- install.packages("BioStat") -->
+<!-- ``` -->
 
 To install a developement version of the package from *GitHub*:
 

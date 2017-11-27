@@ -9,6 +9,7 @@
 #' for demonstration purposes only as they may change in the future.
 #'
 #' @import magrittr
+#' @import ggplot2
 #' @importFrom stats model.frame ppoints qnorm
 #' @importFrom pander pander
 #' @importFrom stats coef complete.cases model.extract
