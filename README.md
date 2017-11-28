@@ -3,7 +3,7 @@
 
 ------------------------------------------------------------------------
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/BioStat)](https://cran.r-project.org/package=BioStat) [![GitHub version](https://img.shields.io/badge/GitHub-v0.0.9-brightgreen.svg)](https://github.com/GegznaV/BioStat) [![Travis-CI Build Status](https://travis-ci.org/GegznaV/BioStat.png?branch=master)](https://travis-ci.org/GegznaV/BioStat) [![codecov.io](https://codecov.io/github/GegznaV/BioStat/coverage.svg?branch=master)](https://codecov.io/github/GegznaV/BioStat?branch=master) [![Update-on](https://img.shields.io/badge/Updated%20on-2017--11--26-yellowgreen.svg)](/commits/master)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/BioStat)](https://cran.r-project.org/package=BioStat) [![GitHub version](https://img.shields.io/badge/GitHub-v0.0.10.9002-brightgreen.svg)](https://github.com/GegznaV/BioStat) [![Travis-CI Build Status](https://travis-ci.org/GegznaV/BioStat.png?branch=master)](https://travis-ci.org/GegznaV/BioStat) [![codecov.io](https://codecov.io/github/GegznaV/BioStat/coverage.svg?branch=master)](https://codecov.io/github/GegznaV/BioStat?branch=master) [![Update-on](https://img.shields.io/badge/Updated%20on-2017--11--28-yellowgreen.svg)](/commits/master)
 
 ------------------------------------------------------------------------
 
@@ -18,15 +18,11 @@ The package is still in its development and some functions are for demonstration
 
 Documentation and more information available at <http://gegznav.github.io/BioStat/>
 
-Install package
----------------
-
-To install a released version of the package from *CRAN*:
-
-``` r
-install.packages("BioStat")
-```
-
+<!-- ## Install package -->
+<!-- To install a released version of the package from *CRAN*: -->
+<!-- ```{r, eval=FALSE} -->
+<!-- install.packages("BioStat") -->
+<!-- ``` -->
 To install a developement version of the package from *GitHub*:
 
 ``` r
