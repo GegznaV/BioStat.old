@@ -11,11 +11,11 @@ test_normality(x, data = NULL, test = "Shapiro-Wilk",
 
 \method{print}{test_normality}(x, ..., digits_p = 3, signif_stars = TRUE,
   digits_stat = 3, format_stat = c("auto", "f", "g"), rm_zero = FALSE,
-  print_legend = TRUE, show_col_method = FALSE)
+  legend = TRUE, show_col_method = FALSE)
 
 \method{pander}{test_normality}(x, caption = NA, ..., digits_p = 3,
   signif_stars = TRUE, digits_stat = 3, format_stat = c("auto", "f", "g"),
-  rm_zero = FALSE, print_legend = TRUE, show_col_method = FALSE)
+  rm_zero = FALSE, legend = TRUE, show_col_method = FALSE)
 }
 \arguments{
 \item{x}{Either a formula, a numeric vector or a name of a column
@@ -80,7 +80,7 @@ function \code{\link[base]{formatC}} section \code{format}.}
 \item{rm_zero}{(logical) Flag if leading zero before the point should be
 removed.}
 
-\item{print_legend}{(logical) If \code{TRUE}, legend for significance stars
+\item{legend}{(logical) If \code{TRUE}, legend for significance stars
 is printed.}
 
 \item{show_col_method}{(logical) If \code{FALSE} column "method" is not

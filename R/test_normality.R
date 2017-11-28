@@ -37,7 +37,7 @@
 #'
 #' @param signif_stars (logical) If \code{TRUE}, significance stars are printed.
 #'
-#' @param print_legend (logical) If \code{TRUE}, legend for significance stars
+#' @param legend (logical) If \code{TRUE}, legend for significance stars
 #'                     is printed.
 #'
 #' @param digits_stat (integer) number of either decimal places or significant
@@ -285,7 +285,7 @@ print.test_normality <- function(x,
                                  digits_stat = 3,
                                  format_stat = c("auto","f", "g"),
                                  rm_zero = FALSE,
-                                 print_legend = TRUE,
+                                 legend = TRUE,
                                  show_col_method = FALSE
                                  ) {
     format_stat <- match.arg(format_stat)
@@ -307,7 +307,7 @@ print.test_normality <- function(x,
     NextMethod(print, x)
 
     # Print signif. stars legend
-    if (print_legend == TRUE && signif_stars == TRUE)
+    if (legend == TRUE && signif_stars == TRUE)
         cat("\nLegend for p-values:  \n", signif_stars_legend(), "\n  ")
 
     # Print p adjust. method:
@@ -326,9 +326,9 @@ pander.test_normality <- function(x,
                                   digits_p = 3,
                                   signif_stars = TRUE,
                                   digits_stat = 3,
-                                  format_stat = c("auto","f", "g"),
+                                  format_stat = c("auto", "f", "g"),
                                   rm_zero = FALSE,
-                                  print_legend = TRUE,
+                                  legend = TRUE,
                                   show_col_method = FALSE) {
 
     format_stat <- match.arg(format_stat)
@@ -367,7 +367,7 @@ pander.test_normality <- function(x,
     NextMethod("pander", x, caption = caption, ...)
 
     # Print legend
-    if (print_legend == TRUE && signif_stars == TRUE)
+    if (legend == TRUE && signif_stars == TRUE)
         cat("Legend for p-values:  \n`", signif_stars_legend(), "`  \n")
 
 }
