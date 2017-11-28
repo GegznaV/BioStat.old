@@ -52,7 +52,7 @@
 #' @param add_median_ci (\code{TRUE}|\code{FALSE})
 #' @param conf_level (numeric) Confidence level for confidence interval. Number from 0 to 1. Default is 0.95.
 #' @param ci_boot_reps (numeric) Number of bootstrap repetitions for mean confidence interval calculation.
-#' @param cld_y_adj (numeric) y position correction factor for cld letters.
+#' @param cld_y_adj,cld_y_mult (numeric) y position correction (addition and multiplication) factors for cld letters.
 #' @param cld_color (character) Name of color for cld letters.
 #'
 #' @param ci_x_adj (numeric)  x position correction factor for mean confidence interval.

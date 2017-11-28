@@ -35,7 +35,7 @@ gg_boxplot_plus(formula, data = NULL, cld = NULL, sort_groups = c("no",
 
 \item{cld_color}{(character) Name of color for cld letters.}
 
-\item{cld_y_adj}{(numeric) y position correction factor for cld letters.}
+\item{cld_y_adj, cld_y_mult}{(numeric) y position correction (addition and multiplication) factors for cld letters.}
 
 \item{ci_x_adj}{(numeric)  x position correction factor for mean confidence interval.}
 
