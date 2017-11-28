@@ -6,9 +6,9 @@
 \usage{
 gg_boxplot_plus(formula, data = NULL, cld = NULL, sort_groups = c("no",
   "yes", "ascending", "descending"), sort_fun = median, add_points = TRUE,
-  add_mean_ci = TRUE, add_median_ci = FALSE, ci_boot_reps = 999,
-  cld_color = "black", cld_y_adj = 1.05, ci_x_adj = -0.3,
-  points_x_adj = 0.3, ...)
+  add_mean_ci = TRUE, add_median_ci = FALSE, conf_level = 0.95,
+  ci_boot_reps = 999, cld_color = "black", cld_y_adj = 0,
+  cld_y_mult = 0.05, ci_x_adj = -0.3, points_x_adj = 0.3, ...)
 }
 \arguments{
 \item{formula}{a formula with two variable names to analyze. First one is numeric, second one is a factor, e.g. \code{y ~ group}.}
@@ -28,6 +28,8 @@ gg_boxplot_plus(formula, data = NULL, cld = NULL, sort_groups = c("no",
 \item{add_mean_ci}{(\code{TRUE}|\code{FALSE})}
 
 \item{add_median_ci}{(\code{TRUE}|\code{FALSE})}
+
+\item{conf_level}{(numeric) Confidence level for confidence interval. Number from 0 to 1. Default is 0.95.}
 
 \item{ci_boot_reps}{(numeric) Number of bootstrap repetitions for mean confidence interval calculation.}
 

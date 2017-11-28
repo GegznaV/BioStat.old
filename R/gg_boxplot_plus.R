@@ -50,6 +50,7 @@
 #' @param add_points (\code{TRUE}|\code{FALSE})
 #' @param add_mean_ci (\code{TRUE}|\code{FALSE})
 #' @param add_median_ci (\code{TRUE}|\code{FALSE})
+#' @param conf_level (numeric) Confidence level for confidence interval. Number from 0 to 1. Default is 0.95.
 #' @param ci_boot_reps (numeric) Number of bootstrap repetitions for mean confidence interval calculation.
 #' @param cld_y_adj (numeric) y position correction factor for cld letters.
 #' @param cld_color (character) Name of color for cld letters.
@@ -112,10 +113,12 @@ gg_boxplot_plus <- function(
     add_mean_ci = TRUE,
     add_median_ci = FALSE,
 
+    conf_level = 0.95,
     ci_boot_reps = 999,
 
     cld_color = "black",
-    cld_y_adj = 1.05,
+    cld_y_adj  = 0,
+    cld_y_mult = 0.05,
     ci_x_adj = -0.3,
     points_x_adj =  0.3,
 
@@ -183,7 +186,8 @@ gg_boxplot_plus <- function(
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (add_mean_ci) {
         mean_ci <- dplyr::do(dplyr::group_by(DATA, group),
-                             ci_mean_boot( .$y, repetitions = ci_boot_reps))
+                             ci_mean_boot( .$y, repetitions = ci_boot_reps,
+                                           conf_level = conf_level))
 
         p <- p +
             geom_errorbar(data = mean_ci,
@@ -202,7 +206,11 @@ gg_boxplot_plus <- function(
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (!is.null(cld)) {
-        cld_y <- max(DATA[["y"]] * cld_y_adj, na.rm = TRUE)
+
+        y_upp <- max(DATA[["y"]], na.rm = TRUE)
+        y_low <- min(DATA[["y"]], na.rm = TRUE)
+
+        cld_y_pos <- cld_y_adj + y_upp + cld_y_mult*(y_upp - y_low)
 
         cld <- dplyr::mutate(cld,
                              group = factor(group, levels = levels(DATA$group)))
@@ -210,11 +218,10 @@ gg_boxplot_plus <- function(
         p <- p +
             geom_text(data = cld,
                       color = cld_color,
-                      aes(x = group, label = cld, y = cld_y),
+                      aes(x = group, label = cld, y = cld_y_pos),
                       fontface = "bold",
                       inherit.aes = FALSE)
     }
-
 
     p <- p +
         labs(x = fctr_name, y = y_name) +
