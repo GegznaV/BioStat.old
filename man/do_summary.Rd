@@ -15,6 +15,23 @@ do_summary(x, data = NULL, stat = c("n", "missing", "mean", "sd", "var",
 
 \item{data}{data set}
 
+\item{stat}{(character) Descriptive statistics to compute. Currently supported statistics:
+\intemize{
+    \item \code{"n"} - number of non-missing observations,
+    \item \code{"missing"} - number of missing observations,,
+    \item \code{"mean"} - arithmetic mean,
+    \item \code{"sd"} - standard deviation,
+    \item \code{"var"} - variance,
+    \item \code{"min"} - minimum value,
+    \item \code{"Q1"} - 1-st quartile,
+    \item \code{"Md"} - median,
+    \item \code{"Q3"} - 3-rd quartile,
+    \item \code{"max"} - maximum value,
+    \item \code{"IQR"} - interquartile range,
+    \item \code{"skewness"} - skewness,
+    \item \code{"kurtosis"} - excess kurtosis.
+}}
+
 \item{...}{further arguments to methods.}
 
 \item{digits}{(numeric or \code{NA}) a desired number of digits after the decimal point (if \code{format = "f"}) or a number of significant digits (\code{format = "g"}, \code{= "e"} or \code{= "fg"}). \cr

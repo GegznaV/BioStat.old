@@ -20,7 +20,7 @@
 #'      \item \code{"skewness"} - skewness,
 #'      \item \code{"kurtosis"} - excess kurtosis.
 #'  }
-#' }
+#'
 #'
 #' @return Data frame with summary satatistics.
 #' @export
