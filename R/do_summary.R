@@ -5,7 +5,7 @@
 #' @param x formula with variable names to summarize. See more in examples.
 #' @param data data set
 #' @param stat (character) Descriptive statistics to compute. Currently supported statistics:
-#'  \intemize{
+#'  \itemize{
 #'      \item \code{"n"} - number of non-missing observations,
 #'      \item \code{"missing"} - number of missing observations,,
 #'      \item \code{"mean"} - arithmetic mean,

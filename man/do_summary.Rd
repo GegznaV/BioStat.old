@@ -16,7 +16,7 @@ do_summary(x, data = NULL, stat = c("n", "missing", "mean", "sd", "var",
 \item{data}{data set}
 
 \item{stat}{(character) Descriptive statistics to compute. Currently supported statistics:
-\intemize{
+\itemize{
     \item \code{"n"} - number of non-missing observations,
     \item \code{"missing"} - number of missing observations,,
     \item \code{"mean"} - arithmetic mean,
