@@ -101,6 +101,7 @@ posthoc_anova.formula <- function(y,
                                 ...,
                                 sep = " | "
 ) {
+    # [!!!] posthoc_anova.formula method needs revision
     DF <- model.frame(y, data = data)
 
     if (length(y) > 2) {

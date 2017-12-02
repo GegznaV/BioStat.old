@@ -259,6 +259,7 @@ qq_data.formula <- function(
     sep = " | "
 )
 {
+    # [!!!] qq_data.formula method needs revision
     DF <- model.frame(x, data = data)
 
     qq_main <- function(x,  groups = NULL)
