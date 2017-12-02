@@ -2,9 +2,12 @@
 % Please edit documentation in R/is_unique.R
 \name{is_unique}
 \alias{is_unique}
+\alias{is_not_inique}
 \title{Test which values in vector are unique}
 \usage{
 is_unique(x)
+
+is_not_inique(x)
 }
 \arguments{
 \item{x}{A vector}

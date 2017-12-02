@@ -19,6 +19,8 @@ is_unique <- function(x) {
     !x %in% x[duplicated(x)]
 }
 
+#' @rdname is_unique
+#' @export
 is_not_inique <- function(x) {
     x %in% x[duplicated(x)]
 }
