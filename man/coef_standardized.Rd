@@ -42,7 +42,10 @@ Compute the standardized regression coefficients (beta) from an object of class 
 }
 \details{
 This function is inspired by function  \pkg{QuantPsyc}\code{::lm.beta()} written by Thomas D. Fletcher. \cr
-\code{coef_standardized()} provides standardized coefficients even when interaction members are present. This is achieved by computing whole model matrix (with all right-hand side members of formula used in call of \code{lm()}) and calculating standard deviations of each regressor (including interaction members) based on these columns. The remaining calculations are the same as in \pkg{QuantPsyc}\code{::lm.beta()}.
+\code{coef_standardized()} provides standardized coefficients even when interaction members are present. This is achieved by computing whole model matrix (with all right-hand side members of formula used in call of \code{lm()}) and calculating standard deviations of each regressor (including interaction members) based on these columns. \cr
+\code{coef_standardized()} does not fail if intercept is not present.\cr
+
+The remaining calculations are the same as in \pkg{QuantPsyc}\code{::lm.beta()}.
 }
 \examples{
 
@@ -56,6 +59,13 @@ coef_standardized(lm1)
 lm2 <- lm(CONT ~ INTG + DMNR*DILG, data = us)
 coef_standardized(lm2)
 
+summary(coef_standardized(lm2))
+
+
+# Do not include intercept
+lm3 <- lm(CONT ~ 0 + INTG , data = us)
+coef_standardized(lm3)
+summary(coef_standardized(lm3))
 }
 \seealso{
 \itemize{

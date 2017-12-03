@@ -11,6 +11,16 @@ test_that("`coef_standardized()` works", {
 
 })
 
+test_that("`coef_standardized()` works if intercept is not included", {
+    data(USJudgeRatings)
+    lm2 <- lm(CONT ~ 0 + INTG + DMNR + log(DILG), data = USJudgeRatings)
+
+    rez <- coef_standardized(lm2)
+
+    expect_equivalent(unclass(round(rez$beta, 3)), c(-0.012, -0.747, 0.795))
+
+})
+
 test_that("`print.lm_beta()` works", {
     data(USJudgeRatings)
     lm1 <- lm(CONT ~ INTG + DMNR + log(DILG), data = USJudgeRatings)
