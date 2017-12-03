@@ -8,6 +8,7 @@
 \alias{make_cld.PMCMR}
 \alias{make_cld.formula}
 \alias{make_cld.matrix}
+\alias{make_cld.data.frame}
 \alias{make_cld.pairwise_pval_df}
 \title{Make a compact letter display for pair-wise comparison}
 \usage{
@@ -24,6 +25,9 @@ make_cld(obj, ..., alpha = 0.05)
 \method{make_cld}{formula}(obj, ..., data = NULL, alpha = 0.05)
 
 \method{make_cld}{matrix}(obj, ..., alpha = 0.05)
+
+\method{make_cld}{data.frame}(obj, ..., formula = p.adjust ~ Comparison,
+  alpha = 0.05)
 
 \method{make_cld}{pairwise_pval_df}(obj, ..., alpha = 0.05)
 }

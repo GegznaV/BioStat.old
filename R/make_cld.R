@@ -203,6 +203,16 @@ make_cld.matrix <- function(obj, ..., alpha = 0.05) {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname make_cld
 #' @export
+make_cld.data.frame <- function(obj, ..., formula = p.adjust ~ Comparison, alpha = 0.05) {
+    res <- make_cld_df(formula = formula,
+                       data = obj,
+                       threshold = alpha,
+                       ...)
+    res
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname make_cld
+#' @export
 make_cld.pairwise_pval_df <- function(obj, ..., alpha = 0.05) {
     res <- make_cld_df(comparison = paste0(obj$gr1, " - ", obj$gr2),
                        p.value    = obj$p_values,
