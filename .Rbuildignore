@@ -1,6 +1,8 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 data-raw*
+functions-removed*
+functions-under-development*
 ^codecov\.yml$
 .travis.yml
 codecov.yml

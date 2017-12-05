@@ -255,12 +255,24 @@ posthoc_anova.default <-
                    "Tukey" =
                        res$output <- {list(
                            method = method,
-                           result = tukey_test(n_groups, gr_sizes, pair_names, variances, mean_diffs, alpha, p_adjust))},
+                           result = tukey_test(n_groups,
+                                               gr_sizes,
+                                               pair_names,
+                                               variances,
+                                               mean_diffs,
+                                               alpha,
+                                               p_adjust))},
 
                    "Games-Howell" = {
                        res$output <- list(
                            method = method,
-                           result = games_howell_test(n_groups, gr_sizes, pair_names, variances, mean_diffs, alpha, p_adjust))}
+                           result = games_howell_test(n_groups,
+                                                      gr_sizes,
+                                                      pair_names,
+                                                      variances,
+                                                      mean_diffs,
+                                                      alpha,
+                                                      p_adjust))}
             )
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -33,14 +33,6 @@ test_that("stop_glue works", {
 })
 
 
-test_that("format_pvalue works", {
-    expect_equal(BioStat:::format_pvalue(.3), "p = 0.3")
-})
-
-test_that("noZero works", {
-    expect_equal(BioStat:::noZero(0.3), ".3")
-})
-
 test_that("class_stat_summary works", {
     expect_is(BioStat:::class_stat_summary(list("a")), "stat_summary")
 })
