@@ -347,3 +347,53 @@ print.posthoc_anova <- function(x,
     print(desc_stat)
 
 }
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname posthoc_anova
+#' @export
+#'
+#' @param y (ignored)
+#' @param zero_line_color  (character) Color for line indicating zero differences.
+#' @param flip_xy (logical) Flag if x and y axes should be swaped.
+#' @param add_p (logical) Flag if p values should be added.
+#' @param p_color (character) Color for p values.
+#' @param p_pos_adj (numeric) Factor for p value position correction
+plot.posthoc_anova <- function(x,
+                               y = NULL,
+                             ...,
+                             zero_line_color = "grey",
+                             add_p = TRUE,
+                             p_size = 1,
+                             p_color = "blue",
+                             p_pos_adj = 0.22,
+                             flip_xy = TRUE
+                             ) {
+
+
+    inp <- x$output$result
+
+    p <- ggplot(inp, aes(groups)) +
+        geom_hline(yintercept = 0, lty = 2, color = zero_line_color) +
+        geom_errorbar(aes(ymin = ci_lower, ymax = ci_upper), width = 0.2) +
+        geom_point(aes(y = difference)) +
+        labs(title = "Confidence intervals for differences in means",
+             subtitle = glue::glue("Pairwise comparisons by {x$output$method} method"),
+             x = "Groups",
+             y = "Differences")
+
+    if (flip_xy == TRUE) {
+        p <- p +
+            geom_text(aes(as.numeric(as.factor(groups)) + p_pos_adj,
+                          y = difference,
+                          label = format_p_values(p_adjusted, add_p = TRUE)),
+                      color = p_color,
+                      size = p_size)
+    }
+
+    if (flip_xy == TRUE) {
+        p <- p + coord_flip()
+    }
+
+    # Output
+    p
+
+}

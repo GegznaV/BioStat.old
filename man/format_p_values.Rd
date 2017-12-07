@@ -10,9 +10,11 @@
 \alias{rm_zero}
 \title{Format p-values}
 \usage{
-format_p_values(p, digits_p = 3, signif_stars = TRUE, rm_zero = FALSE)
+format_p_values(p, digits_p = 3, signif_stars = TRUE, rm_zero = FALSE,
+  add_p = FALSE, rm_spaces = FALSE)
 
-format_p(p_i, digits_p = 3, signif_stars = TRUE, rm_zero = FALSE)
+format_p(p_i, digits_p = 3, signif_stars = TRUE, rm_zero = FALSE,
+  add_p = FALSE, rm_spaces = FALSE)
 
 format_as_p_columns(data, colnames = c("p.value", "p.adjust"), digits_p = 3,
   rm_zero = FALSE, signif_stars = FALSE, ...)
@@ -43,6 +45,10 @@ Not less than 2.}
 
 \item{rm_zero}{(logical) Flag if leading zero before the point should be
 removed.}
+
+\item{add_p}{(logical) Flag if letter "p" should included in the expression.}
+
+\item{rm_spaces}{(logical) Flag if all spaces should be removed.}
 
 \item{p_i}{(numeric) A single p value.}
 

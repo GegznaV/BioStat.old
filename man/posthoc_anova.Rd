@@ -5,6 +5,7 @@
 \alias{posthoc_anova.formula}
 \alias{posthoc_anova.default}
 \alias{print.posthoc_anova}
+\alias{plot.posthoc_anova}
 \title{Games-Howell, Tukeyvand other post-hoc tests for ANOVA and Welch ANOVA}
 \usage{
 posthoc_anova(y, group = NULL, method = c("Games-Howell", "Tukey"),
@@ -22,6 +23,10 @@ posthoc_anova(y, group = NULL, method = c("Games-Howell", "Tukey"),
 
 \method{print}{posthoc_anova}(x, digits = x$input$digits,
   digits_p = x$input$digits_p, ...)
+
+\method{plot}{posthoc_anova}(x, y = NULL, ..., zero_line_color = "grey",
+  add_p = TRUE, p_size = 1, p_color = "blue", p_pos_adj = 0.22,
+  flip_xy = TRUE)
 }
 \arguments{
 \item{y}{(numeric|formula)\cr Either a numeric vector or formula.}
@@ -52,6 +57,18 @@ stored in the object.}
 \item{sep}{(character)\cr A string with a symbol to separate group names if several grouping variables are used.}
 
 \item{x}{object to print.}
+
+\item{zero_line_color}{(character) Color for line indicating zero differences.}
+
+\item{add_p}{(logical) Flag if p values should be added.}
+
+\item{p_color}{(character) Color for p values.}
+
+\item{p_pos_adj}{(numeric) Factor for p value position correction}
+
+\item{flip_xy}{(logical) Flag if x and y axes should be swaped.}
+
+\item{y}{(ignored)}
 }
 \value{
 A list of three elements:
