@@ -59,6 +59,16 @@ to the paired geom/stat.}
 \description{
 A ggplot2 layer to add theoretical normal distribution
 }
+\section{Computed variables}{
+
+
+\describe{
+   \item{density}{normal density}
+   \item{ndensity}{normal scaled to maximum of 1}
+   \item{count}{normal density * number of points}
+}
+}
+
 \examples{
 library(ggplot2)
 library(BioStat)

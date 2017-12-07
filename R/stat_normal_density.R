@@ -8,7 +8,9 @@
 #' @param trim (numeric) Fraction of point to trim before computing mean and
 #'                       standard deviation which are used to construct
 #'                       theoretical normal distribution.
-#' @section Computed variables
+#'
+#' @section Computed variables:
+#'
 #' \describe{
 #'    \item{density}{normal density}
 #'    \item{ndensity}{normal scaled to maximum of 1}
