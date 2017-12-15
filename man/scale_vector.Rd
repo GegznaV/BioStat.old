@@ -2,24 +2,24 @@
 % Please edit documentation in R/scale_vector.R
 \name{scale_vector}
 \alias{scale_vector}
-\title{Scale a Vector}
+\title{Scale a vector}
 \usage{
 scale_vector(x, center = mean, scale = sd)
 }
 \arguments{
 \item{x}{A numeric vector.}
 
-\item{center}{Eiter a function that computes center of data
-(such as \code{mean}) or a simgle numeric value.}
+\item{center}{Either a function that computes center of data
+(such as \code{mean}) or a single numeric value.}
 
-\item{scale}{Eiter a function that computes variability of data
-(such as \code{sd}) or a simgle numeric value.}
+\item{scale}{Either a function that computes variability of data
+(such as \code{sd}) or a single numeric value.}
 }
 \value{
 The same object as \code{x} just with every element scaled
 }
 \description{
-From every element in avector, subtract \code{center} and
+From every element in a vector, subtract \code{center} and
 divide by \code{scale}.
 }
 \examples{

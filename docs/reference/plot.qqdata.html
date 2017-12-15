@@ -121,17 +121,17 @@ a parmeter to be passed to
 
 <span class='co'># Input as formula + data:</span>
 
-<span class='no'>QQ_groups</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='qq_data.html'>qq_data</a></span>(<span class='no'>weight</span> ~ <span class='no'>feed</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>chickwts</span>)
-<span class='fu'>plot</span>(<span class='no'>QQ_groups</span>)</div><div class='img'><img src='plot.qqdata-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
-<span class='no'>QQ_groups2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='qq_data.html'>qq_data</a></span>(<span class='no'>weight</span> ~ <span class='no'>feed</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>chickwts</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"moment-normal"</span>)
-<span class='fu'>plot</span>(<span class='no'>QQ_groups2</span>)</div><div class='img'><img src='plot.qqdata-2.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
-<span class='no'>QQ_groups3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='qq_data.html'>qq_data</a></span>(<span class='no'>weight</span> ~ <span class='no'>feed</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>chickwts</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"any"</span>)
-<span class='fu'>plot</span>(<span class='no'>QQ_groups3</span>)</div><div class='img'><img src='plot.qqdata-3.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='no'>my_qq_df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='qq_data.html'>qq_data</a></span>(<span class='no'>weight</span> ~ <span class='no'>feed</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>chickwts</span>)
+<span class='fu'>plot</span>(<span class='no'>my_qq_df</span>)</div><div class='img'><img src='plot.qqdata-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='no'>my_qq_df2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='qq_data.html'>qq_data</a></span>(<span class='no'>weight</span> ~ <span class='no'>feed</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>chickwts</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"moment-normal"</span>)
+<span class='fu'>plot</span>(<span class='no'>my_qq_df2</span>)</div><div class='img'><img src='plot.qqdata-2.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='no'>my_qq_df3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='qq_data.html'>qq_data</a></span>(<span class='no'>weight</span> ~ <span class='no'>feed</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>chickwts</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"any"</span>)
+<span class='fu'>plot</span>(<span class='no'>my_qq_df3</span>)</div><div class='img'><img src='plot.qqdata-3.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 
 <span class='co'># The same x and y scale limits for all plots</span>
-<span class='fu'>plot</span>(<span class='no'>QQ_groups</span>, <span class='kw'>scales</span> <span class='kw'>=</span> <span class='st'>"fixed"</span>)</div><div class='img'><img src='plot.qqdata-4.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>my_qq_df</span>, <span class='kw'>scales</span> <span class='kw'>=</span> <span class='st'>"fixed"</span>)</div><div class='img'><img src='plot.qqdata-4.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'># Plot in color</span>
-<span class='fu'>plot</span>(<span class='no'>QQ_groups</span>, <span class='kw'>use_colors</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='plot.qqdata-5.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>my_qq_df</span>, <span class='kw'>use_colors</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='plot.qqdata-5.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'># Plot a qq-pot of one group</span>
 <span class='no'>QQ_single</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='qq_data.html'>qq_data</a></span>( ~ <span class='no'>weight</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>chickwts</span>)
 <span class='fu'>plot</span>(<span class='no'>QQ_single</span>)</div><div class='img'><img src='plot.qqdata-6.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>

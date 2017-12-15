@@ -3,7 +3,7 @@
 \name{is_unique}
 \alias{is_unique}
 \alias{is_not_inique}
-\title{Test which values in vector are unique}
+\title{Test which values are/are not unique in a vector}
 \usage{
 is_unique(x)
 
@@ -16,9 +16,10 @@ is_not_inique(x)
 Vector of logical values indicating \code{TRUE} for values which are unique.
 }
 \description{
-Test which values in vector are unique
+Test which values are/are not unique in a vector
 }
 \examples{
+
 is_unique(1:10)
 
 is_unique(c(1, 1, 1))
@@ -29,3 +30,4 @@ rez
 
 data.frame(x = x, is_unique = rez)
 }
+\keyword{utilities}

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Games-Howell, Tukeyvand other post-hoc tests for ANOVA and Welch ANOVA � posthoc_anova • BioStat</title>
+<title>[!] Post-hoc tests for ANOVA and Welch ANOVA � posthoc_anova • BioStat</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -81,11 +81,12 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Games-Howell, Tukeyvand other post-hoc tests for ANOVA and Welch ANOVA</h1>
+    <h1>[!] Post-hoc tests for ANOVA and Welch ANOVA</h1>
     </div>
 
     
-    <p>Either Games-Howell test or Tukey honestly significant difference (HSD)
+    <p>Games-Howell, Tukey HSD and other post-hoc tests for ANOVA and Welch ANOVA.
+Either Games-Howell test or Tukey honestly significant difference (HSD)
 post-hoc tests for one-way analysis of variance (ANOVA).</p>
     
 
@@ -106,7 +107,12 @@ post-hoc tests for one-way analysis of variance (ANOVA).</p>
 
 <span class='co'># S3 method for posthoc_anova</span>
 <span class='fu'>print</span>(<span class='no'>x</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='no'>x</span>$<span class='no'>input</span>$<span class='no'>digits</span>,
-  <span class='kw'>digits_p</span> <span class='kw'>=</span> <span class='no'>x</span>$<span class='no'>input</span>$<span class='no'>digits_p</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>digits_p</span> <span class='kw'>=</span> <span class='no'>x</span>$<span class='no'>input</span>$<span class='no'>digits_p</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for posthoc_anova</span>
+<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>, <span class='kw'>zero_line_color</span> <span class='kw'>=</span> <span class='st'>"grey"</span>,
+  <span class='kw'>add_p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p_size</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>p_color</span> <span class='kw'>=</span> <span class='st'>"blue"</span>, <span class='kw'>p_pos_adj</span> <span class='kw'>=</span> <span class='fl'>0.22</span>,
+  <span class='kw'>flip_xy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -164,6 +170,30 @@ stored in the object.</p></td>
       <th>x</th>
       <td><p>object to print.</p></td>
     </tr>
+    <tr>
+      <th>zero_line_color</th>
+      <td><p>(character) Color for line indicating zero differences.</p></td>
+    </tr>
+    <tr>
+      <th>add_p</th>
+      <td><p>(logical) Flag if p values should be added.</p></td>
+    </tr>
+    <tr>
+      <th>p_color</th>
+      <td><p>(character) Color for p values.</p></td>
+    </tr>
+    <tr>
+      <th>p_pos_adj</th>
+      <td><p>(numeric) Factor for p value position correction</p></td>
+    </tr>
+    <tr>
+      <th>flip_xy</th>
+      <td><p>(logical) Flag if x and y axes should be swapped.</p></td>
+    </tr>
+    <tr>
+      <th>y</th>
+      <td><p>(ignored)</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -180,8 +210,9 @@ imported from <code>posthocTGH()</code> in package <span class="pkg">userfriendl
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>This function is based on a file that was once hosted at http://www.psych.yorku.ca/cribbie/6130/games_howell.R, but has been removed since. It was then adjusted for implementation in the <span class="pkg">userfriendlyscience</span> package. Jeffrey Baggett needed the confidence intervals, and so emailed them, after which his updated function was used. In the meantime, it appears Aaron Schlegel (<a href='https://rpubs.com/aaronsc32'>https://rpubs.com/aaronsc32</a>) independently developed a version with confidence intervals and posted it on RPubs at <a href='https://rpubs.com/aaronsc32/games-howell-test'>https://rpubs.com/aaronsc32/games-howell-test</a>.</p>
-<p>Also, for some reason, <code>p.adjust</code> can be used to specify additional correction of <em>p</em> values. I'm not sure why I implemented this, but I'm not entirely sure it was a mistake either. Therefore, in <code>userfriendlyscience</code> version 0.6-2, the default of this setting changed from <code>"holm"</code> to <code>"none"</code> (also see https://stats.stackexchange.com/questions/83941/games-howell-post-hoc-test-in-r).</p>
+    <p>Options that carry out Games-Howell and Tukey HSD analyses are based
+on code of function <code>posthocTGH()</code> in package <span class="pkg">userfriendlyscience</span>
+(version 0.7.0).</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -249,10 +280,9 @@ imported from <code>posthocTGH()</code> in package <span class="pkg">userfriendl
 
     <h2>Author</h2>
     
-Gjalt-Jorn Peters (Open University of the Netherlands) &amp; Jeff Bagget
-(University of Wisconsin - La Crosse)
-
-Maintainer: Gjalt-Jorn Peters &lt;gjalt-jorn@userfriendlyscience.com&gt;
+Gjalt-Jorn Peters (Open University of the Netherlands) 
+Jeff Bagget (University of Wisconsin - La Crosse) 
+Vilmantas Gegzna
 
   </div>
 </div>

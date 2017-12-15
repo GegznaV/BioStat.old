@@ -10,7 +10,7 @@
 \alias{make_cld.matrix}
 \alias{make_cld.data.frame}
 \alias{make_cld.pairwise_pval_df}
-\title{Make a compact letter display for pair-wise comparison}
+\title{Make a compact letter display (cld) for pair-wise comparison}
 \usage{
 make_cld(obj, ..., alpha = 0.05)
 
@@ -49,10 +49,8 @@ is used if \code{obj} is formula. More details in examples.}
 (A data frame with) compact letter display.
 }
 \description{
-Make a compact letter display for results of pair-wise comparisons (e.g., ANOVA post-hoc tests, Kruskal-Wallis post-hoc tests and other).
-}
-\details{
-This function is based on function \code{\link[rcompanion]{cldList}()} from package \pkg{rcompanion}.
+Make a compact letter display for results of pair-wise comparisons
+(e.g., ANOVA post-hoc tests, Kruskal-Wallis post-hoc tests and other).
 }
 \examples{
 # Example 1: class `pairwise.htest`
@@ -104,13 +102,13 @@ make_cld(obj6)
 
 # Example 7: class `formula`
 
-DataFrame <- data.table::fread(
+my_dataframe <- data.table::fread(
     'Comparison     p.value p.adjust
     "EE - GB = 0"        1 1.000000
     "EE - CY = 0" 0.001093 0.003279
     "GB - CY = 0" 0.005477 0.008216')
 
-make_cld(p.adjust ~ Comparison, data = DataFrame)
+make_cld(p.adjust ~ Comparison, data = my_dataframe)
 
 
 # Example 8: class `matrix`

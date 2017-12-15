@@ -2,7 +2,7 @@
 % Please edit documentation in R/make_cld_df.R
 \name{make_cld_df}
 \alias{make_cld_df}
-\title{Make a data frame with cld}
+\title{[!] Make a data frame with cld}
 \usage{
 make_cld_df(formula = NULL, data = NULL, comparison = NULL,
   p.value = NULL, threshold = 0.05, print.comp = FALSE,
@@ -46,6 +46,11 @@ comparisons}
 \code{multcompLetters}}
 }
 \description{
-Function is based on \pkg{rcompanion}\code{::cldList}.
+Compute a compact letter display (cld) of statistically significant
+differences in pairwise comparisons and output he results as a dataframe.
+}
+\note{
+This function is based on code in function \code{\link[rcompanion]{cldList}()}
+from package \pkg{rcompanion} by Salvatore Mangiafico.
 }
 \keyword{internal}

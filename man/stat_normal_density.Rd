@@ -2,7 +2,7 @@
 % Please edit documentation in R/stat_normal_density.R
 \name{stat_normal_density}
 \alias{stat_normal_density}
-\title{A ggplot2 layer to add theoretical normal distribution}
+\title{A ggplot2 layer that fits and plots normal density function}
 \usage{
 stat_normal_density(mapping = NULL, data = NULL, geom = "line",
   position = "identity", na.rm = FALSE, show.legend = NA,
@@ -47,9 +47,10 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[=borders]{borders()}}.}
 
-\item{trim}{(numeric) Fraction of point to trim before computing mean and
-standard deviation which are used to construct
-theoretical normal distribution.}
+\item{trim}{(numeric) Fraction of points to trim before computing mean and
+standard deviation, which are used to construct
+theoretical normal distribution.
+Number between 0 and 1. Default is \code{0}.}
 
 \item{...}{other arguments passed on to \code{\link[=layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
@@ -57,14 +58,16 @@ often aesthetics, used to set an aesthetic to a fixed value, like
 to the paired geom/stat.}
 }
 \description{
-A ggplot2 layer to add theoretical normal distribution
+A ggplot2 layer that fits and plots a theoretical normal density function.
+May be used to visually compare between empirical and theoretical normal
+distributions.
 }
 \section{Computed variables}{
 
 
 \describe{
    \item{density}{normal density}
-   \item{ndensity}{normal scaled to maximum of 1}
+   \item{ndensity}{normal density scaled to maximum of 1}
    \item{count}{normal density * number of points}
 }
 }
@@ -76,7 +79,9 @@ library(BioStat)
 ggplot(mtcars, aes(mpg)) + stat_normal_density()
 
 ggplot(mtcars, aes(mpg)) +
-     stat_density() +
+     stat_density(alpha = 0.8) +
      stat_normal_density(color = "red", size = 1)
 
 }
+\keyword{ggplot2}
+\keyword{plots}

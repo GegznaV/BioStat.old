@@ -88,9 +88,11 @@
     <p>Fuctions to fromat p values.</p>
     
 
-    <pre class="usage"><span class='fu'>format_p_values</span>(<span class='no'>p</span>, <span class='kw'>digits_p</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>signif_stars</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>rm_zero</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>format_p_values</span>(<span class='no'>p</span>, <span class='kw'>digits_p</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>signif_stars</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>rm_zero</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>add_p</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>rm_spaces</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>format_p</span>(<span class='no'>p_i</span>, <span class='kw'>digits_p</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>signif_stars</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>rm_zero</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>format_p</span>(<span class='no'>p_i</span>, <span class='kw'>digits_p</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>signif_stars</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>rm_zero</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>add_p</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>rm_spaces</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'>format_as_p_columns</span>(<span class='no'>data</span>, <span class='kw'>colnames</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"p.value"</span>, <span class='st'>"p.adjust"</span>), <span class='kw'>digits_p</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='kw'>rm_zero</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>signif_stars</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
@@ -131,6 +133,14 @@ Not less than 2.</p></td>
       <th>rm_zero</th>
       <td><p>(logical) Flag if leading zero before the point should be
 removed.</p></td>
+    </tr>
+    <tr>
+      <th>add_p</th>
+      <td><p>(logical) Flag if letter "p" should included in the expression.</p></td>
+    </tr>
+    <tr>
+      <th>rm_spaces</th>
+      <td><p>(logical) Flag if all spaces should be removed.</p></td>
     </tr>
     <tr>
       <th>p_i</th>

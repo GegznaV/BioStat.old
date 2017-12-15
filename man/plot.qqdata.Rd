@@ -26,21 +26,21 @@ data(chickwts, package = "datasets")
 
 # Input as formula + data:
 
-QQ_groups <- qq_data(weight ~ feed, data = chickwts)
-plot(QQ_groups)
+my_qq_df <- qq_data(weight ~ feed, data = chickwts)
+plot(my_qq_df)
 
-QQ_groups2 <- qq_data(weight ~ feed, data = chickwts, method = "moment-normal")
-plot(QQ_groups2)
+my_qq_df2 <- qq_data(weight ~ feed, data = chickwts, method = "moment-normal")
+plot(my_qq_df2)
 
-QQ_groups3 <- qq_data(weight ~ feed, data = chickwts, method = "any")
-plot(QQ_groups3)
+my_qq_df3 <- qq_data(weight ~ feed, data = chickwts, method = "any")
+plot(my_qq_df3)
 
 
 # The same x and y scale limits for all plots
-plot(QQ_groups, scales = "fixed")
+plot(my_qq_df, scales = "fixed")
 
 # Plot in color
-plot(QQ_groups, use_colors = TRUE)
+plot(my_qq_df, use_colors = TRUE)
 
 # Plot a qq-pot of one group
 QQ_single <- qq_data( ~ weight, data = chickwts)

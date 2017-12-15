@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Trim Certain Percentage of The Most Extreme Values � trim • BioStat</title>
+<title>Trim certain proportion of the most extreme values � trim • BioStat</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -81,11 +81,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Trim Certain Percentage of The Most Extreme Values</h1>
+    <h1>Trim certain proportion of the most extreme values</h1>
     </div>
 
     
-    <p>Trim certain percentage of the most extreme values in a numeric vector.</p>
+    <p>Trim certain proportion of the most extreme values in a numeric vector.</p>
     
 
     <pre class="usage"><span class='fu'>trim</span>(<span class='no'>x</span>, <span class='kw'>trim</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
@@ -99,7 +99,8 @@
     </tr>
     <tr>
       <th>trim</th>
-      <td><p>(a number between 0 and 1) A proportion of values to be removed.</p></td>
+      <td><p>(number) A proportion of values to be removed.
+A number between 0 and 1. Default is 0.1.</p></td>
     </tr>
     <tr>
       <th>na.rm</th>
