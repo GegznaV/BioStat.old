@@ -2,7 +2,7 @@
 % Please edit documentation in R/gg_boxplot_plus.R
 \name{gg_boxplot_plus}
 \alias{gg_boxplot_plus}
-\title{Plot a boxplot with additional components}
+\title{[!] Plot a boxplot with additional components}
 \usage{
 gg_boxplot_plus(formula, data = NULL, cld = NULL, sort_groups = c("no",
   "yes", "ascending", "descending"), sort_fun = median, add_points = TRUE,
@@ -47,7 +47,7 @@ gg_boxplot_plus(formula, data = NULL, cld = NULL, sort_groups = c("no",
 A ggplot2 plot object.
 }
 \description{
-Plot a boxplot with additional components
+[!] Plot a boxplot with additional components
 }
 \examples{
 # Example 1
@@ -89,3 +89,5 @@ gg_boxplot_plus(decrease ~ treatment, data = OrchardSprays,
                 sort_fun = IQR)
 
 }
+\keyword{ggplot2}
+\keyword{plots}

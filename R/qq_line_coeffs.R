@@ -1,11 +1,20 @@
-#' Get a Slope and an Intercept of a QQ-line
+#' Compute a slope and an intercept for a reference line in a qq-plot
+#'
+#' Compute a slope and an intercept for a reference line ("qq-line")
+#' in a quantile comparison plot given a vector of data an a theoretical
+#' distribution.
+#'
+#' @details
+#' The code is based on code of \code{qqline()} in package \pkg{stats}.
+#' But instead of plotting a reference line, it returns its coefficients.
 #'
 #' @param y (numeric) A numeric vector.
 #'
 #' @inheritParams stats::qqline
 #' @inheritParams stats::quantile
+#' @param ... Further arguments for \code{distribution}.
 #'
-#' @return A vector with a \code{$slope} and an \code{$intercept} for qqline
+#' @return A vector with a \code{slope} and an \code{intercept} for a qq-line.
 #' @export
 #' @keywords internal
 #' @examples
@@ -20,8 +29,11 @@ qq_line_coeffs <- function(y,
                            distribution = qnorm,
                            probs = c(0.25, 0.75),
                            qtype = 7,
-                           na.rm = TRUE) {
-    stopifnot(length(probs) == 2, is.function(distribution))
+                           na.rm = TRUE,
+                           ...) {
+
+    checkmate::assert_numeric(probs, lower = 0, upper = 1, len = 2)
+    checkmate::assert_function(distribution)
 
     y <- stats::quantile(y,
                          probs,
@@ -29,7 +41,7 @@ qq_line_coeffs <- function(y,
                          type = qtype,
                          na.rm = na.rm)
 
-    x <- distribution(probs)
+    x <- distribution(probs, ...)
 
     if (datax) {
         slope <- diff(x) / diff(y)

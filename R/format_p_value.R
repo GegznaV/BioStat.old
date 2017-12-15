@@ -23,7 +23,8 @@
 #'                removed.
 #' @param data A dataset.
 #' @param colnames (character) vector with column names to be formatted as p values.
-#'
+#' @param add_p (logical) Flag if letter "p" should included in the expression.
+#' @param rm_spaces (logical) Flag if all spaces should be removed.
 #' @param ... Arguments to further methods.
 #'
 #' @details
@@ -70,7 +71,8 @@
 #'
 #' signif_stars_legend()
 #'
-format_p_values <- function(p, digits_p = 3, signif_stars = TRUE, rm_zero = FALSE) {
+format_p_values <- function(p, digits_p = 3, signif_stars = TRUE, rm_zero = FALSE,
+                            add_p = FALSE, rm_spaces = FALSE) {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     p %<>% as.character() %>% as.numeric()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -78,18 +80,20 @@ format_p_values <- function(p, digits_p = 3, signif_stars = TRUE, rm_zero = FALS
         stop("`p` must contain numeric values in range from 0 to 1.\n",
              "Values NA, NULL, -Inf, and Inf are not accepted.")
     }
-    if (!checkmate::test_number(digits_p, lower = 2)) {
+    if (!checkmate::test_number(digits_p, lower = 2, na.ok = TRUE)) {
         stop("`digits` must be a single numeric value in range from 2 to infinity.\n",
              "Values NA, NULL, -Inf, and Inf are not accepted.")
     }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     sapply(p, format_p, digits_p = digits_p,
                         rm_zero = rm_zero,
-                        signif_stars = signif_stars
+                        signif_stars = signif_stars,
+                        add_p = add_p
     )
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname format_p_values
 #' @export
 #' @examples
@@ -98,30 +102,56 @@ format_p_values <- function(p, digits_p = 3, signif_stars = TRUE, rm_zero = FALS
 #' format_p(.0002)
 #' format_p(.0002, signif_stars = FALSE)
 #'
-format_p <- function(p_i, digits_p = 3, signif_stars = TRUE, rm_zero = FALSE) {
+format_p <- function(p_i, digits_p = 3, signif_stars = TRUE, rm_zero = FALSE, add_p = FALSE, rm_spaces = FALSE) {
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     s_i <- if (signif_stars == TRUE) {
         BioStat::get_signif_stars(p_i)
     } else {
         ""
     }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    if (is.na(digits_p)) {
+        p_i <- as.character(p_i)
 
-    p_i <- if (digits_p <= 3 & p_i < 0.001) {
-        "<0.001"
-    } else if (digits_p <= 2 & p_i < 0.01) {
-        "<0.01"
     } else {
-        paste0(" ", formatC(p_i, digits = digits_p, format = "f"))
-    }
+        min_limit <- 10^-(digits_p)
 
-    p_i <- if (signif_stars == TRUE) {
-        sprintf(glue::glue("%{digits_p + 3}s %-3s"), p_i, s_i)
-    } else {
-        sprintf(glue::glue("%{digits_p + 3}s"), p_i)
-    }
+        p_i <- if (digits_p > 3 & p_i < min_limit) {
+            paste0("<", formatC(min_limit, digits = digits_p, format = "f"))
 
+        } else if (digits_p <= 3 & p_i < 0.001) {
+            "<0.001"
+
+        } else if (digits_p <= 2 & p_i < 0.01) {
+            "<0.01"
+
+        } else {
+            paste0(" ", formatC(p_i, digits = digits_p, format = "f"))
+        }
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        p_i <- if (signif_stars == TRUE) {
+            sprintf(glue::glue("%{digits_p + 3}s %-3s"), p_i, s_i)
+        } else {
+            sprintf(glue::glue("%{digits_p + 3}s"), p_i)
+        }
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (rm_zero == TRUE) {
         p_i <- BioStat::rm_zero(p_i)
     }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    if (add_p == TRUE) {
+        if (grepl("<", p_i)) {
+            p_i <- paste0("p ", sub("<", "< ", p_i))
+        } else {
+            p_i <- paste0("p =", p_i)
+        }
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    if (rm_spaces == TRUE) {
+        p_i <- gsub(" ", "", p_i)
+    }
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Output:
     p_i
 }

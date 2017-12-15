@@ -1,20 +1,28 @@
-#' Calculate Data for a QQ-plot
+#' [!]Compute data for a qq-plot
 #'
-#' @param envelope (numeric | FALSE) confidence level for point-wise confidence envelope.
+#' Compute data necessary to plot a quntile comparison plot (qq-plot).
+#'
+#' @details
+#' Function \code{qq_data} is inspired by \code{qqPlot()} in package \pkg{car}
+#' (writen by J. Fox).
+#'
+#' @param envelope (numeric | \code{FALSE}) confidence level for point-wise
+#'                 confidence envelope.
 #' @param line (string) A parameter, that controls how reference line is drawn.
 #'            Options:\itemize{
-#'            \item{\code{"0,1"} or \code{"int=0,slope=1"} to plot a line
+#'     \item{\code{"0,1"} or \code{"int=0,slope=1"} to plot a line
 #'             with intercept = 0 and slope = 1;}
-#'            \item{ \code{"quartiles"} to pass a line through the quartile-pairs;}
-#'            \item{ \code{"robust"} for a robust-regression line;
-#'             the latter uses the \code{rlm} function in the \pkg{MASS} package};
-#'            \item{option \code{"none"} is not implemented yet.}
+#'     \item{ \code{"quartiles"} to pass a line through the quartile-pairs;}
+#'     \item{ \code{"robust"} for a robust-regression line;
+#'             the latter uses the \code{rlm} function from the \pkg{MASS} package};
+#'     \item{option \code{"none"} is not implemented yet.}
 #' }
 #'
 #' @param method (string: \code{"trimmed-normal"}, \code{"normal"},
 #'              \code{"any"}). A method, that controls how estimates of
 #'              parameters for \code{distribution} are computed.
-#'      Options:\itemize{
+#'      Options:
+#'      \itemize{
 #'
 #'            \item{\code{"mle-normal"} (default) all data values are used to
 #'            estimate parameters of theoretical normal distribution using
@@ -64,51 +72,49 @@
 #' # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' # Input as formula + data:
 #'
-#' QQdata <- qq_data(~weight, data = chickwts)
-#' head(QQdata)
-#' coef(QQdata)
+#' my_qq_df <- qq_data(~weight, data = chickwts)
+#' head(my_qq_df)
+#' coef(my_qq_df)
 #'
 #' # Column ".group" is added if applied by group:
 #'
-#' QQdata <- qq_data(weight ~ feed, data = chickwts)
-#' head(QQdata)
-#' coef(QQdata)
+#' my_qq_df <- qq_data(weight ~ feed, data = chickwts)
+#' head(my_qq_df)
+#' coef(my_qq_df)
 #'
 #' qq_plot(weight ~ feed, data = chickwts)
 #'
 #' # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' # Input as variable name + data:
 #'
-#' QQdata <- qq_data("weight", data = chickwts)
-#' head(QQdata)
-#' coef(QQdata)
+#' my_qq_df <- qq_data("weight", data = chickwts)
+#' head(my_qq_df)
+#' coef(my_qq_df)
 #'
-#' QQdata <- qq_data("weight",groups = "feed", data = chickwts)
-#' head(QQdata)
-#' coef(QQdata)
+#' my_qq_df <- qq_data("weight",groups = "feed", data = chickwts)
+#' head(my_qq_df)
+#' coef(my_qq_df)
 #'
 #' # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' # Input as vector
 #'
-#' QQdata <- qq_data(chickwts$weight)
-#' head(QQdata)
-#' coef(QQdata)
+#' my_qq_df <- qq_data(chickwts$weight)
+#' head(my_qq_df)
+#' coef(my_qq_df)
 #'
 #' # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' # Input as vector, several groups.
 #' # Column ".group" is added
 #'
-#' QQdata <- qq_data(chickwts$weight, groups = chickwts$feed)
-#' head(QQdata)
-#' coef(QQdata)
+#' my_qq_df <- qq_data(chickwts$weight, groups = chickwts$feed)
+#' head(my_qq_df)
+#' coef(my_qq_df)
 #'
 #'
 #'
 #' @seealso \code{\link[car]{qqPlot}} in \pkg{car} package,
 #'  \code{\link[stats]{qqplot}} in \pkg{stats} package.
 #'
-
-# @import spMisc
 
 qq_data <- function(x,
                     data = NULL,
@@ -168,6 +174,7 @@ qq_data.default <- function(x,
                 labels = labels
             )
         }
+
     } else if (method == "moment-normal" & distribution == "norm") {
         qq_fun <- function(x){
             labels <- names(x)
@@ -181,6 +188,7 @@ qq_data.default <- function(x,
                 labels = labels
             )
         }
+
     } else if (method == "mle-normal" & distribution == "norm") {
         qq_fun <- function(x){
             labels <- names(x)
@@ -195,7 +203,8 @@ qq_data.default <- function(x,
                 labels = labels
             )
         }
-    } else{
+
+    } else {
         qq_fun <- function(x){
             labels <- names(x)
             qq_data_(
@@ -259,6 +268,7 @@ qq_data.formula <- function(
     sep = " | "
 )
 {
+    # [!!!] qq_data.formula method needs revision
     DF <- model.frame(x, data = data)
 
     qq_main <- function(x,  groups = NULL)
@@ -425,21 +435,21 @@ coef.qqdata <- function(object, ...) {
 #'
 #' # Input as formula + data:
 #'
-#' QQ_groups <- qq_data(weight ~ feed, data = chickwts)
-#' plot(QQ_groups)
+#' my_qq_df <- qq_data(weight ~ feed, data = chickwts)
+#' plot(my_qq_df)
 #'
-#' QQ_groups2 <- qq_data(weight ~ feed, data = chickwts, method = "moment-normal")
-#' plot(QQ_groups2)
+#' my_qq_df2 <- qq_data(weight ~ feed, data = chickwts, method = "moment-normal")
+#' plot(my_qq_df2)
 #'
-#' QQ_groups3 <- qq_data(weight ~ feed, data = chickwts, method = "any")
-#' plot(QQ_groups3)
+#' my_qq_df3 <- qq_data(weight ~ feed, data = chickwts, method = "any")
+#' plot(my_qq_df3)
 #'
 #'
 #' # The same x and y scale limits for all plots
-#' plot(QQ_groups, scales = "fixed")
+#' plot(my_qq_df, scales = "fixed")
 #'
 #' # Plot in color
-#' plot(QQ_groups, use_colors = TRUE)
+#' plot(my_qq_df, use_colors = TRUE)
 #'
 #' # Plot a qq-pot of one group
 #' QQ_single <- qq_data( ~ weight, data = chickwts)
@@ -459,6 +469,7 @@ coef.qqdata <- function(object, ...) {
 #'
 #' @importFrom graphics plot
 #' @export
+
 plot.qqdata <- function(x,
                         ...,
                         use_colors = FALSE,
@@ -533,84 +544,5 @@ plot.qqdata <- function(x,
     p
 }
 
-#
 # =============================================================================
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## inputs:
-#
-# main = NULL,
-# las = par("las"),
 
-# col = palette()[1],
-# col.lines = palette()[2],
-# lwd = 2,
-# pch = 1,
-# cex = par("cex"),
-#     ylab = deparse(substitute(x)),
-# xlab = paste(distribution, "quantiles"
-
-# id.method = "y",
-# id.n = if (id.method[1] == "identify") Inf else 0,
-# id.cex = 1,
-# id.col = palette()[1],
-# id.location = "lr",
-# grid = TRUE
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# if (length(col) == length(x))        col <- col[good][ord]
-# if (length(pch) == length(x))        pch <- pch[good][ord]
-# if (length(cex) == length(x))        cex <- cex[good][ord]
-
-# plot(
-#     z,
-#     ord_x,
-#     type = "n",
-#     xlab = xlab,
-#     ylab = ylab,
-#     main = main,
-#     las = las
-# )
-#
-# if (grid) {
-#     grid(lty = 1, equilogs = FALSE)
-#     box()
-# }
-#
-# points(z,
-#        ord_x,
-#        col = col,
-#        pch = pch,
-#        cex = cex)
-
-# qqlne coefs ------------------------------------------------------------
-
-
-# if (line %in% c("quartiles", "robust"))
-#     abline(a, b, col = col.lines, lwd = lwd)
-
-# confidence interval of qqline -------------------------------------------
-
-
-# if (envelope != FALSE) {
-#     lines(z,
-#           upper,
-#           lty = 2,
-#           lwd = lwd,
-#           col = col.lines)
-#
-#     lines(z,
-#           lower,
-#           lty = 2,
-#           lwd = lwd,
-#           col = col.lines)
-# }
-
-# showLabels(
-#     z,
-#     ord_x,
-#     labels = ord_lab,
-#     id.method = id.method,
-#     id.n = id.n,
-#     id.cex = id.cex,
-#     id.col = id.col,
-#     id.location = id.location
-# )

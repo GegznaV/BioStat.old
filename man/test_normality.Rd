@@ -4,7 +4,7 @@
 \alias{test_normality}
 \alias{print.test_normality}
 \alias{pander.test_normality}
-\title{Normality Tests by Groups}
+\title{Normality tests by groups}
 \usage{
 test_normality(x, data = NULL, test = "Shapiro-Wilk",
   p_adjust_method = NULL, ..., groups = NULL)
@@ -32,11 +32,11 @@ variables mentioned in \code{x} or \code{NULL} (if the variables
 are in the function's environment).}
 
 \item{test}{(string | function) Either a string  (case insensitive, maybe
-unambiguously abbreviated) with a name of nomality test or a
-function, which carries out the test.\cr
-Possible names of tests:\itemize{
+            unambiguously abbreviated) with a name of normality test or a
+            function, which carries out the test.\cr
+            Possible names of tests:\itemize{
     \item{"SW", "Shapiro-Wilk" — for Shapiro-Wilk test;}
-    \item{"Lilliefors" — for Kolmogorov-Smirnov test wtih Lilliefor's correction;}
+    \item{"Lilliefors" — for Kolmogorov-Smirnov test with Lilliefor's correction;}
     \item{"AD", "Anderson-Darling" — for Anderson-Darling test;}
     \item{"CVM", "CM", "Cramer-von Mises" — for Cramer-von Mises test;}
     \item{"SF", "Shapiro-Francia" — for Shapiro-Francia test;}
@@ -46,7 +46,7 @@ Possible names of tests:\itemize{
 \item{p_adjust_method}{(\code{NULL}|string) A name of p value adjustment
 method for multiple comparisons. For available methods check
 \code{\link[stats]{p.adjust.methods}}.
-If \code{NULL}, no adusted p value is calculated (default).
+If \code{NULL}, no adjusted p value is calculated (default).
 If string (e.g., \code{"holm"}), an additional column
 \code{p.adjust} is calculated.}
 
@@ -54,7 +54,7 @@ If string (e.g., \code{"holm"}), an additional column
 
 \item{groups}{(\code{NULL}|factor|character) An alternative way to provide
 groups. If \code{x} is a numeric vector, \code{groups} must be
-a factor (or \code{NULL}). If  \code{x} is a sting,
+a factor (or \code{NULL}). If \code{x} is a sting,
 \code{groups} must also be a string (or \code{NULL}).}
 
 \item{digits_p}{(numeric) Number of significant digits to round a p value to.
@@ -69,10 +69,10 @@ a factor (or \code{NULL}). If  \code{x} is a sting,
 
 \item{signif_stars}{(logical) If \code{TRUE}, significance stars are printed.}
 
-\item{digits_stat}{(integer) number of either decimal places or significant
-digits to round test statistic to.}
+\item{digits_stat}{(integer) either number of decimal places or number of
+significant digits to round test statistic to.}
 
-\item{format_stat}{(character) Number format "f", "g"  or
+\item{format_stat}{(character) Number format "f", "g" or
 "auto" (default) for test statistic. More about number
 formats "f" and "g" you can find in documentation of
 function \code{\link[base]{formatC}} section \code{format}.}
@@ -84,7 +84,7 @@ removed.}
 is printed.}
 
 \item{show_col_method}{(logical) If \code{FALSE} column "method" is not
-printed. \code{FALSE} is default.}
+printed. Default is\code{FALSE}.}
 
 \item{caption}{(string|\code{NULL}|\code{NA}) A caption for the table with
 results of a normality test. If \code{NA} — a default caption
@@ -102,7 +102,7 @@ is printed (default). If \code{NULL} – no caption is printed.}
 \description{
 Perform tests of normality for each subset of groups separately.
 The available tests include Shapiro-Wilk (default),
-Lilliefors (Kolmogorov-Smirnov), Anderson_darling and other tests of normality.
+Lilliefors (Kolmogorov-Smirnov), Anderson-Darling and other tests of normality.
 }
 \examples{
 library(BioStat)
@@ -110,7 +110,7 @@ library(pander)
 data(CO2)
 
 # For whole dataset
-test_normality( ~ uptake, data = CO2)
+test_normality(~uptake, data = CO2)
 
 # For each subgroup
 test_normality(uptake ~ Treatment, data = CO2)

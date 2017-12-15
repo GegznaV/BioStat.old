@@ -1,4 +1,12 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+min_max <- function(x) {
+    c(min(x), max(x))
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 is_square_matrix <- function(x) {
     # From package `matrixcalc` version 1.0-3
     nrow(x) == ncol(x)
@@ -243,22 +251,6 @@ rbind_df_in_list <- function(x){
 
     DF
 }
-
-# head_tail -------------------------------------------------------------------
-head_tail <- function(x,
-             top = 4,
-             bottom = 4,
-             sep = "...") {
-        x <- dplyr::mutate_all(as.data.frame(x), as.character)
-        h <- head(x, top)
-        t <- tail(x, bottom)
-
-        dots  <- rep(sep, ncol(x))
-        space <- rep(" ", ncol(x))
-        rbind(h, `...` = dots, t, `  ` = space)
-}
-
-
 
 # "glue" family -----------------------------------------------------------
 

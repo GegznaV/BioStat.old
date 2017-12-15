@@ -3,7 +3,7 @@
 \name{qq_data}
 \alias{qq_data}
 \alias{coef.qqdata}
-\title{Calculate Data for a QQ-plot}
+\title{[!]Compute data for a qq-plot}
 \usage{
 qq_data(x, data = NULL, distribution = "norm", ..., line = c("quartiles",
   "robust", "int=0,slope=1", "0,1", "none"), envelope = 0.95,
@@ -33,20 +33,22 @@ are in the function's environment).}
 
 \item{line}{(string) A parameter, that controls how reference line is drawn.
            Options:\itemize{
-           \item{\code{"0,1"} or \code{"int=0,slope=1"} to plot a line
+    \item{\code{"0,1"} or \code{"int=0,slope=1"} to plot a line
             with intercept = 0 and slope = 1;}
-           \item{ \code{"quartiles"} to pass a line through the quartile-pairs;}
-           \item{ \code{"robust"} for a robust-regression line;
-            the latter uses the \code{rlm} function in the \pkg{MASS} package};
-           \item{option \code{"none"} is not implemented yet.}
+    \item{ \code{"quartiles"} to pass a line through the quartile-pairs;}
+    \item{ \code{"robust"} for a robust-regression line;
+            the latter uses the \code{rlm} function from the \pkg{MASS} package};
+    \item{option \code{"none"} is not implemented yet.}
 }}
 
-\item{envelope}{(numeric | FALSE) confidence level for point-wise confidence envelope.}
+\item{envelope}{(numeric | \code{FALSE}) confidence level for point-wise
+confidence envelope.}
 
 \item{method}{(string: \code{"trimmed-normal"}, \code{"normal"},
              \code{"any"}). A method, that controls how estimates of
              parameters for \code{distribution} are computed.
-     Options:\itemize{
+     Options:
+     \itemize{
 
            \item{\code{"mle-normal"} (default) all data values are used to
            estimate parameters of theoretical normal distribution using
@@ -72,7 +74,7 @@ are in the function's environment).}
 
 \item{groups}{(\code{NULL}|factor|character) An alternative way to provide
 groups. If \code{x} is a numeric vector, \code{groups} must be
-a factor (or \code{NULL}). If  \code{x} is a sting,
+a factor (or \code{NULL}). If \code{x} is a sting,
 \code{groups} must also be a string (or \code{NULL}).}
 
 \item{sep}{(not used yet).}
@@ -94,7 +96,11 @@ An object, which inherits from classes \code{qqdata} and
         }
 }
 \description{
-Calculate Data for a QQ-plot
+Compute data necessary to plot a quntile comparison plot (qq-plot).
+}
+\details{
+Function \code{qq_data} is inspired by \code{qqPlot()} in package \pkg{car}
+(writen by J. Fox).
 }
 \examples{
 
@@ -104,43 +110,43 @@ data(chickwts, package = "datasets")
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Input as formula + data:
 
-QQdata <- qq_data(~weight, data = chickwts)
-head(QQdata)
-coef(QQdata)
+my_qq_df <- qq_data(~weight, data = chickwts)
+head(my_qq_df)
+coef(my_qq_df)
 
 # Column ".group" is added if applied by group:
 
-QQdata <- qq_data(weight ~ feed, data = chickwts)
-head(QQdata)
-coef(QQdata)
+my_qq_df <- qq_data(weight ~ feed, data = chickwts)
+head(my_qq_df)
+coef(my_qq_df)
 
 qq_plot(weight ~ feed, data = chickwts)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Input as variable name + data:
 
-QQdata <- qq_data("weight", data = chickwts)
-head(QQdata)
-coef(QQdata)
+my_qq_df <- qq_data("weight", data = chickwts)
+head(my_qq_df)
+coef(my_qq_df)
 
-QQdata <- qq_data("weight",groups = "feed", data = chickwts)
-head(QQdata)
-coef(QQdata)
+my_qq_df <- qq_data("weight",groups = "feed", data = chickwts)
+head(my_qq_df)
+coef(my_qq_df)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Input as vector
 
-QQdata <- qq_data(chickwts$weight)
-head(QQdata)
-coef(QQdata)
+my_qq_df <- qq_data(chickwts$weight)
+head(my_qq_df)
+coef(my_qq_df)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Input as vector, several groups.
 # Column ".group" is added
 
-QQdata <- qq_data(chickwts$weight, groups = chickwts$feed)
-head(QQdata)
-coef(QQdata)
+my_qq_df <- qq_data(chickwts$weight, groups = chickwts$feed)
+head(my_qq_df)
+coef(my_qq_df)
 
 
 

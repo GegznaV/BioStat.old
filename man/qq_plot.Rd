@@ -2,7 +2,7 @@
 % Please edit documentation in R/qq_plot.R
 \name{qq_plot}
 \alias{qq_plot}
-\title{A QQ-plot for Multiple Groups}
+\title{[!] A QQ-plot for multiple groups}
 \usage{
 qq_plot(x, data = NULL, distribution = "norm", ..., line = c("quartiles",
   "robust", "int=0,slope=1", "0,1", "none"), envelope = 0.95,
@@ -11,7 +11,8 @@ qq_plot(x, data = NULL, distribution = "norm", ..., line = c("quartiles",
   sep = "|")
 }
 \arguments{
-\item{x}{Either a formula, a numeric vector or a name of a vector
+\item{x}{(formula|numeric|character)
+Either a formula, a numeric vector or a name of a vector
 in \code{data}.
 If \code{x} is a formula (e.g. \code{variable ~ factor}), left-hand
 side provides variable to be summarized. Right-hand side and condition
@@ -27,20 +28,22 @@ condition are shifted over as a convenience.}
 
 \item{line}{(string) A parameter, that controls how reference line is drawn.
            Options:\itemize{
-           \item{\code{"0,1"} or \code{"int=0,slope=1"} to plot a line
+    \item{\code{"0,1"} or \code{"int=0,slope=1"} to plot a line
             with intercept = 0 and slope = 1;}
-           \item{ \code{"quartiles"} to pass a line through the quartile-pairs;}
-           \item{ \code{"robust"} for a robust-regression line;
-            the latter uses the \code{rlm} function in the \pkg{MASS} package};
-           \item{option \code{"none"} is not implemented yet.}
+    \item{ \code{"quartiles"} to pass a line through the quartile-pairs;}
+    \item{ \code{"robust"} for a robust-regression line;
+            the latter uses the \code{rlm} function from the \pkg{MASS} package};
+    \item{option \code{"none"} is not implemented yet.}
 }}
 
-\item{envelope}{(numeric | FALSE) confidence level for point-wise confidence envelope.}
+\item{envelope}{(numeric | \code{FALSE}) confidence level for point-wise
+confidence envelope.}
 
 \item{method}{(string: \code{"trimmed-normal"}, \code{"normal"},
              \code{"any"}). A method, that controls how estimates of
              parameters for \code{distribution} are computed.
-     Options:\itemize{
+     Options:
+     \itemize{
 
            \item{\code{"mle-normal"} (default) all data values are used to
            estimate parameters of theoretical normal distribution using
@@ -61,11 +64,12 @@ condition are shifted over as a convenience.}
           \code{distribution = "norm"}.
           Otherwise \code{"any"} is selected automatically.}
 
-\item{labels}{(not used yet).}
+\item{labels}{vector of text strings to be used to identify points, defaults to
+    \code{names(x)} or observation numbers if \code{names(x)} is \code{NULL}.}
 
 \item{groups}{(\code{NULL}|factor|character) An alternative way to provide
 groups. If \code{x} is a numeric vector, \code{groups} must be
-a factor (or \code{NULL}). If  \code{x} is a sting,
+a factor (or \code{NULL}). If \code{x} is a sting,
 \code{groups} must also be a string (or \code{NULL}).}
 
 \item{use_colors}{(logical) use colors for multiple groups}
@@ -74,20 +78,27 @@ a factor (or \code{NULL}). If  \code{x} is a sting,
 a parmeter to be passed to
  \code{\link[ggplot2]{facet_wrap}}.}
 
-\item{sep}{(not used yet).}
+\item{sep}{(character)
+Group name separator if more than one grouping variable is used.
+default is \code{"|"}.}
 }
 \value{
 A \code{ggplot2} object
 }
 \description{
-Make a qq-plot for each subset of groups separately using \pkg{ggplot2} graphics.
+Make a quantile comparison plot (qq-plot) for each subset of groups separately
+using \pkg{ggplot2} graphics.
+}
+\details{
+Function \code{qq_plot} is inspired by \code{qqPlot()} in package \pkg{car}
+(writen by J. Fox).
 }
 \examples{
 library(BioStat)
 data(iris)
 
 # Formula (no groups):
-qq_plot(~ Sepal.Length, data = iris)
+qq_plot(~Sepal.Length, data = iris)
 qq_plot("Sepal.Length", data = iris)
 
 # Formula (several groups):
@@ -110,15 +121,15 @@ qq_plot(iris$Sepal.Length)
 
 
 # Other examples
-
-qq_plot(~ weight, data = chickwts)
+qq_plot(~weight, data = chickwts)
 
 qq_plot(weight ~ feed, data = chickwts)
 
 qq_plot(uptake ~ Type + Treatment, data = CO2)
-
 }
 \seealso{
 \code{\link[car]{qqPlot}} from \pkg{car} package,
          \code{\link[stats]{qqplot}} from \pkg{stats} package.
 }
+\keyword{ggplot2}
+\keyword{plots}

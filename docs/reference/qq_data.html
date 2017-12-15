@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate Data for a QQ-plot � qq_data • BioStat</title>
+<title>[!]Compute data for a qq-plot � qq_data • BioStat</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -81,11 +81,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate Data for a QQ-plot</h1>
+    <h1>[!]Compute data for a qq-plot</h1>
     </div>
 
     
-    <p>Calculate Data for a QQ-plot</p>
+    <p>Compute data necessary to plot a quntile comparison plot (qq-plot).</p>
     
 
     <pre class="usage"><span class='fu'>qq_data</span>(<span class='no'>x</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>distribution</span> <span class='kw'>=</span> <span class='st'>"norm"</span>, <span class='no'>...</span>, <span class='kw'>line</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"quartiles"</span>,
@@ -133,13 +133,14 @@ are in the function's environment).</p></td>
             with intercept = 0 and slope = 1;</p></li>
 <li><p><code>"quartiles"</code> to pass a line through the quartile-pairs;</p></li>
 <li><p><code>"robust"</code> for a robust-regression line;
-            the latter uses the <code>rlm</code> function in the <span class="pkg">MASS</span> package;</p></li>
+            the latter uses the <code>rlm</code> function from the <span class="pkg">MASS</span> package;</p></li>
 <li><p>option <code>"none"</code> is not implemented yet.</p></li>
 </ul></td>
     </tr>
     <tr>
       <th>envelope</th>
-      <td><p>(numeric | FALSE) confidence level for point-wise confidence envelope.</p></td>
+      <td><p>(numeric | <code>FALSE</code>) confidence level for point-wise
+confidence envelope.</p></td>
     </tr>
     <tr>
       <th>method</th>
@@ -171,7 +172,7 @@ are in the function's environment).</p></td>
       <th>groups</th>
       <td><p>(<code>NULL</code>|factor|character) An alternative way to provide
 groups. If <code>x</code> is a numeric vector, <code>groups</code> must be
-a factor (or <code>NULL</code>). If  <code>x</code> is a sting,
+a factor (or <code>NULL</code>). If <code>x</code> is a sting,
 <code>groups</code> must also be a string (or <code>NULL</code>).</p></td>
     </tr>
     <tr>
@@ -200,6 +201,11 @@ a factor (or <code>NULL</code>). If  <code>x</code> is a sting,
 </ul>
 
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Function <code>qq_data</code> is inspired by <code>qqPlot()</code> in package <span class="pkg">car</span>
+(writen by J. Fox).</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p><code><a href='http://www.rdocumentation.org/packages/car/topics/qqPlot'>qqPlot</a></code> in <span class="pkg">car</span> package,
@@ -214,25 +220,25 @@ a factor (or <code>NULL</code>). If  <code>x</code> is a sting,
 <span class='co'># ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span>
 <span class='co'># Input as formula + data:</span>
 
-<span class='no'>QQdata</span> <span class='kw'>&lt;-</span> <span class='fu'>qq_data</span>(~<span class='no'>weight</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>chickwts</span>)
-<span class='fu'>head</span>(<span class='no'>QQdata</span>)</div><div class='output co'>#&gt;            x   y labels     ref_y ref_ci_upper ref_ci_lower
+<span class='no'>my_qq_df</span> <span class='kw'>&lt;-</span> <span class='fu'>qq_data</span>(~<span class='no'>weight</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>chickwts</span>)
+<span class='fu'>head</span>(<span class='no'>my_qq_df</span>)</div><div class='output co'>#&gt;            x   y labels     ref_y ref_ci_upper ref_ci_lower
 #&gt; 7   70.98569 108      7  47.42369     135.0090    -40.16157
 #&gt; 8  103.86168 124      8  84.83439     143.0135     26.65531
 #&gt; 3  121.05847 136      3 104.40320     153.1069     55.69954
 #&gt; 10 133.26529 140     10 118.29376     161.8545     74.73305
 #&gt; 14 142.93372 141     14 129.29579     169.5062     89.08535
-#&gt; 9  151.04785 143      9 138.52913     176.3377    100.72059</div><div class='input'><span class='fu'>coef</span>(<span class='no'>QQdata</span>)</div><div class='output co'>#&gt;            intercept    slope refline_type plot_envelope conf
+#&gt; 9  151.04785 143      9 138.52913     176.3377    100.72059</div><div class='input'><span class='fu'>coef</span>(<span class='no'>my_qq_df</span>)</div><div class='output co'>#&gt;            intercept    slope refline_type plot_envelope conf
 #&gt; qq_refline -33.35333 1.137934    quartiles          TRUE 0.95</div><div class='input'>
 <span class='co'># Column ".group" is added if applied by group:</span>
 
-<span class='no'>QQdata</span> <span class='kw'>&lt;-</span> <span class='fu'>qq_data</span>(<span class='no'>weight</span> ~ <span class='no'>feed</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>chickwts</span>)
-<span class='fu'>head</span>(<span class='no'>QQdata</span>)</div><div class='output co'>#&gt;   .group        x   y labels    ref_y ref_ci_upper ref_ci_lower
+<span class='no'>my_qq_df</span> <span class='kw'>&lt;-</span> <span class='fu'>qq_data</span>(<span class='no'>weight</span> ~ <span class='no'>feed</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>chickwts</span>)
+<span class='fu'>head</span>(<span class='no'>my_qq_df</span>)</div><div class='output co'>#&gt;   .group        x   y labels    ref_y ref_ci_upper ref_ci_lower
 #&gt; 1 casein 216.7557 216     68 203.9755     291.9501     116.0009
 #&gt; 2 casein 252.6175 222     69 244.2674     307.2708     181.2639
 #&gt; 3 casein 273.4770 260     63 267.7038     323.2246     212.1830
 #&gt; 4 casein 289.7446 283     70 285.9810     337.9149     234.0472
 #&gt; 5 casein 303.9262 318     65 301.9146     351.9821     251.8470
-#&gt; 6 casein 317.1284 332     71 316.7477     365.9956     267.4998</div><div class='input'><span class='fu'>coef</span>(<span class='no'>QQdata</span>)</div><div class='output co'>#&gt;      .group intercept     slope refline_type plot_envelope conf
+#&gt; 6 casein 317.1284 332     71 316.7477     365.9956     267.4998</div><div class='input'><span class='fu'>coef</span>(<span class='no'>my_qq_df</span>)</div><div class='output co'>#&gt;      .group intercept     slope refline_type plot_envelope conf
 #&gt; 1    casein -39.55714 1.1235348    quartiles          TRUE 0.95
 #&gt; 2 horsebean  29.42192 0.7940267    quartiles          TRUE 0.95
 #&gt; 3   linseed -40.70818 1.1820946    quartiles          TRUE 0.95
@@ -243,23 +249,23 @@ a factor (or <code>NULL</code>). If  <code>x</code> is a sting,
 <span class='co'># ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span>
 <span class='co'># Input as variable name + data:</span>
 
-<span class='no'>QQdata</span> <span class='kw'>&lt;-</span> <span class='fu'>qq_data</span>(<span class='st'>"weight"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>chickwts</span>)
-<span class='fu'>head</span>(<span class='no'>QQdata</span>)</div><div class='output co'>#&gt;            x   y labels     ref_y ref_ci_upper ref_ci_lower
+<span class='no'>my_qq_df</span> <span class='kw'>&lt;-</span> <span class='fu'>qq_data</span>(<span class='st'>"weight"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>chickwts</span>)
+<span class='fu'>head</span>(<span class='no'>my_qq_df</span>)</div><div class='output co'>#&gt;            x   y labels     ref_y ref_ci_upper ref_ci_lower
 #&gt; 7   70.98569 108      7  47.42369     135.0090    -40.16157
 #&gt; 8  103.86168 124      8  84.83439     143.0135     26.65531
 #&gt; 3  121.05847 136      3 104.40320     153.1069     55.69954
 #&gt; 10 133.26529 140     10 118.29376     161.8545     74.73305
 #&gt; 14 142.93372 141     14 129.29579     169.5062     89.08535
-#&gt; 9  151.04785 143      9 138.52913     176.3377    100.72059</div><div class='input'><span class='fu'>coef</span>(<span class='no'>QQdata</span>)</div><div class='output co'>#&gt;            intercept    slope refline_type plot_envelope conf
+#&gt; 9  151.04785 143      9 138.52913     176.3377    100.72059</div><div class='input'><span class='fu'>coef</span>(<span class='no'>my_qq_df</span>)</div><div class='output co'>#&gt;            intercept    slope refline_type plot_envelope conf
 #&gt; qq_refline -33.35333 1.137934    quartiles          TRUE 0.95</div><div class='input'>
-<span class='no'>QQdata</span> <span class='kw'>&lt;-</span> <span class='fu'>qq_data</span>(<span class='st'>"weight"</span>,<span class='kw'>groups</span> <span class='kw'>=</span> <span class='st'>"feed"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>chickwts</span>)
-<span class='fu'>head</span>(<span class='no'>QQdata</span>)</div><div class='output co'>#&gt;   .group        x   y labels    ref_y ref_ci_upper ref_ci_lower
+<span class='no'>my_qq_df</span> <span class='kw'>&lt;-</span> <span class='fu'>qq_data</span>(<span class='st'>"weight"</span>,<span class='kw'>groups</span> <span class='kw'>=</span> <span class='st'>"feed"</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>chickwts</span>)
+<span class='fu'>head</span>(<span class='no'>my_qq_df</span>)</div><div class='output co'>#&gt;   .group        x   y labels    ref_y ref_ci_upper ref_ci_lower
 #&gt; 1 casein 216.7557 216     68 203.9755     291.9501     116.0009
 #&gt; 2 casein 252.6175 222     69 244.2674     307.2708     181.2639
 #&gt; 3 casein 273.4770 260     63 267.7038     323.2246     212.1830
 #&gt; 4 casein 289.7446 283     70 285.9810     337.9149     234.0472
 #&gt; 5 casein 303.9262 318     65 301.9146     351.9821     251.8470
-#&gt; 6 casein 317.1284 332     71 316.7477     365.9956     267.4998</div><div class='input'><span class='fu'>coef</span>(<span class='no'>QQdata</span>)</div><div class='output co'>#&gt;      .group intercept     slope refline_type plot_envelope conf
+#&gt; 6 casein 317.1284 332     71 316.7477     365.9956     267.4998</div><div class='input'><span class='fu'>coef</span>(<span class='no'>my_qq_df</span>)</div><div class='output co'>#&gt;      .group intercept     slope refline_type plot_envelope conf
 #&gt; 1    casein -39.55714 1.1235348    quartiles          TRUE 0.95
 #&gt; 2 horsebean  29.42192 0.7940267    quartiles          TRUE 0.95
 #&gt; 3   linseed -40.70818 1.1820946    quartiles          TRUE 0.95
@@ -269,27 +275,27 @@ a factor (or <code>NULL</code>). If  <code>x</code> is a sting,
 <span class='co'># ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span>
 <span class='co'># Input as vector</span>
 
-<span class='no'>QQdata</span> <span class='kw'>&lt;-</span> <span class='fu'>qq_data</span>(<span class='no'>chickwts</span>$<span class='no'>weight</span>)
-<span class='fu'>head</span>(<span class='no'>QQdata</span>)</div><div class='output co'>#&gt;            x   y labels     ref_y ref_ci_upper ref_ci_lower
+<span class='no'>my_qq_df</span> <span class='kw'>&lt;-</span> <span class='fu'>qq_data</span>(<span class='no'>chickwts</span>$<span class='no'>weight</span>)
+<span class='fu'>head</span>(<span class='no'>my_qq_df</span>)</div><div class='output co'>#&gt;            x   y labels     ref_y ref_ci_upper ref_ci_lower
 #&gt; 7   70.98569 108      7  47.42369     135.0090    -40.16157
 #&gt; 8  103.86168 124      8  84.83439     143.0135     26.65531
 #&gt; 3  121.05847 136      3 104.40320     153.1069     55.69954
 #&gt; 10 133.26529 140     10 118.29376     161.8545     74.73305
 #&gt; 14 142.93372 141     14 129.29579     169.5062     89.08535
-#&gt; 9  151.04785 143      9 138.52913     176.3377    100.72059</div><div class='input'><span class='fu'>coef</span>(<span class='no'>QQdata</span>)</div><div class='output co'>#&gt;            intercept    slope refline_type plot_envelope conf
+#&gt; 9  151.04785 143      9 138.52913     176.3377    100.72059</div><div class='input'><span class='fu'>coef</span>(<span class='no'>my_qq_df</span>)</div><div class='output co'>#&gt;            intercept    slope refline_type plot_envelope conf
 #&gt; qq_refline -33.35333 1.137934    quartiles          TRUE 0.95</div><div class='input'>
 <span class='co'># ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span>
 <span class='co'># Input as vector, several groups.</span>
 <span class='co'># Column ".group" is added</span>
 
-<span class='no'>QQdata</span> <span class='kw'>&lt;-</span> <span class='fu'>qq_data</span>(<span class='no'>chickwts</span>$<span class='no'>weight</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>chickwts</span>$<span class='no'>feed</span>)
-<span class='fu'>head</span>(<span class='no'>QQdata</span>)</div><div class='output co'>#&gt;   .group        x   y labels    ref_y ref_ci_upper ref_ci_lower
+<span class='no'>my_qq_df</span> <span class='kw'>&lt;-</span> <span class='fu'>qq_data</span>(<span class='no'>chickwts</span>$<span class='no'>weight</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>chickwts</span>$<span class='no'>feed</span>)
+<span class='fu'>head</span>(<span class='no'>my_qq_df</span>)</div><div class='output co'>#&gt;   .group        x   y labels    ref_y ref_ci_upper ref_ci_lower
 #&gt; 1 casein 216.7557 216     68 203.9755     291.9501     116.0009
 #&gt; 2 casein 252.6175 222     69 244.2674     307.2708     181.2639
 #&gt; 3 casein 273.4770 260     63 267.7038     323.2246     212.1830
 #&gt; 4 casein 289.7446 283     70 285.9810     337.9149     234.0472
 #&gt; 5 casein 303.9262 318     65 301.9146     351.9821     251.8470
-#&gt; 6 casein 317.1284 332     71 316.7477     365.9956     267.4998</div><div class='input'><span class='fu'>coef</span>(<span class='no'>QQdata</span>)</div><div class='output co'>#&gt;      .group intercept     slope refline_type plot_envelope conf
+#&gt; 6 casein 317.1284 332     71 316.7477     365.9956     267.4998</div><div class='input'><span class='fu'>coef</span>(<span class='no'>my_qq_df</span>)</div><div class='output co'>#&gt;      .group intercept     slope refline_type plot_envelope conf
 #&gt; 1    casein -39.55714 1.1235348    quartiles          TRUE 0.95
 #&gt; 2 horsebean  29.42192 0.7940267    quartiles          TRUE 0.95
 #&gt; 3   linseed -40.70818 1.1820946    quartiles          TRUE 0.95
@@ -306,6 +312,8 @@ a factor (or <code>NULL</code>). If  <code>x</code> is a sting,
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

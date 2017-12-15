@@ -1,8 +1,7 @@
-#' Make a compact letter display for pair-wise comparison
+#' Make a compact letter display (cld) for pair-wise comparison
 #'
-#' Make a compact letter display for results of pair-wise comparisons (e.g., ANOVA post-hoc tests, Kruskal-Wallis post-hoc tests and other).
-#'
-#' This function is based on function \code{\link[rcompanion]{cldList}()} from package \pkg{rcompanion}.
+#' Make a compact letter display for results of pair-wise comparisons
+#' (e.g., ANOVA post-hoc tests, Kruskal-Wallis post-hoc tests and other).
 #'
 #'
 #' @param obj Object with pair-wise comparisons (e.g., post-hoc test results).
@@ -68,13 +67,13 @@
 #'
 #' # Example 7: class `formula`
 #'
-#' DataFrame <- data.table::fread(
+#' my_dataframe <- data.table::fread(
 #'     'Comparison     p.value p.adjust
 #'     "EE - GB = 0"        1 1.000000
 #'     "EE - CY = 0" 0.001093 0.003279
 #'     "GB - CY = 0" 0.005477 0.008216')
 #'
-#' make_cld(p.adjust ~ Comparison, data = DataFrame)
+#' make_cld(p.adjust ~ Comparison, data = my_dataframe)
 #'
 #'
 #' # Example 8: class `matrix`
@@ -172,9 +171,7 @@ make_cld.PMCMR <- function(obj, ..., alpha = 0.05) {
 #' @rdname make_cld
 #' @export
 make_cld.formula <- function(obj, ..., data = NULL, alpha = 0.05) {
-    if (is.null(data)) {
-        data <- rlang::f_env(obj)
-    }
+    data <- extract_data(obj, data)
     res <- make_cld_df(obj,
                        data = data,
                        threshold = alpha,
@@ -199,6 +196,16 @@ make_cld.matrix <- function(obj, ..., alpha = 0.05) {
     obj[upper.tri(obj, diag = TRUE)] <- NA
     df <- pval_matrix_to_df(obj)
     make_cld.pairwise_pval_df(df)
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname make_cld
+#' @export
+make_cld.data.frame <- function(obj, ..., formula = p.adjust ~ Comparison, alpha = 0.05) {
+    res <- make_cld_df(formula = formula,
+                       data = obj,
+                       threshold = alpha,
+                       ...)
+    res
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname make_cld

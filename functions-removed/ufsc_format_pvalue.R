@@ -1,11 +1,20 @@
+## Unit teststest_that("format_pvalue works", {
+# expect_equal(BioStat:::format_pvalue(.3), "p = 0.3")
+# })
+#
+# test_that("noZero works", {
+#     expect_equal(BioStat:::noZero(0.3), ".3")
+# })
+
+
 # Function to format p values nicely
 # from package `userfriendlyscience`
 
-format_pvalue <-    function(values,
-                            digits = 3,
-                            spaces = TRUE,
-                            includeP = TRUE) {
-        missingValues <- is.na(values)
+format_pvalue <- function(values,
+                          digits = 3,
+                          spaces = TRUE,
+                          includeP = TRUE) {
+    missingValues <- is.na(values)
 
         values <- ifelse(values < 0,
                          0,

@@ -5,7 +5,8 @@
 \alias{posthoc_anova.formula}
 \alias{posthoc_anova.default}
 \alias{print.posthoc_anova}
-\title{Games-Howell, Tukeyvand other post-hoc tests for ANOVA and Welch ANOVA}
+\alias{plot.posthoc_anova}
+\title{[!] Post-hoc tests for ANOVA and Welch ANOVA}
 \usage{
 posthoc_anova(y, group = NULL, method = c("Games-Howell", "Tukey"),
   conf_level = 0.95, digits = 3, digits_p = 2, p_adjust = "none",
@@ -22,6 +23,10 @@ posthoc_anova(y, group = NULL, method = c("Games-Howell", "Tukey"),
 
 \method{print}{posthoc_anova}(x, digits = x$input$digits,
   digits_p = x$input$digits_p, ...)
+
+\method{plot}{posthoc_anova}(x, y = NULL, ..., zero_line_color = "grey",
+  add_p = TRUE, p_size = 1, p_color = "blue", p_pos_adj = 0.22,
+  flip_xy = TRUE)
 }
 \arguments{
 \item{y}{(numeric|formula)\cr Either a numeric vector or formula.}
@@ -52,6 +57,18 @@ stored in the object.}
 \item{sep}{(character)\cr A string with a symbol to separate group names if several grouping variables are used.}
 
 \item{x}{object to print.}
+
+\item{zero_line_color}{(character) Color for line indicating zero differences.}
+
+\item{add_p}{(logical) Flag if p values should be added.}
+
+\item{p_color}{(character) Color for p values.}
+
+\item{p_pos_adj}{(numeric) Factor for p value position correction}
+
+\item{flip_xy}{(logical) Flag if x and y axes should be swapped.}
+
+\item{y}{(ignored)}
 }
 \value{
 A list of three elements:
@@ -59,6 +76,7 @@ A list of three elements:
 \item{output}{List with post-hoc test results}.
 }
 \description{
+Games-Howell, Tukey HSD and other post-hoc tests for ANOVA and Welch ANOVA.
 Either Games-Howell test or Tukey honestly significant difference (HSD)
 post-hoc tests for one-way analysis of variance (ANOVA).
 }
@@ -67,9 +85,9 @@ The main part of the  function code and descriptions were
 imported from \code{posthocTGH()} in package \pkg{userfriendlyscience}.
 }
 \note{
-This function is based on a file that was once hosted at http://www.psych.yorku.ca/cribbie/6130/games_howell.R, but has been removed since. It was then adjusted for implementation in the \pkg{userfriendlyscience} package. Jeffrey Baggett needed the confidence intervals, and so emailed them, after which his updated function was used. In the meantime, it appears Aaron Schlegel (\url{https://rpubs.com/aaronsc32}) independently developed a version with confidence intervals and posted it on RPubs at \url{https://rpubs.com/aaronsc32/games-howell-test}.
-
-Also, for some reason, \code{p.adjust} can be used to specify additional correction of \emph{p} values. I'm not sure why I implemented this, but I'm not entirely sure it was a mistake either. Therefore, in \code{userfriendlyscience} version 0.6-2, the default of this setting changed from \code{"holm"} to \code{"none"} (also see https://stats.stackexchange.com/questions/83941/games-howell-post-hoc-test-in-r).
+Options that carry out Games-Howell and Tukey HSD analyses are based
+on code of function \code{posthocTGH()} in package \pkg{userfriendlyscience}
+(version 0.7.0).
 }
 \examples{
 library(BioStat)
@@ -84,17 +102,16 @@ posthoc_anova(weight ~ Diet, data = ChickWeight, method = "Tukey")
 }
 \seealso{
 \itemize{
-\item{\url{http://www.gcf.dkf.unibe.ch/BCB/files/BCB_10Jan12_Alexander.pdf}}
-\item{\url{https://rpubs.com/aaronsc32/games-howell-test}}
-\item{\url{http://aoki2.si.gunma-u.ac.jp/R/src/tukey.R}}
-\item{\url{https://stats.stackexchange.com/questions/83941/games-howell-post-hoc-test-in-r}}
+  \item{\url{http://www.gcf.dkf.unibe.ch/BCB/files/BCB_10Jan12_Alexander.pdf}}
+  \item{\url{https://rpubs.com/aaronsc32/games-howell-test}}
+  \item{\url{http://aoki2.si.gunma-u.ac.jp/R/src/tukey.R}}
+  \item{\url{https://stats.stackexchange.com/questions/83941/games-howell-post-hoc-test-in-r}}
 
 }
 }
 \author{
-Gjalt-Jorn Peters (Open University of the Netherlands) & Jeff Bagget
-(University of Wisconsin - La Crosse)
-
-Maintainer: Gjalt-Jorn Peters <gjalt-jorn@userfriendlyscience.com>
+Gjalt-Jorn Peters (Open University of the Netherlands) \cr
+Jeff Bagget (University of Wisconsin - La Crosse) \cr
+Vilmantas Gegzna
 }
 \keyword{utilities}

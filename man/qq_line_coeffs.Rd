@@ -2,10 +2,10 @@
 % Please edit documentation in R/qq_line_coeffs.R
 \name{qq_line_coeffs}
 \alias{qq_line_coeffs}
-\title{Get a Slope and an Intercept of a QQ-line}
+\title{Compute a slope and an intercept for a reference line in a qq-plot}
 \usage{
 qq_line_coeffs(y, datax = FALSE, distribution = qnorm, probs = c(0.25,
-  0.75), qtype = 7, na.rm = TRUE)
+  0.75), qtype = 7, na.rm = TRUE, ...)
 }
 \arguments{
 \item{y}{(numeric) A numeric vector.}
@@ -21,12 +21,20 @@ qq_line_coeffs(y, datax = FALSE, distribution = qnorm, probs = c(0.25,
 
 \item{na.rm}{logical; if true, any \code{\link{NA}} and \code{NaN}'s
     are removed from \code{x} before the quantiles are computed.}
+
+\item{...}{Further arguments for \code{distribution}.}
 }
 \value{
-A vector with a \code{$slope} and an \code{$intercept} for qqline
+A vector with a \code{slope} and an \code{intercept} for a qq-line.
 }
 \description{
-Get a Slope and an Intercept of a QQ-line
+Compute a slope and an intercept for a reference line ("qq-line")
+in a quantile comparison plot given a vector of data an a theoretical
+distribution.
+}
+\details{
+The code is based on code of \code{qqline()} in package \pkg{stats}.
+But instead of plotting a reference line, it returns its coefficients.
 }
 \examples{
 

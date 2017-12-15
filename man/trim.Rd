@@ -2,14 +2,15 @@
 % Please edit documentation in R/trim.R
 \name{trim}
 \alias{trim}
-\title{Trim Certain Percentage of The Most Extreme Values}
+\title{Trim certain proportion of the most extreme values}
 \usage{
 trim(x, trim = 0.1, na.rm = FALSE, ...)
 }
 \arguments{
 \item{x}{A numeric vector}
 
-\item{trim}{(a number between 0 and 1) A proportion of values to be removed.}
+\item{trim}{(number) A proportion of values to be removed.
+A number between 0 and 1. Default is 0.1.}
 
 \item{na.rm}{(logical) if \code{TRUE}, any \code{NA} and \code{NaN}'s are
 removed from \code{x} before quantiles are computed.}
@@ -20,7 +21,7 @@ removed from \code{x} before quantiles are computed.}
 A trimmed vector.
 }
 \description{
-Trim certain percentage of the most extreme values in a numeric vector.
+Trim certain proportion of the most extreme values in a numeric vector.
 }
 \examples{
 1:10

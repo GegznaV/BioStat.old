@@ -1,16 +1,6 @@
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# This function is used by the 'oneway' function for one-way analysis of
-# variance in case a user requests post-hoc tests using the Tukey or
-# Games-Howell methods.
-#
-# posthocTGH
-#
-# This function is imported from package \pkg{userfriendlyscience}
-# (\code{\link[userfriendlyscience]{posthocTGH}})
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-#' Games-Howell, Tukeyvand other post-hoc tests for ANOVA and Welch ANOVA
+#' [!] Post-hoc tests for ANOVA and Welch ANOVA
 #'
+#' Games-Howell, Tukey HSD and other post-hoc tests for ANOVA and Welch ANOVA.
 #' Either Games-Howell test or Tukey honestly significant difference (HSD)
 #' post-hoc tests for one-way analysis of variance (ANOVA).
 #'
@@ -40,23 +30,28 @@
 #' \item{output}{List with post-hoc test results}.
 #'
 #'
-#' @note This function is based on a file that was once hosted at http://www.psych.yorku.ca/cribbie/6130/games_howell.R, but has been removed since. It was then adjusted for implementation in the \pkg{userfriendlyscience} package. Jeffrey Baggett needed the confidence intervals, and so emailed them, after which his updated function was used. In the meantime, it appears Aaron Schlegel (\url{https://rpubs.com/aaronsc32}) independently developed a version with confidence intervals and posted it on RPubs at \url{https://rpubs.com/aaronsc32/games-howell-test}.
+#' @note
+#' Options that carry out Games-Howell and Tukey HSD analyses are based
+#' on code of function \code{posthocTGH()} in package \pkg{userfriendlyscience}
+#' (version 0.7.0).
 #'
-#' Also, for some reason, \code{p.adjust} can be used to specify additional correction of \emph{p} values. I'm not sure why I implemented this, but I'm not entirely sure it was a mistake either. Therefore, in \code{userfriendlyscience} version 0.6-2, the default of this setting changed from \code{"holm"} to \code{"none"} (also see https://stats.stackexchange.com/questions/83941/games-howell-post-hoc-test-in-r).
-
 #'
-#' @seealso \itemize{
-#' \item{\url{http://www.gcf.dkf.unibe.ch/BCB/files/BCB_10Jan12_Alexander.pdf}}
-#' \item{\url{https://rpubs.com/aaronsc32/games-howell-test}}
-#' \item{\url{http://aoki2.si.gunma-u.ac.jp/R/src/tukey.R}}
-#' \item{\url{https://stats.stackexchange.com/questions/83941/games-howell-post-hoc-test-in-r}}
+#'
+#' @seealso
+#'
+#' \itemize{
+#'   \item{\url{http://www.gcf.dkf.unibe.ch/BCB/files/BCB_10Jan12_Alexander.pdf}}
+#'   \item{\url{https://rpubs.com/aaronsc32/games-howell-test}}
+#'   \item{\url{http://aoki2.si.gunma-u.ac.jp/R/src/tukey.R}}
+#'   \item{\url{https://stats.stackexchange.com/questions/83941/games-howell-post-hoc-test-in-r}}
 #'
 #' }
 #'
-#' @author Gjalt-Jorn Peters (Open University of the Netherlands) & Jeff Bagget
-#' (University of Wisconsin - La Crosse)
+#' @author
+#' Gjalt-Jorn Peters (Open University of the Netherlands) \cr
+#' Jeff Bagget (University of Wisconsin - La Crosse) \cr
+#' Vilmantas Gegzna
 #'
-#' Maintainer: Gjalt-Jorn Peters <gjalt-jorn@@userfriendlyscience.com>
 #'
 #' @keywords utilities
 #' @examples
@@ -71,7 +66,7 @@
 #'
 #' @export
 #'
-#'
+
 posthoc_anova <- function(y,
                         group = NULL,
                         method = c("Games-Howell", "Tukey"),
@@ -101,6 +96,7 @@ posthoc_anova.formula <- function(y,
                                 ...,
                                 sep = " | "
 ) {
+    # [!!!] posthoc_anova.formula method needs revision
     DF <- model.frame(y, data = data)
 
     if (length(y) > 2) {
@@ -254,12 +250,24 @@ posthoc_anova.default <-
                    "Tukey" =
                        res$output <- {list(
                            method = method,
-                           result = tukey_test(n_groups, gr_sizes, pair_names, variances, mean_diffs, alpha, p_adjust))},
+                           result = tukey_test(n_groups,
+                                               gr_sizes,
+                                               pair_names,
+                                               variances,
+                                               mean_diffs,
+                                               alpha,
+                                               p_adjust))},
 
                    "Games-Howell" = {
                        res$output <- list(
                            method = method,
-                           result = games_howell_test(n_groups, gr_sizes, pair_names, variances, mean_diffs, alpha, p_adjust))}
+                           result = games_howell_test(n_groups,
+                                                      gr_sizes,
+                                                      pair_names,
+                                                      variances,
+                                                      mean_diffs,
+                                                      alpha,
+                                                      p_adjust))}
             )
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -334,3 +342,66 @@ print.posthoc_anova <- function(x,
     print(desc_stat)
 
 }
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname posthoc_anova
+#' @export
+#'
+#' @param y (ignored)
+#' @param zero_line_color  (character) Color for line indicating zero differences.
+#' @param flip_xy (logical) Flag if x and y axes should be swapped.
+#' @param add_p (logical) Flag if p values should be added.
+#' @param p_color (character) Color for p values.
+#' @param p_pos_adj (numeric) Factor for p value position correction
+plot.posthoc_anova <- function(x,
+                               y = NULL,
+                             ...,
+                             zero_line_color = "grey",
+                             add_p = TRUE,
+                             p_size = 1,
+                             p_color = "blue",
+                             p_pos_adj = 0.22,
+                             flip_xy = TRUE
+                             ) {
+
+
+    inp <- x$output$result
+
+    p <- ggplot(inp, aes(groups)) +
+        geom_hline(yintercept = 0, lty = 2, color = zero_line_color) +
+        geom_errorbar(aes(ymin = ci_lower, ymax = ci_upper), width = 0.2) +
+        geom_point(aes(y = difference)) +
+        labs(title = "Confidence intervals for differences in means",
+             subtitle = glue::glue("Pairwise comparisons by {x$output$method} method"),
+             x = "Groups",
+             y = "Differences")
+
+    if (flip_xy == TRUE) {
+        p <- p +
+            geom_text(aes(as.numeric(as.factor(groups)) + p_pos_adj,
+                          y = difference,
+                          label = format_p_values(p_adjusted, add_p = TRUE)),
+                      color = p_color,
+                      size = p_size)
+    }
+
+    if (flip_xy == TRUE) {
+        p <- p + coord_flip()
+    }
+    # Output
+    p
+}
+
+
+# ==============================================================================
+# Notes from `userfriendlyscience::posthocTGH()`:
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# This function is used by the 'oneway' function for one-way analysis of
+# variance in case a user requests post-hoc tests using the Tukey or
+# Games-Howell methods.
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# This function is based on a file that was once hosted at http://www.psych.yorku.ca/cribbie/6130/games_howell.R, but has been removed since. It was then adjusted for implementation in the \pkg{userfriendlyscience} package. Jeffrey Baggett needed the confidence intervals, and so emailed them, after which his updated function was used. In the meantime, it appears Aaron Schlegel (\url{https://rpubs.com/aaronsc32}) independently developed a version with confidence intervals and posted it on RPubs at \url{https://rpubs.com/aaronsc32/games-howell-test}.
+#
+# Also, for some reason, \code{p.adjust} can be used to specify additional correction of \emph{p} values. I'm not sure why I implemented this, but I'm not entirely sure it was a mistake either. Therefore, in \code{userfriendlyscience} version 0.6-2, the default of this setting changed from \code{"holm"} to \code{"none"} (also see https://stats.stackexchange.com/questions/83941/games-howell-post-hoc-test-in-r).
+# ============================================================================
+
+

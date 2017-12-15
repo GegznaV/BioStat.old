@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get a Slope and an Intercept of a QQ-line � qq_line_coeffs • BioStat</title>
+<title>Compute a slope and an intercept for a reference line in a qq-plot � qq_line_coeffs • BioStat</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -81,15 +81,17 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get a Slope and an Intercept of a QQ-line</h1>
+    <h1>Compute a slope and an intercept for a reference line in a qq-plot</h1>
     </div>
 
     
-    <p>Get a Slope and an Intercept of a QQ-line</p>
+    <p>Compute a slope and an intercept for a reference line ("qq-line")
+in a quantile comparison plot given a vector of data an a theoretical
+distribution.</p>
     
 
     <pre class="usage"><span class='fu'>qq_line_coeffs</span>(<span class='no'>y</span>, <span class='kw'>datax</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>distribution</span> <span class='kw'>=</span> <span class='no'>qnorm</span>, <span class='kw'>probs</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.25</span>,
-  <span class='fl'>0.75</span>), <span class='kw'>qtype</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='fl'>0.75</span>), <span class='kw'>qtype</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -120,11 +122,20 @@
       <td><p>logical; if true, any <code>NA</code> and <code>NaN</code>'s
     are removed from <code>x</code> before the quantiles are computed.</p></td>
     </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Further arguments for <code>distribution</code>.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A vector with a <code>$slope</code> and an <code>$intercept</code> for qqline</p>
+    <p>A vector with a <code>slope</code> and an <code>intercept</code> for a qq-line.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The code is based on code of <code>qqline()</code> in package <span class="pkg">stats</span>.
+But instead of plotting a reference line, it returns its coefficients.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -142,6 +153,8 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

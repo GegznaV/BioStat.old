@@ -1,9 +1,9 @@
 #  test_normality() =========================================================
-#' Normality Tests by Groups
+#' Normality tests by groups
 #'
 #' Perform tests of normality for each subset of groups separately.
 #' The available tests include Shapiro-Wilk (default),
-#' Lilliefors (Kolmogorov-Smirnov), Anderson_darling and other tests of normality.
+#' Lilliefors (Kolmogorov-Smirnov), Anderson-Darling and other tests of normality.
 #'
 #' @param x Either a formula, a numeric vector or a name of a column
 #'             in \code{data}. \itemize{
@@ -16,7 +16,7 @@
 #'
 #' @param groups (\code{NULL}|factor|character) An alternative way to provide
 #'                groups. If \code{x} is a numeric vector, \code{groups} must be
-#'                a factor (or \code{NULL}). If  \code{x} is a sting,
+#'                a factor (or \code{NULL}). If \code{x} is a sting,
 #'                \code{groups} must also be a string (or \code{NULL}).
 #'
 #' @param data (data frame|\code{NULL}) Either a data frame that contains the
@@ -24,11 +24,11 @@
 #'             are in the function's environment).
 #'
 #' @param test (string | function) Either a string  (case insensitive, maybe
-#' unambiguously abbreviated) with a name of nomality test or a
-#' function, which carries out the test.\cr
-#' Possible names of tests:\itemize{
+#'             unambiguously abbreviated) with a name of normality test or a
+#'             function, which carries out the test.\cr
+#'             Possible names of tests:\itemize{
 #'     \item{"SW", "Shapiro-Wilk" — for Shapiro-Wilk test;}
-#'     \item{"Lilliefors" — for Kolmogorov-Smirnov test wtih Lilliefor's correction;}
+#'     \item{"Lilliefors" — for Kolmogorov-Smirnov test with Lilliefor's correction;}
 #'     \item{"AD", "Anderson-Darling" — for Anderson-Darling test;}
 #'     \item{"CVM", "CM", "Cramer-von Mises" — for Cramer-von Mises test;}
 #'     \item{"SF", "Shapiro-Francia" — for Shapiro-Francia test;}
@@ -40,16 +40,16 @@
 #' @param legend (logical) If \code{TRUE}, legend for significance stars
 #'                     is printed.
 #'
-#' @param digits_stat (integer) number of either decimal places or significant
-#'                    digits to round test statistic to.
+#' @param digits_stat (integer) either number of decimal places or number of
+#'                    significant digits to round test statistic to.
 #'
-#' @param format_stat (character) Number format "f", "g"  or
+#' @param format_stat (character) Number format "f", "g" or
 #'                    "auto" (default) for test statistic. More about number
 #'                    formats "f" and "g" you can find in documentation of
 #'                    function \code{\link[base]{formatC}} section \code{format}.
 #'
 #' @param show_col_method (logical) If \code{FALSE} column "method" is not
-#'                   printed. \code{FALSE} is default.
+#'                   printed. Default is\code{FALSE}.
 #'
 #' @param caption (string|\code{NULL}|\code{NA}) A caption for the table with
 #'                results of a normality test. If \code{NA} — a default caption
@@ -58,7 +58,7 @@
 #' @param p_adjust_method (\code{NULL}|string) A name of p value adjustment
 #'               method for multiple comparisons. For available methods check
 #'               \code{\link[stats]{p.adjust.methods}}.
-#'               If \code{NULL}, no adusted p value is calculated (default).
+#'               If \code{NULL}, no adjusted p value is calculated (default).
 #'               If string (e.g., \code{"holm"}), an additional column
 #'               \code{p.adjust} is calculated.
 #'
@@ -100,7 +100,7 @@
 #' data(CO2)
 #'
 #' # For whole dataset
-#' test_normality( ~ uptake, data = CO2)
+#' test_normality(~uptake, data = CO2)
 #'
 #' # For each subgroup
 #' test_normality(uptake ~ Treatment, data = CO2)
@@ -287,7 +287,7 @@ print.test_normality <- function(x,
                                  rm_zero = FALSE,
                                  legend = TRUE,
                                  show_col_method = FALSE
-                                 ) {
+) {
     format_stat <- match.arg(format_stat)
     x <- format_object(x,
                        digits_p = digits_p,
@@ -300,7 +300,7 @@ print.test_normality <- function(x,
                        show_col_method = show_col_method
     )
 
-    # Pirnt the name of the method
+    # Print the name of the method
     cat("\n", "The results of", which_test(x), "\n\n")
 
     # Print main results
