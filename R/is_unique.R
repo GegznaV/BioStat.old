@@ -1,11 +1,14 @@
-#' Test which values in vector are unique
+#' Test which values are/are not unique in a vector
 #'
 #' @param x A vector
 #'
 #' @return Vector of logical values indicating \code{TRUE} for values which are unique.
 #' @export
 #'
+#' @keywords utilities
+#'
 #' @examples
+#'
 #' is_unique(1:10)
 #'
 #' is_unique(c(1, 1, 1))

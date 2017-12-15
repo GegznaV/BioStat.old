@@ -1,14 +1,14 @@
 Package: BioStat
 Type: Package
-Title: A Collection of Functions for Biostatistics and Biometry Lectures
+Title: Routines for Basic (Bio)Statistics
 Description: A collection of functions that either are intended to be used with 
              R Commander plugin `RcmdrPlugin.BioStat` or to do several common 
-             statistical routines without writing to much code. 
+             statistical routines (without writing to much code). 
              The functions are created to complement other R Commander plugins 
-             that can be used to teach basic statistics in biostatistics and 
-             biometry lectures (GMF1059).
-Version: 0.0.11.9008
-Date: 2017-12-07
+             that can be used to teach basic statistics especially in 
+             biostatistics and biometry lectures.
+Version: 0.0.12
+Date: 2017-12-14
 Authors@R: c(
     person("Vilmantas", "Gegna", role = c("aut","cre"),
             email = "GegznaV@gmail.com")

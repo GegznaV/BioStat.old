@@ -1,3 +1,6 @@
+# https://blogs.sas.com/content/iml/2017/02/15/confidence-intervals-multinomial-proportions.html
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 #' Confidence Intervals for Multinomial Proportions
 #'
 #' Confidence intervals for multinomial proportions are often approximated by

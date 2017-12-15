@@ -1,23 +1,29 @@
 # A layer function.
 
-
-#' A ggplot2 layer to add theoretical normal distribution
+#' A ggplot2 layer that fits and plots normal density function
+#'
+#' A ggplot2 layer that fits and plots a theoretical normal density function.
+#' May be used to visually compare between empirical and theoretical normal
+#' distributions.
 #'
 #' @inheritParams ggplot2::stat_identity
 #' @inheritParams ggplot2::geom_line
-#' @param trim (numeric) Fraction of point to trim before computing mean and
-#'                       standard deviation which are used to construct
+#' @param trim (numeric) Fraction of points to trim before computing mean and
+#'                       standard deviation, which are used to construct
 #'                       theoretical normal distribution.
+#'                       Number between 0 and 1. Default is \code{0}.
 #'
 #' @section Computed variables:
 #'
 #' \describe{
 #'    \item{density}{normal density}
-#'    \item{ndensity}{normal scaled to maximum of 1}
+#'    \item{ndensity}{normal density scaled to maximum of 1}
 #'    \item{count}{normal density * number of points}
 #' }
-
+#'
 #' @export
+#'
+#' @keywords ggplot2 plots
 #'
 #' @examples
 #' library(ggplot2)
@@ -26,7 +32,7 @@
 #' ggplot(mtcars, aes(mpg)) + stat_normal_density()
 #'
 #' ggplot(mtcars, aes(mpg)) +
-#'      stat_density() +
+#'      stat_density(alpha = 0.8) +
 #'      stat_normal_density(color = "red", size = 1)
 #'
 stat_normal_density <- function(mapping = NULL, data = NULL, geom = "line",

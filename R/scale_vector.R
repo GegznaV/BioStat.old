@@ -1,13 +1,13 @@
-#' Scale a Vector
+#' Scale a vector
 #'
-#' From every element in avector, subtract \code{center} and
+#' From every element in a vector, subtract \code{center} and
 #' divide by \code{scale}.
 #'
 #' @param x A numeric vector.
-#' @param center Eiter a function that computes center of data
-#'              (such as \code{mean}) or a simgle numeric value.
-#' @param scale Eiter a function that computes variability of data
-#'              (such as \code{sd}) or a simgle numeric value.
+#' @param center Either a function that computes center of data
+#'              (such as \code{mean}) or a single numeric value.
+#' @param scale Either a function that computes variability of data
+#'              (such as \code{sd}) or a single numeric value.
 #'
 #' @return The same object as \code{x} just with every element scaled
 #' @export

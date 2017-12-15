@@ -109,8 +109,24 @@
 #' BinomCI(x=c(42, 35, 23, 22), n=43, method="wilson")
 #' BinomCI(x=c(42, 35, 23, 22), n=c(50, 60, 70, 80), method="jeffreys")
 #'
-BinomCI <- function(x, n, conf.level = 0.95, method = c("wilson", "wald", "agresti-coull", "jeffreys", "modified wilson",
-                                                        "modified jeffreys", "clopper-pearson", "arcsine", "logit", "witting", "pratt"), rand = 123) {
+BinomCI <- function(x,
+                    n,
+                    conf.level = 0.95,
+                    method = c(
+                        "wilson",
+                        "wald",
+                        "agresti-coull",
+                        "jeffreys",
+                        "modified wilson",
+                        "modified jeffreys",
+                        "clopper-pearson",
+                        "arcsine",
+                        "logit",
+                        "witting",
+                        "pratt"
+                    ),
+                    rand = 123
+) {
 
     if(missing(method)) method <- "wilson"
 

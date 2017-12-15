@@ -3,10 +3,10 @@
 data-raw*
 functions-removed*
 functions-under-development*
+tutorials-under-development*
 ^codecov\.yml$
 .travis.yml
 codecov.yml
 README.Rmd
-^D:\Dokumentai\R\BioStat\docs
 _pkgdown.yaml
 ^docs*

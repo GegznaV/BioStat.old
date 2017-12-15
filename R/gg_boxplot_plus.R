@@ -1,44 +1,4 @@
-# library(BioStat)
-# library(PMCMR)
-#
-# model_tukey <- posthoc.kruskal.conover.test(decrease ~ treatment, data = OrchardSprays)
-#
-# model_tukey
-#
-# cld_result <- make_cld(model_tukey)
-# cld_result
-# pander::pander(cld_result)
-#
-# library(tidyverse)
-
-# OrchardSprays
-# cld_max <- with(OrchardSprays, tapply(decrease, treatment, function(x) 1.05 * max(x)))
-# cld_y <- max(-OrchardSprays$decrease * 0.95)
-# cld_y <- min(-OrchardSprays$decrease * 1.05)
-#
-# cld_y <- min(OrchardSprays$decrease * 0.95)
-# cld_y <- max(OrchardSprays$decrease * 1.05)
-
-
-
-
-
-
-#
-# library(tidyverse)
-#
-# cld = cld_result
-# add_points = TRUE
-# add_mean_ci = TRUE
-# add_median_ci = FALSE
-#
-# cld_y_adj = 1.05
-# ci_x_adj = -0.3
-# ci_boot_reps = 2000
-#
-# points_x_adj =  0.3
-
-#' Plot a boxplot with additional components
+#' [!] Plot a boxplot with additional components
 #'
 #' @param formula a formula with two variable names to analyze. First one is numeric, second one is a factor, e.g. \code{y ~ group}.
 #' @param data a data frame with data.
@@ -61,6 +21,8 @@
 #'
 #' @return A ggplot2 plot object.
 #' @export
+#'
+#' @keywords ggplot2 plots
 #'
 #' @examples
 #' # Example 1

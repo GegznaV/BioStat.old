@@ -1,9 +1,9 @@
 library(tidyverse)
 
 clerk_salary <- data.frame(salary = c(525,500,500,576,458,600,700,886,600),
-                           gender = c("F", "F","F","F","F","F","M","M","M"))
+                           genderFM = c("F", "F","F","F","F","F","M","M","M"))
 
-clerk_salary$gender2 <- factor(clerk_salary$gender, levels = c("M", "F"))
+clerk_salary$genderMF <- factor(clerk_salary$genderFM, levels = c("M", "F"))
 
 unclass(clerk_salary)
 
@@ -11,8 +11,8 @@ boxplot(salary ~ gender, data = clerk_salary)
 
 # Answers are different
 
-DescTools::RunsTest(salary ~ gender, data = clerk_salary)
-DescTools::RunsTest(salary ~ gender2, data = clerk_salary)
+DescTools::RunsTest(salary ~ genderFM, data = clerk_salary)
+DescTools::RunsTest(salary ~ genderMF, data = clerk_salary)
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

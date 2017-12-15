@@ -1,6 +1,12 @@
-#' Make a data frame with cld
+#' [!] Make a data frame with cld
 #'
-#' Function is based on \pkg{rcompanion}\code{::cldList}.
+#' Compute a compact letter display (cld) of statistically significant
+#' differences in pairwise comparisons and output he results as a dataframe.
+#'
+#' @note
+#' This function is based on code in function \code{\link[rcompanion]{cldList}()}
+#' from package \pkg{rcompanion} by Salvatore Mangiafico.
+#'
 #' @inheritParams rcompanion::cldList
 #'
 #' @export
@@ -24,10 +30,10 @@ make_cld_df <- function(
 )
 {
     if (!is.null(formula)) {
-        p.value    = eval(parse(text = paste0("data", "$", all.vars(formula[[2]])[1])))
-        comparison = eval(parse(text = paste0("data", "$", all.vars(formula[[3]])[1])))
-        # p.value    = eval_glue("data${all.vars(formula[[2]])[1]}")
-        # comparison = eval_glue("data${all.vars(formula[[3]])[1]}")
+        # p.value    = eval(parse(text = paste0("data", "$", all.vars(formula[[2]])[1])))
+        # comparison = eval(parse(text = paste0("data", "$", all.vars(formula[[3]])[1])))
+        p.value    = eval_glue("data${all.vars(formula[[2]])[1]}")
+        comparison = eval_glue("data${all.vars(formula[[3]])[1]}")
     }
 
 
