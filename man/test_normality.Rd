@@ -6,7 +6,7 @@
 \alias{pander.test_normality}
 \title{Normality tests by groups}
 \usage{
-test_normality(x, data = NULL, test = "Shapiro-Wilk",
+test_normality(y, data = NULL, test = "Shapiro-Wilk",
   p_adjust_method = NULL, ..., groups = NULL)
 
 \method{print}{test_normality}(x, ..., digits_p = 3, signif_stars = TRUE,
@@ -18,9 +18,9 @@ test_normality(x, data = NULL, test = "Shapiro-Wilk",
   rm_zero = FALSE, legend = TRUE, show_col_method = FALSE)
 }
 \arguments{
-\item{x}{Either a formula, a numeric vector or a name of a column
+\item{y}{Either a formula, a numeric vector or a name of a column
             in \code{data}. \itemize{
-    \item If \code{x} is a formula (e.g. \code{variable ~ factor}), left-hand
+    \item If \code{y} is a formula (e.g. \code{variable ~ factor}), left-hand
     side provides the name of a variable to be tested. In the right-hand side
     there are names of factor variables to be used to create subsets.
     If the left-hand side is empty ((e.g. \code{~ factor}), right-hand
@@ -28,7 +28,7 @@ test_normality(x, data = NULL, test = "Shapiro-Wilk",
 }}
 
 \item{data}{(data frame|\code{NULL}) Either a data frame that contains the
-variables mentioned in \code{x} or \code{NULL} (if the variables
+variables mentioned in \code{y} or \code{NULL} (if the variables
 are in the function's environment).}
 
 \item{test}{(string | function) Either a string  (case insensitive, maybe
@@ -53,9 +53,12 @@ If string (e.g., \code{"holm"}), an additional column
 \item{...}{Parameters to be passed to the further methods.}
 
 \item{groups}{(\code{NULL}|factor|character) An alternative way to provide
-groups. If \code{x} is a numeric vector, \code{groups} must be
-a factor (or \code{NULL}). If \code{x} is a sting,
+groups. If \code{y} is a numeric vector, \code{groups} must be
+a factor (or \code{NULL}). If \code{y} is a sting,
 \code{groups} must also be a string (or \code{NULL}).}
+
+\item{x}{a numeric vector of data values. Missing values are allowed,
+    but the number of non-missing values must be between 3 and 5000.}
 
 \item{digits_p}{(numeric) Number of significant digits to round a p value to.
                   No less than 2. \itemize{

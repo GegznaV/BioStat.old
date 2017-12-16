@@ -4,22 +4,22 @@
 \alias{qq_plot}
 \title{[!] A QQ-plot for multiple groups}
 \usage{
-qq_plot(x, data = NULL, distribution = "norm", ..., line = c("quartiles",
+qq_plot(y, data = NULL, distribution = "norm", ..., line = c("quartiles",
   "robust", "int=0,slope=1", "0,1", "none"), envelope = 0.95,
   method = c("mle-normal", "trimmed-normal", "moment-normal", "any"),
   labels = NULL, groups = NULL, use_colors = FALSE, scales = "free",
   sep = "|")
 }
 \arguments{
-\item{x}{(formula|numeric|character)
+\item{y}{(formula|numeric|character)
 Either a formula, a numeric vector or a name of a vector
 in \code{data}.
-If \code{x} is a formula (e.g. \code{variable ~ factor}), left-hand
+If \code{y} is a formula (e.g. \code{variable ~ factor}), left-hand
 side provides variable to be summarized. Right-hand side and condition
 describe subsets. If the left-hand side is empty, right-hand side and
 condition are shifted over as a convenience.}
 
-\item{data}{A data frame that contains the variables mentioned in \code{x}.}
+\item{data}{A data frame that contains the variables mentioned in \code{y}.}
 
 \item{distribution}{root name of comparison distribution -- e.g., \code{"norm"} for the
     normal distribution; \code{t} for the t-distribution.}
@@ -68,8 +68,8 @@ confidence envelope.}
     \code{names(x)} or observation numbers if \code{names(x)} is \code{NULL}.}
 
 \item{groups}{(\code{NULL}|factor|character) An alternative way to provide
-groups. If \code{x} is a numeric vector, \code{groups} must be
-a factor (or \code{NULL}). If \code{x} is a sting,
+groups. If \code{y} is a numeric vector, \code{groups} must be
+a factor (or \code{NULL}). If \code{y} is a sting,
 \code{groups} must also be a string (or \code{NULL}).}
 
 \item{use_colors}{(logical) use colors for multiple groups}

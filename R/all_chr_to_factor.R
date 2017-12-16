@@ -1,6 +1,9 @@
-#' Convert All Character Variables to Factors
+#' [!] Convert all character variables to factors
 #'
-#' @param data A data frame
+#' A convenience function to convert all character variables in a data frame
+#' to factor variables.
+#'
+#' @param data A data frame.
 #'
 #' @return A data frame with character variables converted to factors.
 #' @export

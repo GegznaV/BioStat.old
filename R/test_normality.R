@@ -5,9 +5,9 @@
 #' The available tests include Shapiro-Wilk (default),
 #' Lilliefors (Kolmogorov-Smirnov), Anderson-Darling and other tests of normality.
 #'
-#' @param x Either a formula, a numeric vector or a name of a column
+#' @param y Either a formula, a numeric vector or a name of a column
 #'             in \code{data}. \itemize{
-#'     \item If \code{x} is a formula (e.g. \code{variable ~ factor}), left-hand
+#'     \item If \code{y} is a formula (e.g. \code{variable ~ factor}), left-hand
 #'     side provides the name of a variable to be tested. In the right-hand side
 #'     there are names of factor variables to be used to create subsets.
 #'     If the left-hand side is empty ((e.g. \code{~ factor}), right-hand
@@ -15,12 +15,12 @@
 #' }
 #'
 #' @param groups (\code{NULL}|factor|character) An alternative way to provide
-#'                groups. If \code{x} is a numeric vector, \code{groups} must be
-#'                a factor (or \code{NULL}). If \code{x} is a sting,
+#'                groups. If \code{y} is a numeric vector, \code{groups} must be
+#'                a factor (or \code{NULL}). If \code{y} is a sting,
 #'                \code{groups} must also be a string (or \code{NULL}).
 #'
 #' @param data (data frame|\code{NULL}) Either a data frame that contains the
-#'             variables mentioned in \code{x} or \code{NULL} (if the variables
+#'             variables mentioned in \code{y} or \code{NULL} (if the variables
 #'             are in the function's environment).
 #'
 #' @param test (string | function) Either a string  (case insensitive, maybe
@@ -141,7 +141,7 @@
 #' # Show object's class
 #' class(rez)
 #'
-test_normality <- function(x,
+test_normality <- function(y,
                            data = NULL,
                            test = "Shapiro-Wilk",
                            p_adjust_method = NULL,
@@ -198,7 +198,7 @@ test_normality <- function(x,
     }
 
     # Output
-    test_(x,
+    test_(y,
           data = data,
           p_adjust_method = p_adjust_method,
           ...,
@@ -207,7 +207,7 @@ test_normality <- function(x,
 }
 
 # test_()===================================================================
-test_ <- function(x,
+test_ <- function(y,
                   data = NULL,
                   p_adjust_method = NULL,
                   ...,
@@ -216,23 +216,23 @@ test_ <- function(x,
     # na.rm = getOption("na.rm", FALSE)
 {
     # Make formula according to input type
-    if (is.numeric(x)) {
+    if (is.numeric(y)) {
         if (!is.null(groups)) {
-            data <- data.frame(x = x, groups = groups)
-            x <- x ~ groups
+            data <- data.frame(y = y, groups = groups)
+            y <- y ~ groups
         } else {
-            data <- data.frame(x = x)
-            x <- ~ x
+            data <- data.frame(y = y)
+            y <- ~ y
         }
     }
 
     if (is.null(data)) {
-        data <- rlang::f_env(x)
+        data <- rlang::f_env(y)
     }
 
-    if (rlang::is_formula(x)) {
+    if (rlang::is_formula(y)) {
         # Select necessary variables only
-        data <- stats::model.frame(x, data = data)
+        data <- stats::model.frame(y, data = data)
 
         # To indicate, that there is no grouping the first column constant
         # if (ncol(data) == 1)
@@ -251,7 +251,7 @@ test_ <- function(x,
             dplyr::do(.[[1]] %>%
                           test() %>%
                           broom::tidy()
-            )  %>%
+            ) %>%
             dplyr::ungroup()  %>%
             dplyr::select(method, dplyr::everything())  %>%
             as.data.frame()

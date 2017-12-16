@@ -9,23 +9,23 @@
 #'
 #' @examples
 #' set.seed(999555)
-#' x <- rnorm(35, 10, 5)
-#' ci_mean_t(x)
+#' y <- rnorm(35, 10, 5)
+#' ci_mean_t(y)
 #
-ci_mean_t <- function(x,
+ci_mean_t <- function(y,
                       conf_level = 0.95,
                       na.rm = TRUE,
                       return_df = TRUE) {
-    checkmate::assert_numeric(x, all.missing = FALSE)
+    checkmate::assert_numeric(y, all.missing = FALSE)
     checkmate::assert_number(conf_level, lower = 0, upper = 1)
 
     if (na.rm) {
-        x <- x[!is.na(x)]
+        y <- y[!is.na(y)]
     }
 
-    n <- length(x)
-    SD <- sd(x)
-    mean_bar <- mean(x)
+    n <- length(y)
+    SD <- sd(y)
+    mean_bar <- mean(y)
 
     t <- qt((1 - conf_level) / 2, df = (n - 1), lower.tail = FALSE)
 

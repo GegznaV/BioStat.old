@@ -4,16 +4,16 @@
 \alias{trim}
 \title{Trim certain proportion of the most extreme values}
 \usage{
-trim(x, trim = 0.1, na.rm = FALSE, ...)
+trim(y, trim = 0.1, na.rm = FALSE, ...)
 }
 \arguments{
-\item{x}{A numeric vector}
+\item{y}{A numeric vector}
 
 \item{trim}{(number) A proportion of values to be removed.
 A number between 0 and 1. Default is 0.1.}
 
 \item{na.rm}{(logical) if \code{TRUE}, any \code{NA} and \code{NaN}'s are
-removed from \code{x} before quantiles are computed.}
+removed from \code{y} before quantiles are computed.}
 
 \item{...}{further argument to \code{\link[stats]{quantile}}.}
 }

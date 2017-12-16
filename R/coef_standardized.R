@@ -1,4 +1,4 @@
-#' Compute Standardized Regression Coefficients
+#' [!] Compute Standardized Regression Coefficients
 #'
 #' Compute the standardized regression coefficients (beta) from an object of class \code{lm}).
 #'

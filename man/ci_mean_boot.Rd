@@ -4,11 +4,11 @@
 \alias{ci_mean_boot}
 \title{Basic nonparametric bootstrap confidence interval of mean}
 \usage{
-ci_mean_boot(x, conf_level = 0.95, repetitions = 2000, na.rm = TRUE,
+ci_mean_boot(y, conf_level = 0.95, repetitions = 2000, na.rm = TRUE,
   resampled_means = FALSE, return_df = TRUE)
 }
 \arguments{
-\item{x}{(numeric) A numeric vector from which \code{NA}s will be removed automatically.}
+\item{y}{(numeric) A numeric vector from which \code{NA}s will be removed automatically.}
 
 \item{conf_level}{(number) Confidence level. Number from 0 to 1. Default 0.95.}
 
@@ -34,7 +34,7 @@ set.seed(111555)
 ci_mean_boot(1:60)
 
 set.seed(999555)
-x <- rnorm(35, 10, 5)
-ci_mean_boot(x)
+y <- rnorm(35, 10, 5)
+ci_mean_boot(y)
 
 }

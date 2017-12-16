@@ -11,16 +11,16 @@
 \alias{n_ok}
 \title{[!] Descriptive statistics}
 \usage{
-Q1(x, na.rm = TRUE, type = 7, names = FALSE, ...)
+Q1(y, na.rm = TRUE, type = 7, names = FALSE, ...)
 
-Q3(x, na.rm = TRUE, type = 7, names = FALSE, ...)
+Q3(y, na.rm = TRUE, type = 7, names = FALSE, ...)
 
-n_missing(x)
+n_missing(y)
 
-n_ok(x)
+n_ok(y)
 }
 \arguments{
-\item{x}{Variable to summarize}
+\item{y}{Variable to summarize}
 
 \item{na.rm}{logical; if true, any \code{\link{NA}} and \code{NaN}'s
     are removed from \code{x} before the quantiles are computed.}

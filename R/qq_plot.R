@@ -7,15 +7,15 @@
 #' Function \code{qq_plot} is inspired by \code{qqPlot()} in package \pkg{car}
 #' (writen by J. Fox).
 #'
-#' @param x (formula|numeric|character)
+#' @param y (formula|numeric|character)
 #'          Either a formula, a numeric vector or a name of a vector
 #'          in \code{data}.
-#'          If \code{x} is a formula (e.g. \code{variable ~ factor}), left-hand
+#'          If \code{y} is a formula (e.g. \code{variable ~ factor}), left-hand
 #'          side provides variable to be summarized. Right-hand side and condition
 #'          describe subsets. If the left-hand side is empty, right-hand side and
 #'          condition are shifted over as a convenience.
 #'
-#' @param data A data frame that contains the variables mentioned in \code{x}.
+#' @param data A data frame that contains the variables mentioned in \code{y}.
 #'
 #' @param sep (character)
 #'            Group name separator if more than one grouping variable is used.
@@ -70,7 +70,7 @@
 #' qq_plot(uptake ~ Type + Treatment, data = CO2)
 
 qq_plot <- function(
-    x,
+    y,
     data = NULL,
     distribution = "norm",
     ...,
@@ -84,7 +84,7 @@ qq_plot <- function(
     sep = "|")
 {
 
-    qqdata <-  qq_data(x = x,
+    qqdata <-  qq_data(y = y,
                        distribution = distribution,
                        data = data,
                        ...,

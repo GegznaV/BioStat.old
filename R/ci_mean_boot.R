@@ -7,7 +7,7 @@
 #' The function is based on code of function \code{\link[Hmisc]{smean.cl.boot}()} from package \pkg{Hmisc}.
 #'
 #'
-#' @param x (numeric) A numeric vector from which \code{NA}s will be removed automatically.
+#' @param y (numeric) A numeric vector from which \code{NA}s will be removed automatically.
 #' @param conf_level (number) Confidence level. Number from 0 to 1. Default 0.95.
 #' @param repetitions (integer) Number of bootstrap resamples.
 #' @param na.rm (logical) If \code{TRUE} (default), missing values (\code{NA}'s) are removed automatically.
@@ -22,25 +22,25 @@
 #' ci_mean_boot(1:60)
 #'
 #' set.seed(999555)
-#' x <- rnorm(35, 10, 5)
-#' ci_mean_boot(x)
+#' y <- rnorm(35, 10, 5)
+#' ci_mean_boot(y)
 #'
-ci_mean_boot <- function(x,
+ci_mean_boot <- function(y,
                          conf_level = 0.95,
                          repetitions = 2000,
                          na.rm = TRUE,
                          resampled_means = FALSE,
                          return_df = TRUE) {
-    checkmate::assert_numeric(x, all.missing = FALSE)
+    checkmate::assert_numeric(y, all.missing = FALSE)
     checkmate::assert_number(conf_level, lower = 0, upper = 1)
     checkmate::assert_number(repetitions, lower = 1 )
 
     if (na.rm) {
-        x <- x[!is.na(x)]
+        y <- y[!is.na(y)]
     }
 
-    n <- length(x)
-    mean_bar <- mean(x)
+    n <- length(y)
+    mean_bar <- mean(y)
 
     if (n < 2L)
         return(c(Mean = mean_bar,
@@ -51,10 +51,10 @@ ci_mean_boot <- function(x,
     all_means <-
         unlist(lapply(
             seq_len(repetitions),
-            FUN = function(i, x, n_) {
-                sum(x[sample.int(n_, n_, TRUE, NULL)])
+            FUN = function(i, y, n_) {
+                sum(y[sample.int(n_, n_, TRUE, NULL)])
             },
-            x = x,
+            y = y,
             n_ = n
         )) / n
 

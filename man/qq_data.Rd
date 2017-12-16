@@ -3,19 +3,22 @@
 \name{qq_data}
 \alias{qq_data}
 \alias{coef.qqdata}
-\title{[!]Compute data for a qq-plot}
+\alias{plot.qqdata}
+\title{[!] Compute data for a qq-plot}
 \usage{
-qq_data(x, data = NULL, distribution = "norm", ..., line = c("quartiles",
+qq_data(y, data = NULL, distribution = "norm", ..., line = c("quartiles",
   "robust", "int=0,slope=1", "0,1", "none"), envelope = 0.95,
   method = c("mle-normal", "trimmed-normal", "moment-normal", "any"),
   labels = NULL, groups = NULL, sep = " | ")
 
 \method{coef}{qqdata}(object, ...)
+
+\method{plot}{qqdata}(x, ..., use_colors = FALSE, scales = "free")
 }
 \arguments{
-\item{x}{Either a formula, a numeric vector or a name of a column
+\item{y}{Either a formula, a numeric vector or a name of a column
             in \code{data}. \itemize{
-    \item If \code{x} is a formula (e.g. \code{variable ~ factor}), left-hand
+    \item If \code{y} is a formula (e.g. \code{variable ~ factor}), left-hand
     side provides the name of a variable to be tested. In the right-hand side
     there are names of factor variables to be used to create subsets.
     If the left-hand side is empty ((e.g. \code{~ factor}), right-hand
@@ -23,7 +26,7 @@ qq_data(x, data = NULL, distribution = "norm", ..., line = c("quartiles",
 }}
 
 \item{data}{(data frame|\code{NULL}) Either a data frame that contains the
-variables mentioned in \code{x} or \code{NULL} (if the variables
+variables mentioned in \code{y} or \code{NULL} (if the variables
 are in the function's environment).}
 
 \item{distribution}{root name of comparison distribution -- e.g., \code{"norm"} for the
@@ -73,13 +76,23 @@ confidence envelope.}
     \code{names(x)} or observation numbers if \code{names(x)} is \code{NULL}.}
 
 \item{groups}{(\code{NULL}|factor|character) An alternative way to provide
-groups. If \code{x} is a numeric vector, \code{groups} must be
-a factor (or \code{NULL}). If \code{x} is a sting,
+groups. If \code{y} is a numeric vector, \code{groups} must be
+a factor (or \code{NULL}). If \code{y} is a sting,
 \code{groups} must also be a string (or \code{NULL}).}
 
 \item{sep}{(not used yet).}
 
 \item{object}{A \code{qqdata} object.}
+
+\item{x}{A \code{qqdata} object.}
+
+\item{use_colors}{(logical) use colors for multiple groups}
+
+\item{scales}{("free"|"free_x"|"free_y"|"fixed")
+a parmeter to be passed to
+ \code{\link[ggplot2]{facet_wrap}}.}
+
+\item{...}{other parameters}
 }
 \value{
 An object, which inherits from classes \code{qqdata} and
@@ -96,7 +109,7 @@ An object, which inherits from classes \code{qqdata} and
         }
 }
 \description{
-Compute data necessary to plot a quntile comparison plot (qq-plot).
+Compute data necessary to plot a quantile comparison plot (qq-plot).
 }
 \details{
 Function \code{qq_data} is inspired by \code{qqPlot()} in package \pkg{car}
@@ -149,6 +162,43 @@ head(my_qq_df)
 coef(my_qq_df)
 
 
+
+library(BioStat)
+data(chickwts, package = "datasets")
+
+# Input as formula + data:
+
+my_qq_df <- qq_data(weight ~ feed, data = chickwts)
+plot(my_qq_df)
+
+my_qq_df2 <- qq_data(weight ~ feed, data = chickwts, method = "moment-normal")
+plot(my_qq_df2)
+
+my_qq_df3 <- qq_data(weight ~ feed, data = chickwts, method = "any")
+plot(my_qq_df3)
+
+
+# The same x and y scale limits for all plots
+plot(my_qq_df, scales = "fixed")
+
+# Plot in color
+plot(my_qq_df, use_colors = TRUE)
+
+# Plot a qq-plot (with no grouping)
+qq_single <- qq_data(~weight, data = chickwts)
+plot(qq_single)
+
+class(qq_single)
+
+
+# More than one grouping variable
+data(CO2, package = "datasets")
+
+ qq_co2 <- qq_data(uptake ~ Type + Treatment, data = CO2)
+ plot(qq_co2)
+
+ qq_co2_B <- qq_data(uptake ~ Type + Treatment, data = CO2, line = "robust")
+ plot(qq_co2_B)
 
 }
 \seealso{

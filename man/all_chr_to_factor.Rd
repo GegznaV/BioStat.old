@@ -2,18 +2,19 @@
 % Please edit documentation in R/all_chr_to_factor.R
 \name{all_chr_to_factor}
 \alias{all_chr_to_factor}
-\title{Convert All Character Variables to Factors}
+\title{[!] Convert all character variables to factors}
 \usage{
 all_chr_to_factor(data)
 }
 \arguments{
-\item{data}{A data frame}
+\item{data}{A data frame.}
 }
 \value{
 A data frame with character variables converted to factors.
 }
 \description{
-Convert All Character Variables to Factors
+A convenience function to convert all character variables in a data frame
+to factor variables.
 }
 \examples{
 library(BioStat)
