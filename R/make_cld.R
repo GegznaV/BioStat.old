@@ -9,9 +9,17 @@
 #'   \item \emph{posthocTGH} from package \pkg{userfriendlyscience};
 #'   \item \emph{PMCMR} from package \pkg{PMCMR}.
 #'   }
+#'
 #' @param ... Further arguments to methods.
+#'
 #' @param data A dataset with p values and names of comparisons. This argument
 #'            is used if \code{obj} is formula. More details in examples.
+#'
+#' @param formula An R model \code{\link[stats]{formula}} where left-hand side
+#' term indicates variable with p values and right-hand side term defines
+#' variable with comparisons, e.g. \code{p.adjust ~ Comparison}. Usually is
+#' used in combination with \code{data}.
+#'
 #' @param alpha (numeric from 0 to 1) Significance level.
 #'
 #' @return (A data frame with) compact letter display.

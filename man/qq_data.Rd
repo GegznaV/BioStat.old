@@ -32,7 +32,8 @@ are in the function's environment).}
 \item{distribution}{root name of comparison distribution -- e.g., \code{"norm"} for the
     normal distribution; \code{t} for the t-distribution.}
 
-\item{...}{Parameters to be passed to function, selected in \code{distribution}.}
+\item{...}{Parameters to be passed to function, selected in \code{distribution}.
+In \code{print} method, further parameters to function \code{print}.}
 
 \item{line}{(string) A parameter, that controls how reference line is drawn.
            Options:\itemize{
@@ -91,8 +92,6 @@ a factor (or \code{NULL}). If \code{y} is a sting,
 \item{scales}{("free"|"free_x"|"free_y"|"fixed")
 a parmeter to be passed to
  \code{\link[ggplot2]{facet_wrap}}.}
-
-\item{...}{other parameters}
 }
 \value{
 An object, which inherits from classes \code{qqdata} and

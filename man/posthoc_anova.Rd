@@ -24,9 +24,8 @@ posthoc_anova(y, group = NULL, method = c("Games-Howell", "Tukey"),
 \method{print}{posthoc_anova}(x, digits = x$input$digits,
   digits_p = x$input$digits_p, ...)
 
-\method{plot}{posthoc_anova}(x, y = NULL, ..., zero_line_color = "grey",
-  add_p = TRUE, p_size = 1, p_color = "blue", p_pos_adj = 0.22,
-  flip_xy = TRUE)
+\method{plot}{posthoc_anova}(x, ..., zero_line_color = "grey", add_p = TRUE,
+  p_size = 1, p_color = "blue", p_pos_adj = 0.22, flip_xy = TRUE)
 }
 \arguments{
 \item{y}{(numeric|formula)\cr Either a numeric vector or formula.}
@@ -68,7 +67,7 @@ stored in the object.}
 
 \item{flip_xy}{(logical) Flag if x and y axes should be swapped.}
 
-\item{y}{(ignored)}
+\item{p_pos_adj}{(numeric) Font size to p-values-related text.}
 }
 \value{
 A list of three elements:

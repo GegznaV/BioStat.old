@@ -44,6 +44,11 @@ Currently supported objects: \itemize{
 
 \item{data}{A dataset with p values and names of comparisons. This argument
 is used if \code{obj} is formula. More details in examples.}
+
+\item{formula}{An R model \code{\link[stats]{formula}} where left-hand side
+term indicates variable with p values and right-hand side term defines
+variable with comparisons, e.g. \code{p.adjust ~ Comparison}. Usually is
+used in combination with \code{data}.}
 }
 \value{
 (A data frame with) compact letter display.

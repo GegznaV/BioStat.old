@@ -287,11 +287,10 @@ posthoc_anova.default <-
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname posthoc_anova
-#' @export
-
 # @param x The object to print.
 # @param digits The number of significant digits to print.
+#' @rdname posthoc_anova
+#' @export
 print.posthoc_anova <- function(x,
                              digits   = x$input$digits,
                              digits_p = x$input$digits_p,
@@ -346,21 +345,20 @@ print.posthoc_anova <- function(x,
 #' @rdname posthoc_anova
 #' @export
 #'
-#' @param y (ignored)
 #' @param zero_line_color  (character) Color for line indicating zero differences.
 #' @param flip_xy (logical) Flag if x and y axes should be swapped.
 #' @param add_p (logical) Flag if p values should be added.
 #' @param p_color (character) Color for p values.
 #' @param p_pos_adj (numeric) Factor for p value position correction
+#' @param p_pos_adj (numeric) Font size to p-values-related text.
 plot.posthoc_anova <- function(x,
-                               y = NULL,
-                             ...,
-                             zero_line_color = "grey",
-                             add_p = TRUE,
-                             p_size = 1,
-                             p_color = "blue",
-                             p_pos_adj = 0.22,
-                             flip_xy = TRUE
+                               ...,
+                               zero_line_color = "grey",
+                               add_p = TRUE,
+                               p_size = 1,
+                               p_color = "blue",
+                               p_pos_adj = 0.22,
+                               flip_xy = TRUE
                              ) {
 
 

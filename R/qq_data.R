@@ -46,6 +46,7 @@
 #' @param sep (not used yet).
 #'
 #' @param ... Parameters to be passed to function, selected in \code{distribution}.
+#'            In \code{print} method, further parameters to function \code{print}.
 #'
 #' @inheritParams test_normality
 #' @inheritParams car::qqPlot
@@ -424,7 +425,6 @@ coef.qqdata <- function(object, ...) {
 
 #' @rdname qq_data
 #' @param x A \code{qqdata} object.
-#' @param ... other parameters
 #' @param scales ("free"|"free_x"|"free_y"|"fixed")
 #'               a parmeter to be passed to
 #'                \code{\link[ggplot2]{facet_wrap}}.
