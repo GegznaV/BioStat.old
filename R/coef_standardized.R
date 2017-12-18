@@ -84,7 +84,7 @@ coef_standardized <- function(obj) {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
-#' @rdname coef_standardized
+#' @name deprecated_functions
 #' @export
 standardized_coef <- function(obj) {
     .Deprecated("coef_standardized")

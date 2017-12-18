@@ -88,14 +88,14 @@
     <p>A very fast implementation of the basic nonparametric bootstrap for obtaining confidence limits for the population mean without assuming normality.</p>
     
 
-    <pre class="usage"><span class='fu'>ci_mean_boot</span>(<span class='no'>x</span>, <span class='kw'>conf_level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>repetitions</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <pre class="usage"><span class='fu'>ci_mean_boot</span>(<span class='no'>y</span>, <span class='kw'>conf_level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>repetitions</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>resampled_means</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>return_df</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
+      <th>y</th>
       <td><p>(numeric) A numeric vector from which <code>NA</code>s will be removed automatically.</p></td>
     </tr>
     <tr>
@@ -134,8 +134,8 @@
 <span class='fu'>ci_mean_boot</span>(<span class='fl'>1</span>:<span class='fl'>60</span>)</div><div class='output co'>#&gt;   mean   lower    upper conf_level repetitions
 #&gt; 1 30.5 26.0325 34.98375       0.95        2000</div><div class='input'>
 <span class='fu'>set.seed</span>(<span class='fl'>999555</span>)
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>rnorm</span>(<span class='fl'>35</span>, <span class='fl'>10</span>, <span class='fl'>5</span>)
-<span class='fu'>ci_mean_boot</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt;       mean    lower    upper conf_level repetitions
+<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'>rnorm</span>(<span class='fl'>35</span>, <span class='fl'>10</span>, <span class='fl'>5</span>)
+<span class='fu'>ci_mean_boot</span>(<span class='no'>y</span>)</div><div class='output co'>#&gt;       mean    lower    upper conf_level repetitions
 #&gt; 1 10.40422 8.897437 11.94304       0.95        2000</div><div class='input'>
 </div></pre>
   </div>

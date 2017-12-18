@@ -90,7 +90,7 @@ The available tests include Shapiro-Wilk (default),
 Lilliefors (Kolmogorov-Smirnov), Anderson-Darling and other tests of normality.</p>
     
 
-    <pre class="usage"><span class='fu'>test_normality</span>(<span class='no'>x</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='st'>"Shapiro-Wilk"</span>,
+    <pre class="usage"><span class='fu'>test_normality</span>(<span class='no'>y</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='st'>"Shapiro-Wilk"</span>,
   <span class='kw'>p_adjust_method</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S3 method for test_normality</span>
@@ -107,10 +107,10 @@ Lilliefors (Kolmogorov-Smirnov), Anderson-Darling and other tests of normality.<
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
+      <th>y</th>
       <td><p>Either a formula, a numeric vector or a name of a column
             in <code>data</code>.</p><ul>
-<li><p>If <code>x</code> is a formula (e.g. <code>variable ~ factor</code>), left-hand
+<li><p>If <code>y</code> is a formula (e.g. <code>variable ~ factor</code>), left-hand
     side provides the name of a variable to be tested. In the right-hand side
     there are names of factor variables to be used to create subsets.
     If the left-hand side is empty ((e.g. <code>~ factor</code>), right-hand
@@ -120,7 +120,7 @@ Lilliefors (Kolmogorov-Smirnov), Anderson-Darling and other tests of normality.<
     <tr>
       <th>data</th>
       <td><p>(data frame|<code>NULL</code>) Either a data frame that contains the
-variables mentioned in <code>x</code> or <code>NULL</code> (if the variables
+variables mentioned in <code>y</code> or <code>NULL</code> (if the variables
 are in the function's environment).</p></td>
     </tr>
     <tr>
@@ -153,9 +153,14 @@ If string (e.g., <code>"holm"</code>), an additional column
     <tr>
       <th>groups</th>
       <td><p>(<code>NULL</code>|factor|character) An alternative way to provide
-groups. If <code>x</code> is a numeric vector, <code>groups</code> must be
-a factor (or <code>NULL</code>). If <code>x</code> is a sting,
+groups. If <code>y</code> is a numeric vector, <code>groups</code> must be
+a factor (or <code>NULL</code>). If <code>y</code> is a sting,
 <code>groups</code> must also be a string (or <code>NULL</code>).</p></td>
+    </tr>
+    <tr>
+      <th>x</th>
+      <td><p>a numeric vector of data values. Missing values are allowed,
+    but the number of non-missing values must be between 3 and 5000.</p></td>
     </tr>
     <tr>
       <th>digits_p</th>

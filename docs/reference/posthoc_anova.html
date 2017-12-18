@@ -110,9 +110,8 @@ post-hoc tests for one-way analysis of variance (ANOVA).</p>
   <span class='kw'>digits_p</span> <span class='kw'>=</span> <span class='no'>x</span>$<span class='no'>input</span>$<span class='no'>digits_p</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for posthoc_anova</span>
-<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>, <span class='kw'>zero_line_color</span> <span class='kw'>=</span> <span class='st'>"grey"</span>,
-  <span class='kw'>add_p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p_size</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>p_color</span> <span class='kw'>=</span> <span class='st'>"blue"</span>, <span class='kw'>p_pos_adj</span> <span class='kw'>=</span> <span class='fl'>0.22</span>,
-  <span class='kw'>flip_xy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>zero_line_color</span> <span class='kw'>=</span> <span class='st'>"grey"</span>, <span class='kw'>add_p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>p_size</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>p_color</span> <span class='kw'>=</span> <span class='st'>"blue"</span>, <span class='kw'>p_pos_adj</span> <span class='kw'>=</span> <span class='fl'>0.22</span>, <span class='kw'>flip_xy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -191,8 +190,8 @@ stored in the object.</p></td>
       <td><p>(logical) Flag if x and y axes should be swapped.</p></td>
     </tr>
     <tr>
-      <th>y</th>
-      <td><p>(ignored)</p></td>
+      <th>p_pos_adj</th>
+      <td><p>(numeric) Font size to p-values-related text.</p></td>
     </tr>
     </table>
     

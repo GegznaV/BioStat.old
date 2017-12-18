@@ -140,6 +140,13 @@ Currently supported objects:</p><ul>
       <td><p>A dataset with p values and names of comparisons. This argument
 is used if <code>obj</code> is formula. More details in examples.</p></td>
     </tr>
+    <tr>
+      <th>formula</th>
+      <td><p>An R model <code><a href='http://www.rdocumentation.org/packages/stats/topics/formula'>formula</a></code> where left-hand side
+term indicates variable with p values and right-hand side term defines
+variable with comparisons, e.g. <code>p.adjust ~ Comparison</code>. Usually is
+used in combination with <code>data</code>.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>

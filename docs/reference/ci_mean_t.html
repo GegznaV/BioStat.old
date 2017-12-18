@@ -88,13 +88,13 @@
     <p>Student's t-distribution based confidence interval of mean</p>
     
 
-    <pre class="usage"><span class='fu'>ci_mean_t</span>(<span class='no'>x</span>, <span class='kw'>conf_level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>return_df</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>ci_mean_t</span>(<span class='no'>y</span>, <span class='kw'>conf_level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>return_df</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
+      <th>y</th>
       <td><p>(numeric) A numeric vector from which <code>NA</code>s will be removed automatically.</p></td>
     </tr>
     <tr>
@@ -118,8 +118,8 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>set.seed</span>(<span class='fl'>999555</span>)
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>rnorm</span>(<span class='fl'>35</span>, <span class='fl'>10</span>, <span class='fl'>5</span>)
-<span class='fu'>ci_mean_t</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt;       mean    lower    upper conf_level
+<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'>rnorm</span>(<span class='fl'>35</span>, <span class='fl'>10</span>, <span class='fl'>5</span>)
+<span class='fu'>ci_mean_t</span>(<span class='no'>y</span>)</div><div class='output co'>#&gt;       mean    lower    upper conf_level
 #&gt; 1 10.40422 8.797069 12.01137       0.95</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
