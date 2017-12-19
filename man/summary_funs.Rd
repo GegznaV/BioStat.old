@@ -9,6 +9,10 @@
 \alias{Q3}
 \alias{n_missing}
 \alias{n_ok}
+\alias{n_nonmissing}
+\alias{iqv}
+\alias{iqv.default}
+\alias{iqv.table}
 \title{[!] Descriptive statistics}
 \usage{
 Q1(y, na.rm = TRUE, type = 7, names = FALSE, ...)
@@ -18,6 +22,14 @@ Q3(y, na.rm = TRUE, type = 7, names = FALSE, ...)
 n_missing(y)
 
 n_ok(y)
+
+n_nonmissing(y)
+
+iqv(y, ...)
+
+\method{iqv}{default}(y, ...)
+
+\method{iqv}{table}(y, ...)
 }
 \arguments{
 \item{y}{Variable to summarize}
