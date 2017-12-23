@@ -65,6 +65,7 @@ ci_mean_boot <- function(y,
 
     }
 
+    # Prepare output
     res <- matrix(c(mean_bar, ci_of_mean, conf_level, repetitions),
                   nrow = 1,
                   byrow = TRUE,
@@ -77,5 +78,6 @@ ci_mean_boot <- function(y,
     if (resampled_means == TRUE)
         attr(res, "resampled_means") <- all_means
 
+    # Output
     res
 }
