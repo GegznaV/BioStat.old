@@ -344,12 +344,14 @@ parse_formula <- function(formula, data = NULL, keep_all_vars = FALSE) {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (keep_all_vars == TRUE) {
         # If all variables (including those not in formula) should be kept.
-        new_data <- dplyr::bind_rows(new_data,
-                                     data[ ,setdiff(names(data), varnames)])
+        new_data <- dplyr::bind_cols(new_data,
+                                     data[ ,
+                                           setdiff(names(data), varnames),
+                                           drop = FALSE])
     }
 
     # Output
-    list(all_vars = varnames,
+    list(formula_vars = varnames,
          y_names = y_vars,
          x_names = x_vars,
          data = new_data
