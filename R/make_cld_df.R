@@ -6,8 +6,13 @@
 #' @note
 #' This function is based on code in function \code{\link[rcompanion]{cldList}()}
 #' from package \pkg{rcompanion} by Salvatore Mangiafico.
+#' @parameters swap_compared_names (logical) If \code{TRUE}, group names are swapped
+#' from, e.g., "2-1" or "second-first" to "1-2" or "first-second". This leads to
+#' different order of cld letters and different order of compared groups (if
+#' without swapping the result is incorrect order of groups.)
 #'
 #' @inheritParams rcompanion::cldList
+#' @inheritParams multcompView::multcompLetters
 #'
 #' @export
 #' @keywords internal
@@ -25,20 +30,22 @@ make_cld_df <- function(
     # remove.zero  = TRUE,
     swap.colon   = TRUE,
     swap.vs      = FALSE,
+    reversed     = FALSE,
+    swap_compared_names = FALSE,
     # comparison_order = NULL,
     ...
 )
 {
     if (!is.null(formula)) {
+        # # [!!!] Formula interface needs review.
         # p.value    = eval(parse(text = paste0("data", "$", all.vars(formula[[2]])[1])))
         # comparison = eval(parse(text = paste0("data", "$", all.vars(formula[[3]])[1])))
         p.value    = eval_glue("data${all.vars(formula[[2]])[1]}")
         comparison = eval_glue("data${all.vars(formula[[3]])[1]}")
     }
 
-
-    Comparison = p.value < threshold
-    # if (sum(Comparison) == 0) {
+    significant_difference = p.value < threshold
+    # if (sum(significant_difference) == 0) {
     #     stop("No significant differences.", call. = FALSE)
     # }
     if (remove.space == TRUE) {
@@ -56,14 +63,24 @@ make_cld_df <- function(
     if (swap.vs == TRUE) {
         comparison = gsub("vs", "-", comparison)
     }
-    names(Comparison) = comparison
+
+   if (swap_compared_names == TRUE) {
+       part_1 <- stringr::str_extract(comparison, ".*(?=-)")
+       part_2 <- stringr::str_extract(comparison, "(?<=-).*")
+       comparison <- paste0(part_2, "-", part_1)
+   }
+
+    comparison
+    names(significant_difference) = comparison
+
     if (print.comp == TRUE) {
-        Y = data.frame(Comparisons = names(Comparison))
+        Y = data.frame(Comparisons = names(significant_difference))
         cat("\n\n")
         print(Y)
         cat("\n\n")
     }
-    MCL = multcompView::multcompLetters(Comparison)
+
+    MCL = multcompView::multcompLetters(significant_difference, reversed = reversed)
 
     regular_cld <- as.character(MCL$Letters)
     spaced_cld  <- as.character(MCL$monospacedLetters)

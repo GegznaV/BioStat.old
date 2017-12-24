@@ -26,6 +26,8 @@
 #' @export
 #'
 #' @examples
+#' library(BioStat)
+#'
 #' # Example 1: class `pairwise.htest`
 #'
 #' obj1 <- pairwise.wilcox.test(chickwts$weight, chickwts$feed, exact = FALSE)
@@ -162,6 +164,7 @@ make_cld.posthoc_anova <- function(obj, ..., alpha = 1 - obj$input$conf_level) {
     res <- make_cld_df(comparison = obj2$groups,
                        p.value    = obj2$p_adjusted,
                        threshold  = alpha,
+                       swap_compared_names = TRUE,
                         ...
                        )
     res

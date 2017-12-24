@@ -7,7 +7,7 @@
 make_cld_df(formula = NULL, data = NULL, comparison = NULL,
   p.value = NULL, threshold = 0.05, print.comp = FALSE,
   remove.space = TRUE, remove.equal = TRUE, swap.colon = TRUE,
-  swap.vs = FALSE, ...)
+  swap.vs = FALSE, reversed = FALSE, swap_compared_names = FALSE, ...)
 }
 \arguments{
 \item{formula}{A formula indicating the variable holding p-values and
@@ -41,6 +41,9 @@ comparisons}
 
 \item{swap.vs}{If \code{TRUE}, swaps "vs" with "-" in the text of the
 comparisons}
+
+\item{reversed}{A logical value indicating whether the order of the letters
+should be reversed. Defaults to FALSE.}
 
 \item{...}{Additional arguments passed to
 \code{multcompLetters}}
