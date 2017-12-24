@@ -75,10 +75,9 @@ gg_boxplot_plus(weight ~ Diet, data = ChickWeight,
                 sort_groups = "descending",
                 sort_fun = mean)
 
-# Example 3c
+# Example 3c: do simple transformations
 
 gg_boxplot_plus(log(weight) ~ Diet, data = ChickWeight,
-                cld = cld_result,
                 sort_groups = "descending",
                 sort_fun = mean)
 
