@@ -50,10 +50,9 @@
 #'                 sort_groups = "descending",
 #'                 sort_fun = mean)
 #'
-#' # Example 3c
+#' # Example 3c: do simple transformations
 #'
 #' gg_boxplot_plus(log(weight) ~ Diet, data = ChickWeight,
-#'                 cld = cld_result,
 #'                 sort_groups = "descending",
 #'                 sort_fun = mean)
 #'
@@ -94,7 +93,6 @@ gg_boxplot_plus <- function(
     points_x_adj =  0.3,
 
     ...
-
 
 ) {
 
@@ -152,6 +150,10 @@ gg_boxplot_plus <- function(
     p <- ggplot(DATA, aes(x = group, y = y, fill = group)) +
         geom_boxplot(width = .2, notch = add_median_ci)
 
+    # p <- ggplot(DATA, aes(x = group, y = y, fill = group)) +
+    #     geom_violin(aes(color = group), fill = NA, width = .6, lwd = 1) +
+    #     geom_boxplot(width = .1, notch = add_median_ci)
+
     if (add_points) {
         p <- p +
             geom_jitter(
@@ -164,7 +166,7 @@ gg_boxplot_plus <- function(
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (add_mean_ci) {
         mean_ci <- dplyr::do(dplyr::group_by(DATA, group),
-                             ci_mean_boot( .$y, repetitions = ci_boot_reps,
+                             ci_mean_boot(.$y, repetitions = ci_boot_reps,
                                            conf_level = conf_level))
 
         p <- p +
