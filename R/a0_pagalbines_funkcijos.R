@@ -304,8 +304,9 @@ round_signif <- function(x, digits = 3) {
         sprintf_glue(fmt = "%.{digits}g")
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-parse_formula <- function(formula, data = NULL) {
+# keep_all_vars - (logigal) If all variables (even those not in formula)
+#                 should be included in output data.
+parse_formula <- function(formula, data = NULL, keep_all_vars = FALSE) {
     envir <- rlang::f_env(formula)
 
     if (is.null(data)) {
@@ -336,13 +337,22 @@ parse_formula <- function(formula, data = NULL) {
            stop("Incorrect formula.")
     )
 
+    new_data <- data.frame(setNames(eval(fml_vars, data, envir), varnames),
+                           check.names = FALSE,
+                           stringsAsFactors = FALSE)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    if (keep_all_vars == TRUE) {
+        # If all variables (including those not in formula) should be kept.
+        new_data <- dplyr::bind_rows(new_data,
+                                     data[ ,setdiff(names(data), varnames)])
+    }
+
     # Output
     list(all_vars = varnames,
          y_names = y_vars,
          x_names = x_vars,
-         data = data.frame(setNames(eval(fml_vars, data, envir), varnames),
-                           check.names = FALSE,
-                           stringsAsFactors = FALSE)
+         data = new_data
     )
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
