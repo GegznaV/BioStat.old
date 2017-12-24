@@ -25,6 +25,8 @@
 #' @keywords ggplot2 plots
 #'
 #' @examples
+#' library(BioStat)
+#'
 #' # Example 1
 #' gg_boxplot_plus(decrease ~ treatment, OrchardSprays)
 #'
@@ -44,6 +46,13 @@
 #' # Example 3b
 #'
 #' gg_boxplot_plus(weight ~ Diet, data = ChickWeight,
+#'                 cld = cld_result,
+#'                 sort_groups = "descending",
+#'                 sort_fun = mean)
+#'
+#' # Example 3c
+#'
+#' gg_boxplot_plus(log(weight) ~ Diet, data = ChickWeight,
 #'                 cld = cld_result,
 #'                 sort_groups = "descending",
 #'                 sort_fun = mean)
@@ -95,21 +104,28 @@ gg_boxplot_plus <- function(
         checkmate::assert_class(cld, "cld_object")
     }
 
-    if (is.null(data)) {
-        data <- rlang::f_env(formula)
-    }
+    # if (is.null(data)) {
+    #     data <- rlang::f_env(formula)
+    # }
+    #
+    # fctr_name <- all.vars(formula[[3]])
+    #    y_name <- all.vars(formula[[2]])
+    #
+    # DATA <- dplyr::select(data,
+    #                       y = !!rlang::sym(y_name),
+    #                       group = !! rlang::sym(fctr_name))
+    #
+    # DATA <- dplyr::mutate(DATA, group = factor(group))
 
-    sort_groups <- match.arg(sort_groups)
+    obj <- parse_formula(formula, data)
+    y_name <- obj$y_names
+    fctr_name <- obj$x_names
 
-    fctr_name <- all.vars(formula[[3]])
-       y_name <- all.vars(formula[[2]])
-
-    DATA <- dplyr::select(data,
+    DATA <- dplyr::select(obj$data,
                           y = !!rlang::sym(y_name),
                           group = !! rlang::sym(fctr_name))
 
-    DATA <- dplyr::mutate(DATA, group = factor(group))
-
+    sort_groups <- match.arg(sort_groups)
     switch(sort_groups,
            "yes" = ,
            "ascending" = {
@@ -186,7 +202,7 @@ gg_boxplot_plus <- function(
     }
 
     p <- p +
-        labs(x = fctr_name, y = y_name) +
+        labs(x = fctr_name, y = y_name, fill = fctr_name, color = fctr_name) +
         theme_bw()
 
     p
