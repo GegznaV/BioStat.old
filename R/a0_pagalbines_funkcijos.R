@@ -303,3 +303,46 @@ round_signif <- function(x, digits = 3) {
         as_number() %>%
         sprintf_glue(fmt = "%.{digits}g")
 }
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+parse_formula <- function(formula, data = NULL) {
+    envir <- rlang::f_env(formula)
+
+    if (is.null(data)) {
+        data <- envir
+    }
+
+    # Get varnames
+    fml_terms <- terms(formula, data = data, keep.order = TRUE)
+    fml_vars  <- attr(fml_terms, "variables")
+    varnames  <- sapply(fml_vars, function(x)
+        paste(deparse(x, width.cutoff = 500), collapse = " ")
+    )[-1L]
+
+    # term_labels <- attr(fml_terms, "term.labels")
+    # varnames <- union(varnames, term_labels)
+
+    # Choose for one-sided and two-sided formula
+    switch(as.character(length(formula)),
+           "2" = {
+               y_vars <- varnames
+               x_vars <- NULL
+           },
+           "3" = {
+               resp_ind <- attr(fml_terms, "response")
+               y_vars <- varnames[resp_ind]
+               x_vars <- varnames[-resp_ind]
+           },
+           stop("Incorrect formula.")
+    )
+
+    # Output
+    list(all_vars = varnames,
+         y_names = y_vars,
+         x_names = x_vars,
+         data = data.frame(setNames(eval(fml_vars, data, envir), varnames),
+                           check.names = FALSE,
+                           stringsAsFactors = FALSE)
+    )
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -50,6 +50,8 @@ A ggplot2 plot object.
 [!] Plot a boxplot with additional components
 }
 \examples{
+library(BioStat)
+
 # Example 1
 gg_boxplot_plus(decrease ~ treatment, OrchardSprays)
 
@@ -69,6 +71,13 @@ gg_boxplot_plus(weight ~ Diet, data = ChickWeight,
 # Example 3b
 
 gg_boxplot_plus(weight ~ Diet, data = ChickWeight,
+                cld = cld_result,
+                sort_groups = "descending",
+                sort_fun = mean)
+
+# Example 3c
+
+gg_boxplot_plus(log(weight) ~ Diet, data = ChickWeight,
                 cld = cld_result,
                 sort_groups = "descending",
                 sort_fun = mean)
