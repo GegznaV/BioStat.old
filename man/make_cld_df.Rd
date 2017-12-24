@@ -45,6 +45,11 @@ comparisons}
 \item{reversed}{A logical value indicating whether the order of the letters
 should be reversed. Defaults to FALSE.}
 
+\item{swap_compared_names}{(logical) If \code{TRUE}, group names are swapped
+from, e.g., "2-1" or "second-first" to "1-2" or "first-second". This leads to
+different order of cld letters and different order of compared groups (if
+without swapping the result is incorrect order of groups.)}
+
 \item{...}{Additional arguments passed to
 \code{multcompLetters}}
 }
