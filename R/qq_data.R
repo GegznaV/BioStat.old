@@ -420,7 +420,7 @@ coef.qqdata <- function(object, ...) {
     attributes(object)$refline
 }
 
-# =======================================================
+# ============================================================================
 # A method to plot a `qqdata` object as a qq-plot
 
 #' @rdname qq_data

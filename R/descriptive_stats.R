@@ -8,10 +8,10 @@
 #' @export
 #' @keywords utilities
 #'
-#' @aliases summary_funs Q1 Q2 n_missing n_ok
+#' @aliases summary_funs q1 q3 n_missing n_ok
 #'
 #' @name summary_funs
-Q1 <- function(y, na.rm = TRUE,
+q1 <- function(y, na.rm = TRUE,
                type = 7, names = FALSE, ...) {
 
     quantile(y, probs = 0.25, names = names, type = type, na.rm = na.rm, ...)
@@ -19,7 +19,7 @@ Q1 <- function(y, na.rm = TRUE,
 
 #' @rdname summary_funs
 #' @export
-Q3 <- function(y, na.rm = TRUE,
+q3 <- function(y, na.rm = TRUE,
                type = 7,  names = FALSE, ...) {
 
     quantile(y, probs = 0.75, names = names, type = type, na.rm = na.rm, ...)
