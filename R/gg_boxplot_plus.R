@@ -115,49 +115,50 @@ gg_boxplot_plus <- function(
     #
     # DATA <- dplyr::mutate(DATA, group = factor(group))
 
-    obj <- parse_formula(formula, data)
+    obj <- parse_formula(formula, data, keep_all_vars = TRUE)
     y_name <- obj$y_names
     fctr_name <- obj$x_names
 
     DATA <- dplyr::select(obj$data,
-                          y = !!rlang::sym(y_name),
-                          group = !! rlang::sym(fctr_name))
+                          .y = !!rlang::sym(y_name),
+                          .group = !! rlang::sym(fctr_name),
+                          dplyr::everything())
 
     sort_groups <- match.arg(sort_groups)
     switch(sort_groups,
            "yes" = ,
            "ascending" = {
                DATA <- dplyr::mutate(DATA,
-                                     group = forcats::fct_reorder(group,
-                                                                  y,
-                                                                  fun = sort_fun,
-                                                                  ...,
-                                                                  .desc = FALSE))
+                                     .group = forcats::fct_reorder(.group,
+                                                                   .y,
+                                                                   fun = sort_fun,
+                                                                   ...,
+                                                                   .desc = FALSE))
            },
            "descending" = {
                DATA <- dplyr::mutate(DATA,
-                                     group = forcats::fct_reorder(group,
-                                                                  y,
-                                                                  fun = sort_fun,
-                                                                  ...,
-                                                                  .desc = TRUE))
+                                     .group = forcats::fct_reorder(.group,
+                                                                   .y,
+                                                                   fun = sort_fun,
+                                                                   ...,
+                                                                   .desc = TRUE))
            })
 
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Plot
 
-    p <- ggplot(DATA, aes(x = group, y = y, fill = group)) +
+    p <- ggplot(DATA, aes(x = .group, y = .y, fill = .group)) +
         geom_boxplot(width = .2, notch = add_median_ci)
 
-    # p <- ggplot(DATA, aes(x = group, y = y, fill = group)) +
-    #     geom_violin(aes(color = group), fill = NA, width = .6, lwd = 1) +
+    # p <- ggplot(DATA, aes(x = .group, y = .y, fill = .group)) +
+    #     geom_violin(aes(color = .group), fill = NA, width = .6, lwd = 1) +
     #     geom_boxplot(width = .1, notch = add_median_ci)
 
     if (add_points) {
         p <- p +
             geom_jitter(
-                aes(x = as.numeric(group) + points_x_adj),
+                aes(x = as.numeric(.group) + points_x_adj),
                 alpha = 0.3,
                 width = .08,
                 shape = 21)
@@ -165,21 +166,23 @@ gg_boxplot_plus <- function(
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (add_mean_ci) {
-        mean_ci <- dplyr::do(dplyr::group_by(DATA, group),
-                             ci_mean_boot(.$y, repetitions = ci_boot_reps,
+        mean_ci <- dplyr::do(dplyr::group_by(DATA, .group),
+                             ci_mean_boot(.$.y, repetitions = ci_boot_reps,
                                            conf_level = conf_level))
 
         p <- p +
             geom_errorbar(data = mean_ci,
-                          aes(x = as.numeric(group) + ci_x_adj,
+                          aes(x = as.numeric(.group) + ci_x_adj,
                               ymin = lower,
                               ymax = upper,
-                              color = group),
+                              color = .group),
                           inherit.aes = FALSE,
                           width = 0.1) +
 
             geom_point(data = mean_ci, shape = 21, color = "black",
-                       aes(x = as.numeric(group) + ci_x_adj, y = mean, fill = group),
+                       aes(x = as.numeric(.group) + ci_x_adj,
+                           y = mean,
+                           fill = .group),
                        inherit.aes = FALSE)
 
     }
@@ -187,13 +190,13 @@ gg_boxplot_plus <- function(
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (!is.null(cld)) {
 
-        y_upp <- max(DATA[["y"]], na.rm = TRUE)
-        y_low <- min(DATA[["y"]], na.rm = TRUE)
+        y_upp <- max(DATA[[".y"]], na.rm = TRUE)
+        y_low <- min(DATA[[".y"]], na.rm = TRUE)
 
         cld_y_pos <- cld_y_adj + y_upp + cld_y_mult*(y_upp - y_low)
 
         cld <- dplyr::mutate(cld,
-                             group = factor(group, levels = levels(DATA$group)))
+                             group = factor(group, levels = levels(DATA$.group)))
 
         p <- p +
             geom_text(data = cld,
