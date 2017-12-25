@@ -185,6 +185,8 @@ posthoc_anova.default <-
             tukey_ci_low  <- mean_diffs - (qcrit * se)
             tukey_ci_high <- mean_diffs + (qcrit * se)
 
+            # Is `p_adjusted` needed? [!!!]
+            # Tukey HSD test is correction itself.
             p_adjusted = stats::p.adjust(p_tukey, method = tolower(p_adjust))
 
             # Output -------------------------------------------------------------
@@ -209,7 +211,7 @@ posthoc_anova.default <-
         games_howell_test <- function(n_groups, gr_sizes, pair_names, variances, mean_diffs, alpha, p_adjust) {
 
             df_corrected <- combn(n_groups, 2, function(ij) {
-                sum(variances[ij] / gr_sizes[ij])^2 / sum((variances[ij] / gr_sizes[ij]) ^ 2 / (gr_sizes[ij] - 1))
+                sum(variances[ij] / gr_sizes[ij])^2 / sum((variances[ij] / gr_sizes[ij])^2 / (gr_sizes[ij] - 1))
             })
 
             se_corrected <- combn(n_groups, 2, function(ij) {
@@ -227,6 +229,8 @@ posthoc_anova.default <-
                         df_corrected,
                         lower.tail = FALSE)
 
+            # Is `p_adjusted` needed? [!!!]
+            # Games-Howell test is correction itself.
             p_adjusted <- stats::p.adjust(p, method = tolower(p_adjust))
 
             # Output: Games-Howell ----------------------------------------------
@@ -247,8 +251,8 @@ posthoc_anova.default <-
 
         res$output <-
             switch(method,
-                   "Tukey" =
-                       res$output <- {list(
+                   "Tukey" = {
+                       res$output <- list(
                            method = method,
                            result = tukey_test(n_groups,
                                                gr_sizes,
@@ -256,7 +260,8 @@ posthoc_anova.default <-
                                                variances,
                                                mean_diffs,
                                                alpha,
-                                               p_adjust))},
+                                               p_adjust))
+                   },
 
                    "Games-Howell" = {
                        res$output <- list(
@@ -267,7 +272,8 @@ posthoc_anova.default <-
                                                       variances,
                                                       mean_diffs,
                                                       alpha,
-                                                      p_adjust))}
+                                                      p_adjust))
+                   }
             )
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -303,11 +309,12 @@ print.posthoc_anova <- function(x,
 
     dat <- x$output$result
 
-    a_cld <- make_cld(p_adjusted ~ groups, data = dat)
+    a_cld <- make_cld(p_adjusted ~ groups, data = dat, swap_compared_names = TRUE)
 
     if (tolower(x$input$p_adjust) == "none") {
         dat[, "p_adjusted"] <- NULL
         p_cols <- c("p")
+
     } else {
         p_cols <- c("p", "p_adjusted")
     }
