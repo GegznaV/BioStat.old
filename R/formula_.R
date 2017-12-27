@@ -35,7 +35,7 @@ formula_parts <- function(formula) {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # keep_all_vars - (logigal) If all variables (even hose not in formula)
 #                 should be included in output data.
-formula_parse <- function(formula, data = NULL, keep_all_vars = FALSE) {
+parse_formula <- function(formula, data = NULL, keep_all_vars = FALSE) {
     envir <- rlang::f_env(formula)
 
     if (is.null(data)) {
@@ -45,8 +45,6 @@ formula_parse <- function(formula, data = NULL, keep_all_vars = FALSE) {
     extract_var_names <- function(obj) {
         paste(deparse(obj, width.cutoff = 500), collapse = " ")
     }
-
-    formula_parts(formula)
 
     # Get varnames
     fml_terms <- terms(formula, data = data, keep.order = TRUE)
