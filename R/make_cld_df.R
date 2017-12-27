@@ -7,7 +7,7 @@
 #' This function is based on code in function \code{\link[rcompanion]{cldList}()}
 #' from package \pkg{rcompanion} by Salvatore Mangiafico.
 #'
-#' @param swap_compared_names (logical) \crIf \code{TRUE}, group names are swapped
+#' @param swap_compared_names (logical) \cr If \code{TRUE}, group names are swapped
 #' from, e.g., "2-1" or "second-first" to "1-2" or "first-second". This leads to
 #' different order of cld letters and different order of compared groups (if
 #' without swapping the result is incorrect order of groups.)
