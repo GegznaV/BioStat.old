@@ -63,11 +63,12 @@ parse_formula <- function(formula, data = NULL, keep_all_vars = FALSE) {
 
     all_names_in_formula <- Reduce(c, names_by_part)
     new_data <- data.frame(
-        # `sapply` keeps variable names
-        sapply(all_names_in_formula, eval_, envir = data, enclos = envir),
+        # `sapply` changes factors to numeric thus must be avoided
+        lapply(all_names_in_formula, eval_, envir = data, enclos = envir),
         check.names = FALSE,
         stringsAsFactors = FALSE
     )
+    names(new_data) <- all_names_in_formula
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (keep_all_vars == TRUE) {
@@ -96,7 +97,9 @@ parse_formula <- function(formula, data = NULL, keep_all_vars = FALSE) {
 #     either a formula and returns list of names in lhs, rhs and condition
 #     or part of a formula and returns character vector of names in that part.
 formula_part_names <- function(obj) {
-   if (rlang::is_formula(obj)) {
+    if (is.null(obj)) return(NULL)
+
+    if (rlang::is_formula(obj)) {
         return(lapply(formula_parts(obj), formula_part_names))
 
     } else {
