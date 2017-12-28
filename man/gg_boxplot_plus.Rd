@@ -57,7 +57,8 @@ gg_boxplot_plus(decrease ~ treatment, OrchardSprays)
 
 
 # Example 2
-gg_boxplot_plus(decrease ~ treatment, OrchardSprays, sort_groups = "yes")
+gg_boxplot_plus(decrease ~ treatment, OrchardSprays,
+                sort_groups = "descending")
 
 
 # Example 3a
@@ -80,6 +81,11 @@ gg_boxplot_plus(weight ~ Diet, data = ChickWeight,
 gg_boxplot_plus(log(weight) ~ Diet, data = ChickWeight,
                 sort_groups = "descending",
                 sort_fun = mean)
+
+# Example 3d: facetting
+
+gg_boxplot_plus(weight ~ as.factor(Time), data = ChickWeight) +
+    facet_wrap("Diet")
 
 # Example 4
 

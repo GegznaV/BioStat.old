@@ -32,7 +32,8 @@
 #'
 #'
 #' # Example 2
-#' gg_boxplot_plus(decrease ~ treatment, OrchardSprays, sort_groups = "yes")
+#' gg_boxplot_plus(decrease ~ treatment, OrchardSprays,
+#'                 sort_groups = "descending")
 #'
 #'
 #' # Example 3a
@@ -55,6 +56,11 @@
 #' gg_boxplot_plus(log(weight) ~ Diet, data = ChickWeight,
 #'                 sort_groups = "descending",
 #'                 sort_fun = mean)
+#'
+#' # Example 3d: facetting
+#'
+#' gg_boxplot_plus(weight ~ as.factor(Time), data = ChickWeight) +
+#'     facet_wrap("Diet")
 #'
 #' # Example 4
 #'
@@ -116,34 +122,30 @@ gg_boxplot_plus <- function(
     # DATA <- dplyr::mutate(DATA, group = factor(group))
 
     obj <- parse_formula(formula, data, keep_all_vars = TRUE)
-    y_name <- obj$y_names
-    fctr_name <- obj$x_names
+    y_name <- obj$names$y
+    fctr_name <- obj$names$x
 
     DATA <- dplyr::select(obj$data,
-                          .y = !!rlang::sym(y_name),
+                          .y = !! rlang::sym(y_name),
                           .group = !! rlang::sym(fctr_name),
                           dplyr::everything())
 
     sort_groups <- match.arg(sort_groups)
-    switch(sort_groups,
+    desc <- switch(sort_groups,
            "yes" = ,
-           "ascending" = {
-               DATA <- dplyr::mutate(DATA,
-                                     .group = forcats::fct_reorder(.group,
-                                                                   .y,
-                                                                   fun = sort_fun,
-                                                                   ...,
-                                                                   .desc = FALSE))
-           },
-           "descending" = {
-               DATA <- dplyr::mutate(DATA,
-                                     .group = forcats::fct_reorder(.group,
-                                                                   .y,
-                                                                   fun = sort_fun,
-                                                                   ...,
-                                                                   .desc = TRUE))
-           })
+           "ascending" = FALSE,
+           "descending" = TRUE,
+           NULL)
 
+    if (!is.null(desc)) {
+        DATA <- dplyr::mutate(
+            DATA,
+            .group = forcats::fct_reorder(.group,
+                                          .y,
+                                          fun = sort_fun,
+                                          ...,
+                                          .desc = desc))
+    }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Plot
@@ -165,29 +167,46 @@ gg_boxplot_plus <- function(
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Add mean CI ------------------------------------------------------------
     if (add_mean_ci) {
-        mean_ci <- dplyr::do(dplyr::group_by(DATA, .group),
-                             ci_mean_boot(.$.y, repetitions = ci_boot_reps,
-                                           conf_level = conf_level))
+        # mean_ci <- dplyr::do(dplyr::group_by(DATA, .group),
+        #                      ci_mean_boot(.$.y, repetitions = ci_boot_reps,
+        #                                    conf_level = conf_level))
+        #
+        # p <- p +
+        #     geom_errorbar(data = mean_ci,
+        #                   aes(x = as.numeric(.group) + ci_x_adj,
+        #                       ymin = lower,
+        #                       ymax = upper,
+        #                       color = .group),
+        #                   inherit.aes = FALSE,
+        #                   width = 0.1) +
+        #
+        #     geom_point(data = mean_ci, shape = 21, color = "black",
+        #                aes(x = as.numeric(.group) + ci_x_adj,
+        #                    y = mean,
+        #                    fill = .group),
+        #                inherit.aes = FALSE)
 
         p <- p +
-            geom_errorbar(data = mean_ci,
-                          aes(x = as.numeric(.group) + ci_x_adj,
-                              ymin = lower,
-                              ymax = upper,
-                              color = .group),
-                          inherit.aes = FALSE,
-                          width = 0.1) +
+            stat_summary(aes(x = as.numeric(.group) + ci_x_adj,
+                             color = .group),
+                         geom = "errorbar",
+                         fun.data = mean_cl_boot,
+                         fun.args = list(
+                             conf.int = conf_level,
+                             B = ci_boot_reps),
+                         width = 0.1) +
 
-            geom_point(data = mean_ci, shape = 21, color = "black",
-                       aes(x = as.numeric(.group) + ci_x_adj,
-                           y = mean,
-                           fill = .group),
-                       inherit.aes = FALSE)
+            stat_summary(aes(x = as.numeric(.group) + ci_x_adj,
+                             color = .group),
+                         geom = "point",
+                         fun.y = mean)
 
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Add cld, if provided ---------------------------------------------------
     if (!is.null(cld)) {
 
         y_upp <- max(DATA[[".y"]], na.rm = TRUE)
@@ -206,10 +225,12 @@ gg_boxplot_plus <- function(
                       inherit.aes = FALSE)
     }
 
+    # Add labels -------------------------------------------------------------
     p <- p +
         labs(x = fctr_name, y = y_name, fill = fctr_name, color = fctr_name) +
         theme_bw()
 
+    # Output -----------------------------------------------------------------
     p
 }
 
