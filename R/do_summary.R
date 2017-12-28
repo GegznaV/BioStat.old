@@ -66,6 +66,8 @@ do_summary <- function(
         data <- model.frame(y, rlang::f_env(y))
     }
     # Define functions with na.rm set to TRUE
+          Q1 <- q1
+          Q3 <- q3
           sd <- purrr::partial(stats::sd,      na.rm = TRUE)
          var <- purrr::partial(stats::var,     na.rm = TRUE)
         mean <- purrr::partial(base::mean,     na.rm = TRUE)
@@ -75,6 +77,8 @@ do_summary <- function(
          IQR <- purrr::partial(stats::IQR,     na.rm = TRUE)
     skewness <- purrr::partial(psych::skew,    na.rm = TRUE)
     kurtosis <- purrr::partial(psych::kurtosi, na.rm = TRUE)
+
+
 
     # Extract numeric variables
     y_names  <- all.vars(y[[2]])
