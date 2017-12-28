@@ -42,7 +42,7 @@ parse_formula <- function(formula, data = NULL, keep_all_vars = FALSE) {
         data <- envir
     }
 
-    names_by_part <- formula_part_names(formula)
+    names_by_part <- formula_part_names(formula, data = data)
 
     switch(as.character(length(formula)),
            "2" = {
@@ -73,10 +73,10 @@ parse_formula <- function(formula, data = NULL, keep_all_vars = FALSE) {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if (keep_all_vars == TRUE) {
         # If all variables (including those not in formula) should be kept.
-        new_data <- dplyr::bind_cols(new_data,
-                                     data[ ,
-                                           setdiff(names(data), all_names_in_formula),
-                                           drop = FALSE])
+        new_data <- dplyr::bind_cols(
+            new_data,
+            data[ , setdiff(names(data), all_names_in_formula),
+                  drop = FALSE])
     }
 
     # Output ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -96,11 +96,11 @@ parse_formula <- function(formula, data = NULL, keep_all_vars = FALSE) {
 # Takes:
 #     either a formula and returns list of names in lhs, rhs and condition
 #     or part of a formula and returns character vector of names in that part.
-formula_part_names <- function(obj) {
+formula_part_names <- function(obj, data) {
     if (is.null(obj)) return(NULL)
 
     if (rlang::is_formula(obj)) {
-        return(lapply(formula_parts(obj), formula_part_names))
+        return(lapply(formula_parts(obj), formula_part_names, data = data))
 
     } else {
         fml <- as.formula(paste("~", expr2chr(obj)))
@@ -111,8 +111,8 @@ formula_part_names <- function(obj) {
     sapply(fml_vars, expr2chr)[-1L]
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-extract_expr_as_chr <- function(formula) {
-    Reduce(c, formula_part_names(formula))
+extract_expr_as_chr <- function(formula, data) {
+    Reduce(c, formula_part_names(formula, data = data))
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 expr2chr <- function(obj) {
