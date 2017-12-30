@@ -9,15 +9,25 @@
 #'   \item \emph{posthocTGH} from package \pkg{userfriendlyscience};
 #'   \item \emph{PMCMR} from package \pkg{PMCMR}.
 #'   }
+#'
 #' @param ... Further arguments to methods.
+#'
 #' @param data A dataset with p values and names of comparisons. This argument
 #'            is used if \code{obj} is formula. More details in examples.
+#'
+#' @param formula An R model \code{\link[stats]{formula}} where left-hand side
+#' term indicates variable with p values and right-hand side term defines
+#' variable with comparisons, e.g. \code{p.adjust ~ Comparison}. Usually is
+#' used in combination with \code{data}.
+#'
 #' @param alpha (numeric from 0 to 1) Significance level.
 #'
 #' @return (A data frame with) compact letter display.
 #' @export
 #'
 #' @examples
+#' library(BioStat)
+#'
 #' # Example 1: class `pairwise.htest`
 #'
 #' obj1 <- pairwise.wilcox.test(chickwts$weight, chickwts$feed, exact = FALSE)
@@ -108,7 +118,8 @@ make_cld.pairwise.htest <- function(obj, ..., alpha = 0.05) {
     df <- pval_matrix_to_df(m1)
     res <- make_cld_df(comparison = paste0(df$gr1, " - ", df$gr2),
                        p.value    = df$p_values,
-                       threshold  = alpha)
+                       threshold  = alpha,
+                       ...)
     res
 }
 
@@ -154,8 +165,8 @@ make_cld.posthoc_anova <- function(obj, ..., alpha = 1 - obj$input$conf_level) {
     res <- make_cld_df(comparison = obj2$groups,
                        p.value    = obj2$p_adjusted,
                        threshold  = alpha,
-                        ...
-                       )
+                       swap_compared_names = TRUE,
+                       ...)
     res
 }
 
@@ -195,7 +206,7 @@ make_cld.matrix <- function(obj, ..., alpha = 0.05) {
 
     obj[upper.tri(obj, diag = TRUE)] <- NA
     df <- pval_matrix_to_df(obj)
-    make_cld.pairwise_pval_df(df)
+    make_cld.pairwise_pval_df(df, ...)
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname make_cld
@@ -213,7 +224,8 @@ make_cld.data.frame <- function(obj, ..., formula = p.adjust ~ Comparison, alpha
 make_cld.pairwise_pval_df <- function(obj, ..., alpha = 0.05) {
     res <- make_cld_df(comparison = paste0(obj$gr1, " - ", obj$gr2),
                        p.value    = obj$p_values,
-                       threshold  = alpha)
+                       threshold  = alpha,
+                       ...)
     res
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

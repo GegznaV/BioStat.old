@@ -46,10 +46,10 @@ test_that("`make_cld.pairwise.htest` works with insignificant results", {
 test_that("`make_cld.posthoc_anova` works", {
     obj9 <- posthoc_anova(chickwts$weight, chickwts$feed)
     expect_equivalent(as.character(make_cld(obj9)$cld),
-                      c("a","ab","bc","b","c","c"))
+                      c("a", "b","bc","ac","c","a"))
 
     expect_equivalent(as.character(make_cld(obj9)$group),
-                      c("horsebean", "linseed", "meatmeal", "soybean", "sunflower", "casein" ))
+                      c("casein", "horsebean", "linseed", "meatmeal", "soybean", "sunflower"))
 })
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

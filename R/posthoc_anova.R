@@ -185,6 +185,8 @@ posthoc_anova.default <-
             tukey_ci_low  <- mean_diffs - (qcrit * se)
             tukey_ci_high <- mean_diffs + (qcrit * se)
 
+            # Is `p_adjusted` needed? [!!!]
+            # Tukey HSD test is correction itself.
             p_adjusted = stats::p.adjust(p_tukey, method = tolower(p_adjust))
 
             # Output -------------------------------------------------------------
@@ -209,7 +211,7 @@ posthoc_anova.default <-
         games_howell_test <- function(n_groups, gr_sizes, pair_names, variances, mean_diffs, alpha, p_adjust) {
 
             df_corrected <- combn(n_groups, 2, function(ij) {
-                sum(variances[ij] / gr_sizes[ij])^2 / sum((variances[ij] / gr_sizes[ij]) ^ 2 / (gr_sizes[ij] - 1))
+                sum(variances[ij] / gr_sizes[ij])^2 / sum((variances[ij] / gr_sizes[ij])^2 / (gr_sizes[ij] - 1))
             })
 
             se_corrected <- combn(n_groups, 2, function(ij) {
@@ -227,6 +229,8 @@ posthoc_anova.default <-
                         df_corrected,
                         lower.tail = FALSE)
 
+            # Is `p_adjusted` needed? [!!!]
+            # Games-Howell test is correction itself.
             p_adjusted <- stats::p.adjust(p, method = tolower(p_adjust))
 
             # Output: Games-Howell ----------------------------------------------
@@ -247,8 +251,8 @@ posthoc_anova.default <-
 
         res$output <-
             switch(method,
-                   "Tukey" =
-                       res$output <- {list(
+                   "Tukey" = {
+                       res$output <- list(
                            method = method,
                            result = tukey_test(n_groups,
                                                gr_sizes,
@@ -256,7 +260,8 @@ posthoc_anova.default <-
                                                variances,
                                                mean_diffs,
                                                alpha,
-                                               p_adjust))},
+                                               p_adjust))
+                   },
 
                    "Games-Howell" = {
                        res$output <- list(
@@ -267,7 +272,8 @@ posthoc_anova.default <-
                                                       variances,
                                                       mean_diffs,
                                                       alpha,
-                                                      p_adjust))}
+                                                      p_adjust))
+                   }
             )
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -287,11 +293,10 @@ posthoc_anova.default <-
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname posthoc_anova
-#' @export
-
 # @param x The object to print.
 # @param digits The number of significant digits to print.
+#' @rdname posthoc_anova
+#' @export
 print.posthoc_anova <- function(x,
                              digits   = x$input$digits,
                              digits_p = x$input$digits_p,
@@ -304,11 +309,12 @@ print.posthoc_anova <- function(x,
 
     dat <- x$output$result
 
-    a_cld <- make_cld(p_adjusted ~ groups, data = dat)
+    a_cld <- make_cld(p_adjusted ~ groups, data = dat, swap_compared_names = TRUE)
 
     if (tolower(x$input$p_adjust) == "none") {
         dat[, "p_adjusted"] <- NULL
         p_cols <- c("p")
+
     } else {
         p_cols <- c("p", "p_adjusted")
     }
@@ -346,21 +352,20 @@ print.posthoc_anova <- function(x,
 #' @rdname posthoc_anova
 #' @export
 #'
-#' @param y (ignored)
 #' @param zero_line_color  (character) Color for line indicating zero differences.
 #' @param flip_xy (logical) Flag if x and y axes should be swapped.
 #' @param add_p (logical) Flag if p values should be added.
 #' @param p_color (character) Color for p values.
 #' @param p_pos_adj (numeric) Factor for p value position correction
+#' @param p_size (numeric) Font size to p-values-related text.
 plot.posthoc_anova <- function(x,
-                               y = NULL,
-                             ...,
-                             zero_line_color = "grey",
-                             add_p = TRUE,
-                             p_size = 1,
-                             p_color = "blue",
-                             p_pos_adj = 0.22,
-                             flip_xy = TRUE
+                               ...,
+                               zero_line_color = "grey",
+                               add_p = TRUE,
+                               p_size = 1,
+                               p_color = "blue",
+                               p_pos_adj = 0.22,
+                               flip_xy = TRUE
                              ) {
 
 

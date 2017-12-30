@@ -2,15 +2,12 @@
 % Please edit documentation in R/coef_standardized.R
 \name{coef_standardized}
 \alias{coef_standardized}
-\alias{standardized_coef}
 \alias{print.lm_beta}
 \alias{summary.lm_beta}
 \alias{print.lm_beta_summary}
-\title{Compute Standardized Regression Coefficients}
+\title{[!] Compute Standardized Regression Coefficients}
 \usage{
 coef_standardized(obj)
-
-standardized_coef(obj)
 
 \method{print}{lm_beta}(x, ..., digits = 3)
 

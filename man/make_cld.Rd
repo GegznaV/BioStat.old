@@ -44,6 +44,11 @@ Currently supported objects: \itemize{
 
 \item{data}{A dataset with p values and names of comparisons. This argument
 is used if \code{obj} is formula. More details in examples.}
+
+\item{formula}{An R model \code{\link[stats]{formula}} where left-hand side
+term indicates variable with p values and right-hand side term defines
+variable with comparisons, e.g. \code{p.adjust ~ Comparison}. Usually is
+used in combination with \code{data}.}
 }
 \value{
 (A data frame with) compact letter display.
@@ -53,6 +58,8 @@ Make a compact letter display for results of pair-wise comparisons
 (e.g., ANOVA post-hoc tests, Kruskal-Wallis post-hoc tests and other).
 }
 \examples{
+library(BioStat)
+
 # Example 1: class `pairwise.htest`
 
 obj1 <- pairwise.wilcox.test(chickwts$weight, chickwts$feed, exact = FALSE)

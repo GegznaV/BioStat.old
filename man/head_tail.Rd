@@ -4,10 +4,10 @@
 \alias{head_tail}
 \title{[!] Show several first and last rows of a data frame}
 \usage{
-head_tail(x, n = 4, top = n, bottom = n, sep = "...")
+head_tail(obj, n = 4, top = n, bottom = n, sep = "...")
 }
 \arguments{
-\item{x}{A data frame.}
+\item{obj}{A data frame.}
 
 \item{n}{(integer) Number of top and bottom rows to display.}
 
@@ -18,7 +18,8 @@ head_tail(x, n = 4, top = n, bottom = n, sep = "...")
 \item{sep}{(character) Separator between displayed top and bottom lines.}
 }
 \value{
-A truncated data frame (which is intended to be printed) with all variables converted to strings.
+A truncated data frame (which is intended to be printed) with all
+        variables converted to strings.
 }
 \description{
 [!] Show several first and last rows of a data frame

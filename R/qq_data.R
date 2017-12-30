@@ -1,6 +1,6 @@
-#' [!]Compute data for a qq-plot
+#' [!] Compute data for a qq-plot
 #'
-#' Compute data necessary to plot a quntile comparison plot (qq-plot).
+#' Compute data necessary to plot a quantile comparison plot (qq-plot).
 #'
 #' @details
 #' Function \code{qq_data} is inspired by \code{qqPlot()} in package \pkg{car}
@@ -46,6 +46,7 @@
 #' @param sep (not used yet).
 #'
 #' @param ... Parameters to be passed to function, selected in \code{distribution}.
+#'            In \code{print} method, further parameters to function \code{print}.
 #'
 #' @inheritParams test_normality
 #' @inheritParams car::qqPlot
@@ -116,7 +117,7 @@
 #'  \code{\link[stats]{qqplot}} in \pkg{stats} package.
 #'
 
-qq_data <- function(x,
+qq_data <- function(y,
                     data = NULL,
                     distribution = "norm",
                     ...,
@@ -135,7 +136,7 @@ qq_data <- function(x,
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @export
 #' @importFrom purrr "%||%"
-qq_data.default <- function(x,
+qq_data.default <- function(y,
                      data = NULL,
                      distribution = "norm",
                      ...,
@@ -148,12 +149,12 @@ qq_data.default <- function(x,
 )
 
 {
-    x      <- getVarValues(x, data)
+    y      <- getVarValues(y, data)
     groups <- getVarValues(groups, data)
 
-    names(x) <-
+    names(y) <-
         if (is.null(labels)) {
-            names(x) %||% seq(along = x) %>% as.character()
+            names(y) %||% seq(along = y) %>% as.character()
         } else {
             labels
         }
@@ -162,13 +163,13 @@ qq_data.default <- function(x,
     method <- match.arg(method)
 
     if (method == "trimmed-normal" & distribution == "norm") {
-        qq_fun <- function(x){
-            labels <- names(x)
+        qq_fun <- function(y){
+            labels <- names(y)
             qq_data_(
-                x = x,
+                y = y,
                 distribution = distribution,
-                mean =        mean(   x, trim = 0.1),
-                sd   = stats::sd(trim(x, trim = 0.1)),
+                mean =        mean(   y, trim = 0.1),
+                sd   = stats::sd(trim(y, trim = 0.1)),
                 envelope = envelope,
                 line   = line,
                 labels = labels
@@ -176,13 +177,13 @@ qq_data.default <- function(x,
         }
 
     } else if (method == "moment-normal" & distribution == "norm") {
-        qq_fun <- function(x){
-            labels <- names(x)
+        qq_fun <- function(y){
+            labels <- names(y)
             qq_data_(
-                x = x,
+                y = y,
                 distribution = distribution,
-                mean = mean(x),
-                sd   = stats::sd(x),
+                mean = mean(y),
+                sd   = stats::sd(y),
                 envelope = envelope,
                 line   = line,
                 labels = labels
@@ -190,11 +191,11 @@ qq_data.default <- function(x,
         }
 
     } else if (method == "mle-normal" & distribution == "norm") {
-        qq_fun <- function(x){
-            labels <- names(x)
-            params <- fitdistrplus::fitdist(x, "norm") %>% stats::coef()
+        qq_fun <- function(y){
+            labels <- names(y)
+            params <- fitdistrplus::fitdist(y, "norm") %>% stats::coef()
             qq_data_(
-                x = x,
+                y = y,
                 distribution = distribution,
                 mean = params["mean"],
                 sd   = params["sd"],
@@ -205,10 +206,10 @@ qq_data.default <- function(x,
         }
 
     } else {
-        qq_fun <- function(x){
-            labels <- names(x)
+        qq_fun <- function(y){
+            labels <- names(y)
             qq_data_(
-                x = x,
+                y = y,
                 distribution = distribution,
                 ...,
                 envelope = envelope,
@@ -221,13 +222,13 @@ qq_data.default <- function(x,
 
     # If no groups exist
     if (is.null(groups)) {
-        DF <- qq_fun(x)
+        DF <- qq_fun(y)
 
     # Applied by group
     } else {
-        DF <- tapply(x, groups, qq_fun)
+        DF <- tapply(y, groups, qq_fun)
 
-        # Make dateframes to match a output in single group
+        # Make data frames to match a output in single group
         # DF_attr <-
         #     purrr::map(DF, ~ attributes(.x)$refline)  %>%
         #     rbind_df_in_list()
@@ -256,7 +257,7 @@ qq_data.default <- function(x,
 #' @export
 # @rdname qq_data
 qq_data.formula <- function(
-    x,
+    y,
     data = NULL,
     distribution = "norm",
     ...,
@@ -269,11 +270,11 @@ qq_data.formula <- function(
 )
 {
     # [!!!] qq_data.formula method needs revision
-    DF <- model.frame(x, data = data)
+    DF <- model.frame(y, data = data)
 
-    qq_main <- function(x,  groups = NULL)
+    qq_main <- function(y,  groups = NULL)
         qq_data(
-            x = x,
+            y = y,
             distribution = distribution,
             ...,
             envelope = envelope,
@@ -283,15 +284,15 @@ qq_data.formula <- function(
             method = method
         )
 
-    if (length(x) == 2) {
+    if (length(y) == 2) {
         rez <- qq_main(DF[[1]])
 
-    } else if (length(x) > 2) {
+    } else if (length(y) > 2) {
         rez <- qq_main(DF[[1]], groups = interaction(DF[-1], sep = sep))
 
     } else {
         stop(
-            "\nThe formula (`", x,"`) is incorrect.",
+            "\nThe formula (`", y,"`) is incorrect.",
             "\nIt must contain at least 1 variable name."
         )
     }
@@ -299,12 +300,12 @@ qq_data.formula <- function(
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-qq_data_ <- function(x,
+qq_data_ <- function(y,
                      distribution = "norm",
                      ...,
                      line = c("quartiles", "robust", "int=0,slope=1", "0,1", "none"),
                      envelope = 0.95,
-                     labels = if (!is.null(names(x))) names(x) else seq(along = x))
+                     labels = if (!is.null(names(y))) names(y) else seq(along = y))
 
 {   line <- line[1]
     if (is.null(line) | isTRUE(line)) {
@@ -313,10 +314,10 @@ qq_data_ <- function(x,
 
     line <- match.arg(line)
 
-    good <- !is.na(x)
-    ord  <- order(x[good])
+    good <- !is.na(y)
+    ord  <- order(y[good])
 
-    ord_x   <- x[good][ord]
+    ord_x   <- y[good][ord]
     ord_lab <- labels[good][ord]
     q_function <- eval_glue("q{distribution}")
     d_function <- eval_glue("d{distribution}")
@@ -419,11 +420,11 @@ coef.qqdata <- function(object, ...) {
     attributes(object)$refline
 }
 
-# =======================================================
-#' A method to plot a `qqdata` object as a qq-plot
-#'
-#' @param x A \code{qqdata} object
-#' @param ... other parameters
+# ============================================================================
+# A method to plot a `qqdata` object as a qq-plot
+
+#' @rdname qq_data
+#' @param x A \code{qqdata} object.
 #' @param scales ("free"|"free_x"|"free_y"|"fixed")
 #'               a parmeter to be passed to
 #'                \code{\link[ggplot2]{facet_wrap}}.
@@ -451,21 +452,21 @@ coef.qqdata <- function(object, ...) {
 #' # Plot in color
 #' plot(my_qq_df, use_colors = TRUE)
 #'
-#' # Plot a qq-pot of one group
-#' QQ_single <- qq_data( ~ weight, data = chickwts)
-#' plot(QQ_single)
+#' # Plot a qq-plot (with no grouping)
+#' qq_single <- qq_data(~weight, data = chickwts)
+#' plot(qq_single)
 #'
-#' class(QQ_single)
+#' class(qq_single)
 #'
 #'
 #' # More than one grouping variable
 #' data(CO2, package = "datasets")
 #'
-#'  QQ_CO2 <- qq_data(uptake ~ Type + Treatment, data = CO2)
-#'  plot(QQ_CO2)
+#'  qq_co2 <- qq_data(uptake ~ Type + Treatment, data = CO2)
+#'  plot(qq_co2)
 #'
-#'  QQ_CO2_B <- qq_data(uptake ~ Type + Treatment, data = CO2, line = "robust")
-#'  plot(QQ_CO2_B)
+#'  qq_co2_B <- qq_data(uptake ~ Type + Treatment, data = CO2, line = "robust")
+#'  plot(qq_co2_B)
 #'
 #' @importFrom graphics plot
 #' @export

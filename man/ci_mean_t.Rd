@@ -4,10 +4,10 @@
 \alias{ci_mean_t}
 \title{t-distribution based confidence interval of mean}
 \usage{
-ci_mean_t(x, conf_level = 0.95, na.rm = TRUE, return_df = TRUE)
+ci_mean_t(y, conf_level = 0.95, na.rm = TRUE, return_df = TRUE)
 }
 \arguments{
-\item{x}{(numeric) A numeric vector from which \code{NA}s will be removed automatically.}
+\item{y}{(numeric) A numeric vector from which \code{NA}s will be removed automatically.}
 
 \item{conf_level}{(number) Confidence level. Number from 0 to 1. Default 0.95.}
 
@@ -23,6 +23,6 @@ Student's t-distribution based confidence interval of mean
 }
 \examples{
 set.seed(999555)
-x <- rnorm(35, 10, 5)
-ci_mean_t(x)
+y <- rnorm(35, 10, 5)
+ci_mean_t(y)
 }

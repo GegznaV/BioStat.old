@@ -15,6 +15,7 @@
 #' @importFrom stats coef complete.cases model.extract
 #'                   naprint p.adjust ptukey qtukey quantile
 #'                   symnum var sd as.formula model.matrix qt
+#'                   median setNames terms
 #' @importFrom utils capture.output combn head tail
 
 

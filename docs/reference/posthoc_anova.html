@@ -110,9 +110,8 @@ post-hoc tests for one-way analysis of variance (ANOVA).</p>
   <span class='kw'>digits_p</span> <span class='kw'>=</span> <span class='no'>x</span>$<span class='no'>input</span>$<span class='no'>digits_p</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for posthoc_anova</span>
-<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>, <span class='kw'>zero_line_color</span> <span class='kw'>=</span> <span class='st'>"grey"</span>,
-  <span class='kw'>add_p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p_size</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>p_color</span> <span class='kw'>=</span> <span class='st'>"blue"</span>, <span class='kw'>p_pos_adj</span> <span class='kw'>=</span> <span class='fl'>0.22</span>,
-  <span class='kw'>flip_xy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>zero_line_color</span> <span class='kw'>=</span> <span class='st'>"grey"</span>, <span class='kw'>add_p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>p_size</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>p_color</span> <span class='kw'>=</span> <span class='st'>"blue"</span>, <span class='kw'>p_pos_adj</span> <span class='kw'>=</span> <span class='fl'>0.22</span>, <span class='kw'>flip_xy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -179,6 +178,10 @@ stored in the object.</p></td>
       <td><p>(logical) Flag if p values should be added.</p></td>
     </tr>
     <tr>
+      <th>p_size</th>
+      <td><p>(numeric) Font size to p-values-related text.</p></td>
+    </tr>
+    <tr>
       <th>p_color</th>
       <td><p>(character) Color for p values.</p></td>
     </tr>
@@ -189,10 +192,6 @@ stored in the object.</p></td>
     <tr>
       <th>flip_xy</th>
       <td><p>(logical) Flag if x and y axes should be swapped.</p></td>
-    </tr>
-    <tr>
-      <th>y</th>
-      <td><p>(ignored)</p></td>
     </tr>
     </table>
     
@@ -239,10 +238,10 @@ on code of function <code>posthocTGH()</code> in package <span class="pkg">userf
 #&gt; 6    4-3     -7.687  -33.899   18.524 0.76 226.1567   0.87
 #&gt; 
 #&gt;   group   n    mean variance     sd cld spaced_cld
-#&gt; 1     1 220 102.645 3209.965 56.657   b         _b
-#&gt; 2     2 120 122.617 5127.633 71.607   a         a_
-#&gt; 3     3 120 142.950 7489.476 86.542   a         a_
-#&gt; 4     4 118 135.263 4737.392 68.829   a         a_</div><div class='input'>
+#&gt; 1     1 220 102.645 3209.965 56.657   a         a_
+#&gt; 2     2 120 122.617 5127.633 71.607   b         _b
+#&gt; 3     3 120 142.950 7489.476 86.542   b         _b
+#&gt; 4     4 118 135.263 4737.392 68.829   b         _b</div><div class='input'>
 <span class='co'># Compute post-hoc statistics using the Tukey method</span>
 <span class='fu'>posthoc_anova</span>(<span class='no'>weight</span> ~ <span class='no'>Diet</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ChickWeight</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Tukey"</span>)</div><div class='output co'>#&gt; Tukey HSD test results (ANOVA post-hoc) 
 #&gt; 
@@ -255,10 +254,10 @@ on code of function <code>posthocTGH()</code> in package <span class="pkg">userf
 #&gt; 6    4-3     -7.687  -30.845   15.470 0.86 574   0.83
 #&gt; 
 #&gt;   group   n    mean variance     sd cld spaced_cld
-#&gt; 1     1 220 102.645 3209.965 56.657   b         _b
+#&gt; 1     1 220 102.645 3209.965 56.657   a         a_
 #&gt; 2     2 120 122.617 5127.633 71.607  ab         ab
-#&gt; 3     3 120 142.950 7489.476 86.542   a         a_
-#&gt; 4     4 118 135.263 4737.392 68.829   a         a_</div><div class='input'>
+#&gt; 3     3 120 142.950 7489.476 86.542   b         _b
+#&gt; 4     4 118 135.263 4737.392 68.829   b         _b</div><div class='input'>
 
 </div></pre>
   </div>

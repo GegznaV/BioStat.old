@@ -4,10 +4,10 @@
 \alias{scale_vector}
 \title{Scale a vector}
 \usage{
-scale_vector(x, center = mean, scale = sd)
+scale_vector(y, center = mean, scale = sd)
 }
 \arguments{
-\item{x}{A numeric vector.}
+\item{y}{A numeric vector.}
 
 \item{center}{Either a function that computes center of data
 (such as \code{mean}) or a single numeric value.}
@@ -16,7 +16,7 @@ scale_vector(x, center = mean, scale = sd)
 (such as \code{sd}) or a single numeric value.}
 }
 \value{
-The same object as \code{x} just with every element scaled
+The same object as \code{y} just with every element scaled
 }
 \description{
 From every element in a vector, subtract \code{center} and
@@ -24,11 +24,11 @@ divide by \code{scale}.
 }
 \examples{
 
-x = 1:10
-scale_vector(x)
+y = 1:10
+scale_vector(y)
 
-scale_vector(x, center = median, scale = IQR)
+scale_vector(y, center = median, scale = IQR)
 
-scale_vector(x, center = 10, scale = 2)
+scale_vector(y, center = 10, scale = 2)
 
 }

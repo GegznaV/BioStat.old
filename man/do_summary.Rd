@@ -5,13 +5,13 @@
 \alias{print.num_summaries}
 \title{Do numerical summaries by groups}
 \usage{
-do_summary(x, data = NULL, stat = c("n", "missing", "mean", "sd", "var",
+do_summary(y, data = NULL, stat = c("n", "missing", "mean", "sd", "var",
   "min", "Q1", "Md", "Q3", "max", "IQR", "skewness", "kurtosis"))
 
 \method{print}{num_summaries}(x, ..., digits = NA, format = "f")
 }
 \arguments{
-\item{x}{formula with variable names to summarize. See more in examples.}
+\item{y}{formula with variable names to summarize. See more in examples.}
 
 \item{data}{data set}
 
@@ -32,6 +32,8 @@ do_summary(x, data = NULL, stat = c("n", "missing", "mean", "sd", "var",
     \item \code{"kurtosis"} - excess kurtosis.
 }}
 
+\item{x}{object to print}
+
 \item{...}{further arguments to methods.}
 
 \item{digits}{(numeric or \code{NA}) a desired number of digits after the decimal point (if \code{format = "f"}) or a number of significant digits (\code{format = "g"}, \code{= "e"} or \code{= "fg"}). \cr
@@ -44,8 +46,6 @@ Each value will be passed to \code{fun} separately.\cr
 \code{"e"} and \code{"E"} give \code{n.ddde+nn} or \code{n.dddE+nn} (scientific format);\cr
 \code{"g"} and \code{"G"} put number into scientific format only if it saves space to do so.\cr
 \code{"fg"} uses fixed format as \code{"f"}, but digits as the minimum number of significant digits. This can lead to quite long result strings}
-
-\item{x}{object to print}
 }
 \value{
 Data frame with summary satatistics.

@@ -167,11 +167,14 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Example 1</span>
-<span class='fu'>gg_boxplot_plus</span>(<span class='no'>decrease</span> ~ <span class='no'>treatment</span>, <span class='no'>OrchardSprays</span>)</div><div class='img'><img src='gg_boxplot_plus-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>BioStat</span>)
+
+<span class='co'># Example 1</span>
+<span class='fu'>gg_boxplot_plus</span>(<span class='no'>decrease</span> ~ <span class='no'>treatment</span>, <span class='no'>OrchardSprays</span>)</div><div class='img'><img src='gg_boxplot_plus-9.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 
 <span class='co'># Example 2</span>
-<span class='fu'>gg_boxplot_plus</span>(<span class='no'>decrease</span> ~ <span class='no'>treatment</span>, <span class='no'>OrchardSprays</span>, <span class='kw'>sort_groups</span> <span class='kw'>=</span> <span class='st'>"yes"</span>)</div><div class='img'><img src='gg_boxplot_plus-2.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>gg_boxplot_plus</span>(<span class='no'>decrease</span> ~ <span class='no'>treatment</span>, <span class='no'>OrchardSprays</span>,
+                <span class='kw'>sort_groups</span> <span class='kw'>=</span> <span class='st'>"descending"</span>)</div><div class='img'><img src='gg_boxplot_plus-10.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 
 <span class='co'># Example 3a</span>
 
@@ -179,13 +182,22 @@
 <span class='no'>cld_result</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_cld.html'>make_cld</a></span>(<span class='no'>res</span>)
 
 <span class='fu'>gg_boxplot_plus</span>(<span class='no'>weight</span> ~ <span class='no'>Diet</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ChickWeight</span>,
-                <span class='kw'>cld</span> <span class='kw'>=</span> <span class='no'>cld_result</span>)</div><div class='img'><img src='gg_boxplot_plus-3.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+                <span class='kw'>cld</span> <span class='kw'>=</span> <span class='no'>cld_result</span>)</div><div class='img'><img src='gg_boxplot_plus-11.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'># Example 3b</span>
 
 <span class='fu'>gg_boxplot_plus</span>(<span class='no'>weight</span> ~ <span class='no'>Diet</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ChickWeight</span>,
                 <span class='kw'>cld</span> <span class='kw'>=</span> <span class='no'>cld_result</span>,
                 <span class='kw'>sort_groups</span> <span class='kw'>=</span> <span class='st'>"descending"</span>,
-                <span class='kw'>sort_fun</span> <span class='kw'>=</span> <span class='no'>mean</span>)</div><div class='img'><img src='gg_boxplot_plus-4.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+                <span class='kw'>sort_fun</span> <span class='kw'>=</span> <span class='no'>mean</span>)</div><div class='img'><img src='gg_boxplot_plus-12.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='co'># Example 3c: do simple transformations</span>
+
+<span class='fu'>gg_boxplot_plus</span>(<span class='fu'>log</span>(<span class='no'>weight</span>) ~ <span class='no'>Diet</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ChickWeight</span>,
+                <span class='kw'>sort_groups</span> <span class='kw'>=</span> <span class='st'>"descending"</span>,
+                <span class='kw'>sort_fun</span> <span class='kw'>=</span> <span class='no'>mean</span>)</div><div class='img'><img src='gg_boxplot_plus-13.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='co'># Example 3d: facetting</span>
+
+<span class='fu'>gg_boxplot_plus</span>(<span class='no'>weight</span> ~ <span class='fu'>as.factor</span>(<span class='no'>Time</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ChickWeight</span>) +
+    <span class='fu'>facet_wrap</span>(<span class='st'>"Diet"</span>)</div><div class='img'><img src='gg_boxplot_plus-14.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'># Example 4</span>
 
 <span class='no'>res2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='posthoc_anova.html'>posthoc_anova</a></span>(<span class='no'>decrease</span> ~ <span class='no'>treatment</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>OrchardSprays</span>)
@@ -194,11 +206,11 @@
 <span class='fu'>gg_boxplot_plus</span>(<span class='no'>decrease</span> ~ <span class='no'>treatment</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>OrchardSprays</span>,
                 <span class='kw'>cld</span> <span class='kw'>=</span> <span class='no'>cld_result2</span>,
                 <span class='kw'>sort_groups</span> <span class='kw'>=</span> <span class='st'>"descending"</span>,
-                <span class='kw'>sort_fun</span> <span class='kw'>=</span> <span class='no'>mean</span>)</div><div class='img'><img src='gg_boxplot_plus-5.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+                <span class='kw'>sort_fun</span> <span class='kw'>=</span> <span class='no'>mean</span>)</div><div class='img'><img src='gg_boxplot_plus-15.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='fu'>gg_boxplot_plus</span>(<span class='no'>decrease</span> ~ <span class='no'>treatment</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>OrchardSprays</span>,
                 <span class='kw'>cld</span> <span class='kw'>=</span> <span class='no'>cld_result2</span>,
                 <span class='kw'>sort_groups</span> <span class='kw'>=</span> <span class='st'>"ascending"</span>,
-                <span class='kw'>sort_fun</span> <span class='kw'>=</span> <span class='no'>IQR</span>)</div><div class='img'><img src='gg_boxplot_plus-6.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+                <span class='kw'>sort_fun</span> <span class='kw'>=</span> <span class='no'>IQR</span>)</div><div class='img'><img src='gg_boxplot_plus-16.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

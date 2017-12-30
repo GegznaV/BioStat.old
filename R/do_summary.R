@@ -2,7 +2,7 @@
 #'
 #' Do numerical summaries by groups with formaula interface. Missing values are automatically removed.
 #'
-#' @param x formula with variable names to summarize. See more in examples.
+#' @param y formula with variable names to summarize. See more in examples.
 #' @param data data set
 #' @param stat (character) Descriptive statistics to compute. Currently supported statistics:
 #'  \itemize{
@@ -44,7 +44,7 @@
 #'     print(digits = 1)
 #'
 do_summary <- function(
-    x,
+    y,
     data = NULL,
     stat = c("n",
              "missing",
@@ -63,9 +63,11 @@ do_summary <- function(
     data_name <- substitute(data)
 
     if (is.null(data)) {
-        data <- model.frame(x, rlang::f_env(x))
+        data <- model.frame(y, rlang::f_env(y))
     }
     # Define functions with na.rm set to TRUE
+          Q1 <- q1
+          Q3 <- q3
           sd <- purrr::partial(stats::sd,      na.rm = TRUE)
          var <- purrr::partial(stats::var,     na.rm = TRUE)
         mean <- purrr::partial(base::mean,     na.rm = TRUE)
@@ -76,12 +78,14 @@ do_summary <- function(
     skewness <- purrr::partial(psych::skew,    na.rm = TRUE)
     kurtosis <- purrr::partial(psych::kurtosi, na.rm = TRUE)
 
+
+
     # Extract numeric variables
-    x_names  <- all.vars(x[[2]])
+    y_names  <- all.vars(y[[2]])
 
     # Extract grouping variables
-    gr_names <- if (length(x) == 3) {
-        all.vars(x[[3]])
+    gr_names <- if (length(y) == 3) {
+        all.vars(y[[3]])
     } else {
         NULL
     }
@@ -94,14 +98,14 @@ do_summary <- function(
     stat_ <- rlang::syms(stat)
 
     # Function to reset names
-    right_names <- function(x) {
-        x[x == "n_ok"     ] <- "n"
-        x[x == "n_missing"] <- "missing"
+    right_names <- function(y) {
+        y[y == "n_ok"     ] <- "n"
+        y[y == "n_missing"] <- "missing"
         # If only one stat, dplyr::summarise does
         # not write the name of the statistic. To correct this:
         if (length(stat) == 1)
-            x[length(x)] <- stat
-        x
+            y[length(y)] <- stat
+        y
     }
 
     # Define function for calculations
@@ -117,19 +121,19 @@ do_summary <- function(
 
     # Do the calculations
     (
-        # if (length(x_names) > 1) {
-            lapply(x_names, calculate) %>%
-                setNames(x_names) %>%
+        # if (length(y_names) > 1) {
+            lapply(y_names, calculate) %>%
+                setNames(y_names) %>%
                 dplyr::bind_rows(.id = "summary_of")
 
         # } else {
-        #     calculate(x_names)
+        #     calculate(y_names)
         # }
     ) %>%
         as.data.frame() %>%
         purrr::set_names(~right_names(.))  %>%
         structure(class = c("num_summaries", "summaries_model", "data.frame"),
-                  vars = x_names,
+                  vars = y_names,
                   groups = gr_names,
                   data = data_name)
 

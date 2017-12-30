@@ -1,4 +1,4 @@
-#' Compute Standardized Regression Coefficients
+#' [!] Compute Standardized Regression Coefficients
 #'
 #' Compute the standardized regression coefficients (beta) from an object of class \code{lm}).
 #'
@@ -84,7 +84,11 @@ coef_standardized <- function(obj) {
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
-#' @rdname coef_standardized
+#' @name deprecated_functions
+#' @description Depreceted functions. They exist for compatibility with
+#'              previous versions.
+#' @title Deprecated functions in `BioStat` package
+#' @param obj \code{lm} object.
 #' @export
 standardized_coef <- function(obj) {
     .Deprecated("coef_standardized")

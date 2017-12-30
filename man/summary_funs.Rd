@@ -2,25 +2,37 @@
 % Please edit documentation in R/descriptive_stats.R
 \name{summary_funs}
 \alias{summary_funs}
-\alias{Q1}
-\alias{Q2}
+\alias{q1}
+\alias{q3}
 \alias{n_missing}
 \alias{n_ok}
-\alias{Q3}
+\alias{q3}
 \alias{n_missing}
 \alias{n_ok}
+\alias{n_nonmissing}
+\alias{iqv}
+\alias{iqv.default}
+\alias{iqv.table}
 \title{[!] Descriptive statistics}
 \usage{
-Q1(x, na.rm = TRUE, type = 7, names = FALSE, ...)
+q1(y, na.rm = TRUE, type = 7, names = FALSE, ...)
 
-Q3(x, na.rm = TRUE, type = 7, names = FALSE, ...)
+q3(y, na.rm = TRUE, type = 7, names = FALSE, ...)
 
-n_missing(x)
+n_missing(y)
 
-n_ok(x)
+n_ok(y)
+
+n_nonmissing(y)
+
+iqv(y, ...)
+
+\method{iqv}{default}(y, ...)
+
+\method{iqv}{table}(y, ...)
 }
 \arguments{
-\item{x}{Variable to summarize}
+\item{y}{Variable to summarize}
 
 \item{na.rm}{logical; if true, any \code{\link{NA}} and \code{NaN}'s
     are removed from \code{x} before the quantiles are computed.}

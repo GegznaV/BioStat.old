@@ -88,7 +88,7 @@
     <p>Do numerical summaries by groups with formaula interface. Missing values are automatically removed.</p>
     
 
-    <pre class="usage"><span class='fu'>do_summary</span>(<span class='no'>x</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>stat</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"n"</span>, <span class='st'>"missing"</span>, <span class='st'>"mean"</span>, <span class='st'>"sd"</span>, <span class='st'>"var"</span>,
+    <pre class="usage"><span class='fu'>do_summary</span>(<span class='no'>y</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>stat</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"n"</span>, <span class='st'>"missing"</span>, <span class='st'>"mean"</span>, <span class='st'>"sd"</span>, <span class='st'>"var"</span>,
   <span class='st'>"min"</span>, <span class='st'>"Q1"</span>, <span class='st'>"Md"</span>, <span class='st'>"Q3"</span>, <span class='st'>"max"</span>, <span class='st'>"IQR"</span>, <span class='st'>"skewness"</span>, <span class='st'>"kurtosis"</span>))
 
 <span class='co'># S3 method for num_summaries</span>
@@ -98,7 +98,7 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
+      <th>y</th>
       <td><p>formula with variable names to summarize. See more in examples.</p></td>
     </tr>
     <tr>
@@ -124,6 +124,10 @@
 </ul></td>
     </tr>
     <tr>
+      <th>x</th>
+      <td><p>object to print</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>further arguments to methods.</p></td>
     </tr>
@@ -141,10 +145,6 @@ Each value will be passed to <code>fun</code> separately.
 <code>"e"</code> and <code>"E"</code> give <code>n.ddde+nn</code> or <code>n.dddE+nn</code> (scientific format);
 <code>"g"</code> and <code>"G"</code> put number into scientific format only if it saves space to do so.
 <code>"fg"</code> uses fixed format as <code>"f"</code>, but digits as the minimum number of significant digits. This can lead to quite long result strings</p></td>
-    </tr>
-    <tr>
-      <th>x</th>
-      <td><p>object to print</p></td>
     </tr>
     </table>
     
