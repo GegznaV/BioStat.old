@@ -1,32 +1,43 @@
 #  test_normality() =========================================================
+# To do:
+# 1. Use "parse_formula" for formula interface.
+# 2. Enable formaula of form: y1 + y2 + y3 ~ group
+# 3. Enable formaula of form: ~ y1 + y2 + y3 | group
+
+
+# ============================================================================
 #' Normality tests by groups
 #'
-#' Perform tests of normality for each subset of groups separately.
-#' The available tests include Shapiro-Wilk (default),
-#' Lilliefors (Kolmogorov-Smirnov), Anderson-Darling and other tests of normality.
+#' Perform a test of normality for each group separately.
+#' The available tests: Shapiro-Wilk (default),
+#' Lilliefors (Kolmogorov-Smirnov), Anderson-Darling and other.
 #'
-#' @param y Either a formula, a numeric vector or a name of a column
+#' @param y (formula|numeric|character)\cr
+#'          Either a formula, a numeric vector or a name of a column
 #'             in \code{data}. \itemize{
 #'     \item If \code{y} is a formula (e.g. \code{variable ~ factor}), left-hand
 #'     side provides the name of a variable to be tested. In the right-hand side
 #'     there are names of factor variables to be used to create subsets.
-#'     If the left-hand side is empty ((e.g. \code{~ factor}), right-hand
+#'     If the left-hand side is empty (e.g. \code{~ factor}), right-hand
 #'                                     side is treated as variable name to test.
 #' }
 #'
-#' @param groups (\code{NULL}|factor|character) An alternative way to provide
-#'                groups. If \code{y} is a numeric vector, \code{groups} must be
+#' @param groups (\code{NULL}|factor|character) \cr
+#'                An alternative way to provide groups.
+#'                If \code{y} is a numeric vector, \code{groups} must be
 #'                a factor (or \code{NULL}). If \code{y} is a sting,
 #'                \code{groups} must also be a string (or \code{NULL}).
 #'
-#' @param data (data frame|\code{NULL}) Either a data frame that contains the
+#' @param data (data frame|\code{NULL}) \cr
+#'             Either a data frame that contains the
 #'             variables mentioned in \code{y} or \code{NULL} (if the variables
 #'             are in the function's environment).
 #'
-#' @param test (string | function) Either a string  (case insensitive, maybe
-#'             unambiguously abbreviated) with a name of normality test or a
-#'             function, which carries out the test.\cr
-#'             Possible names of tests:\itemize{
+#' @param test (string | function) \cr
+#'             Either a function that carries out a normality test or
+#'             a string (case insensitive, maybe unambiguously abbreviated)
+#'              with a name of a normality test. Possible names of tests:
+#'             \itemize{
 #'     \item{"SW", "Shapiro-Wilk" — for Shapiro-Wilk test;}
 #'     \item{"Lilliefors" — for Kolmogorov-Smirnov test with Lilliefor's correction;}
 #'     \item{"AD", "Anderson-Darling" — for Anderson-Darling test;}
@@ -35,35 +46,43 @@
 #'     \item{"Chi-squared","Pearsons" — for Pearson's chi-squared test of normality.}
 #' }
 #'
-#' @param signif_stars (logical) If \code{TRUE}, significance stars are printed.
+#' @param signif_stars (logical) \cr
+#'                     If \code{TRUE}, significance stars are printed.
 #'
-#' @param legend (logical) If \code{TRUE}, legend for significance stars
+#' @param legend (logical) \cr
+#'                     If \code{TRUE}, legend for significance stars
 #'                     is printed.
 #'
-#' @param digits_stat (integer) either number of decimal places or number of
-#'                    significant digits to round test statistic to.
+#' @param digits_stat (integer)  \cr
+#'                     Either a number of decimal places or number of
+#'                     significant digits to round test statistic to.
 #'
-#' @param format_stat (character) Number format "f", "g" or
-#'                    "auto" (default) for test statistic. More about number
+#' @param format_stat (character) \cr
+#'                     Number format "f", "g" or "auto" (default) for test
+#'                     statistic. More about number
 #'                    formats "f" and "g" you can find in documentation of
 #'                    function \code{\link[base]{formatC}} section \code{format}.
 #'
-#' @param show_col_method (logical) If \code{FALSE} column "method" is not
+#' @param show_col_method (logical) \cr
+#'                     If \code{FALSE} column "method" is not
 #'                   printed. Default is\code{FALSE}.
 #'
-#' @param caption (string|\code{NULL}|\code{NA}) A caption for the table with
+#' @param caption (string|\code{NULL}|\code{NA}) \cr
+#'                     A caption for the table with
 #'                results of a normality test. If \code{NA} — a default caption
 #'                is printed (default). If \code{NULL} – no caption is printed.
 #'
-#' @param p_adjust_method (\code{NULL}|string) A name of p value adjustment
+#' @param p_adjust_method (\code{NULL}|string) \cr
+#'                     A name of p value adjustment
 #'               method for multiple comparisons. For available methods check
 #'               \code{\link[stats]{p.adjust.methods}}.
 #'               If \code{NULL}, no adjusted p value is calculated (default).
 #'               If string (e.g., \code{"holm"}), an additional column
 #'               \code{p.adjust} is calculated.
 #'
-#' @param ... Parameters to be passed to the further methods.
+#' @param ... Further parameters to the function of normatity test.
 #'
+#' @param x \code{normality_test} object.
 #'
 #' @inheritParams format_p_values
 #' @inheritParams stats::shapiro.test
@@ -123,7 +142,7 @@
 #' rez2
 #'
 #'
-#' # Print as a 'pandoc' table (for RMarkdown reports)
+#' # Print as a 'pandoc' table (for R Markdown reports)
 #' pander(rez)
 #'
 #' pander(rez, digits_stat = 2)
@@ -248,8 +267,7 @@ test_ <- function(y,
         rez <-
             data %>%
             dplyr::group_by(!!!gr_vars)  %>%
-            dplyr::do(.[[1]] %>%
-                          test() %>%
+            dplyr::do(test(.[[1]], ...) %>%
                           broom::tidy()
             ) %>%
             dplyr::ungroup()  %>%

@@ -68,8 +68,9 @@ confidence envelope.}
 \item{labels}{vector of text strings to be used to identify points, defaults to
     \code{names(x)} or observation numbers if \code{names(x)} is \code{NULL}.}
 
-\item{groups}{(\code{NULL}|factor|character) An alternative way to provide
-groups. If \code{y} is a numeric vector, \code{groups} must be
+\item{groups}{(\code{NULL}|factor|character) \cr
+An alternative way to provide groups.
+If \code{y} is a numeric vector, \code{groups} must be
 a factor (or \code{NULL}). If \code{y} is a sting,
 \code{groups} must also be a string (or \code{NULL}).}
 
