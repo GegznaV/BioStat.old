@@ -357,7 +357,7 @@ print.posthoc_anova <- function(x,
 #' @param add_p (logical) Flag if p values should be added.
 #' @param p_color (character) Color for p values.
 #' @param p_pos_adj (numeric) Factor for p value position correction
-#' @param p_pos_adj (numeric) Font size to p-values-related text.
+#' @param p_size (numeric) Font size to p-values-related text.
 plot.posthoc_anova <- function(x,
                                ...,
                                zero_line_color = "grey",

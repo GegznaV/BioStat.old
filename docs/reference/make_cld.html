@@ -155,7 +155,9 @@ used in combination with <code>data</code>.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Example 1: class `pairwise.htest`</span>
+    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>BioStat</span>)
+
+<span class='co'># Example 1: class `pairwise.htest`</span>
 
 <span class='no'>obj1</span> <span class='kw'>&lt;-</span> <span class='fu'>pairwise.wilcox.test</span>(<span class='no'>chickwts</span>$<span class='no'>weight</span>, <span class='no'>chickwts</span>$<span class='no'>feed</span>, <span class='kw'>exact</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='fu'>make_cld</span>(<span class='no'>obj1</span>)</div><div class='output co'>#&gt;       group cld spaced_cld
@@ -206,10 +208,10 @@ used in combination with <code>data</code>.</p></td>
                       <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ChickWeight</span>,
                       <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Games-Howell"</span>)
 <span class='fu'>make_cld</span>(<span class='no'>obj5</span>)</div><div class='output co'>#&gt;   group cld spaced_cld
-#&gt; 1     2   a         a_
-#&gt; 2     3   a         a_
-#&gt; 3     4   a         a_
-#&gt; 4     1   b         _b</div><div class='input'>
+#&gt; 1     1   a         a_
+#&gt; 2     2   b         _b
+#&gt; 3     3   b         _b
+#&gt; 4     4   b         _b</div><div class='input'>
 
 <span class='co'># Example 6: class `posthoc_anova`</span>
 
@@ -217,10 +219,10 @@ used in combination with <code>data</code>.</p></td>
                      <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ChickWeight</span>,
                      <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Games-Howell"</span>)
 <span class='fu'>make_cld</span>(<span class='no'>obj6</span>)</div><div class='output co'>#&gt;   group cld spaced_cld
-#&gt; 1     2   a         a_
-#&gt; 2     3   a         a_
-#&gt; 3     4   a         a_
-#&gt; 4     1   b         _b</div><div class='input'>
+#&gt; 1     1   a         a_
+#&gt; 2     2   b         _b
+#&gt; 3     3   b         _b
+#&gt; 4     4   b         _b</div><div class='input'>
 
 <span class='co'># Example 7: class `formula`</span>
 

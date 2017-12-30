@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>[!] Descriptive statistics � summary_funs • BioStat</title>
+<title>Deprecated functions in `BioStat` package � deprecated_functions • BioStat</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -81,62 +81,24 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>[!] Descriptive statistics</h1>
+    <h1>Deprecated functions in `BioStat` package</h1>
     </div>
 
     
-    <p>[!] Descriptive statistics</p>
+    <p>Depreceted functions. They exist for compatibility with
+             previous versions.</p>
     
 
-    <pre class="usage"><span class='fu'>q1</span>(<span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
-
-<span class='fu'>q3</span>(<span class='no'>y</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
-
-<span class='fu'>n_missing</span>(<span class='no'>y</span>)
-
-<span class='fu'>n_ok</span>(<span class='no'>y</span>)
-
-<span class='fu'>n_nonmissing</span>(<span class='no'>y</span>)
-
-<span class='fu'>iqv</span>(<span class='no'>y</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for default</span>
-<span class='fu'>iqv</span>(<span class='no'>y</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for table</span>
-<span class='fu'>iqv</span>(<span class='no'>y</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>standardized_coef</span>(<span class='no'>obj</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>y</th>
-      <td><p>Variable to summarize</p></td>
-    </tr>
-    <tr>
-      <th>na.rm</th>
-      <td><p>logical; if true, any <code>NA</code> and <code>NaN</code>'s
-    are removed from <code>x</code> before the quantiles are computed.</p></td>
-    </tr>
-    <tr>
-      <th>type</th>
-      <td><p>an integer between 1 and 9 selecting one of the
-    nine quantile algorithms detailed below to be used.</p></td>
-    </tr>
-    <tr>
-      <th>names</th>
-      <td><p>logical; if true, the result has a <code>names</code>
-    attribute.  Set to <code>FALSE</code> for speedup with many <code>probs</code>.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>futher arguments to methods</p></td>
+      <th>obj</th>
+      <td><p><code>lm</code> object.</p></td>
     </tr>
     </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Summary statistic(s).</p>
     
 
   </div>
@@ -144,9 +106,7 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-          </ul>
+                </ul>
 
   </div>
 </div>

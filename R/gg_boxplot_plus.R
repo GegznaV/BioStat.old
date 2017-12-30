@@ -1,3 +1,12 @@
+# ============================================================================
+# To do:
+#
+# 1. Add parameters for xlab, ylab, legend_lab = xlab.
+# 2. Review documentation.
+#
+# ============================================================================
+
+
 #' [!] Plot a boxplot with additional components
 #'
 #' @param formula a formula with two variable names to analyze. First one is numeric, second one is a factor, e.g. \code{y ~ group}.

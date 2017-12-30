@@ -61,13 +61,13 @@ stored in the object.}
 
 \item{add_p}{(logical) Flag if p values should be added.}
 
+\item{p_size}{(numeric) Font size to p-values-related text.}
+
 \item{p_color}{(character) Color for p values.}
 
 \item{p_pos_adj}{(numeric) Factor for p value position correction}
 
 \item{flip_xy}{(logical) Flag if x and y axes should be swapped.}
-
-\item{p_pos_adj}{(numeric) Font size to p-values-related text.}
 }
 \value{
 A list of three elements:

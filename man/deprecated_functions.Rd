@@ -7,3 +7,10 @@
 \usage{
 standardized_coef(obj)
 }
+\arguments{
+\item{obj}{\code{lm} object.}
+}
+\description{
+Depreceted functions. They exist for compatibility with
+             previous versions.
+}
