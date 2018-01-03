@@ -75,8 +75,8 @@ format_numbers <- function(data,
     for (i in seq_along(data)) {
         if (!is.numeric(data[[i]])) next
         if (is.na(digits[i]))       next
-        data[[i]] %<>%
-            fun(digits = digits[i], format = format[i], ...)
+        data[[i]] <-
+            fun(data[[i]], digits = digits[i], format = format[i], ...)
     }
     # Output:
     data
