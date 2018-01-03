@@ -4,7 +4,7 @@
 \alias{head_tail}
 \title{[!] Show several first and last rows of a data frame}
 \usage{
-head_tail(obj, n = 4, top = n, bottom = n, sep = "...")
+head_tail(obj, n = 4, top = n, bottom = n, sep = "...", format = "f")
 }
 \arguments{
 \item{obj}{A data frame.}
@@ -16,6 +16,24 @@ head_tail(obj, n = 4, top = n, bottom = n, sep = "...")
 \item{bottom}{(integer) Number of bottom rows to display.}
 
 \item{sep}{(character) Separator between displayed top and bottom lines.}
+
+\item{format}{equal to \code{"d"}  (for integers), \code{"f"},
+    \code{"e"}, \code{"E"}, \code{"g"}, \code{"G"}, \code{"fg"} (for
+    reals), or \code{"s"} (for strings).  Default is \code{"d"} for
+    integers, \code{"g"} for reals.
+
+    \code{"f"} gives numbers in the usual
+    \code{xxx.xxx} format;  \code{"e"} and \code{"E"} give \code{n.ddde+nn} or
+    \code{n.dddE+nn} (scientific format); \code{"g"} and \code{"G"} put
+    \code{x[i]} into scientific format only if it saves space to do so.
+
+    \code{"fg"} uses fixed format as \code{"f"}, but \code{digits} as
+    the minimum number of \emph{significant} digits.  This can lead
+    to quite long result strings, see examples below.  Note that unlike
+    \code{\link{signif}} this prints large numbers with
+    more significant digits than \code{digits}.  Trailing zeros are
+    \emph{dropped} in this format, unless \code{flag} contains
+    \code{"#"}.}
 }
 \value{
 A truncated data frame (which is intended to be printed) with all

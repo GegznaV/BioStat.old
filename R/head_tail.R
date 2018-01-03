@@ -7,6 +7,7 @@
 #' @param top (integer) Number of top rows to display.
 #' @param bottom (integer) Number of bottom rows to display.
 #' @param sep (character) Separator between displayed top and bottom lines.
+#' @inheritParams base::formatC
 #'
 #' @return A truncated data frame (which is intended to be printed) with all
 #'         variables converted to strings.
@@ -21,12 +22,37 @@ head_tail <- function(obj,
                       n = 4,
                       top = n,
                       bottom = n,
-                      sep = "...") {
-    obj <- dplyr::mutate_all(as.data.frame(obj), as.character)
-    h <- head(obj, top)
-    t <- tail(obj, bottom)
+                      sep = "...",
+                      format = "f") {
 
-    dots  <- rep(sep, ncol(obj))
-    space <- rep(" ", ncol(obj))
-    rbind(h, `...` = dots, t, `  ` = space)
+    format <- match.arg(format)
+
+    obj_h <- head(obj, top)
+    obj_t <- tail(obj, bottom)
+
+    decim <- n_decimals_max(rbind(obj_h, obj_t))
+
+    df_h <- format_numbers(as.data.frame(obj_h), decim, format = format)
+    df_t <- format_numbers(as.data.frame(obj_t), decim, format = format)
+
+    dots  <- rep(sep, ncol(df_h))
+    space <- rep(" ", ncol(df_h))
+
+    rbind(df_h, `...` = dots, df_t, `  ` = space)
+}
+
+# Number of decimals without tailing zeros
+n_decimals <- function(x) {
+    checkmate::assert_numeric(x)
+    # `scipen = 999` prebents from convertion to scientific number format
+    withr::with_options(list(scipen = 999), {
+        x[(x %% 1) == 0] <- ""
+        as.character(x)
+        nchar(sub('(^.+\\.)(.*)(0*$)', '\\2', as.character(x)))
+    })
+}
+
+# Max num. of significan decimals in each column
+n_decimals_max <- function(obj) {
+    sapply(obj, function(x) max(n_decimals(x)))
 }
