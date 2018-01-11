@@ -85,10 +85,10 @@
     </div>
 
     
-    <p>[!] Show several first and last rows of a data frame</p>
+    <p>This function selects several top and bottom rows of a data frame for a preview.</p>
     
 
-    <pre class="usage"><span class='fu'>head_tail</span>(<span class='no'>obj</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>top</span> <span class='kw'>=</span> <span class='no'>n</span>, <span class='kw'>bottom</span> <span class='kw'>=</span> <span class='no'>n</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"..."</span>)</pre>
+    <pre class="usage"><span class='fu'>head_tail</span>(<span class='no'>obj</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>top</span> <span class='kw'>=</span> <span class='no'>n</span>, <span class='kw'>bottom</span> <span class='kw'>=</span> <span class='no'>n</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"..."</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"f"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -113,6 +113,24 @@
       <th>sep</th>
       <td><p>(character) Separator between displayed top and bottom lines.</p></td>
     </tr>
+    <tr>
+      <th>format</th>
+      <td><p>equal to <code>"d"</code>  (for integers), <code>"f"</code>,
+    <code>"e"</code>, <code>"E"</code>, <code>"g"</code>, <code>"G"</code>, <code>"fg"</code> (for
+    reals), or <code>"s"</code> (for strings).  Default is <code>"d"</code> for
+    integers, <code>"g"</code> for reals.</p>
+<p><code>"f"</code> gives numbers in the usual
+    <code>xxx.xxx</code> format;  <code>"e"</code> and <code>"E"</code> give <code>n.ddde+nn</code> or
+    <code>n.dddE+nn</code> (scientific format); <code>"g"</code> and <code>"G"</code> put
+    <code>x[i]</code> into scientific format only if it saves space to do so.</p>
+<p><code>"fg"</code> uses fixed format as <code>"f"</code>, but <code>digits</code> as
+    the minimum number of <em>significant</em> digits.  This can lead
+    to quite long result strings, see examples below.  Note that unlike
+    <code>signif</code> this prints large numbers with
+    more significant digits than <code>digits</code>.  Trailing zeros are
+    <em>dropped</em> in this format, unless <code>flag</code> contains
+    <code>"#"</code>.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -123,17 +141,28 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>swiss</span>)
-<span class='fu'>head_tail</span>(<span class='no'>swiss</span>)</div><div class='output co'>#&gt;     Fertility Agriculture Examination Education Catholic Infant.Mortality
-#&gt; 1        80.2          17          15        12     9.96             22.2
-#&gt; 2        83.1        45.1           6         9    84.84             22.2
-#&gt; 3        92.5        39.7           5         5     93.4             20.2
-#&gt; 4        85.8        36.5          12         7    33.77             20.3
-#&gt; ...       ...         ...         ...       ...      ...              ...
-#&gt; 44       67.6        18.7          25         7     8.65             19.5
-#&gt; 45         35         1.2          37        53    42.34               18
-#&gt; 46       44.7        46.6          16        29    50.43             18.2
-#&gt; 47       42.8        27.7          22        29    58.33             19.3
-#&gt;                                                                          </div></pre>
+<span class='fu'>head_tail</span>(<span class='no'>swiss</span>)</div><div class='output co'>#&gt;              Fertility Agriculture Examination Education Catholic
+#&gt; Courtelary        80.2        17.0          15        12     9.96
+#&gt; Delemont          83.1        45.1           6         9    84.84
+#&gt; Franches-Mnt      92.5        39.7           5         5    93.40
+#&gt; Moutier           85.8        36.5          12         7    33.77
+#&gt; ...                ...         ...         ...       ...      ...
+#&gt; ValdeTravers      67.6        18.7          25         7     8.65
+#&gt; V. De Geneve      35.0         1.2          37        53    42.34
+#&gt; Rive Droite       44.7        46.6          16        29    50.43
+#&gt; Rive Gauche       42.8        27.7          22        29    58.33
+#&gt;                                                                  
+#&gt;              Infant.Mortality
+#&gt; Courtelary               22.2
+#&gt; Delemont                 22.2
+#&gt; Franches-Mnt             20.2
+#&gt; Moutier                  20.3
+#&gt; ...                       ...
+#&gt; ValdeTravers             19.5
+#&gt; V. De Geneve             18.0
+#&gt; Rive Droite              18.2
+#&gt; Rive Gauche              19.3
+#&gt;                              </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

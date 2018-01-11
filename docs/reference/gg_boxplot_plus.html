@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>[!] Plot a boxplot with additional components � gg_boxplot_plus • BioStat</title>
+<title>[!] A boxplot with additional components � gg_boxplot_plus • BioStat</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -81,18 +81,20 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>[!] Plot a boxplot with additional components</h1>
+    <h1>[!] A boxplot with additional components</h1>
     </div>
 
     
-    <p>[!] Plot a boxplot with additional components</p>
+    <p>A boxplot (in the style of Tukey) with additional components: mean and its confidence intervals as well as jittered points.</p>
     
 
-    <pre class="usage"><span class='fu'>gg_boxplot_plus</span>(<span class='no'>formula</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cld</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort_groups</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"no"</span>,
-  <span class='st'>"yes"</span>, <span class='st'>"ascending"</span>, <span class='st'>"descending"</span>), <span class='kw'>sort_fun</span> <span class='kw'>=</span> <span class='no'>median</span>, <span class='kw'>add_points</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>add_mean_ci</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>add_median_ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>conf_level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
-  <span class='kw'>ci_boot_reps</span> <span class='kw'>=</span> <span class='fl'>999</span>, <span class='kw'>cld_color</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>cld_y_adj</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>cld_y_mult</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>ci_x_adj</span> <span class='kw'>=</span> -<span class='fl'>0.3</span>, <span class='kw'>points_x_adj</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>gg_boxplot_plus</span>(<span class='no'>formula</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cld</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>legend_title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort_groups</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"no"</span>, <span class='st'>"yes"</span>,
+  <span class='st'>"ascending"</span>, <span class='st'>"descending"</span>), <span class='kw'>sort_fun</span> <span class='kw'>=</span> <span class='no'>median</span>, <span class='kw'>add_points</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>notch</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>varwidth</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>add_mean_ci</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>conf_level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>ci_boot_reps</span> <span class='kw'>=</span> <span class='fl'>999</span>, <span class='kw'>cld_color</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
+  <span class='kw'>cld_y_adj</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>cld_y_mult</span> <span class='kw'>=</span> <span class='fl'>0.06</span>, <span class='kw'>ci_x_adj</span> <span class='kw'>=</span> -<span class='fl'>0.3</span>, <span class='kw'>points_x_adj</span> <span class='kw'>=</span> <span class='fl'>0.3</span>,
+  <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -110,8 +112,21 @@
       <td><p>a data frame with cld results (object of class <code>cld_object</code>).</p></td>
     </tr>
     <tr>
+      <th>xlab</th>
+      <td><p>(character)   Title for the x-axis.</p></td>
+    </tr>
+    <tr>
+      <th>ylab</th>
+      <td><p>(character)   Title the y-axis.</p></td>
+    </tr>
+    <tr>
+      <th>legend_title</th>
+      <td><p>(character)   Title for the legend.</p></td>
+    </tr>
+    <tr>
       <th>sort_groups</th>
-      <td><p>(<code>"no"</code>|<code>"yes"</code>|<code>"ascending"</code>|<code>"descending"</code>) Sort groups by position of median.</p></td>
+      <td><p>(<code>"no"</code>|<code>"yes"</code>|<code>"ascending"</code>|<code>"descending"</code>) 
+Sort groups by position of either median or other statistic indicated in <code>sort_fun</code>.</p></td>
     </tr>
     <tr>
       <th>sort_fun</th>
@@ -121,15 +136,24 @@
     </tr>
     <tr>
       <th>add_points</th>
-      <td><p>(<code>TRUE</code>|<code>FALSE</code>)</p></td>
+      <td><p>(<code>TRUE</code>|<code>FALSE</code>)   If <code>TRUE</code>, jittered point are added to the left of the boxplot.</p></td>
+    </tr>
+    <tr>
+      <th>notch</th>
+      <td><p>(<code>TRUE</code>|<code>FALSE</code>)
+ if <code>FALSE</code> (default) make a standard box plot.
+If <code>TRUE</code>, notched boxplot is drawn. If the notches of two plots do not overlap this is a �strong evidence� that the two medians statistically signigicantly differ (Chambers et al, 1983, p. 62).</p></td>
+    </tr>
+    <tr>
+      <th>varwidth</th>
+      <td><p>(logical) 
+If <code>FALSE</code> (default) make a standard box plot.
+If <code>TRUE</code>, boxes are drawn with widths proportional to the
+square-roots of the number of observations in the groups.</p></td>
     </tr>
     <tr>
       <th>add_mean_ci</th>
-      <td><p>(<code>TRUE</code>|<code>FALSE</code>)</p></td>
-    </tr>
-    <tr>
-      <th>add_median_ci</th>
-      <td><p>(<code>TRUE</code>|<code>FALSE</code>)</p></td>
+      <td><p>(<code>TRUE</code>|<code>FALSE</code>)   If <code>TRUE</code>, mean with its confidence interval are added to the right of the boxplot.</p></td>
     </tr>
     <tr>
       <th>conf_level</th>
@@ -141,19 +165,23 @@
     </tr>
     <tr>
       <th>cld_color</th>
-      <td><p>(character) Name of color for cld letters.</p></td>
+      <td><p>(character)  Name of color for cld letters.</p></td>
     </tr>
     <tr>
-      <th>cld_y_adj, cld_y_mult</th>
-      <td><p>(numeric) y position correction (addition and multiplication) factors for cld letters.</p></td>
+      <th>cld_y_adj</th>
+      <td><p>(numeric)  cly y position adjustment factor (additive) for cld letters.</p></td>
+    </tr>
+    <tr>
+      <th>cld_y_mult</th>
+      <td><p>(numeric)  cly y position adjustment factor (multiplicative).</p></td>
     </tr>
     <tr>
       <th>ci_x_adj</th>
-      <td><p>(numeric)  x position correction factor for mean confidence interval.</p></td>
+      <td><p>(numeric)  x position correction factor (additive) for mean confidence interval lines/dots.</p></td>
     </tr>
     <tr>
       <th>points_x_adj</th>
-      <td><p>(numeric) x position correction factor for jittered points.</p></td>
+      <td><p>(numeric)  x position correction factor (additive) for jittered points.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -165,16 +193,30 @@
 
     <p>A ggplot2 plot object.</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The boxplot compactly displays the distribution of a continuous numeric variable. It visualises five summary statistics (including the first quartile, the median, and the third quartile) as well as all "outlying" points individually.</p>
+<p>The plot is based on <span class="pkg">ggplot2</span>, thus <code>ggplot2</code> elements can be
+added to modify the plot.</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Chambers, J. M., Cleveland, W. S., Kleiner, B. and Tukey, P. A. (1983) <em>Graphical Methods for Data Analysis.</em> Wadsworth &amp; Brooks/Cole.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><a href='https://en.wikipedia.org/wiki/Box_plot'>https://en.wikipedia.org/wiki/Box_plot</a></p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>BioStat</span>)
 
 <span class='co'># Example 1</span>
-<span class='fu'>gg_boxplot_plus</span>(<span class='no'>decrease</span> ~ <span class='no'>treatment</span>, <span class='no'>OrchardSprays</span>)</div><div class='img'><img src='gg_boxplot_plus-9.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>gg_boxplot_plus</span>(<span class='no'>decrease</span> ~ <span class='no'>treatment</span>, <span class='no'>OrchardSprays</span>)</div><div class='img'><img src='gg_boxplot_plus-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 
 <span class='co'># Example 2</span>
 <span class='fu'>gg_boxplot_plus</span>(<span class='no'>decrease</span> ~ <span class='no'>treatment</span>, <span class='no'>OrchardSprays</span>,
-                <span class='kw'>sort_groups</span> <span class='kw'>=</span> <span class='st'>"descending"</span>)</div><div class='img'><img src='gg_boxplot_plus-10.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+                <span class='kw'>sort_groups</span> <span class='kw'>=</span> <span class='st'>"descending"</span>)</div><div class='img'><img src='gg_boxplot_plus-2.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 
 <span class='co'># Example 3a</span>
 
@@ -182,22 +224,22 @@
 <span class='no'>cld_result</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_cld.html'>make_cld</a></span>(<span class='no'>res</span>)
 
 <span class='fu'>gg_boxplot_plus</span>(<span class='no'>weight</span> ~ <span class='no'>Diet</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ChickWeight</span>,
-                <span class='kw'>cld</span> <span class='kw'>=</span> <span class='no'>cld_result</span>)</div><div class='img'><img src='gg_boxplot_plus-11.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+                <span class='kw'>cld</span> <span class='kw'>=</span> <span class='no'>cld_result</span>)</div><div class='img'><img src='gg_boxplot_plus-3.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'># Example 3b</span>
 
 <span class='fu'>gg_boxplot_plus</span>(<span class='no'>weight</span> ~ <span class='no'>Diet</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ChickWeight</span>,
                 <span class='kw'>cld</span> <span class='kw'>=</span> <span class='no'>cld_result</span>,
                 <span class='kw'>sort_groups</span> <span class='kw'>=</span> <span class='st'>"descending"</span>,
-                <span class='kw'>sort_fun</span> <span class='kw'>=</span> <span class='no'>mean</span>)</div><div class='img'><img src='gg_boxplot_plus-12.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+                <span class='kw'>sort_fun</span> <span class='kw'>=</span> <span class='no'>mean</span>)</div><div class='img'><img src='gg_boxplot_plus-4.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'># Example 3c: do simple transformations</span>
 
 <span class='fu'>gg_boxplot_plus</span>(<span class='fu'>log</span>(<span class='no'>weight</span>) ~ <span class='no'>Diet</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ChickWeight</span>,
                 <span class='kw'>sort_groups</span> <span class='kw'>=</span> <span class='st'>"descending"</span>,
-                <span class='kw'>sort_fun</span> <span class='kw'>=</span> <span class='no'>mean</span>)</div><div class='img'><img src='gg_boxplot_plus-13.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+                <span class='kw'>sort_fun</span> <span class='kw'>=</span> <span class='no'>mean</span>)</div><div class='img'><img src='gg_boxplot_plus-5.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'># Example 3d: facetting</span>
 
 <span class='fu'>gg_boxplot_plus</span>(<span class='no'>weight</span> ~ <span class='fu'>as.factor</span>(<span class='no'>Time</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ChickWeight</span>) +
-    <span class='fu'>facet_wrap</span>(<span class='st'>"Diet"</span>)</div><div class='img'><img src='gg_boxplot_plus-14.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+    <span class='fu'>facet_wrap</span>(<span class='st'>"Diet"</span>)</div><div class='img'><img src='gg_boxplot_plus-6.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='co'># Example 4</span>
 
 <span class='no'>res2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='posthoc_anova.html'>posthoc_anova</a></span>(<span class='no'>decrease</span> ~ <span class='no'>treatment</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>OrchardSprays</span>)
@@ -206,11 +248,11 @@
 <span class='fu'>gg_boxplot_plus</span>(<span class='no'>decrease</span> ~ <span class='no'>treatment</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>OrchardSprays</span>,
                 <span class='kw'>cld</span> <span class='kw'>=</span> <span class='no'>cld_result2</span>,
                 <span class='kw'>sort_groups</span> <span class='kw'>=</span> <span class='st'>"descending"</span>,
-                <span class='kw'>sort_fun</span> <span class='kw'>=</span> <span class='no'>mean</span>)</div><div class='img'><img src='gg_boxplot_plus-15.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+                <span class='kw'>sort_fun</span> <span class='kw'>=</span> <span class='no'>mean</span>)</div><div class='img'><img src='gg_boxplot_plus-7.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='fu'>gg_boxplot_plus</span>(<span class='no'>decrease</span> ~ <span class='no'>treatment</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>OrchardSprays</span>,
                 <span class='kw'>cld</span> <span class='kw'>=</span> <span class='no'>cld_result2</span>,
                 <span class='kw'>sort_groups</span> <span class='kw'>=</span> <span class='st'>"ascending"</span>,
-                <span class='kw'>sort_fun</span> <span class='kw'>=</span> <span class='no'>IQR</span>)</div><div class='img'><img src='gg_boxplot_plus-16.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+                <span class='kw'>sort_fun</span> <span class='kw'>=</span> <span class='no'>IQR</span>)</div><div class='img'><img src='gg_boxplot_plus-8.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -219,6 +261,12 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

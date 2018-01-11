@@ -3,7 +3,7 @@
 
 ------------------------------------------------------------------------
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/BioStat)](https://cran.r-project.org/package=BioStat) [![GitHub version](https://img.shields.io/badge/GitHub-v0.0.13-brightgreen.svg)](https://github.com/GegznaV/BioStat) [![Travis-CI Build Status](https://travis-ci.org/GegznaV/BioStat.png?branch=master)](https://travis-ci.org/GegznaV/BioStat) [![codecov.io](https://codecov.io/github/GegznaV/BioStat/coverage.svg?branch=master)](https://codecov.io/github/GegznaV/BioStat?branch=master) [![Updated-on](https://img.shields.io/badge/Updated%20on-2017--12--30-yellowgreen.svg)](/commits/master)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/BioStat)](https://cran.r-project.org/package=BioStat) [![GitHub version](https://img.shields.io/badge/GitHub-v0.0.13.9003-brightgreen.svg)](https://github.com/GegznaV/BioStat) [![Travis-CI Build Status](https://travis-ci.org/GegznaV/BioStat.png?branch=master)](https://travis-ci.org/GegznaV/BioStat) [![codecov.io](https://codecov.io/github/GegznaV/BioStat/coverage.svg?branch=master)](https://codecov.io/github/GegznaV/BioStat?branch=master) [![Updated-on](https://img.shields.io/badge/Updated%20on-2018--01--11-yellowgreen.svg)](/commits/master)
 
 ------------------------------------------------------------------------
 
