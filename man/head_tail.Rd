@@ -40,7 +40,7 @@ A truncated data frame (which is intended to be printed) with all
         variables converted to strings.
 }
 \description{
-[!] Show several first and last rows of a data frame
+This function selects several top and bottom rows of a data frame for a preview.
 }
 \examples{
 data(swiss)

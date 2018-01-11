@@ -2,7 +2,7 @@
 
 #' [!] Show several first and last rows of a data frame
 #'
-#' This function gives preview of several top and bottom rows of a data frame.
+#' This function selects several top and bottom rows of a data frame for a preview.
 #'
 #' @param obj A data frame.
 #' @param n (integer) Number of top and bottom rows to display.
