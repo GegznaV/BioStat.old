@@ -114,7 +114,7 @@
 #' }
 #'
 #' @examples
-#' library(BioStat)
+#' library(BioStat.old)
 #' library(pander)
 #' data(CO2)
 #'

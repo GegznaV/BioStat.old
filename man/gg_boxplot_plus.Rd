@@ -74,7 +74,7 @@ The plot is based on \pkg{ggplot2}, thus \code{ggplot2} elements can be
 added to modify the plot.
 }
 \examples{
-library(BioStat)
+library(BioStat.old)
 
 # Example 1
 gg_boxplot_plus(decrease ~ treatment, OrchardSprays)

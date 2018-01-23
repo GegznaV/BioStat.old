@@ -40,7 +40,7 @@
 #' @export
 #'
 #' @examples
-#' library(BioStat)
+#' library(BioStat.old)
 #' DATA <- head(iris)
 #'
 #' # The same rounding for each column
