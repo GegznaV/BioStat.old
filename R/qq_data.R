@@ -67,7 +67,7 @@
 #'
 #' @examples
 #'
-#' library(BioStat)
+#' library(BioStat.old)
 #' data(chickwts, package = "datasets")
 #'
 #' # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -123,12 +123,10 @@ qq_data <- function(y,
                     ...,
                     line = c("quartiles", "robust", "int=0,slope=1", "0,1", "none"),
                     envelope = 0.95,
-                    method = c("mle-normal","trimmed-normal","moment-normal", "any"),
+                    method = c("mle-normal", "trimmed-normal", "moment-normal", "any"),
                     labels = NULL,
                     groups = NULL,
-                    sep = " | "
-                    )
-
+                    sep = " | ")
 {
     UseMethod("qq_data")
 }
@@ -154,7 +152,8 @@ qq_data.default <- function(y,
 
     names(y) <-
         if (is.null(labels)) {
-            names(y) %||% seq(along = y) %>% as.character()
+            as.character(names(y) %||% seq(along = y))
+
         } else {
             labels
         }
@@ -168,7 +167,7 @@ qq_data.default <- function(y,
             qq_data_(
                 y = y,
                 distribution = distribution,
-                mean =        mean(   y, trim = 0.1),
+                mean =           mean(y, trim = 0.1),
                 sd   = stats::sd(trim(y, trim = 0.1)),
                 envelope = envelope,
                 line   = line,
@@ -219,13 +218,13 @@ qq_data.default <- function(y,
         }
     }
 
-
     # If no groups exist
     if (is.null(groups)) {
         DF <- qq_fun(y)
 
     # Applied by group
     } else {
+        old_levels <- levels(groups)
         DF <- tapply(y, groups, qq_fun)
 
         # Make data frames to match a output in single group
@@ -235,12 +234,19 @@ qq_data.default <- function(y,
         DF_attr_refline <-
             purrr::map(DF, ~ attributes(.x)$refline)  %>%
             dplyr::bind_rows(.id = ".group")
+        # %>%
+            # dplyr::mutate(.group = factor(.group, levels = old_levels))
 
         DF_attr_params <-
             purrr::map(DF, ~ attributes(.x)$params)  %>%
             dplyr::bind_rows(.id = ".group")
+        # %>%
+            # dplyr::mutate(.group = factor(.group, levels = old_levels))
 
         DF %<>% rbind_df_in_list()
+        # %>%
+            # dplyr::mutate(.group = factor(.group, levels = old_levels))
+
         DF %<>% structure(
                   refline = DF_attr_refline,
                   params = DF_attr_params)
@@ -263,7 +269,7 @@ qq_data.formula <- function(
     ...,
     line = c("quartiles", "robust", "int=0,slope=1", "0,1", "none"),
     envelope = 0.95,
-    method = c("mle-normal","trimmed-normal","moment-normal", "any"),
+    method = c("mle-normal", "trimmed-normal", "moment-normal", "any"),
     labels = NULL,
     groups = NULL,
     sep = " | "
@@ -272,7 +278,7 @@ qq_data.formula <- function(
     # [!!!] qq_data.formula method needs revision
     DF <- model.frame(y, data = data)
 
-    qq_main <- function(y,  groups = NULL)
+    qq_main <- function(y,  groups = NULL){
         qq_data(
             y = y,
             distribution = distribution,
@@ -283,6 +289,7 @@ qq_data.formula <- function(
             groups = groups,
             method = method
         )
+    }
 
     if (length(y) == 2) {
         rez <- qq_main(DF[[1]])
@@ -307,7 +314,8 @@ qq_data_ <- function(y,
                      envelope = 0.95,
                      labels = if (!is.null(names(y))) names(y) else seq(along = y))
 
-{   line <- line[1]
+{
+    line <- line[1]
     if (is.null(line) | isTRUE(line)) {
         line <- "none"
     }
@@ -431,7 +439,7 @@ coef.qqdata <- function(object, ...) {
 #' @param use_colors (logical) use colors for multiple groups
 #' @import ggplot2
 #' @examples
-#' library(BioStat)
+#' library(BioStat.old)
 #' data(chickwts, package = "datasets")
 #'
 #' # Input as formula + data:

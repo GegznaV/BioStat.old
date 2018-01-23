@@ -8,7 +8,7 @@ qq_plot(y, data = NULL, distribution = "norm", ..., line = c("quartiles",
   "robust", "int=0,slope=1", "0,1", "none"), envelope = 0.95,
   method = c("mle-normal", "trimmed-normal", "moment-normal", "any"),
   labels = NULL, groups = NULL, use_colors = FALSE, scales = "free",
-  sep = "|")
+  sep = " | ")
 }
 \arguments{
 \item{y}{(formula|numeric|character)
@@ -96,7 +96,7 @@ Function \code{qq_plot} is inspired by \code{qqPlot()} in package \pkg{car}
 (writen by J. Fox).
 }
 \examples{
-library(BioStat)
+library(BioStat.old)
 data(iris)
 
 # Formula (no groups):

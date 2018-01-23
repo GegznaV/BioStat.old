@@ -1,22 +1,22 @@
-Package: BioStat
+Package: BioStat.old
 Type: Package
-Title: Routines for Basic (Bio)Statistics
-Description: A collection of functions that either are intended to be used with 
-             R Commander plugin `RcmdrPlugin.BioStat` or to do several common 
+Title: Routines for Basic (Bio)Statistics (Old Version of The Package)
+Description: (This is the old version of the package. 
+             We recommend uing `biostat` instead). 
+             A collection of functions that either are intended to be used with 
+             R Commander plugin `RcmdrPlugin.BioStat.old` or to do several common 
              statistical routines (without writing to much code). 
              The functions are created to complement other R Commander plugins 
              that can be used to teach basic statistics especially in 
              biostatistics and biometry lectures.
-Version: 0.0.13
-Date: 2017-12-30
+Version: 0.0.14
+Date: 2018-01-23
 Authors@R: c(
     person("Vilmantas", "Gegna", role = c("aut","cre"),
             email = "GegznaV@gmail.com")
     )
 License: GPL (>= 3)
 Encoding: UTF-8
-URL: https://gegznav.github.io/BioStat/
-BugReports: https://github.com/GegznaV/BioStat/issues
 LazyData: true
 ByteCompile: TRUE
 Depends:
@@ -42,7 +42,8 @@ Imports:
     fitdistrplus,
     MASS,
     multcompView,
-    psych
+    psych,
+    withr
 RoxygenNote: 6.0.1
 Suggests:
     covr,

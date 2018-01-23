@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples
-#' library(BioStat)
+#' library(BioStat.old)
 #' data(PlantGrowth)
 #'
 #'

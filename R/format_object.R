@@ -74,7 +74,7 @@ format_object.test_normality <- function(x,
     }
 
     if (rm_zero == TRUE) {
-        x$statistic %<>% BioStat::rm_zero()
+        x$statistic %<>% BioStat.old::rm_zero()
     }
     # Output:
     x

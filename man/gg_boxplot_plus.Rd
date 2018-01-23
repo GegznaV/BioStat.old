@@ -2,13 +2,15 @@
 % Please edit documentation in R/gg_boxplot_plus.R
 \name{gg_boxplot_plus}
 \alias{gg_boxplot_plus}
-\title{[!] Plot a boxplot with additional components}
+\title{[!] A boxplot with additional components}
 \usage{
-gg_boxplot_plus(formula, data = NULL, cld = NULL, sort_groups = c("no",
-  "yes", "ascending", "descending"), sort_fun = median, add_points = TRUE,
-  add_mean_ci = TRUE, add_median_ci = FALSE, conf_level = 0.95,
-  ci_boot_reps = 999, cld_color = "black", cld_y_adj = 0,
-  cld_y_mult = 0.05, ci_x_adj = -0.3, points_x_adj = 0.3, ...)
+gg_boxplot_plus(formula, data = NULL, cld = NULL, xlab = NULL,
+  ylab = NULL, legend_title = NULL, sort_groups = c("no", "yes",
+  "ascending", "descending"), sort_fun = median, add_points = TRUE,
+  notch = FALSE, varwidth = FALSE, add_mean_ci = TRUE,
+  conf_level = 0.95, ci_boot_reps = 999, cld_color = "black",
+  cld_y_adj = 0, cld_y_mult = 0.06, ci_x_adj = -0.3, points_x_adj = 0.3,
+  ...)
 }
 \arguments{
 \item{formula}{a formula with two variable names to analyze. First one is numeric, second one is a factor, e.g. \code{y ~ group}.}
@@ -17,29 +19,45 @@ gg_boxplot_plus(formula, data = NULL, cld = NULL, sort_groups = c("no",
 
 \item{cld}{a data frame with cld results (object of class \code{cld_object}).}
 
-\item{sort_groups}{(\code{"no"}|\code{"yes"}|\code{"ascending"}|\code{"descending"}) Sort groups by position of median.}
+\item{xlab}{(character)  \cr Title for the x-axis.}
+
+\item{ylab}{(character)  \cr Title the y-axis.}
+
+\item{legend_title}{(character)  \cr Title for the legend.}
+
+\item{sort_groups}{(\code{"no"}|\code{"yes"}|\code{"ascending"}|\code{"descending"}) \cr
+Sort groups by position of either median or other statistic indicated in \code{sort_fun}.}
 
 \item{sort_fun}{A function that calculates one numeric statistic
 (name without quotes). May be \code{median},
 \code{mean}, \code{sd}, \code{var}, \code{IQR}, or similar.}
 
-\item{add_points}{(\code{TRUE}|\code{FALSE})}
+\item{add_points}{(\code{TRUE}|\code{FALSE})  \cr If \code{TRUE}, jittered point are added to the left of the boxplot.}
 
-\item{add_mean_ci}{(\code{TRUE}|\code{FALSE})}
+\item{notch}{(\code{TRUE}|\code{FALSE})
+\cr if \code{FALSE} (default) make a standard box plot.
+If \code{TRUE}, notched boxplot is drawn. If the notches of two plots do not overlap this is a ‘strong evidence’ that the two medians statistically signigicantly differ (Chambers et al, 1983, p. 62).}
 
-\item{add_median_ci}{(\code{TRUE}|\code{FALSE})}
+\item{varwidth}{(logical) \cr
+If \code{FALSE} (default) make a standard box plot.
+If \code{TRUE}, boxes are drawn with widths proportional to the
+square-roots of the number of observations in the groups.}
+
+\item{add_mean_ci}{(\code{TRUE}|\code{FALSE})  \cr If \code{TRUE}, mean with its confidence interval are added to the right of the boxplot.}
 
 \item{conf_level}{(numeric) Confidence level for confidence interval. Number from 0 to 1. Default is 0.95.}
 
 \item{ci_boot_reps}{(numeric) Number of bootstrap repetitions for mean confidence interval calculation.}
 
-\item{cld_color}{(character) Name of color for cld letters.}
+\item{cld_color}{(character) \cr Name of color for cld letters.}
 
-\item{cld_y_adj, cld_y_mult}{(numeric) y position correction (addition and multiplication) factors for cld letters.}
+\item{cld_y_adj}{(numeric) \cr cly y position adjustment factor (additive) for cld letters.}
 
-\item{ci_x_adj}{(numeric)  x position correction factor for mean confidence interval.}
+\item{cld_y_mult}{(numeric) \cr cly y position adjustment factor (multiplicative).}
 
-\item{points_x_adj}{(numeric) x position correction factor for jittered points.}
+\item{ci_x_adj}{(numeric) \cr x position correction factor (additive) for mean confidence interval lines/dots.}
+
+\item{points_x_adj}{(numeric) \cr x position correction factor (additive) for jittered points.}
 
 \item{...}{arguments to \code{sort_fun}.}
 }
@@ -47,10 +65,16 @@ gg_boxplot_plus(formula, data = NULL, cld = NULL, sort_groups = c("no",
 A ggplot2 plot object.
 }
 \description{
-[!] Plot a boxplot with additional components
+A boxplot (in the style of Tukey) with additional components: mean and its confidence intervals as well as jittered points.
+}
+\details{
+The boxplot compactly displays the distribution of a continuous numeric variable. It visualises five summary statistics (including the first quartile, the median, and the third quartile) as well as all "outlying" points individually.
+
+The plot is based on \pkg{ggplot2}, thus \code{ggplot2} elements can be
+added to modify the plot.
 }
 \examples{
-library(BioStat)
+library(BioStat.old)
 
 # Example 1
 gg_boxplot_plus(decrease ~ treatment, OrchardSprays)
@@ -102,6 +126,12 @@ gg_boxplot_plus(decrease ~ treatment, data = OrchardSprays,
                 sort_groups = "ascending",
                 sort_fun = IQR)
 
+}
+\references{
+Chambers, J. M., Cleveland, W. S., Kleiner, B. and Tukey, P. A. (1983) \emph{Graphical Methods for Data Analysis.} Wadsworth & Brooks/Cole.
+}
+\seealso{
+\url{https://en.wikipedia.org/wiki/Box_plot}
 }
 \keyword{ggplot2}
 \keyword{plots}

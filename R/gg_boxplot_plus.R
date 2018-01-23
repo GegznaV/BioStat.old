@@ -1,32 +1,62 @@
 # ============================================================================
 # To do:
 #
-# 1. Add parameters for xlab, ylab, legend_lab = xlab.
-# 2. Review documentation.
+# [v] 1. Add parameters for xlab, ylab, legend_title = xlab.
+# [ ] 2. Review documentation.
+# [ ] 3. Allow formula of shape ~ y
+# [ ] 4. Allow formula of shape ~ y | group
 #
 # ============================================================================
 
 
-#' [!] Plot a boxplot with additional components
+#' [!] A boxplot with additional components
+#'
+#' A boxplot (in the style of Tukey) with additional components: mean and its confidence intervals as well as jittered points.
+#'
+#' The boxplot compactly displays the distribution of a continuous numeric variable. It visualises five summary statistics (including the first quartile, the median, and the third quartile) as well as all "outlying" points individually.
+#'
+#' The plot is based on \pkg{ggplot2}, thus \code{ggplot2} elements can be
+#' added to modify the plot.
 #'
 #' @param formula a formula with two variable names to analyze. First one is numeric, second one is a factor, e.g. \code{y ~ group}.
 #' @param data a data frame with data.
 #' @param cld a data frame with cld results (object of class \code{cld_object}).
-#' @param sort_groups (\code{"no"}|\code{"yes"}|\code{"ascending"}|\code{"descending"}) Sort groups by position of median.
+#' @param sort_groups (\code{"no"}|\code{"yes"}|\code{"ascending"}|\code{"descending"}) \cr
+#'                    Sort groups by position of either median or other statistic indicated in \code{sort_fun}.
 #' @param sort_fun A function that calculates one numeric statistic
 #' (name without quotes). May be \code{median},
 #' \code{mean}, \code{sd}, \code{var}, \code{IQR}, or similar.
-#' @param add_points (\code{TRUE}|\code{FALSE})
-#' @param add_mean_ci (\code{TRUE}|\code{FALSE})
-#' @param add_median_ci (\code{TRUE}|\code{FALSE})
+#' @param add_points (\code{TRUE}|\code{FALSE})  \cr If \code{TRUE}, jittered point are added to the left of the boxplot.
+#' @param add_mean_ci (\code{TRUE}|\code{FALSE})  \cr If \code{TRUE}, mean with its confidence interval are added to the right of the boxplot.
+#' @param notch (\code{TRUE}|\code{FALSE})
+#'  \cr if \code{FALSE} (default) make a standard box plot.
+#'  If \code{TRUE}, notched boxplot is drawn. If the notches of two plots do not overlap this is a ‘strong evidence’ that the two medians statistically signigicantly differ (Chambers et al, 1983, p. 62).
 #' @param conf_level (numeric) Confidence level for confidence interval. Number from 0 to 1. Default is 0.95.
 #' @param ci_boot_reps (numeric) Number of bootstrap repetitions for mean confidence interval calculation.
-#' @param cld_y_adj,cld_y_mult (numeric) y position correction (addition and multiplication) factors for cld letters.
-#' @param cld_color (character) Name of color for cld letters.
 #'
-#' @param ci_x_adj (numeric)  x position correction factor for mean confidence interval.
-#' @param points_x_adj (numeric) x position correction factor for jittered points.
+#' @param cld_color (character) \cr Name of color for cld letters.
+#' @param cld_y_adj (numeric) \cr cly y position adjustment factor (additive) for cld letters.
+#' @param cld_y_mult (numeric) \cr cly y position adjustment factor (multiplicative).
+#'
+#' @param ci_x_adj (numeric) \cr x position correction factor (additive) for mean confidence interval lines/dots.
+#' @param points_x_adj (numeric) \cr x position correction factor (additive) for jittered points.
 #' @param ... arguments to \code{sort_fun}.
+#' @param xlab (character)  \cr Title for the x-axis.
+#' @param ylab (character)  \cr Title the y-axis.
+#' @param legend_title (character)  \cr Title for the legend.
+#' @param varwidth (logical) \cr
+#'        If \code{FALSE} (default) make a standard box plot.
+#'        If \code{TRUE}, boxes are drawn with widths proportional to the
+#'        square-roots of the number of observations in the groups.
+#'
+#' @seealso
+#'
+#' \url{https://en.wikipedia.org/wiki/Box_plot}
+#'
+#' @references
+#'
+#' Chambers, J. M., Cleveland, W. S., Kleiner, B. and Tukey, P. A. (1983) \emph{Graphical Methods for Data Analysis.} Wadsworth & Brooks/Cole.
+#'
 #'
 #' @return A ggplot2 plot object.
 #' @export
@@ -34,7 +64,7 @@
 #' @keywords ggplot2 plots
 #'
 #' @examples
-#' library(BioStat)
+#' library(BioStat.old)
 #'
 #' # Example 1
 #' gg_boxplot_plus(decrease ~ treatment, OrchardSprays)
@@ -91,19 +121,26 @@ gg_boxplot_plus <- function(
     data = NULL,
     cld = NULL,
 
+    xlab = NULL,
+    ylab = NULL,
+    legend_title = NULL,
+
     sort_groups = c("no", "yes", "ascending", "descending"),
     sort_fun = median,
 
     add_points = TRUE,
-    add_mean_ci = TRUE,
-    add_median_ci = FALSE,
 
+    notch = FALSE,
+
+    varwidth = FALSE,
+
+    add_mean_ci = TRUE,
     conf_level = 0.95,
     ci_boot_reps = 999,
 
     cld_color = "black",
     cld_y_adj  = 0,
-    cld_y_mult = 0.05,
+    cld_y_mult = 0.06,
     ci_x_adj = -0.3,
     points_x_adj =  0.3,
 
@@ -121,26 +158,26 @@ gg_boxplot_plus <- function(
     #     data <- rlang::f_env(formula)
     # }
     #
-    # fctr_name <- all.vars(formula[[3]])
+    # gr_name <- all.vars(formula[[3]])
     #    y_name <- all.vars(formula[[2]])
     #
     # DATA <- dplyr::select(data,
     #                       y = !!rlang::sym(y_name),
-    #                       group = !! rlang::sym(fctr_name))
+    #                       group = !! rlang::sym(gr_name))
     #
     # DATA <- dplyr::mutate(DATA, group = factor(group))
 
     obj <- parse_formula(formula, data, keep_all_vars = TRUE)
     y_name <- obj$names$y
-    fctr_name <- obj$names$x
+    gr_name <- obj$names$x
 
     DATA <- dplyr::select(obj$data,
                           .y = !! rlang::sym(y_name),
-                          .group = !! rlang::sym(fctr_name),
+                          .group = !! rlang::sym(gr_name),
                           dplyr::everything())
 
-    sort_groups <- match.arg(sort_groups)
-    desc <- switch(sort_groups,
+    desc <- switch(match.arg(sort_groups),
+           "TRUE" = ,
            "yes" = ,
            "ascending" = FALSE,
            "descending" = TRUE,
@@ -154,17 +191,29 @@ gg_boxplot_plus <- function(
                                           fun = sort_fun,
                                           ...,
                                           .desc = desc))
+        # [!!!] Suggestion:
+        #
+        # y_name <- "weight"
+        # y_sym <- rlang::sym(y_name)
+        # gr <- "feed"
+        #
+        # mutate_at(chickwts, gr,
+        #  .funs = forcats::fct_reorder,
+        #   x = !! y_sym,
+        #   fun = median,
+        #   ...,
+        #   .desc = desc)
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Plot
 
     p <- ggplot(DATA, aes(x = .group, y = .y, fill = .group)) +
-        geom_boxplot(width = .2, notch = add_median_ci)
+        geom_boxplot(width = .2, notch = notch, varwidth = varwidth)
 
     # p <- ggplot(DATA, aes(x = .group, y = .y, fill = .group)) +
     #     geom_violin(aes(color = .group), fill = NA, width = .6, lwd = 1) +
-    #     geom_boxplot(width = .1, notch = add_median_ci)
+    #     geom_boxplot(width = .1, notch = notch)
 
     if (add_points) {
         p <- p +
@@ -235,12 +284,17 @@ gg_boxplot_plus <- function(
     }
 
     # Add labels -------------------------------------------------------------
+    if (is.null(ylab))                 ylab <- y_name
+    if (is.null(xlab))                 xlab <- gr_name
+    if (is.null(legend_title)) legend_title <- gr_name
+
     p <- p +
-        labs(x = fctr_name, y = y_name, fill = fctr_name, color = fctr_name) +
+        labs(x = xlab, y = ylab, fill = legend_title, color = legend_title) +
         theme_bw()
 
     # Output -----------------------------------------------------------------
     p
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

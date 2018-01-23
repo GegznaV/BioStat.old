@@ -36,7 +36,7 @@
 #' @seealso \code{\link[car]{qqPlot}} from \pkg{car} package,
 #'          \code{\link[stats]{qqplot}} from \pkg{stats} package.
 #' @examples
-#' library(BioStat)
+#' library(BioStat.old)
 #' data(iris)
 #'
 #' # Formula (no groups):
@@ -81,7 +81,7 @@ qq_plot <- function(
     groups = NULL,
     use_colors = FALSE,
     scales = "free",
-    sep = "|")
+    sep = " | ")
 {
 
     qqdata <-  qq_data(y = y,
@@ -93,7 +93,7 @@ qq_plot <- function(
                        labels = labels,
                        groups = groups,
                        method = method,
-                       sep = "|")
+                       sep = sep)
 
     plot(qqdata,
          use_colors = use_colors,

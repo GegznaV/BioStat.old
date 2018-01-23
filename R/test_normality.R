@@ -114,7 +114,7 @@
 #' }
 #'
 #' @examples
-#' library(BioStat)
+#' library(BioStat.old)
 #' library(pander)
 #' data(CO2)
 #'
@@ -188,10 +188,10 @@ test_normality <- function(y,
         use_test <- switch(test,
                            "sw" = ,
                            "shapiro.test" = ,
-                           "shapiro-wilk"     = stats::shapiro.test,
+                           "shapiro-wilk" = stats::shapiro.test,
 
                            "lillie.test" = ,
-                           "lilliefors"       = nortest::lillie.test,
+                           "lilliefors"  = nortest::lillie.test,
 
                            "ad" = ,
                            "ad.test" = ,
@@ -206,9 +206,9 @@ test_normality <- function(y,
                            "sf.test" = ,
                            "shapiro-francia"  = nortest::sf.test,
 
-                           "chi-squared" = ,
+                           "chi-squared"  = ,
                            "pearson.test" = ,
-                           "pearsons"         = nortest::pearson.test
+                           "pearsons"     = nortest::pearson.test
         )
 
     } else {

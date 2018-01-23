@@ -77,7 +77,7 @@ Fuctions to fromat p values.
 }
 }
 \examples{
-library(BioStat)
+library(BioStat.old)
 
 # Prettify p-values
 

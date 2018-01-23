@@ -1,6 +1,6 @@
-#' @name BioStat
+#' @name BioStat.old
 #' @docType package
-#' @title A Collection of Functions for Biostatistics and Biometry Lectures
+#' @title A Collection of Functions for Biostatistics and Biometry Lectures (old version)
 #'
 #' @description The package contains a collection of functions dedicated for
 #' biostatistics and biometry lectures (GMF1059) that do some common

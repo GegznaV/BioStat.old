@@ -54,7 +54,7 @@ Data frame with summary satatistics.
 Do numerical summaries by groups with formaula interface. Missing values are automatically removed.
 }
 \examples{
-library(BioStat)
+library(BioStat.old)
 data(cabbages, package = "MASS")
 
 do_summary(~VitC, data = cabbages) \%>\%
