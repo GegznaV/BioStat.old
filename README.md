@@ -3,9 +3,10 @@
 
 ------------------------------------------------------------------------
 
-[![GitHub version](https://img.shields.io/badge/GitHub-v0.0.14.9003-brightgreen.svg)](https://github.com/GegznaV/BioStat) [![Travis-CI Build Status](https://travis-ci.org/GegznaV/BioStat.png?branch=master)](https://travis-ci.org/GegznaV/BioStat) [![codecov.io](https://codecov.io/github/GegznaV/BioStat/coverage.svg?branch=master)](https://codecov.io/github/GegznaV/BioStat?branch=master) [![Updated-on](https://img.shields.io/badge/Updated%20on-2018--01--23-yellowgreen.svg)](/commits/master) [![lifecycle](https://img.shields.io/badge/lifecycle-retired-orange.svg)](https://img.shields.io/badge/lifecycle-retired-orange.svg)
+[![GitHub version](https://img.shields.io/badge/GitHub-v0.0.14-brightgreen.svg)](https://github.com/GegznaV/BioStat.old) [![Travis-CI Build Status](https://travis-ci.org/GegznaV/BioStat.old.png?branch=master)](https://travis-ci.org/GegznaV/BioStat.old) [![codecov.io](https://codecov.io/github/GegznaV/BioStat.old/coverage.svg?branch=master)](https://codecov.io/github/GegznaV/BioStat.old?branch=master) [![Updated-on](https://img.shields.io/badge/Updated%20on-2018--01--23-yellowgreen.svg)](/commits/master) [![lifecycle](https://img.shields.io/badge/lifecycle-retired-orange.svg)](https://img.shields.io/badge/lifecycle-retired-orange.svg)
 
-`BioStat.old` – Routines for Basic (Bio)Statistics ==============================================================================
+`BioStat.old` – Routines for Basic (Bio)Statistics
+==================================================
 
 **(This is the *old* version of the package. We recommend using package `biostat` instead).**
 
