@@ -1,6 +1,6 @@
 Package: BioStat.old
 Type: Package
-Title: Routines for Basic (Bio)Statistics (Old Version of Package)
+Title: Routines for Basic (Bio)Statistics (Old Version of The Package)
 Description: (This is the old version of the package. 
              We recommend uing `biostat` instead). 
              A collection of functions that either are intended to be used with 
